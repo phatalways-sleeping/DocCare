@@ -8,6 +8,7 @@ export 'src/medicine/medicine.dart';
 export 'src/prescription/prescription.dart';
 export 'src/specialization/specialization.dart';
 export 'src/statistics/statistics.dart';
+export 'src/user/authentication_user/authentication_user.dart';
 export 'src/user/customer/customer.dart';
 export 'src/user/doctor/doctor.dart';
 export 'src/user/receptionist/receptionist.dart';

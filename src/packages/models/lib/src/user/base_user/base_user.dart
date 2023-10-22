@@ -1,6 +1,8 @@
 import 'package:equatable/equatable.dart';
+import 'package:json_annotation/json_annotation.dart';
 
-sealed class BaseUser extends Equatable {
+@JsonSerializable()
+abstract class BaseUser extends Equatable {
   const BaseUser({
     required this.id,
     required this.fullname,
@@ -9,10 +11,15 @@ sealed class BaseUser extends Equatable {
     this.birthday,
   });
 
+  @JsonKey(required: true)
   final String id;
+  @JsonKey(required: true)
   final String fullname;
+  @JsonKey(required: true)
   final String email;
+  @JsonKey(required: true)
   final String phone;
+  @JsonKey()
   final DateTime? birthday;
 
   @override
