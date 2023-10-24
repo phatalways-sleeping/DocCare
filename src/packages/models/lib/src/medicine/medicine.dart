@@ -10,15 +10,15 @@ final class Medicine extends Equatable {
     required this.unit,
   });
 
-  @JsonKey(required: true)
-  final String name;
-  @JsonKey(required: true)
-  final String unit;
-
   factory Medicine.fromJson(Map<String, dynamic> json) =>
       _$MedicineFromJson(json);
 
   Map<String, dynamic> toJson() => _$MedicineToJson(this);
+
+  @JsonKey(required: true)
+  final String name;
+  @JsonKey(required: true)
+  final String unit;
 
   @override
   List<Object?> get props => [this.name, this.unit];

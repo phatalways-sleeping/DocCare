@@ -4,6 +4,7 @@ library models;
 export 'src/absent_request/absent_request.dart';
 export 'src/appointment/appointment.dart';
 export 'src/category/category.dart';
+export 'src/intake/intake.dart';
 export 'src/medicine/medicine.dart';
 export 'src/prescription/prescription.dart';
 export 'src/specialization/specialization.dart';
