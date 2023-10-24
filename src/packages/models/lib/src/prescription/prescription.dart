@@ -4,16 +4,16 @@ import 'package:json_annotation/json_annotation.dart';
 part 'Prescription.g.dart';
 
 @JsonSerializable()
-final class Prescription extends Equatable {
+class Prescription extends Equatable {
   const Prescription({
     required this.id,
-    required this.doctor_id,
-    required this.customer_id,
-    required this.date_done,
-    required this.date_prescribed,
+    required this.doctorId,
+    required this.customerId,
+    required this.dateDone,
+    required this.datePrescribed,
     required this.done,
     this.note,
-  }); : done = done ?? false;
+  }) : done = done ?? false;
 
   factory Prescription.fromJson(Map<String, dynamic> json) =>
       _$PrescriptionFromJson(json);
@@ -23,13 +23,13 @@ final class Prescription extends Equatable {
   @JsonKey(required: true)
   final String id;
   @JsonKey(required: true)
-  final String doctor_id;
+  final String doctorId;
   @JsonKey(required: true)
-  final String customer_id;
+  final String customerId;
   @JsonKey(required: true)
-  final String date_done;
+  final String dateDone;
   @JsonKey(required: true)
-  final String date_prescribed;
+  final String datePrescribed;
   @JsonKey(required: true)
   String done;
   @JsonKey(required: false)
@@ -37,24 +37,24 @@ final class Prescription extends Equatable {
 
   @override
   List<Object?> get props =>
-      [id, doctor_id, customer_id, date_done, date_prescribed, done, note];
+      [id, doctorId, customerId, dateDone, datePrescribed, done, note];
 
   Prescription copyWith({
     String? id,
-    String? doctor_id,
-    String? customer_id,
-    DateTime? date_done,
-    DateTime? date_prescribed,
+    String? doctorId,
+    String? customerId,
+    DateTime? dateDone,
+    DateTime? datePrescribed,
     bool? done,
     String? note,
     
   }) {
     return Prescription(
       id: id ?? this.id,
-      doctor_id: doctor_id ?? this.doctor_id,
-      customer_id: customer_id ?? this.customer_id,
-      date_done: date_done ?? this.date_done,
-      date_prescribed: date_prescribed ?? this.date_prescribed,
+      doctorId: doctorId ?? this.doctorId,
+      customerId: customerId ?? this.customerId,
+      dateDone: dateDone ?? this.dateDone,
+      datePrescribed: datePrescribed ?? this.datePrescribed,
       done: done ?? this.done,
       note: note ?? this.note,
     );

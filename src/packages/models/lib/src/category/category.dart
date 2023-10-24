@@ -4,7 +4,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'category.g.dart';
 
 @JsonSerializable()
-final class Category extends Equatable {
+class Category extends Equatable {
   const Category({
     required this.name,
     this.description,
