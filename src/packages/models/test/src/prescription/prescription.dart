@@ -3,7 +3,7 @@ import 'package:models/models.dart';
 
 void main() {
   group('Prescription', () {
-    test('copyWith', () {
+    test('constructor', () {
       // Create a `Prescription` instance
       final prescription1 = Prescription(
         id: '123',
@@ -15,28 +15,42 @@ void main() {
         note: 'Take as directed',
       );
 
-      // Copy prescription without changing any properties
-      final prescription2 = prescription1.copyWith();
+      expect(prescription1.id, '123');
+      expect(prescription1.doctor_id, '456');
+      expect(prescription1.customer_id, '789');
+      expect(prescription1.date_done, '2023-10-24');
+      expect(prescription1.date_prescribed, '2023-10-20');
+      expect(prescription1.done, 'true');
+      expect(prescription1.note, 'Take as directed');
+    });
 
-      // Verify the copy
-      expect(prescription1.id, prescription2.id);
-      expect(prescription2.customer_id, '789');
-      expect(prescription2.done, 'true');
-      expect(prescription2.note, 'Take as directed');
-
-      // Copy prescription with null values
-      final prescription3 = prescription1.copyWith(
+    test('toJson', () {
+      final prescription = Prescription(
         id: '123',
         doctor_id: '456',
+        customer_id: '789',
         date_done: '2023-10-24',
         date_prescribed: '2023-10-20',
+        done: 'true',
+        note: 'Take as directed',
       );
 
-      expect(prescription3.customer_id, prescription1.customer_id);
-      expect(prescription3.done, prescription1.done);
-      expect(prescription3.note, prescription1.note);
+      final json = prescription.toJson();
 
-      // JSON object
+      final expectedJson = {
+        "id": "123",
+        "doctor_id": "456",
+        "customer_id": "789",
+        "date_done": "2023-10-24",
+        "date_prescribed": "2023-10-20",
+        "done": "true",
+        "note": "Take as directed",
+      };
+
+      expect(json, expectedJson);
+    });
+
+    test('fromJson', () {
       final prescriptionJson = {
         "id": "123",
         "doctor_id": "456",
@@ -47,13 +61,43 @@ void main() {
         "note": "Take as directed",
       };
 
-      // To instance
-      final prescriptionFromJson = Prescription.fromJson(prescriptionJson);
-      expect(prescriptionFromJson, prescription1);
+      final prescription = Prescription.fromJson(prescriptionJson);
 
-      // To JSON
-      final jsonFromPrescription = prescription1.toJson();
-      expect(jsonFromPrescription, prescriptionJson);
+      final expectedPrescription = Prescription(
+        id: '123',
+        doctor_id: '456',
+        customer_id: '789',
+        date_done: '2023-10-24',
+        date_prescribed: '2023-10-20',
+        done: 'true',
+        note: 'Take as directed',
+      );
+
+      expect(prescription, expectedPrescription);
+    });
+
+    test('copyWith', () {
+      final prescription1 = Prescription(
+        id: '123',
+        doctor_id: '456',
+        customer_id: '789',
+        date_done: '2023-10-24',
+        date_prescribed: '2023-10-20',
+        done: 'true',
+        note: 'Take as directed',
+      );
+
+      final prescription2 = prescription1.copyWith();
+
+      expect(prescription1, prescription2);
+
+      final prescription3 = prescription1.copyWith(
+        id: '456',
+        note: 'New note',
+      );
+
+      expect(prescription3.id, '456');
+      expect(prescription3.note, 'New note');
     });
   });
 }

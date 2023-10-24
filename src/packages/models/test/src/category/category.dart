@@ -3,40 +3,65 @@ import 'package:models/models.dart';
 
 void main() {
   group('Category', () {
-    test('copyWith', () {
+    test('constructor', () {
       // Create a `Category` instance
       final category1 = Category(
         name: 'Glucose',
         description: 'Sugar Amount in Blood',
       );
 
-      // Copy category without changing any properties
-      final category2 = category1.copyWith();
+      expect(category1.name, 'Glucose');
+      expect(category1.description, 'Sugar Amount in Blood');
+    });
 
-      // Verify the copy
-      expect(category1.name, category2.name);
-      expect(category2.description, 'Sugar Amount in Blood');
-
-      // Copy category with null description
-      final category3 = category1.copyWith(
+    test('toJson', () {
+      final category = Category(
         name: 'Glucose',
+        description: 'Sugar Amount in Blood',
       );
 
-      expect(category3.description, category1.description);
+      final json = category.toJson();
 
-      // JSON object
+      final expectedJson = {
+        "name": "Glucose",
+        "description": "Sugar Amount in Blood",
+      };
+
+      expect(json, expectedJson);
+    });
+
+    test('fromJson', () {
       final categoryJson = {
         "name": "Glucose",
         "description": "Sugar Amount in Blood",
       };
 
-      // To instance
-      final categoryFromJson = Category.fromJson(categoryJson);
-      expect(categoryFromJson, category1);
+      final category = Category.fromJson(categoryJson);
 
-      // To JSON
-      final jsonFromCategory = category1.toJson();
-      expect(jsonFromCategory, categoryJson);
+      final expectedCategory = Category(
+        name: 'Glucose',
+        description: 'Sugar Amount in Blood',
+      );
+
+      expect(category, expectedCategory);
+    });
+
+    test('copyWith', () {
+      final category1 = Category(
+        name: 'Glucose',
+        description: 'Sugar Amount in Blood',
+      );
+
+      final category2 = category1.copyWith();
+
+      expect(category1, category2);
+
+      final category3 = category1.copyWith(
+        name: 'Vitamins',
+      );
+
+      expect(category3.name, 'Vitamins');
+      expect(category3.description, category1.description);
     });
   });
 }
