@@ -8,7 +8,7 @@ final class Specialization extends Equatable {
   const Specialization({
     required this.name,
     this.description,
-    required this.num_members,
+    required this.numMembers,
   });
 
   factory Specialization.fromJson(Map<String, dynamic> json) =>
@@ -21,20 +21,20 @@ final class Specialization extends Equatable {
   @JsonKey()
   final String? description;
   @JsonKey(required: true)
-  final int num_members;
+  final int numMembers;
 
   @override
-  List<Object?> get props => [name, description, num_members];
+  List<Object?> get props => [name, description, numMembers];
 
   Specialization copyWith({
     String? name,
     String? description,
-    int? num_members,
+    int? numMembers,
   }) {
     return Specialization(
       name: name ?? this.name,
       description: description ?? this.description,
-      num_members: num_members ?? this.num_members,
+      numMembers: numMembers ?? this.numMembers,
     );
   }
 }

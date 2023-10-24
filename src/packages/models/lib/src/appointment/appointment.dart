@@ -6,12 +6,12 @@ part 'appointment.g.dart';
 @JsonSerializable()
 final class Appointment extends Equatable {
   const Appointment({
-    required this.customer_id,
-    required this.doctor_id,
+    required this.customerID,
+    required this.doctorID,
     required this.period,
     required this.date,
     this.rating,
-    required this.customer_comment,
+    this.customerComment,
   });
 
   factory Appointment.fromJson(Map<String, dynamic> json) =>
@@ -20,37 +20,37 @@ final class Appointment extends Equatable {
   Map<String, dynamic> toJson() => _$AppointmentToJson(this);
 
   @JsonKey(required: true)
-  final String customer_id;
+  final String customerID;
   @JsonKey(required: true)
-  final String doctor_id;
+  final String doctorID;
   @JsonKey(required: true)
   final int period;
   @JsonKey(required: true)
   final DateTime date;
   @JsonKey()
   final int? rating;
-  @JsonKey(required: true)
-  final String customer_comment;
+  @JsonKey()
+  final String? customerComment;
 
   @override
   List<Object?> get props =>
-      [customer_id, doctor_id, period, date, rating, customer_comment];
+      [customerID, doctorID, period, date, rating, customerComment];
 
   Appointment copyWith({
-    String? customer_id,
-    String? doctor_id,
+    String? customerID,
+    String? doctorID,
     int? period,
     DateTime? date,
     int? rating,
-    String? customer_comment,
+    String? customerComment,
   }) {
     return Appointment(
-      customer_id: customer_id ?? this.customer_id,
-      doctor_id: doctor_id ?? this.doctor_id,
+      customerID: customerID ?? this.customerID,
+      doctorID: doctorID ?? this.doctorID,
       period: period ?? this.period,
       date: date ?? this.date,
       rating: rating ?? this.rating,
-      customer_comment: customer_comment ?? this.customer_comment,
+      customerComment: customerComment ?? this.customerComment,
     );
   }
 }

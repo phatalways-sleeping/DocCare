@@ -9,12 +9,12 @@ part of 'specialization.dart';
 Specialization _$SpecializationFromJson(Map<String, dynamic> json) {
   $checkKeys(
     json,
-    requiredKeys: const ['name', 'num_members'],
+    requiredKeys: const ['name', 'numMembers'],
   );
   return Specialization(
     name: json['name'] as String,
     description: json['description'] as String?,
-    num_members: json['num_members'] as int,
+    numMembers: json['numMembers'] as int,
   );
 }
 
@@ -22,5 +22,5 @@ Map<String, dynamic> _$SpecializationToJson(Specialization instance) =>
     <String, dynamic>{
       'name': instance.name,
       'description': instance.description,
-      'num_members': instance.num_members,
+      'numMembers': instance.numMembers,
     };
