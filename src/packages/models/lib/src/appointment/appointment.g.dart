@@ -14,7 +14,6 @@ Appointment _$AppointmentFromJson(Map<String, dynamic> json) {
       'doctor_id',
       'period',
       'date',
-      'rating',
       'customer_comment'
     ],
   );
@@ -23,7 +22,7 @@ Appointment _$AppointmentFromJson(Map<String, dynamic> json) {
     doctor_id: json['doctor_id'] as String,
     period: json['period'] as int,
     date: DateTime.parse(json['date'] as String),
-    rating: json['rating'] as int,
+    rating: json['rating'] as int?,
     customer_comment: json['customer_comment'] as String,
   );
 }

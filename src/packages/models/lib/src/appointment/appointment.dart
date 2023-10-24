@@ -10,7 +10,7 @@ final class Appointment extends Equatable {
     required this.doctor_id,
     required this.period,
     required this.date,
-    required this.rating,
+    this.rating,
     required this.customer_comment,
   });
 
@@ -27,8 +27,8 @@ final class Appointment extends Equatable {
   final int period;
   @JsonKey(required: true)
   final DateTime date;
-  @JsonKey(required: true)
-  final int rating;
+  @JsonKey()
+  final int? rating;
   @JsonKey(required: true)
   final String customer_comment;
 
