@@ -38,15 +38,14 @@ final class Intake extends Equatable {
         this.duration,
         this.timeOfTheDay,
         this.toBeTaken,
-        this.quantity
+        this.quantity,
       ];
 
-  @override
   Intake copyWith({
     String? medicineName,
     String? prescriptionID,
     int? duration,
-    String? time_of_the_day,
+    String? timeOfTheDay,
     int? toBeTaken,
     int? quantity,
   }) {

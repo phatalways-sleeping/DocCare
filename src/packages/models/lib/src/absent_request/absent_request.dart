@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -36,15 +34,13 @@ final class AbsentRequest extends Equatable {
 
   @override
   List<Object?> get props => [
-    this.doctorID,
-    this.date,
-    this.doctorName,
-    this.dateRequest,
-    this.reason,
-    this.isApproved
-    ];
-
-  @override
+        this.doctorID,
+        this.date,
+        this.doctorName,
+        this.dateRequest,
+        this.reason,
+        this.isApproved,
+      ];
 
   AbsentRequest copyWith({
     String? doctorID,

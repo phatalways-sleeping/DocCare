@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -39,8 +37,6 @@ final class Statistics extends Equatable {
     this.prescriptionID,
     this.note,
     ];
-
-  @override
 
   Statistics copyWith({
     int? id,
