@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 /// {@endtemplate}
 extension BuildContextExtension on BuildContext {
   /// {@macro build_context_extension}
-  Size get size => MediaQuery.of(this).size;
+  Size get size => MediaQuery.sizeOf(this);
 
   /// {@macro build_context_extension}
   bool get isPortrait => size.height > size.width;
@@ -42,11 +42,29 @@ extension BuildContextExtension on BuildContext {
   double get height => size.height;
 
   /// {@macro build_context_extension}
-  double get textScaleFactor => MediaQuery.of(this).textScaleFactor;
+  double get textScaleFactor => MediaQuery.textScaleFactorOf(this);
 
   /// {@macro build_context_extension}
-  double get pixelRatio => MediaQuery.of(this).devicePixelRatio;
+  double get pixelRatio => MediaQuery.devicePixelRatioOf(this);
 
   /// {@macro build_context_extension}
-  double get statusBarHeight => MediaQuery.of(this).padding.top;
+  double get statusBarHeight => MediaQuery.paddingOf(this).top;
+
+  /// {@macro build_context_extension}
+  double get bottomBarHeight => MediaQuery.paddingOf(this).bottom;
+
+  /// {@macro build_context_extension}
+  double get viewInsetsBottom => MediaQuery.viewInsetsOf(this).bottom;
+
+  /// {@macro build_context_extension}
+  double get viewInsetsTop => MediaQuery.viewInsetsOf(this).top;
+
+  /// {@macro build_context_extension}
+  double get viewInsetsLeft => MediaQuery.viewInsetsOf(this).left;
+
+  /// {@macro build_context_extension}
+  double get viewInsetsRight => MediaQuery.viewInsetsOf(this).right;
+
+  /// {@macro build_context_extension}
+  EdgeInsets get viewInsets => MediaQuery.viewInsetsOf(this);
 }
