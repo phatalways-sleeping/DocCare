@@ -6,11 +6,11 @@ part 'intake.g.dart';
 @JsonSerializable()
 final class Intake extends Equatable {
   const Intake({
-    required this.medicine_name,
-    required this.prescription_id,
+    required this.medicineName,
+    required this.prescriptionID,
     this.duration,
-    this.time_of_the_day,
-    this.to_be_taken,
+    this.timeOfTheDay,
+    this.toBeTaken,
     this.quantity,
   });
 
@@ -19,43 +19,43 @@ final class Intake extends Equatable {
   Map<String, dynamic> toJson() => _$IntakeToJson(this);
 
   @JsonKey(required: true)
-  final String medicine_name;
+  final String medicineName;
   @JsonKey(required: true)
-  final String prescription_id;
+  final String prescriptionID;
   @JsonKey()
   final int? duration;
   @JsonKey()
-  final String? time_of_the_day;
+  final String? timeOfTheDay;
   @JsonKey()
-  final int? to_be_taken;
+  final int? toBeTaken;
   @JsonKey()
   final int? quantity;
 
   @override
   List<Object?> get props => [
-        this.medicine_name,
-        this.prescription_id,
+        this.medicineName,
+        this.prescriptionID,
         this.duration,
-        this.time_of_the_day,
-        this.to_be_taken,
+        this.timeOfTheDay,
+        this.toBeTaken,
         this.quantity
       ];
 
   @override
   Intake copyWith({
-    String? medicine_name,
-    String? prescription_id,
+    String? medicineName,
+    String? prescriptionID,
     int? duration,
     String? time_of_the_day,
-    int? to_be_taken,
+    int? toBeTaken,
     int? quantity,
   }) {
     return Intake(
-      medicine_name: medicine_name ?? this.medicine_name,
-      prescription_id: prescription_id ?? this.prescription_id,
+      medicineName: medicineName ?? this.medicineName,
+      prescriptionID: prescriptionID ?? this.prescriptionID,
       duration: duration ?? this.duration,
-      time_of_the_day: time_of_the_day ?? this.time_of_the_day,
-      to_be_taken: to_be_taken ?? this.to_be_taken,
+      timeOfTheDay: timeOfTheDay ?? this.timeOfTheDay,
+      toBeTaken: toBeTaken ?? this.toBeTaken,
       quantity: quantity ?? this.quantity,
     );
   }

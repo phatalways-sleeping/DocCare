@@ -6,11 +6,11 @@ void main() {
     test('copyWith', () {
       // Create a `Intake` instance
       final intake1 = Intake(
-        medicine_name: 'penicillin',
-        prescription_id: '123',
+        medicineName: 'penicillin',
+        prescriptionID: '123',
         duration: 1,
-        time_of_the_day: 'morning',
-        to_be_taken: 1,
+        timeOfTheDay: 'morning',
+        toBeTaken: 1,
         quantity: 1,
       );
 
@@ -18,41 +18,41 @@ void main() {
       final intake2 = intake1.copyWith();
 
       // Verify the copy
-      expect(intake1.medicine_name, intake2.medicine_name);
-      expect(intake2.prescription_id, '123');
+      expect(intake1.medicineName, intake2.medicineName);
+      expect(intake2.prescriptionID, '123');
       expect(intake2.duration, 1);
-      expect(intake2.time_of_the_day, 'morning');
-      expect(intake2.to_be_taken, 1);
+      expect(intake2.timeOfTheDay, 'morning');
+      expect(intake2.toBeTaken, 1);
       expect(intake2.quantity, 1);
 
       //Copy intake with null
       final intake3 = intake1.copyWith(
-        medicine_name: 'penicillin',
-        prescription_id: '123',
+        medicineName: 'penicillin',
+        prescriptionID: '123',
       );
 
-      expect(intake3.time_of_the_day, intake1.time_of_the_day);
-      expect(intake3.to_be_taken, intake1.to_be_taken);
+      expect(intake3.timeOfTheDay, intake1.timeOfTheDay);
+      expect(intake3.toBeTaken, intake1.toBeTaken);
       expect(intake3.duration, intake1.duration);
     });
 
     test('fromJson', () {
       //JSON object
       final intakeJson = {
-        "medicine_name": "penicillin",
-        "prescription_id": "123",
+        "medicineName": "penicillin",
+        "prescriptionID": "123",
         "duration": 1,
-        "time_of_the_day": "morning",
-        "to_be_taken": 1,
+        "timeOfTheDay": "morning",
+        "toBeTaken": 1,
         "quantity": 1,
       };
 
       final intake = Intake(
-        medicine_name: 'penicillin',
-        prescription_id: '123',
+        medicineName: 'penicillin',
+        prescriptionID: '123',
         duration: 1,
-        time_of_the_day: 'morning',
-        to_be_taken: 1,
+        timeOfTheDay: 'morning',
+        toBeTaken: 1,
         quantity: 1,
       );
 
@@ -63,20 +63,20 @@ void main() {
 
     test('toJson', () {
       final intakeJson = {
-        "medicine_name": "penicillin",
-        "prescription_id": "123",
+        "medicineName": "penicillin",
+        "prescriptionID": "123",
         "duration": 1,
-        "time_of_the_day": "morning",
-        "to_be_taken": 1,
+        "timeOfTheDay": "morning",
+        "toBeTaken": 1,
         "quantity": 1,
       };
 
       final intake = Intake(
-        medicine_name: 'penicillin',
-        prescription_id: '123',
+        medicineName: 'penicillin',
+        prescriptionID: '123',
         duration: 1,
-        time_of_the_day: 'morning',
-        to_be_taken: 1,
+        timeOfTheDay: 'morning',
+        toBeTaken: 1,
         quantity: 1,
       );
 

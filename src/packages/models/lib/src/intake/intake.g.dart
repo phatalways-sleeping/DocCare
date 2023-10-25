@@ -9,23 +9,23 @@ part of 'intake.dart';
 Intake _$IntakeFromJson(Map<String, dynamic> json) {
   $checkKeys(
     json,
-    requiredKeys: const ['medicine_name', 'prescription_id'],
+    requiredKeys: const ['medicineName', 'prescriptionID'],
   );
   return Intake(
-    medicine_name: json['medicine_name'] as String,
-    prescription_id: json['prescription_id'] as String,
+    medicineName: json['medicineName'] as String,
+    prescriptionID: json['prescriptionID'] as String,
     duration: json['duration'] as int?,
-    time_of_the_day: json['time_of_the_day'] as String?,
-    to_be_taken: json['to_be_taken'] as int?,
+    timeOfTheDay: json['timeOfTheDay'] as String?,
+    toBeTaken: json['toBeTaken'] as int?,
     quantity: json['quantity'] as int?,
   );
 }
 
 Map<String, dynamic> _$IntakeToJson(Intake instance) => <String, dynamic>{
-      'medicine_name': instance.medicine_name,
-      'prescription_id': instance.prescription_id,
+      'medicineName': instance.medicineName,
+      'prescriptionID': instance.prescriptionID,
       'duration': instance.duration,
-      'time_of_the_day': instance.time_of_the_day,
-      'to_be_taken': instance.to_be_taken,
+      'timeOfTheDay': instance.timeOfTheDay,
+      'toBeTaken': instance.toBeTaken,
       'quantity': instance.quantity,
     };
