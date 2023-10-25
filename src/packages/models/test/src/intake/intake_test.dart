@@ -34,7 +34,9 @@ void main() {
       expect(intake3.time_of_the_day, intake1.time_of_the_day);
       expect(intake3.to_be_taken, intake1.to_be_taken);
       expect(intake3.duration, intake1.duration);
+    });
 
+    test('fromJson', () {
       //JSON object
       final intakeJson = {
         "medicine_name": "penicillin",
@@ -45,12 +47,41 @@ void main() {
         "quantity": 1,
       };
 
+      final intake = Intake(
+        medicine_name: 'penicillin',
+        prescription_id: '123',
+        duration: 1,
+        time_of_the_day: 'morning',
+        to_be_taken: 1,
+        quantity: 1,
+      );
+
       //To instance
       final intakeFromJson = Intake.fromJson(intakeJson);
-      expect(intakeFromJson, intake1);
+      expect(intakeFromJson, intake);
+    });
 
-      //To JSON
-      final jsonFromIntake = intake1.toJson();
+    test('toJson', () {
+      final intakeJson = {
+        "medicine_name": "penicillin",
+        "prescription_id": "123",
+        "duration": 1,
+        "time_of_the_day": "morning",
+        "to_be_taken": 1,
+        "quantity": 1,
+      };
+
+      final intake = Intake(
+        medicine_name: 'penicillin',
+        prescription_id: '123',
+        duration: 1,
+        time_of_the_day: 'morning',
+        to_be_taken: 1,
+        quantity: 1,
+      );
+
+      //To Json
+      final jsonFromIntake = intake.toJson();
       expect(jsonFromIntake, intakeJson);
     });
   });

@@ -24,18 +24,37 @@ void main() {
 
       expect(amoxicillin.name, 'amoxicillin');
       expect(amoxicillin.unit, 'ml');
+    });
 
+    test('fromJson', () {
       //JSON object
       final json = {
         'name': 'penicillin',
         'unit': 'mg',
       };
 
+      final penicillin = Medicine(
+        name: 'penicillin',
+        unit: 'mg',
+      );
+
       //To instance
       final penicillinFromJson = Medicine.fromJson(json);
       expect(penicillinFromJson, penicillin);
+    });
 
-      //To JSON
+    //To JSON
+    test('toJson', () {
+      final json = {
+        'name': 'penicillin',
+        'unit': 'mg',
+      };
+
+      final penicillin = Medicine(
+        name: 'penicillin',
+        unit: 'mg',
+      );
+
       final jsonFromPenicillin = penicillin.toJson();
       expect(jsonFromPenicillin, json);
     });
