@@ -1,19 +1,19 @@
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'Prescription.g.dart';
+part 'prescription.g.dart';
 
 @JsonSerializable()
 class Prescription extends Equatable {
-  const Prescription({
+  Prescription({
     required this.id,
     required this.doctorId,
     required this.customerId,
     required this.dateDone,
     required this.datePrescribed,
-    required this.done,
-    this.note,
-  }) : done = done ?? false;
+    this.done = false,
+    this.note = '',
+  });
 
   factory Prescription.fromJson(Map<String, dynamic> json) =>
       _$PrescriptionFromJson(json);
@@ -27,11 +27,11 @@ class Prescription extends Equatable {
   @JsonKey(required: true)
   final String customerId;
   @JsonKey(required: true)
-  final String dateDone;
+  final DateTime dateDone;
   @JsonKey(required: true)
-  final String datePrescribed;
+  final DateTime datePrescribed;
   @JsonKey(required: true)
-  String done;
+  bool done;
   @JsonKey(required: false)
   final String note;
 
@@ -47,7 +47,6 @@ class Prescription extends Equatable {
     DateTime? datePrescribed,
     bool? done,
     String? note,
-    
   }) {
     return Prescription(
       id: id ?? this.id,

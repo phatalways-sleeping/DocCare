@@ -7,31 +7,31 @@ void main() {
       // Create a `Prescription` instance
       final prescription1 = Prescription(
         id: '123',
-        doctor_id: '456',
-        customer_id: '789',
-        date_done: '2023-10-24',
-        date_prescribed: '2023-10-20',
-        done: 'true',
+        doctorId: '456',
+        customerId: '789',
+        dateDone: DateTime.parse('2023-10-24'),
+        datePrescribed: DateTime.parse('2023-10-20'),
+        done: true,
         note: 'Take as directed',
       );
 
       expect(prescription1.id, '123');
-      expect(prescription1.doctor_id, '456');
-      expect(prescription1.customer_id, '789');
-      expect(prescription1.date_done, '2023-10-24');
-      expect(prescription1.date_prescribed, '2023-10-20');
-      expect(prescription1.done, 'true');
+      expect(prescription1.doctorId, '456');
+      expect(prescription1.customerId, '789');
+      expect(prescription1.dateDone, DateTime.parse('2023-10-24'));
+      expect(prescription1.datePrescribed, DateTime.parse('2023-10-20'));
+      expect(prescription1.done, true);
       expect(prescription1.note, 'Take as directed');
     });
 
     test('toJson', () {
       final prescription = Prescription(
         id: '123',
-        doctor_id: '456',
-        customer_id: '789',
-        date_done: '2023-10-24',
-        date_prescribed: '2023-10-20',
-        done: 'true',
+        doctorId: '456',
+        customerId: '789',
+        dateDone: DateTime.parse('2023-10-24'),
+        datePrescribed: DateTime.parse('2023-10-20'),
+        done: true,
         note: 'Take as directed',
       );
 
@@ -39,11 +39,11 @@ void main() {
 
       final expectedJson = {
         "id": "123",
-        "doctor_id": "456",
-        "customer_id": "789",
-        "date_done": "2023-10-24",
-        "date_prescribed": "2023-10-20",
-        "done": "true",
+        "doctorId": "456",
+        "customerId": "789",
+        "dateDone": "2023-10-24",
+        "datePrescribed": "2023-10-20",
+        "done": true,
         "note": "Take as directed",
       };
 
@@ -53,11 +53,11 @@ void main() {
     test('fromJson', () {
       final prescriptionJson = {
         "id": "123",
-        "doctor_id": "456",
-        "customer_id": "789",
-        "date_done": "2023-10-24",
-        "date_prescribed": "2023-10-20",
-        "done": "true",
+        "doctorId": "456",
+        "customerId": "789",
+        "dateDone": "2023-10-24",
+        "datePrescribed": "2023-10-20",
+        "done": true,
         "note": "Take as directed",
       };
 
@@ -65,11 +65,11 @@ void main() {
 
       final expectedPrescription = Prescription(
         id: '123',
-        doctor_id: '456',
-        customer_id: '789',
-        date_done: '2023-10-24',
-        date_prescribed: '2023-10-20',
-        done: 'true',
+        doctorId: '456',
+        customerId: '789',
+        dateDone: DateTime.parse('2023-10-24'),
+        datePrescribed: DateTime.parse('2023-10-20'),
+        done: true,
         note: 'Take as directed',
       );
 
@@ -79,11 +79,11 @@ void main() {
     test('copyWith', () {
       final prescription1 = Prescription(
         id: '123',
-        doctor_id: '456',
-        customer_id: '789',
-        date_done: '2023-10-24',
-        date_prescribed: '2023-10-20',
-        done: 'true',
+        doctorId: '456',
+        customerId: '789',
+        dateDone: DateTime.parse('2023-10-24'),
+        datePrescribed: DateTime.parse('2023-10-20'),
+        done: true,
         note: 'Take as directed',
       );
 
