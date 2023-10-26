@@ -5,28 +5,28 @@ void main() {
   group('WorkingShift', () {
     test('constructor', () {
       // Create a `WorkingShift` instance
-      final WorkingShift1 = WorkingShift(
+      final workingshift1 = WorkingShift(
         doctorID: '456',
         startPeriodID: 1,
         dayOfWeek: 'Monday',
         endPeriodID: 10,
       );
 
-      expect(WorkingShift1.doctorID, '456');
-      expect(WorkingShift1.startPeriodID, 1);
-      expect(WorkingShift1.dayOfWeek, 'Monday');
-      expect(WorkingShift1.endPeriodID, 10);
+      expect(workingshift1.doctorID, '456');
+      expect(workingshift1.startPeriodID, 1);
+      expect(workingshift1.dayOfWeek, 'Monday');
+      expect(workingshift1.endPeriodID, 10);
     });
 
     test('toJson', () {
-      final WorkingShift = WorkingShift(
+      final workingshift = WorkingShift(
         doctorID: '456',
         startPeriodID: 1,
         dayOfWeek: 'Monday',
         endPeriodID: 10,
       );
 
-      final json = WorkingShift.toJson();
+      final json = workingshift.toJson();
 
       final expectedJson = {
         'doctorID': '456',
@@ -39,14 +39,14 @@ void main() {
     });
 
     test('fromJson', () {
-      final WorkingShiftJson = {
+      final workingshiftJson = {
         'doctorID': '456',
         'startPeriodID': 1,
         'dayOfWeek': 'Monday',
         'endPeriodID': 10,
       };
 
-      final WorkingShift = WorkingShift.fromJson(WorkingShiftJson);
+      final workingshift = WorkingShift.fromJson(workingshiftJson);
 
       final expectedWorkingShift = WorkingShift(
         doctorID: '456',
@@ -55,28 +55,28 @@ void main() {
         endPeriodID: 10,
       );
 
-      expect(WorkingShift, expectedWorkingShift);
+      expect(workingshift, expectedWorkingShift);
     });
 
     test('copyWith', () {
-      final WorkingShift1 = WorkingShift(
+      final workingshift = WorkingShift(
         doctorID: '456',
         startPeriodID: 1,
         dayOfWeek: 'Monday',
         endPeriodID: 10,
       );
 
-      final WorkingShift2 = WorkingShift1.copyWith();
+      final workingshift2 = workingshift.copyWith();
 
-      expect(WorkingShift1, WorkingShift2);
+      expect(workingshift, workingshift2);
 
-      final WorkingShift3 = WorkingShift1.copyWith(
+      final workingshift3 = workingshift.copyWith(
         doctorID: '456',
         startPeriodID: 1,
       );
 
-      expect(WorkingShift3.doctorID, '456');
-      expect(WorkingShift3.startPeriodID, 1);
+      expect(workingshift3.doctorID, '456');
+      expect(workingshift3.startPeriodID, 1);
     });
   });
 }
