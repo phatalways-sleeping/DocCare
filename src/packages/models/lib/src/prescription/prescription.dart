@@ -7,8 +7,8 @@ part 'prescription.g.dart';
 class Prescription extends Equatable {
   Prescription({
     required this.id,
-    required this.doctorId,
-    required this.customerId,
+    required this.doctorID,
+    required this.customerID,
     required this.dateDone,
     required this.datePrescribed,
     this.done = false,
@@ -23,26 +23,26 @@ class Prescription extends Equatable {
   @JsonKey(required: true)
   final String id;
   @JsonKey(required: true)
-  final String doctorId;
+  final String doctorID;
   @JsonKey(required: true)
-  final String customerId;
+  final String customerID;
   @JsonKey(required: true)
   final DateTime dateDone;
   @JsonKey(required: true)
   final DateTime datePrescribed;
   @JsonKey(required: true)
-  bool done;
+  final bool done;
   @JsonKey(required: false)
   final String note;
 
   @override
   List<Object?> get props =>
-      [id, doctorId, customerId, dateDone, datePrescribed, done, note];
+      [id, doctorID, customerID, dateDone, datePrescribed, done, note];
 
   Prescription copyWith({
     String? id,
-    String? doctorId,
-    String? customerId,
+    String? doctorID,
+    String? customerID,
     DateTime? dateDone,
     DateTime? datePrescribed,
     bool? done,
@@ -50,8 +50,8 @@ class Prescription extends Equatable {
   }) {
     return Prescription(
       id: id ?? this.id,
-      doctorId: doctorId ?? this.doctorId,
-      customerId: customerId ?? this.customerId,
+      doctorID: doctorID ?? this.doctorID,
+      customerID: customerID ?? this.customerID,
       dateDone: dateDone ?? this.dateDone,
       datePrescribed: datePrescribed ?? this.datePrescribed,
       done: done ?? this.done,

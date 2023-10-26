@@ -11,8 +11,8 @@ Prescription _$PrescriptionFromJson(Map<String, dynamic> json) {
     json,
     requiredKeys: const [
       'id',
-      'doctorId',
-      'customerId',
+      'doctorID',
+      'customerID',
       'dateDone',
       'datePrescribed',
       'done'
@@ -20,8 +20,8 @@ Prescription _$PrescriptionFromJson(Map<String, dynamic> json) {
   );
   return Prescription(
     id: json['id'] as String,
-    doctorId: json['doctorId'] as String,
-    customerId: json['customerId'] as String,
+    doctorID: json['doctorID'] as String,
+    customerID: json['customerID'] as String,
     dateDone: DateTime.parse(json['dateDone'] as String),
     datePrescribed: DateTime.parse(json['datePrescribed'] as String),
     done: json['done'] as bool? ?? false,
@@ -32,8 +32,8 @@ Prescription _$PrescriptionFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$PrescriptionToJson(Prescription instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'doctorId': instance.doctorId,
-      'customerId': instance.customerId,
+      'doctorID': instance.doctorID,
+      'customerID': instance.customerID,
       'dateDone': instance.dateDone.toIso8601String(),
       'datePrescribed': instance.datePrescribed.toIso8601String(),
       'done': instance.done,
