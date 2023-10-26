@@ -35,19 +35,19 @@ void main() {
         note: 'Take as directed',
       );
 
-      final json = prescription.toJson();
-
-      final expectedJson = {
+      final json =  {
         "id": "123",
         "doctorId": "456",
         "customerId": "789",
-        "dateDone": "2023-10-24",
-        "datePrescribed": "2023-10-20",
+        "dateDone": DateTime.parse('2023-10-24').toIso8601String(),
+        "datePrescribed": DateTime.parse('2023-10-20').toIso8601String(),
         "done": true,
         "note": "Take as directed",
       };
 
-      expect(json, expectedJson);
+      final toJson = prescription.toJson();
+
+      expect(toJson, json);
     });
 
     test('fromJson', () {

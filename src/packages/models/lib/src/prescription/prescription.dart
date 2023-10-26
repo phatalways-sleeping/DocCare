@@ -31,7 +31,7 @@ class Prescription extends Equatable {
   @JsonKey(required: true)
   final DateTime datePrescribed;
   @JsonKey(required: true)
-  bool done;
+  final bool done;
   @JsonKey(required: false)
   final String note;
 
