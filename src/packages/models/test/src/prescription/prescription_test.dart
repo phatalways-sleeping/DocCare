@@ -7,8 +7,8 @@ void main() {
       // Create a `Prescription` instance
       final prescription1 = Prescription(
         id: '123',
-        doctorId: '456',
-        customerId: '789',
+        doctorID: '456',
+        customerID: '789',
         dateDone: DateTime.parse('2023-10-24'),
         datePrescribed: DateTime.parse('2023-10-20'),
         done: true,
@@ -16,8 +16,8 @@ void main() {
       );
 
       expect(prescription1.id, '123');
-      expect(prescription1.doctorId, '456');
-      expect(prescription1.customerId, '789');
+      expect(prescription1.doctorID, '456');
+      expect(prescription1.customerID, '789');
       expect(prescription1.dateDone, DateTime.parse('2023-10-24'));
       expect(prescription1.datePrescribed, DateTime.parse('2023-10-20'));
       expect(prescription1.done, true);
@@ -27,8 +27,8 @@ void main() {
     test('toJson', () {
       final prescription = Prescription(
         id: '123',
-        doctorId: '456',
-        customerId: '789',
+        doctorID: '456',
+        customerID: '789',
         dateDone: DateTime.parse('2023-10-24'),
         datePrescribed: DateTime.parse('2023-10-20'),
         done: true,
@@ -37,8 +37,8 @@ void main() {
 
       final json =  {
         "id": "123",
-        "doctorId": "456",
-        "customerId": "789",
+        "doctorID": "456",
+        "customerID": "789",
         "dateDone": DateTime.parse('2023-10-24').toIso8601String(),
         "datePrescribed": DateTime.parse('2023-10-20').toIso8601String(),
         "done": true,
@@ -53,8 +53,8 @@ void main() {
     test('fromJson', () {
       final prescriptionJson = {
         "id": "123",
-        "doctorId": "456",
-        "customerId": "789",
+        "doctorID": "456",
+        "customerID": "789",
         "dateDone": "2023-10-24",
         "datePrescribed": "2023-10-20",
         "done": true,
@@ -65,8 +65,8 @@ void main() {
 
       final expectedPrescription = Prescription(
         id: '123',
-        doctorId: '456',
-        customerId: '789',
+        doctorID: '456',
+        customerID: '789',
         dateDone: DateTime.parse('2023-10-24'),
         datePrescribed: DateTime.parse('2023-10-20'),
         done: true,
@@ -79,8 +79,8 @@ void main() {
     test('copyWith', () {
       final prescription1 = Prescription(
         id: '123',
-        doctorId: '456',
-        customerId: '789',
+        doctorID: '456',
+        customerID: '789',
         dateDone: DateTime.parse('2023-10-24'),
         datePrescribed: DateTime.parse('2023-10-20'),
         done: true,
