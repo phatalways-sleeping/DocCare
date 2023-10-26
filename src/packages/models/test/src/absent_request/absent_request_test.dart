@@ -11,7 +11,7 @@ void main() {
         doctorID: 'doctorID',
         date: DateTime(2023,10,25),
         doctorName: 'doctorName',
-        dateRequest: '2023-10-25',
+        dateRequest: DateTime(2023,10,25),
         reason: 'reason',
         isApproved: true,
       );
@@ -21,7 +21,7 @@ void main() {
         doctorID: 'doctorID2',
         date: DateTime(2023,10,25),
         doctorName: 'doctorName2',
-        dateRequest: '2023-10-25',
+        dateRequest: DateTime(2023,10,25),
         reason: 'reason2',
         isApproved: true,
       );
@@ -30,7 +30,7 @@ void main() {
       expect(copy.doctorID, 'doctorID2');
       expect(copy.date, DateTime(2023,10,25));
       expect(copy.doctorName, 'doctorName2');
-      expect(copy.dateRequest, '2023-10-25');
+      expect(copy.dateRequest, DateTime(2023,10,25));
       expect(copy.reason, 'reason2');
       expect(copy.isApproved, true);
     });
@@ -42,7 +42,7 @@ void main() {
         doctorID: 'doctorID',
         date: DateTime(2023,10,25),
         doctorName: 'doctorName',
-        dateRequest: '2023-10-25',
+        dateRequest: DateTime(2023,10,25),
         reason: 'reason',
         isApproved: true,
       );
@@ -52,7 +52,7 @@ void main() {
         'doctorID': 'doctorID',
         'date': DateTime(2023,10,25).toIso8601String(),
         'doctorName': 'doctorName',
-        'dateRequest': '2023-10-25',
+        'dateRequest': DateTime(2023,10,25).toIso8601String(),
         'reason': 'reason',
         'isApproved': true,
       };
@@ -71,7 +71,7 @@ void main() {
         doctorID: 'doctorID',
         date: DateTime(2023,10,25),
         doctorName: 'doctorName',
-        dateRequest: '2023-10-25',
+        dateRequest: DateTime(2023,10,25),
         reason: 'reason',
         isApproved: true,
       );
@@ -81,7 +81,7 @@ void main() {
         'doctorID': 'doctorID',
         'date': DateTime(2023,10,25).toIso8601String(),
         'doctorName': 'doctorName',
-        'dateRequest': '2023-10-25',
+        'dateRequest': DateTime(2023,10,25).toIso8601String(),
         'reason': 'reason',
         'isApproved': true,
       };
