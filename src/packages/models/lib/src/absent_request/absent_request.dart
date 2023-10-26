@@ -26,7 +26,7 @@ final class AbsentRequest extends Equatable {
   @JsonKey(required: true)
   final String doctorName;
   @JsonKey(required: true)
-  final String dateRequest;
+  final DateTime dateRequest;
   @JsonKey()
   final String? reason;
   @JsonKey(required: true)
@@ -46,7 +46,7 @@ final class AbsentRequest extends Equatable {
     String? doctorID,
     DateTime? date,
     String? doctorName,
-    String? dateRequest,
+    DateTime? dateRequest,
     String? reason,
     bool? isApproved,
   }) {
