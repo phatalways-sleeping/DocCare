@@ -1,11 +1,28 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:src/firebase_options.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:env_flutter/env_flutter.dart';
 
 Future<void> main() async {
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load();
+  String supabaseUrl = dotenv.get('SUPABASE_URL');
+  String supabaseAnonKey = dotenv.get('SUPABASE_ANON_KEY');
+
+  await Future.wait([
+    /// Initialize Firebase
+    Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    ),
+
+    /// Initialize Supabase
+    Supabase.initialize(
+      url: supabaseUrl,
+      anonKey: supabaseAnonKey,
+      authFlowType: AuthFlowType.pkce,
+    )
+  ]);
   runApp(const MyApp());
 }
 
