@@ -13,6 +13,22 @@ class DoctorApiService implements MedicalStaffApiService<Doctor> {
   final SupabaseClient supabase;
 
   @override
+  Future<void> createUser(Doctor user) => supabase
+      .from('doctor')
+      .insert(
+        user.toJson(),
+      )
+      .onError(
+        (error, stackTrace) => throw Exception(error),
+      );
+
+  @override
+  Future<void> deleteUser(String id) =>
+      supabase.from('doctor').delete().eq('id', id).onError(
+            (error, stackTrace) => throw Exception(error),
+          );
+
+  @override
   Future<Doctor> getUser(String id) => supabase
       .from('doctor')
       .select<PostgrestList>()

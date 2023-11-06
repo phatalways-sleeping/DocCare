@@ -5,6 +5,12 @@ abstract interface class UserApiService<T extends BaseUser> {
   /// Default constructor
   const UserApiService();
 
+  /// Create a user
+  Future<void> createUser(T user);
+
+  /// Delete a user by [id]
+  Future<void> deleteUser(String id);
+
   /// Get a user by [id]
   Future<T> getUser(String id);
 

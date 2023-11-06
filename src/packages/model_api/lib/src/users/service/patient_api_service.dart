@@ -13,6 +13,22 @@ class CustomerApiService implements UserApiService<Customer> {
   final SupabaseClient supabase;
 
   @override
+  Future<void> createUser(Customer user) => supabase
+      .from('customer')
+      .insert(
+        user.toJson(),
+      )
+      .onError(
+        (error, stackTrace) => throw Exception(error),
+      );
+
+  @override
+  Future<void> deleteUser(String id) =>
+      supabase.from('customer').delete().eq('id', id).onError(
+            (error, stackTrace) => throw Exception(error),
+          );
+
+  @override
   Future<Customer> getUser(String id) => supabase
       .from('customer')
       .select<PostgrestList>()

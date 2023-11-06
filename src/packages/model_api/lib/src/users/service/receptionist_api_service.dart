@@ -13,6 +13,22 @@ class ReceptionistApiService implements UserApiService<Receptionist> {
   final SupabaseClient supabase;
 
   @override
+  Future<void> createUser(Receptionist user) => supabase
+      .from('receptionist')
+      .insert(
+        user.toJson(),
+      )
+      .onError(
+        (error, stackTrace) => throw Exception(error),
+      );
+
+  @override
+  Future<void> deleteUser(String id) =>
+      supabase.from('receptionist').delete().eq('id', id).onError(
+            (error, stackTrace) => throw Exception(error),
+          );
+
+  @override
   Future<Receptionist> getUser(String id) => supabase
       .from('receptionist')
       .select<PostgrestList>()
