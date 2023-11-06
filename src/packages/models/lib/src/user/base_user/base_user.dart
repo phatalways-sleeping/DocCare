@@ -33,3 +33,14 @@ abstract class BaseUser extends Equatable {
     DateTime? birthday,
   });
 }
+
+/// Abstract class for medical staff such as Doctor, Nurse, etc.
+abstract class MedicalStaff extends BaseUser {
+  const MedicalStaff({
+    required super.id,
+    required super.fullname,
+    required super.email,
+    required super.phone,
+    super.birthday,
+  });
+}
