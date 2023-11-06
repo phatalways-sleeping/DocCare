@@ -1,7 +1,7 @@
 import 'package:models/models.dart';
 
 /// Abstract class for user api service
-abstract class UserApiService<T extends BaseUser> {
+abstract interface class UserApiService<T extends BaseUser> {
   /// Default constructor
   const UserApiService();
 
@@ -28,4 +28,23 @@ abstract class UserApiService<T extends BaseUser> {
 
   /// Update birthday of a user by [id]
   Future<void> updateBirthday(String id, DateTime birthday);
+}
+
+/// Service for MedicalStaff: Doctor and Nurse, etc.
+abstract interface class MedicalStaffApiService<T extends MedicalStaff>
+    extends UserApiService<T> {
+  /// Default constructor
+  const MedicalStaffApiService();
+
+  /// Update specializationId of a user by [id]
+  Future<void> updateSpecialty(String id, String specializationId);
+
+  /// Update startWorkingFrom of a user by [id]
+  Future<void> updateStartWorkingFrom(String id, int startWorkingFrom);
+
+  /// Update rating of a user by [id]
+  Future<void> updateRating(String id, double rating);
+
+  /// Update numberOfRates of a user by [id]
+  Future<void> updateNumberOfRates(String id, int numberOfRates);
 }
