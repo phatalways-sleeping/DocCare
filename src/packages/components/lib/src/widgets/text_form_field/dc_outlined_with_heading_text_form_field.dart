@@ -9,8 +9,12 @@ import 'package:flutter/material.dart';
 class DCOutlinedWithHeadingTextFormField extends StatelessWidget {
   /// Creates an outlined text form field.
   const DCOutlinedWithHeadingTextFormField({
-    required this.contentPadding,
     required this.heading,
+    this.contentPadding = const EdgeInsets.symmetric(
+      horizontal: 8,
+      vertical: 12,
+    ),
+    this.useObscuredTextFormField = false,
     this.gapBetweenHeadingAndInput = 8,
     this.headingColor,
     this.textFormFieldConstraints,
@@ -44,7 +48,17 @@ class DCOutlinedWithHeadingTextFormField extends StatelessWidget {
     this.enabled = true,
     this.paddingBetweenIconAndInput,
     super.key,
-  });
+  })  : assert(
+          !useObscuredTextFormField || !obscureMode,
+          'Cannot use both obscured and obscured with heading text form field',
+        ),
+        assert(
+          !useObscuredTextFormField ||
+              (prefixIcon == null && prefixIconTooltip == null),
+          'Cannot use prefix icon and tooltip with obscured text form field',
+        );
+
+  final bool useObscuredTextFormField;
 
   final Widget heading;
   final Color? headingColor;
@@ -87,23 +101,54 @@ class DCOutlinedWithHeadingTextFormField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ConstrainedBox(
-      constraints: BoxConstraints(
-        maxHeight: textFormFieldConstraints?.maxHeight ?? 56 + 20,
-        minHeight: textFormFieldConstraints?.minHeight ?? 48 + 20,
-        minWidth: textFormFieldConstraints?.minWidth ?? double.infinity,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          DefaultTextStyle.merge(
-            style: context.textTheme.h3ExtraBoldPoppins.copyWith(
-              color:
-                  headingColor ?? borderColor ?? context.colorScheme.secondary,
-            ),
-            child: heading,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        DefaultTextStyle.merge(
+          style: context.textTheme.h4ExtraBoldPoppins.copyWith(
+            color:
+                headingColor ?? borderColor ?? context.colorScheme.secondary,
           ),
-          SizedBox(height: gapBetweenHeadingAndInput),
+          child: heading,
+        ),
+        SizedBox(height: gapBetweenHeadingAndInput),
+        if (useObscuredTextFormField)
+          DCOutlinedObscuredTextFormField(
+            constraints: textFormFieldConstraints ??
+                const BoxConstraints(
+                  minHeight: 48,
+                  maxHeight: 50,
+                  minWidth: double.infinity,
+                ),
+            iconSize: iconSize ?? 20,
+            color: color ??
+                context
+                    .theme.colorScheme.onSecondary, // The color of text, icon
+            textAlign: textAlign,
+            textAlignVertical: textAlignVertical,
+            textCapitalization: textCapitalization,
+            keyboardType: keyboardType,
+            keyboardAppearance: keyboardAppearance,
+            obscuringCharacter: obscuringCharacter,
+            onChanged: onChanged,
+            maxLength: maxLength,
+            minLines: minLines,
+            maxLines: maxLines,
+            initialText: initialText,
+            helperText: helperText,
+            hintText: hintText,
+            suffixIcon: suffixIcon,
+            onSuffixIconPressed: onSuffixIconPressed,
+            suffixIconTooltip: suffixIconTooltip,
+            onlyShowIconOnFocus: onlyShowIconOnFocus,
+            validator: validator,
+            enabled: enabled,
+            paddingBetweenIconAndInput: paddingBetweenIconAndInput,
+
+            contentPadding: contentPadding,
+          )
+        else
           BaseTextFormField(
             constraints: textFormFieldConstraints ??
                 const BoxConstraints(
@@ -148,8 +193,7 @@ class DCOutlinedWithHeadingTextFormField extends StatelessWidget {
             ),
             contentPadding: contentPadding,
           ),
-        ],
-      ),
+      ],
     );
   }
 }

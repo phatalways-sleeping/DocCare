@@ -10,7 +10,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 class DCOutlinedObscuredTextFormField extends StatelessWidget {
   /// Creates an outlined obscured text form field.
   const DCOutlinedObscuredTextFormField({
-    required this.contentPadding,
+    this.contentPadding = const EdgeInsets.symmetric(
+      horizontal: 8,
+      vertical: 12,
+    ),
     this.keyboardType,
     this.keyboardAppearance,
     this.obscuringCharacter = '•',

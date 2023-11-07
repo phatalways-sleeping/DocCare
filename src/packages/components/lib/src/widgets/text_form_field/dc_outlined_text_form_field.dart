@@ -8,7 +8,10 @@ import 'package:flutter/material.dart';
 class DCOutlinedTextFormField extends StatelessWidget {
   /// Creates an outlined text form field.
   const DCOutlinedTextFormField({
-    required this.contentPadding,
+    this.contentPadding = const EdgeInsets.symmetric(
+      horizontal: 8,
+      vertical: 12,
+    ),
     this.keyboardType,
     this.keyboardAppearance,
     this.obscuringCharacter = '•',
