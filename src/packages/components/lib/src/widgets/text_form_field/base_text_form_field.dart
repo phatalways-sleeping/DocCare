@@ -170,15 +170,15 @@ class _BaseTextFormFieldState extends State<BaseTextFormField> {
         labelStyle: context.textTheme.h6RegularPoppins.copyWith(
           color: focusNode.hasFocus
               ? widget.color
-              : context.colorScheme.onBackground.withOpacity(0.8),
+              : widget.color.withOpacity(0.8),
         ),
         helperText: widget.helperText,
         helperStyle: context.textTheme.sub1RegularPoppins.copyWith(
-          color: context.colorScheme.tertiary,
+          color: widget.color.withOpacity(0.8),
         ),
         hintText: widget.hintText,
         hintStyle: context.textTheme.h6RegularPoppins.copyWith(
-          color: context.colorScheme.onBackground.withOpacity(0.8),
+          color: widget.color.withOpacity(0.8),
         ),
         prefix: Padding(padding: prefixPadding),
         prefixIcon: widget.prefixIcon != null
@@ -194,7 +194,7 @@ class _BaseTextFormFieldState extends State<BaseTextFormField> {
                         padding: EdgeInsets.zero,
                         color: focusNode.hasFocus
                             ? widget.color
-                            : context.colorScheme.onBackground.withOpacity(0.8),
+                            : widget.color.withOpacity(0.8),
                         onPressed: () => widget.onPrefixIconPressed
                             ?.call(context, controller),
                         tooltip: widget.prefixIconTooltip,
