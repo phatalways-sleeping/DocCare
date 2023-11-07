@@ -36,6 +36,7 @@ base class BaseTextFormField extends StatefulWidget {
     this.hintText,
     this.prefixIcon,
     this.suffixIcon,
+    this.suffixIconOnObscuredMode,
     this.onPrefixIconPressed,
     this.onSuffixIconPressed,
     this.prefixIconTooltip,
@@ -67,8 +68,11 @@ base class BaseTextFormField extends StatefulWidget {
   final String? initialText;
   final String? helperText;
   final String? hintText;
-  final IconData? prefixIcon;
-  final IconData? suffixIcon;
+  final Widget? prefixIcon;
+  final Widget?
+      suffixIcon; // This is the icon that is shown when the obscure mode is on.
+  final Widget?
+      suffixIconOnObscuredMode; // This is the icon that is shown when the obscure mode is off.
   final void Function(BuildContext context, TextEditingController controller)?
       onPrefixIconPressed;
   final void Function(BuildContext context, TextEditingController controller)?
@@ -140,7 +144,7 @@ class _BaseTextFormFieldState extends State<BaseTextFormField> {
       maxLines: widget.obscureMode ? 1 : widget.maxLines,
       cursorColor: widget.color,
       style: context.textTheme.h6RegularPoppins.copyWith(
-        color: context.colorScheme.onSecondary,
+        color: widget.color,
       ),
       focusNode: focusNode,
       onTap: () => focusNode.requestFocus(),
@@ -182,9 +186,10 @@ class _BaseTextFormFieldState extends State<BaseTextFormField> {
                 padding: prefixIconPadding,
                 child: !widget.onlyShowIconOnFocus || focusNode.hasFocus
                     ? IconButton(
-                        icon: Icon(
-                          widget.prefixIcon,
-                          size: widget.iconSize,
+                        icon: SizedBox(
+                          width: widget.iconSize,
+                          height: widget.iconSize,
+                          child: widget.prefixIcon,
                         ),
                         padding: EdgeInsets.zero,
                         color: focusNode.hasFocus
@@ -206,11 +211,18 @@ class _BaseTextFormFieldState extends State<BaseTextFormField> {
                 child: !widget.toggleObscuredModeIcon
                     ? !widget.onlyShowIconOnFocus || focusNode.hasFocus
                         ? IconButton(
-                            icon: Icon(
-                              widget.suffixIcon,
-                              size: widget.iconSize,
+                            style: ButtonStyle(
+                              padding: MaterialStateProperty.all(
+                                EdgeInsets.zero,
+                              ),
+                              fixedSize: MaterialStatePropertyAll(
+                                Size.square(widget.iconSize),
+                              ),
+                              elevation: MaterialStateProperty.all(0),
                             ),
-                            padding: EdgeInsets.zero,
+                            icon: SizedBox(
+                              child: widget.suffixIcon,
+                            ),
                             color: focusNode.hasFocus
                                 ? widget.color
                                 : context.colorScheme.onBackground
@@ -221,18 +233,26 @@ class _BaseTextFormFieldState extends State<BaseTextFormField> {
                           )
                         : null
                     : IconButton(
+                        style: ButtonStyle(
+                          padding: MaterialStateProperty.all(
+                            EdgeInsets.zero,
+                          ),
+                          fixedSize: MaterialStatePropertyAll(
+                            Size.square(widget.iconSize),
+                          ),
+                          elevation: MaterialStateProperty.all(0),
+                        ),
                         icon: isObscured
-                            ? Icon(
-                                widget.suffixIcon ?? Icons.visibility_off,
-                                size: widget.iconSize,
-                              )
-                            : Icon(
-                                widget.suffixIcon ?? Icons.visibility,
-                                size: widget.iconSize,
-                              ),
-                        color: focusNode.hasFocus
-                            ? widget.color
-                            : context.colorScheme.onBackground.withOpacity(0.8),
+                            ? widget.suffixIcon ??
+                                Icon(
+                                  Icons.visibility,
+                                  color: widget.color,
+                                )
+                            : widget.suffixIconOnObscuredMode ??
+                                Icon(
+                                  Icons.visibility_off,
+                                  color: widget.color,
+                                ),
                         onPressed: () =>
                             setState(() => isObscured = !isObscured),
                         tooltip: 'Toggle password hidden mode.',
@@ -241,17 +261,19 @@ class _BaseTextFormFieldState extends State<BaseTextFormField> {
             : null,
         enabledBorder: widget.inputBorder.copyWith(
           borderSide: BorderSide(
-            color: widget.color,
+            color: widget.inputBorder.borderSide.color,
           ),
         ),
         disabledBorder: widget.inputBorder.copyWith(
           borderSide: BorderSide(
-            color: widget.color,
+            width: widget.inputBorder.borderSide.width * 1.25,
+            color: widget.inputBorder.borderSide.color,
           ),
         ),
         focusedBorder: widget.inputBorder.copyWith(
           borderSide: BorderSide(
-            color: widget.color,
+            width: widget.inputBorder.borderSide.width * 2.0,
+            color: widget.inputBorder.borderSide.color,
           ),
         ),
       ),

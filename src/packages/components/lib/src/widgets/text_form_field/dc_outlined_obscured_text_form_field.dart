@@ -1,13 +1,15 @@
+import 'package:components/src/svgs/dc_svgs.dart';
 import 'package:components/src/widgets/text_form_field/base_text_form_field.dart';
 import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 /// Outlined text form field. This is the text form field that is used
 /// in: Login, Register, Forgot Password, and Change Password screens, etc.
 /// It uses the [BaseTextFormField] as its base class.
-class DCOutlinedTextFormField extends StatelessWidget {
-  /// Creates an outlined text form field.
-  const DCOutlinedTextFormField({
+class DCOutlinedObscuredTextFormField extends StatelessWidget {
+  /// Creates an outlined obscured text form field.
+  const DCOutlinedObscuredTextFormField({
     required this.contentPadding,
     this.keyboardType,
     this.keyboardAppearance,
@@ -23,7 +25,7 @@ class DCOutlinedTextFormField extends StatelessWidget {
     this.textAlignVertical = TextAlignVertical.center,
     this.textCapitalization = TextCapitalization.none,
     this.color,
-    this.iconSize = 20,
+    this.iconSize = 24,
     this.onChanged,
     this.maxLength,
     this.minLines,
@@ -32,15 +34,12 @@ class DCOutlinedTextFormField extends StatelessWidget {
     this.initialText,
     this.helperText,
     this.hintText,
-    this.prefixIcon,
     this.suffixIcon,
-    this.onPrefixIconPressed,
+    this.suffixIconOnObscuredMode,
     this.onSuffixIconPressed,
-    this.prefixIconTooltip,
     this.suffixIconTooltip,
     this.onlyShowIconOnFocus = false,
     this.validator,
-    this.obscureMode = false,
     this.enabled = true,
     this.paddingBetweenIconAndInput,
     super.key,
@@ -67,17 +66,13 @@ class DCOutlinedTextFormField extends StatelessWidget {
   final String? initialText;
   final String? helperText;
   final String? hintText;
-  final Widget? prefixIcon;
   final Widget? suffixIcon;
-  final void Function(BuildContext context, TextEditingController controller)?
-      onPrefixIconPressed;
+  final Widget? suffixIconOnObscuredMode;
   final void Function(BuildContext context, TextEditingController controller)?
       onSuffixIconPressed;
-  final String? prefixIconTooltip;
   final String? suffixIconTooltip;
   final bool onlyShowIconOnFocus;
   final FormFieldValidator<String>? validator;
-  final bool obscureMode;
   final bool enabled;
   final EdgeInsetsGeometry contentPadding;
   final double? paddingBetweenIconAndInput;
@@ -108,15 +103,34 @@ class DCOutlinedTextFormField extends StatelessWidget {
       initialText: initialText,
       helperText: helperText,
       hintText: hintText,
-      prefixIcon: prefixIcon,
-      suffixIcon: suffixIcon,
-      onPrefixIconPressed: onPrefixIconPressed,
+      suffixIcon: suffixIcon ??
+          SvgPicture.string(
+            DCSVGIcons.hide,
+            fit: BoxFit.cover,
+            colorFilter: ColorFilter.mode(
+              color ?? context.theme.colorScheme.onSecondary,
+              BlendMode.srcIn,
+            ),
+            width: iconSize,
+            height: iconSize,
+          ),
+      suffixIconOnObscuredMode: suffixIconOnObscuredMode ??
+          SvgPicture.string(
+            DCSVGIcons.unhide,
+            fit: BoxFit.cover,
+            colorFilter: ColorFilter.mode(
+              color ?? context.theme.colorScheme.onSecondary,
+              BlendMode.srcIn,
+            ),
+            width: iconSize,
+            height: iconSize,
+          ),
       onSuffixIconPressed: onSuffixIconPressed,
-      prefixIconTooltip: prefixIconTooltip,
       suffixIconTooltip: suffixIconTooltip,
       onlyShowIconOnFocus: onlyShowIconOnFocus,
       validator: validator,
-      obscureMode: obscureMode,
+      obscureMode: true,
+      toggleObscuredModeIcon: true,
       enabled: enabled,
       paddingBetweenIconAndInput: paddingBetweenIconAndInput,
       inputBorder: OutlineInputBorder(
