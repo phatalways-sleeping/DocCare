@@ -165,6 +165,7 @@ class _BaseTextFormFieldState extends State<BaseTextFormField> {
         constraints: widget.constraints,
         contentPadding: EdgeInsets.symmetric(
           vertical: widget.contentPadding.vertical / 2,
+          horizontal: widget.contentPadding.horizontal / 2,
         ),
         labelText: widget.labelText,
         labelStyle: context.textTheme.h6RegularPoppins.copyWith(
