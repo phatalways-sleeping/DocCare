@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:components/components.dart';
 import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 /// This is the base class for all text form fields used in the app.
 /// It is used to provide a common interface for all text form fields.
@@ -14,6 +15,12 @@ base class BaseTextFormField extends StatefulWidget {
     required this.color,
     required this.inputBorder,
     required this.contentPadding,
+    this.textAlign = TextAlign.justify,
+    this.textAlignVertical = TextAlignVertical.center,
+    this.textCapitalization = TextCapitalization.none,
+    this.keyboardType,
+    this.keyboardAppearance,
+    this.obscuringCharacter = '•',
     this.constraints = const BoxConstraints(
       minHeight: 48,
       minWidth: double.infinity,
@@ -42,6 +49,12 @@ base class BaseTextFormField extends StatefulWidget {
     super.key,
   });
 
+  final TextInputType? keyboardType;
+  final Brightness? keyboardAppearance;
+  final String obscuringCharacter;
+  final TextAlign textAlign;
+  final TextAlignVertical textAlignVertical;
+  final TextCapitalization textCapitalization;
   final BoxConstraints constraints;
   final double iconSize;
   final Color color;
@@ -133,6 +146,16 @@ class _BaseTextFormFieldState extends State<BaseTextFormField> {
       onTap: () => focusNode.requestFocus(),
       validator: widget.validator,
       autovalidateMode: AutovalidateMode.onUserInteraction,
+      keyboardAppearance: widget.keyboardAppearance,
+      keyboardType: widget.keyboardType,
+      obscuringCharacter: widget.obscuringCharacter,
+      textAlign: widget.textAlign,
+      textAlignVertical: widget.textAlignVertical,
+      textCapitalization: widget.textCapitalization,
+      inputFormatters: [
+        if (widget.keyboardType == TextInputType.number)
+          FilteringTextInputFormatter.digitsOnly,
+      ],
       decoration: InputDecoration(
         isDense: true,
         constraints: widget.constraints,
@@ -217,6 +240,11 @@ class _BaseTextFormFieldState extends State<BaseTextFormField> {
               )
             : null,
         enabledBorder: widget.inputBorder.copyWith(
+          borderSide: BorderSide(
+            color: widget.color,
+          ),
+        ),
+        disabledBorder: widget.inputBorder.copyWith(
           borderSide: BorderSide(
             color: widget.color,
           ),
