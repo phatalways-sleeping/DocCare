@@ -61,4 +61,11 @@ class MedicineApi {
       .delete()
       .eq('name', name)
       .onError((error, stackTrace) => throw Exception(error));
+
+  //Stream of a single medicine
+  Stream<Medicine> streamMedicine(String name) => supabase
+      .from('medicine')
+      .stream(primaryKey: ['name'])
+      .eq('name', name)
+      .map((event) => Medicine.fromJson(event.first));
 }
