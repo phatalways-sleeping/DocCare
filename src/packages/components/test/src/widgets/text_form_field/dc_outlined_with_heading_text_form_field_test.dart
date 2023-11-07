@@ -35,5 +35,36 @@ void main() {
       /// Verify that our [DCOutlinedWithHeadingTextFormField] has the correct heading.
       expect(find.text('Heading Text'), findsOneWidget);
     });
+
+
+    /// Test when useObscuredTextFormField is true
+    testWidgets('should render correctly when useObscuredTextFormField is true', (WidgetTester tester) async {
+      /// Build our app and trigger a frame.
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: Center(
+              child: DCOutlinedWithHeadingTextFormField(
+                hintText: 'Hint Text',
+                helperText: 'Helper Text',
+                keyboardType: TextInputType.text,
+                onChanged: (context, controller) {},
+                color: Colors.red,
+                borderColor: Colors.red,
+                contentPadding: EdgeInsets.zero,
+                heading: const Text(
+                  'Heading Text',
+                  style: TextStyle(color: Colors.red),
+                ),
+                useObscuredTextFormField: true,
+              ),
+            ),
+          ),
+        ),
+      );
+
+      /// Verify that our [DCOutlinedWithHeadingTextFormField] has [DCOutlinedObscuredTextFormField]
+      expect(find.byType(DCOutlinedObscuredTextFormField), findsOneWidget);
+    });
   });
 }

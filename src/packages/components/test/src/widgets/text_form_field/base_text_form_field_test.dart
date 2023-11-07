@@ -16,6 +16,10 @@ void main() {
               helperText: 'Helper Text',
               obscureMode: true,
               keyboardType: TextInputType.text,
+              textAlign: TextAlign.center,
+              textAlignVertical: TextAlignVertical.bottom,
+              textCapitalization: TextCapitalization.characters,
+              initialText: 'Initial Text',
               onChanged: (context, controller) {},
               color: Colors.red,
               inputBorder: const OutlineInputBorder(
@@ -23,7 +27,10 @@ void main() {
                   color: Colors.red,
                 ),
               ),
-              contentPadding: EdgeInsets.zero,
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 10,
+                vertical: 5,
+              ),
             ),
           ),
         ),
@@ -50,7 +57,10 @@ void main() {
             .widget<TextField>(find.byType(TextField))
             .decoration!
             .contentPadding,
-        EdgeInsets.zero,
+        const EdgeInsets.symmetric(
+          horizontal: 10,
+          vertical: 5,
+        ),
       );
 
       /// Verify that our [BaseTextFormField] has the correct border.
@@ -82,6 +92,30 @@ void main() {
       expect(
         tester.widget<TextField>(find.byType(TextField)).decoration!.helperText,
         'Helper Text',
+      );
+
+      /// Verify that our [BaseTextFormField] has the correct text align.
+      expect(
+        tester.widget<TextField>(find.byType(TextField)).textAlign,
+        TextAlign.center,
+      );
+
+      /// Verify that our [BaseTextFormField] has the correct text align vertical.
+      expect(
+        tester.widget<TextField>(find.byType(TextField)).textAlignVertical,
+        TextAlignVertical.bottom,
+      );
+
+      /// Verify that our [BaseTextFormField] has the correct text capitalization.
+      expect(
+        tester.widget<TextField>(find.byType(TextField)).textCapitalization,
+        TextCapitalization.characters,
+      );
+
+      /// Verify that our [BaseTextFormField] has the correct initial text.
+      expect(
+        tester.widget<TextField>(find.byType(TextField)).controller!.text,
+        'Initial Text',
       );
     });
 
@@ -136,6 +170,7 @@ void main() {
               labelText: 'Label Text',
               helperText: 'Helper Text',
               obscureMode: true,
+              initialText: 'Initial Text',
               keyboardType: TextInputType.text,
               onChanged: (context, controller) {
                 onChangedList.add(controller.text);
