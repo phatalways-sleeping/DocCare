@@ -2,10 +2,10 @@ import 'package:model_api/src/users/service/user_api_service.dart';
 import 'package:models/models.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-/// Implementation of [UserApiService] for [Doctor]
-class DoctorApiService implements MedicalStaffApiService<Doctor> {
+/// Implementation of [UserApiService] for [Doctor] with Supabase
+class SupabaseDoctorApiService implements MedicalStaffApiService<Doctor> {
   /// Default constructor
-  const DoctorApiService({
+  const SupabaseDoctorApiService({
     required this.supabase,
   });
 
