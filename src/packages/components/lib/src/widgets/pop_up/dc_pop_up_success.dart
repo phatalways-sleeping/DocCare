@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 
 class DCPopupSuccess extends StatelessWidget {
   const DCPopupSuccess({
-    Key? key,
     required this.title,
     required this.message,
     required this.buttonText,
-  }) : super(key: key);
+    super.key,
+  });
 
   final String title;
   final String message;
@@ -30,11 +30,11 @@ class DCPopupSuccess extends StatelessWidget {
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Image.asset(
-            'images/thumbs-up.png',
-            height: 100,
-            width: 100,
-          ),
+          // Image.asset(
+          //   'images/thumbs-up.png',
+          //   height: 100,
+          //   width: 100,
+          // ),
           Text(
             message,
             style: TextStyle(

@@ -30,11 +30,11 @@ class DCPopupFailed extends StatelessWidget {
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Image.asset(
-            'images/red-alert.png',
-            height: 100,
-            width: 100,
-          ),
+          // Image.asset(
+          //   'assets/images/red-alert.png',
+          //   height: 100,
+          //   width: 100,
+          // ),
           Text(
             message,
             style: TextStyle(
