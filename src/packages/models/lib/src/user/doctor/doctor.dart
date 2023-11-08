@@ -5,7 +5,7 @@ import 'package:models/src/user/base_user/base_user.dart';
 part 'doctor.g.dart';
 
 @JsonSerializable()
-final class Doctor extends BaseUser {
+final class Doctor extends MedicalStaff {
   const Doctor({
     required super.id,
     required super.fullname,
@@ -17,6 +17,7 @@ final class Doctor extends BaseUser {
     this.rating,
     this.numberOfRates,
   });
+
 
   factory Doctor.fromJson(Map<String, dynamic> json) => _$DoctorFromJson(json);
 

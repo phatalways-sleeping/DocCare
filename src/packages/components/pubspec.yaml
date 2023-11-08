@@ -10,7 +10,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  extensions:
+    path: ../extensions
   google_fonts: ^6.1.0
+  flutter_svg: ^2.0.9
+ 
 
 dev_dependencies:
   flutter_test:
