@@ -1,7 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:model_api/src/category/service/supabase_category_api_service.dart';
-import 'package:models/models.dart';
 
 void main() {
   group('CategoryApi', () {
