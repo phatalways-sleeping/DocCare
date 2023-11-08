@@ -6,7 +6,7 @@ import 'package:model_api/model_api.dart';
 void main() {
   group('ModelApi', () {
     test('can be instantiated', () {
-      //expect(ModelApi(), isNotNull);
+      expect(ModelApi(), isNotNull);
     });
   });
 }
