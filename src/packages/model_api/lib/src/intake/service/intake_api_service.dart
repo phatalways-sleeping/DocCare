@@ -8,7 +8,7 @@ abstract interface class IntakeApiService<T extends Intake> {
 
   Future<void> createIntake(T intake);
 
-  Future<void> deleteIntake(T intake);
+  Future<void> deleteIntake(String prescriptionID, String medicineName);
 
   Future<T> getIntake(String prescriptionID, String medicineName);
 
@@ -16,7 +16,7 @@ abstract interface class IntakeApiService<T extends Intake> {
 
   Future<List<Intake>> getIntakeList(List<Tuple2<String, String>> intakeInfo);
 
-  Future<T> updateIntakeDuration(
+  Future<void> updateIntakeDuration(
       String prescriptionID, String medicineName, Int duration);
 
   Future<void> updateIntakeTimeOfTheDay(

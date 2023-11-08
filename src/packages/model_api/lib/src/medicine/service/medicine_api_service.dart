@@ -5,7 +5,7 @@ abstract interface class MedicineAPIService<T extends Medicine> {
 
   Future<void> createMedicine(T medicine);
 
-  Future<void> deleteMedicine(T medicine);
+  Future<void> deleteMedicine(String name);
 
   Future<T> getMedicine(String name);
 

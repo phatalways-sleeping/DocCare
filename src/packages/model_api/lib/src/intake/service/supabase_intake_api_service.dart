@@ -1,16 +1,18 @@
 import 'dart:ffi';
 
 import 'package:models/models.dart';
+import 'package:model_api/src/intake/service/intake_api_service.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:tuple/tuple.dart';
 
-class IntakeAPI {
-  const IntakeAPI({
+class SupabaseIntakeAPIService implements IntakeApiService<Intake> {
+  const SupabaseIntakeAPIService({
     required this.supabase,
   });
 
   final SupabaseClient supabase;
 
+  @override
   Future<Intake> getIntake(String prescriptionID, String medicineName) =>
       supabase
           .from('intake')
@@ -24,6 +26,7 @@ class IntakeAPI {
           )
           .onError((error, stackTrace) => throw Exception(error));
 
+  @override
   Future<List<Intake>> getAllIntakeList() => supabase
       .from('intake')
       .select<PostgrestList>()
@@ -35,6 +38,7 @@ class IntakeAPI {
       .onError((error, stackTrace) => throw Exception(error));
 
   //get intake list, has argument is a list of prescriptionID and medicineName
+  @override
   Future<List<Intake>> getIntakeList(List<Tuple2<String, String>> intakeInfo) =>
       supabase
           .from('intake')
@@ -48,6 +52,7 @@ class IntakeAPI {
           )
           .onError((error, stackTrace) => throw Exception(error));
 
+  @override
   Future<void> createIntake(Intake intake) => supabase
       .from('intake')
       .insert(
@@ -55,6 +60,7 @@ class IntakeAPI {
       )
       .onError((error, stackTrace) => throw Exception(error));
 
+  @override
   Future<void> updateIntakeDuration(
           String prescriptionID, String medicineName, Int duration) =>
       supabase
@@ -66,6 +72,7 @@ class IntakeAPI {
           .eq('medicineName', medicineName)
           .onError((error, stackTrace) => throw Exception(error));
 
+  @override
   Future<void> updateIntakeTimeOfTheDay(
           String prescriptionID, String medicineName, String timeOfTheDay) =>
       supabase
@@ -77,6 +84,7 @@ class IntakeAPI {
           .eq('medicineName', medicineName)
           .onError((error, stackTrace) => throw Exception(error));
 
+  @override
   Future<void> updateIntakeToBeTaken(
           String prescriptionID, String medicineName, Int toBeTaken) =>
       supabase
@@ -88,6 +96,7 @@ class IntakeAPI {
           .eq('medicineName', medicineName)
           .onError((error, stackTrace) => throw Exception(error));
 
+  @override
   Future<void> updateIntakeQuantity(
           String prescriptionID, String medicineName, Int quantity) =>
       supabase
@@ -100,6 +109,7 @@ class IntakeAPI {
           .onError((error, stackTrace) => throw Exception(error));
 
   //Stream of a single intake
+  @override
   Stream<Intake> streamIntake(String prescriptionID, String medicineName) =>
       supabase
           .from('intake')
@@ -107,4 +117,13 @@ class IntakeAPI {
           .eq('prescriptionID', prescriptionID)
           .eq('medicineName', medicineName)
           .map((event) => Intake.fromJson(event.first));
+
+  @override
+  Future<void> deleteIntake(String prescriptionID, String medicineName) =>
+      supabase
+          .from('intake')
+          .delete()
+          .eq('prescriptionID', prescriptionID)
+          .eq('medicineName', medicineName)
+          .onError((error, stackTrace) => throw Exception(error));
 }

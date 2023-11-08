@@ -1,13 +1,15 @@
 import 'package:models/models.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:model_api/src/medicine/service/medicine_api_service.dart';
 
-class MedicineApi {
-  const MedicineApi({
+class SupabaseMedicineApiService implements MedicineAPIService<Medicine> {
+  const SupabaseMedicineApiService({
     required this.supabase,
   });
 
   final SupabaseClient supabase;
 
+  @override
   Future<Medicine> getMedicine(String name) => supabase
       .from('medicine')
       .select<PostgrestList>()
@@ -19,6 +21,7 @@ class MedicineApi {
       )
       .onError((error, stackTrace) => throw Exception(error));
 
+  @override
   Future<List<Medicine>> getAllMedicineList() => supabase
       .from('medicine')
       .select<PostgrestList>()
@@ -29,6 +32,7 @@ class MedicineApi {
       )
       .onError((error, stackTrace) => throw Exception(error));
 
+  @override
   Future<List<Medicine>> getMedicineList(List<String> names) => supabase
       .from('medicine')
       .select<PostgrestList>()
@@ -40,6 +44,7 @@ class MedicineApi {
       )
       .onError((error, stackTrace) => throw Exception(error));
 
+  @override
   Future<void> createMedicine(Medicine medicine) => supabase
       .from('medicine')
       .insert(
@@ -48,6 +53,7 @@ class MedicineApi {
       .onError((error, stackTrace) => throw Exception(error));
 
   //For either medicine in solid or liquid form
+  @override
   Future<void> updateMedicineUnit(String name, String unit) => supabase
       .from('medicine')
       .update({
@@ -56,6 +62,7 @@ class MedicineApi {
       .eq('name', name)
       .onError((error, stackTrace) => throw Exception(error));
 
+  @override
   Future<void> deleteMedicine(String name) => supabase
       .from('medicine')
       .delete()
@@ -63,6 +70,7 @@ class MedicineApi {
       .onError((error, stackTrace) => throw Exception(error));
 
   //Stream of a single medicine
+  @override
   Stream<Medicine> streamMedicine(String name) => supabase
       .from('medicine')
       .stream(primaryKey: ['name'])
