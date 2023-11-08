@@ -1,7 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:model_api/src/prescription/service/supabase_prescription_api.dart';
-import 'package:models/models.dart';
 
 void main() {
   group('PrescriptionApi', () {
