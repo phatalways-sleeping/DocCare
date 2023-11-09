@@ -18,8 +18,9 @@ class DCHeaderBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      centerTitle: true,
       leading: IconButton(
-        icon: SvgPicture.asset(
+        icon: SvgPicture.string(
           DCSVGIcons.drawer,
           height: 24,
           width: 24,
@@ -28,6 +29,7 @@ class DCHeaderBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       title: Text(
         title,
+        textAlign: TextAlign.center,
         style: TextStyle(
           fontFamily: context.textTheme.h6BoldPoppins.fontFamily,
           fontSize: 20,
