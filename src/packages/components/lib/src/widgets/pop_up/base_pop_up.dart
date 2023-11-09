@@ -1,7 +1,6 @@
 import 'package:components/components.dart';
 import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class BasePopup extends StatelessWidget {
   const BasePopup({
@@ -42,8 +41,8 @@ class BasePopup extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Container(
-            width: (popupIconWidth ?? 100),
-            height: (popupIconHeight ?? 100),
+            width: popupIconWidth ?? 100,
+            height: popupIconHeight ?? 100,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: buttonColor,
@@ -64,7 +63,10 @@ class BasePopup extends StatelessWidget {
         ],
       ),
       actions: [
-        TextButton(
+        ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: buttonColor,
+          ),
           onPressed: () {
             Navigator.of(context).pop();
           },
