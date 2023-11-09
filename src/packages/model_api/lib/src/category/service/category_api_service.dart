@@ -1,9 +1,9 @@
 import 'package:models/models.dart';
 
-abstract class CategoryApiService {
-  Future<Category> getCategoryByName(String name);
+abstract interface class CategoryApiService<T extends Category> {
+  Future<T> getCategoryByName(String name);
 
-  Future<List<Category>> getAllCategoryList();
+  Future<List<T>> getAllCategoryList();
 
   Future<void> createCategory(Category category);
 
@@ -13,5 +13,5 @@ abstract class CategoryApiService {
 
   Future<void> deleteCategory(String name);
 
-  Stream<Category> streamCategory(String name);
+  Stream<T> streamCategory(String name);
 }

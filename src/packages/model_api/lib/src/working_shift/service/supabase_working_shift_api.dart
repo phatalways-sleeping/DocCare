@@ -2,7 +2,7 @@ import 'package:models/models.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'working_shift_api_service.dart';
 
-class WorkingShiftApi implements WorkingShiftApiService {
+class WorkingShiftApi implements WorkingShiftApiService<WorkingShift> {
   const WorkingShiftApi({
     required this.supabase,
   });

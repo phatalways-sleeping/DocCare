@@ -1,15 +1,15 @@
 import 'package:models/models.dart';
 
-abstract class WorkingShiftApiService {
-  Future<List<WorkingShift>> getWorkingShiftListByDoctorID(String doctorID);
+abstract interface class WorkingShiftApiService<T extends WorkingShift> {
+  Future<List<T>> getWorkingShiftListByDoctorID(String doctorID);
 
-  Future<List<WorkingShift>> getWorkingShiftListByDoctorID_dayOfWeek(
+  Future<List<T>> getWorkingShiftListByDoctorID_dayOfWeek(
       String doctorID, String dateOfWeek);
 
-  Future<WorkingShift> getWorkingShiftByDoctorID_startPeriodID_dayOfWeek(
+  Future<T> getWorkingShiftByDoctorID_startPeriodID_dayOfWeek(
       String doctorID, int startPeriodID, String dateOfWeek);
 
-  Future<List<WorkingShift>> getAllWorkingShiftList();
+  Future<List<T>> getAllWorkingShiftList();
 
   Future<void> createWorkingShift(WorkingShift workingShift);
 
@@ -19,6 +19,6 @@ abstract class WorkingShiftApiService {
   Future<void> deleteWorkingShift(
       String doctorID, int startPeriodID, String dateOfWeek);
 
-  Stream<WorkingShift> streamWorkingShift(
+  Stream<T> streamWorkingShift(
       String doctorID, int startPeriodID, String dateOfWeek);
 }

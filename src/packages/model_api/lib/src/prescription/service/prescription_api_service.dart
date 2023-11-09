@@ -1,9 +1,9 @@
 import 'package:models/models.dart';
 
-abstract class PrescriptionApiService {
-  Future<Prescription> getPrescriptionByID(String id);
+abstract interface class PrescriptionApiService<T extends Prescription> {
+  Future<T> getPrescriptionByID(String id);
 
-  Future<List<Prescription>> getAllPrescriptionList();
+  Future<List<T>> getAllPrescriptionList();
 
   Future<void> createPrescription(Prescription prescription);
 
@@ -11,5 +11,5 @@ abstract class PrescriptionApiService {
 
   Future<void> deletePrescription(String id);
 
-  Stream<Prescription> streamPrescription(String id);
+  Stream<T> streamPrescription(String id);
 }
