@@ -14,6 +14,8 @@ class DCOutlinedObscuredTextFormField extends StatelessWidget {
       horizontal: 8,
       vertical: 12,
     ),
+    this.heightFactor = 0.12,
+    this.widthFactor = 0.8,
     this.keyboardType,
     this.keyboardAppearance,
     this.obscuringCharacter = '•',
@@ -47,6 +49,9 @@ class DCOutlinedObscuredTextFormField extends StatelessWidget {
     this.paddingBetweenIconAndInput,
     super.key,
   });
+
+  final double heightFactor;
+  final double widthFactor;
 
   final TextAlign textAlign;
   final TextAlignVertical textAlignVertical;
@@ -83,12 +88,9 @@ class DCOutlinedObscuredTextFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseTextFormField(
-      constraints: constraints ??
-          const BoxConstraints(
-            minHeight: 48,
-            maxHeight: 50,
-            minWidth: double.infinity,
-          ),
+      constraints: constraints,
+      heightFactor: heightFactor,
+      widthFactor: widthFactor,
       iconSize: iconSize ?? 20,
       color: color ??
           context.theme.colorScheme.onSecondary, // The color of text, icon
