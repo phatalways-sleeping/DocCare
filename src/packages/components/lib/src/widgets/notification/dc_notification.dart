@@ -23,9 +23,9 @@ class DCNotification extends StatelessWidget {
           'If haveNotificationTime is true, notificationTime must not be null',
         ),
         assert(
-            heightFactor >= 0.15 &&
+            heightFactor >= 0 &&
                 heightFactor <= 1.0 &&
-                widthFactor >= 0.8 &&
+                widthFactor >= 0 &&
                 widthFactor <= 1.0,
             'heightFactor must be between 0.15 and 1.0 and widthFactor must be between 0.8 and 1.0');
 
