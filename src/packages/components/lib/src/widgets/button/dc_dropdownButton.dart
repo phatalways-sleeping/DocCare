@@ -2,8 +2,8 @@ import 'package:components/components.dart';
 import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
 
-class DropdownMenuExample extends StatefulWidget {
-  final List<String> items;
+class DropdownMenuExample<T> extends StatefulWidget {
+  final List<T> items;
   final double dropdownWidth; // New parameter for dropdown width
 
 const DropdownMenuExample({
@@ -13,30 +13,30 @@ const DropdownMenuExample({
   }) : super(key: key);
 
   @override
-  State<DropdownMenuExample> createState() => _DropdownMenuExampleState(items: items, dropdownWidth: dropdownWidth);
+  State<DropdownMenuExample<T>> createState() => _DropdownMenuExampleState<T>(items: items, dropdownWidth: dropdownWidth);
 }
 
-class _DropdownMenuExampleState extends State<DropdownMenuExample> {
-  late String dropdownValue;
+class _DropdownMenuExampleState<T> extends State<DropdownMenuExample<T>> {
+  late T dropdownValue;
   late double dropdownWidth;
 
-  _DropdownMenuExampleState({required List<String> items, required this.dropdownWidth}) {
+  _DropdownMenuExampleState({required List<T> items, required this.dropdownWidth}) {
     dropdownValue = items.first;
   }
 
   @override
   Widget build(BuildContext context) {
-    return DropdownMenu<String>(
+    return DropdownMenu<T>(
       width: dropdownWidth, 
       initialSelection: dropdownValue,
-      onSelected: (String? value) {
+      onSelected: (T? value) {
         // This is called when the user selects an item.
         setState(() {
           dropdownValue = value!;
         });
       },
-      dropdownMenuEntries: widget.items.map<DropdownMenuEntry<String>>((String value) {
-        return DropdownMenuEntry<String>(value: value, label: value);
+      dropdownMenuEntries: widget.items.map<DropdownMenuEntry<T>>((T value) {
+        return DropdownMenuEntry<T>(value: value, label: value.toString());
       }).toList(),
     );
   }
