@@ -8,7 +8,13 @@ const List<String> list = <String>['One', 'Two', 'Three', 'Four'];
 
 
 class DropdownMenuExample extends StatefulWidget {
-  const DropdownMenuExample({super.key});
+  const DropdownMenuExample({
+    this.width,
+    Key? key,
+
+  }) : super(key: key);
+
+  final double? width;
 
   @override
   State<DropdownMenuExample> createState() => _DropdownMenuExampleState();
@@ -20,6 +26,7 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
   @override
   Widget build(BuildContext context) {
     return DropdownMenu<String>(
+      width: 300,
       initialSelection: list.first,
       onSelected: (String? value) {
         // This is called when the user selects an item.
