@@ -10,6 +10,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  supabase_flutter: ^1.10.25
+  models:
+    path: ../models
 
 dev_dependencies:
   flutter_test:
