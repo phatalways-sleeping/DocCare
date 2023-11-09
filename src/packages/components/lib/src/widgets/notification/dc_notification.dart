@@ -13,8 +13,8 @@ class DCNotification extends StatelessWidget {
     required this.onPressed,
     this.notificationTime,
     this.haveNotificationTime = false,
-    this.heightFactor = 0.2,
-    this.widthFactor = 0.8,
+    this.heightFactor = 0.12,
+    this.widthFactor = 0.9,
     this.titleStyle,
     this.messageStyle,
     this.padding = const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
@@ -82,26 +82,27 @@ class DCNotification extends StatelessWidget {
           crossAxisAlignment:
               CrossAxisAlignment.start, // Align text to the left side
           children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                DefaultTextStyle.merge(
-                  style: titleStyle ??
-                      context.textTheme.h6BoldPoppins.copyWith(
-                        color: textColor,
-                        fontSize: 20,
-                      ),
-                  child: title,
-                ),
-                DefaultTextStyle.merge(
-                  style: messageStyle ??
-                      context.textTheme.h6RegularPoppins.copyWith(
-                        color: textColor,
-                        fontSize: 14,
-                      ),
-                  child: message,
-                ),
-              ],
+            Align(
+              alignment: Alignment.topLeft,
+              child: DefaultTextStyle.merge(
+                style: titleStyle ??
+                    context.textTheme.h6BoldPoppins.copyWith(
+                      color: textColor,
+                      fontSize: 20,
+                    ),
+                child: title,
+              ),
+            ),
+            Align(
+              alignment: Alignment.topLeft,
+              child: DefaultTextStyle.merge(
+                style: messageStyle ??
+                    context.textTheme.h6RegularPoppins.copyWith(
+                      color: textColor,
+                      fontSize: 14,
+                    ),
+                child: message,
+              ),
             ),
             if (haveNotificationTime)
               Row(

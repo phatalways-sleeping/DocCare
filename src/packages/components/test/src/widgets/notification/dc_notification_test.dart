@@ -16,6 +16,7 @@ void main() {
             notificationTime: DateTime(2023, 1, 1, 8, 30),
             haveNotificationTime: true,
             textColor: Colors.white,
+            heightFactor: 0.16,
             onPressed: (context) {},
           ),
         ),
