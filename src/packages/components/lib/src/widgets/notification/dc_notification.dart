@@ -15,8 +15,10 @@ class DCNotification extends StatelessWidget {
     this.haveNotificationTime = false,
     this.heightFactor = 0.2,
     this.widthFactor = 0.8,
-    this.textStyleTitle,
-    this.textStyleMessage,
+    this.titleStyle,
+    this.messageStyle,
+    this.padding = const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+    this.borderRadius = const BorderRadius.all(Radius.circular(20)),
     super.key,
   })  : assert(
           !haveNotificationTime || notificationTime != null,
@@ -27,7 +29,7 @@ class DCNotification extends StatelessWidget {
                 heightFactor <= 1.0 &&
                 widthFactor >= 0 &&
                 widthFactor <= 1.0,
-            'heightFactor must be between 0.15 and 1.0 and widthFactor must be between 0.8 and 1.0');
+            'heightFactor must be between 0 and 1.0 and widthFactor must be between 0 and 1.0');
 
   final Widget title;
   final Widget message;
@@ -37,8 +39,10 @@ class DCNotification extends StatelessWidget {
   final Color textColor;
   final double heightFactor;
   final double widthFactor;
-  final TextStyle? textStyleTitle;
-  final TextStyle? textStyleMessage;
+  final TextStyle? titleStyle;
+  final TextStyle? messageStyle;
+  final EdgeInsetsGeometry padding;
+  final BorderRadius borderRadius;
   final void Function(BuildContext context) onPressed;
 
   @override
@@ -63,43 +67,48 @@ class DCNotification extends StatelessWidget {
             }
           }),
           padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-            const EdgeInsets.all(16),
+            padding,
           ),
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
             RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: borderRadius,
             ),
           ),
         ),
         onPressed: () => onPressed(context),
         child: Column(
           mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment:
               CrossAxisAlignment.start, // Align text to the left side
           children: <Widget>[
-            DefaultTextStyle.merge(
-              style: textStyleTitle ??
-                  context.textTheme.h6BoldPoppins.copyWith(
-                    color: textColor,
-                    fontSize: 20,
-                  ),
-              child: title,
-            ),
-            const SizedBox(height: 8),
-            DefaultTextStyle.merge(
-              style: textStyleMessage ??
-                  context.textTheme.h6RegularPoppins.copyWith(
-                    color: textColor,
-                    fontSize: 14,
-                  ),
-              child: message,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                DefaultTextStyle.merge(
+                  style: titleStyle ??
+                      context.textTheme.h6BoldPoppins.copyWith(
+                        color: textColor,
+                        fontSize: 20,
+                      ),
+                  child: title,
+                ),
+                DefaultTextStyle.merge(
+                  style: messageStyle ??
+                      context.textTheme.h6RegularPoppins.copyWith(
+                        color: textColor,
+                        fontSize: 14,
+                      ),
+                  child: message,
+                ),
+              ],
             ),
             if (haveNotificationTime)
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   DefaultTextStyle.merge(
-                    style: textStyleMessage ??
+                    style: messageStyle ??
                         context.textTheme.h6RegularPoppins.copyWith(
                           color: textColor,
                           fontSize: 14,
