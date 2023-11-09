@@ -1,98 +1,29 @@
 // ignore_for_file: public_member_api_docs
 
 import 'package:models/models.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
-class SupabaseAppointmentApiService {
-  const SupabaseAppointmentApiService({
-    required this.supabase,
-  });
+abstract interface class AppointmentApiService<T extends Appointment> {
+  const AppointmentApiService();
 
-  final SupabaseClient supabase;
+  Future<void> createAppointment(Appointment appointment);
 
-  Future<void> createAppointment(Appointment appointment) => supabase
-      .from('appointment')
-      .insert(
-        appointment.toJson(),
-      )
-      .onError(
-        (error, stackTrace) => throw Exception(error),
-      );
+  Future<void> deleteAppointmentByDoctorId(String doctorId);
 
-  Future<void> deleteAppointment(String id) =>
-      supabase.from('appointment').delete().eq('id', id).onError(
-            (error, stackTrace) => throw Exception(error),
-          );
+  Future<void> deleteAppointmentByCustomerId(String customerId);
 
-  Future<Appointment> getAppointment(String id) => supabase
-      .from('appointment')
-      .select<PostgrestList>()
-      .eq('id', id)
-      .limit(1)
-      .then(
-        (value) => value.isEmpty
-            ? throw Exception(
-                'Error from getAppointment: No appointment found with id $id')
-            : Appointment.fromJson(value.first),
-      )
-      .onError(
-        (error, stackTrace) => throw Exception(error),
-      );
+  Future<List<Appointment>> getAppointmentsByDoctorId(String doctorId);
 
-  Future<List<Appointment>> getAppointments(List<String> ids) => supabase
-      .from('appointment')
-      .select<PostgrestList>()
-      .in_('id', ids)
-      .then(
-        (value) => value.isEmpty
-            ? throw Exception(
-                'Error from getAppointments: No appointments found with ids $ids',
-              )
-            : value.map(Appointment.fromJson).toList(),
-      )
-      .onError(
-        (error, stackTrace) => throw Exception(error),
-      );
+  Future<List<Appointment>> getAppointmentsByCustomerId(String customerId);
 
-  Stream<Appointment> streamAppointment(String id) =>
-      supabase.from('appointment').stream(primaryKey: ['id']).eq('id', id).map(
-            (event) => Appointment.fromJson(
-              event.first,
-            ),
-          );
+  Future<List<Appointment>> getAppointmentsByDate(DateTime date);
 
-  Future<void> updateAppointment(String id, Appointment appointment) => supabase
-      .from('appointment')
-      .update(
-        appointment.toJson(),
-      )
-      .eq('id', id)
-      .onError(
-        (error, stackTrace) => throw Exception(error),
-      );
+  Future<void> updateAppointmentByDoctorId(
+      String doctorId, Appointment appointment);
 
-  Future<void> updateRating(String id, Appointment appointment) => supabase
-      .from('appointment')
-      .update(
-        {
-          'rating': appointment.rating,
-        },
-      )
-      .eq('id', id)
-      .onError(
-        (error, stackTrace) => throw Exception(error),
-      );
+  Future<void> updateAppointmentByCustomerId(
+      String customerId, Appointment appointment);
 
-  Future<void> updateCustomerComment(String id, Appointment appointment) =>
-      supabase
-          .from('appointment')
-          .update(
-            {
-              'customer_comment': appointment.customerComment,
-            },
-          )
-          .eq('id', id)
-          .onError(
-            (error, stackTrace) => throw Exception(error),
-          );
+  Future<void> updateRating(String customerId, int rating);
+
+  Future<void> updateCustomerComment(String customerId, String customerComment);
 }
