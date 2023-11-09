@@ -2,8 +2,8 @@ import 'package:models/models.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'category_api_service.dart';
 
-class CategoryApi implements CategoryApiService<Category> {
-  const CategoryApi({
+class SupabaseCategoryApiService implements CategoryApiService<Category> {
+  const SupabaseCategoryApiService({
     required this.supabase,
   });
 

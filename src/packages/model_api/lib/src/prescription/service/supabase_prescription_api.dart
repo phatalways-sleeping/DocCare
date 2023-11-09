@@ -2,8 +2,8 @@ import 'package:models/models.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'prescription_api_service.dart';
 
-class PrescriptionApi implements PrescriptionApiService<Prescription> {
-  const PrescriptionApi({
+class SupabasePrescriptionApiService implements PrescriptionApiService<Prescription> {
+  const SupabasePrescriptionApiService({
     required this.supabase,
   });
 
