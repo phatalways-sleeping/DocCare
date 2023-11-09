@@ -15,6 +15,8 @@ abstract interface class AbsentRequestAPIService<T extends AbsentRequest> {
 
   Future<List<T>> getAbsentRequestListByDate(DateTime date);
 
+  Future<void> updateAbsentRequest(String doctorID, DateTime date, AbsentRequest absentRequest);
+  
   Future<void> updateAbsentRequestDoctorName(String doctorID, DateTime date, String doctorName);
 
   Future<void> updateAbsentRequestDateRequest(String doctorID, DateTime date, DateTime dateRequest);

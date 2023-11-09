@@ -66,6 +66,19 @@ class SupabaseAbsentRequestApiService implements AbsentRequestAPIService<AbsentR
       .onError((error, stackTrace) => throw Exception(error));
   
   @override
+  Future<void> updateAbsentRequest(String doctorID, DateTime date, AbsentRequest absentRequest) => supabase
+      .from('absentRequest')
+      .update({
+        'doctorName': absentRequest.doctorName,
+        'dateRequest': absentRequest.dateRequest,
+        'reason': absentRequest.reason,
+        'isApproved': absentRequest.isApproved,
+      })
+      .eq('doctorID', doctorID)
+      .eq('date', date)
+      .onError((error, stackTrace) => throw Exception(error));
+
+  @override
   Future<void> updateAbsentRequestDoctorName(String doctorID, DateTime date, String doctorName) => supabase
       .from('absentRequest')
       .update({
