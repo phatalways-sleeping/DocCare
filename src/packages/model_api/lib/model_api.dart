@@ -5,3 +5,5 @@ export 'src/users/service/doctor_api_service.dart';
 export 'src/users/service/patient_api_service.dart';
 export 'src/users/service/receptionist_api_service.dart';
 export 'src/users/service/user_api_service.dart';
+export 'src/statistics/service/supabase_statistics_api_service.dart';
+export 'src/absentRequest/service/supabase_absentRequest_api_service.dart';
