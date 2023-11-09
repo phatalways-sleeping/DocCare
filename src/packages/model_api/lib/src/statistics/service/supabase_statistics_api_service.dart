@@ -53,12 +53,48 @@ class SupabaseStatisticsApiService implements StatisticsAPIService<Statistics> {
       .onError((error, stackTrace) => throw Exception(error));
   
   @override
-  Future<void> updateStatistics(int id, int value,  String categoryName, String prescriptionID, String note) => supabase
+  Future<void> updateStatistics(int id, Statistics statistics) => supabase
+      .from('statistics')
+      .update({
+        'value': statistics.value,
+        'categoryName': statistics.categoryName,
+        'prescriptionID': statistics.prescriptionID,
+        'note': statistics.note,
+      })
+      .eq('id', id)
+      .onError((error, stackTrace) => throw Exception(error));
+
+  @override
+  Future<void> updateStatisticsValue(int id, int value) => supabase
       .from('statistics')
       .update({
         'value': value,
+      })
+      .eq('id', id)
+      .onError((error, stackTrace) => throw Exception(error));
+    
+  @override
+  Future<void> updateStatisticsCategoryName(int id, String categoryName) => supabase
+      .from('statistics')
+      .update({
         'categoryName': categoryName,
+      })
+      .eq('id', id)
+      .onError((error, stackTrace) => throw Exception(error));
+    
+  @override
+  Future<void> updateStatisticsPrescriptionID(int id, String prescriptionID) => supabase
+      .from('statistics')
+      .update({
         'prescriptionID': prescriptionID,
+      })
+      .eq('id', id)
+      .onError((error, stackTrace) => throw Exception(error));
+  
+  @override
+  Future<void> updateStatisticsNote(int id, String note) => supabase
+      .from('statistics')
+      .update({
         'note': note,
       })
       .eq('id', id)

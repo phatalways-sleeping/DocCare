@@ -9,11 +9,19 @@ abstract interface class StatisticsAPIService<T extends Statistics> {
 
   Future<T> getStatistics(int id);
 
-  Future<List<Statistics>> getAllStatisticsList();
+  Future<List<T>> getAllStatisticsList();
 
   Future<List<T>> getStatisticsList(String prescriptionID);
 
-  Future<void> updateStatistics(int id, int value,  String categoryName, String prescriptionID, String note);
+  Future<void> updateStatistics(int id, Statistics statistics);
+
+  Future<void> updateStatisticsValue(int id, int value);
+
+  Future<void> updateStatisticsCategoryName(int id, String categoryName);
+
+  Future<void> updateStatisticsPrescriptionID(int id, String prescriptionID);
+
+  Future<void> updateStatisticsNote(int id, String note);
 
   Stream<T> streamStatistics(int id);
 }
