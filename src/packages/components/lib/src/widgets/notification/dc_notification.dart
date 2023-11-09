@@ -13,7 +13,7 @@ class DCNotification extends StatelessWidget {
     required this.onPressed,
     this.notificationTime,
     this.haveNotificationTime = false,
-    this.heightFactor = 0.15,
+    this.heightFactor = 0.2,
     this.widthFactor = 0.8,
     this.textStyleTitle,
     this.textStyleMessage,
@@ -94,19 +94,20 @@ class DCNotification extends StatelessWidget {
                   ),
               child: message,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                DefaultTextStyle.merge(
-                  style: textStyleMessage ??
-                      context.textTheme.h6RegularPoppins.copyWith(
-                        color: textColor,
-                        fontSize: 14,
-                      ),
-                  child: Text(time),
-                ),
-              ],
-            ),
+            if (haveNotificationTime)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  DefaultTextStyle.merge(
+                    style: textStyleMessage ??
+                        context.textTheme.h6RegularPoppins.copyWith(
+                          color: textColor,
+                          fontSize: 14,
+                        ),
+                    child: Text(time),
+                  ),
+                ],
+              ),
           ],
         ),
       ),
