@@ -1,6 +1,6 @@
 import 'package:models/models.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:model_api/src/absentRequest/service/absentRequest_api_service.dart';
+import 'package:model_api/src/absent_request/service/absent_request_api_service.dart';
 
 class SupabaseAbsentRequestApiService implements AbsentRequestAPIService<AbsentRequest> {
   const SupabaseAbsentRequestApiService({
@@ -66,12 +66,42 @@ class SupabaseAbsentRequestApiService implements AbsentRequestAPIService<AbsentR
       .onError((error, stackTrace) => throw Exception(error));
   
   @override
-  Future<void> updateAbsentRequest(String doctorID, DateTime date, String doctorName, DateTime dateRequest, String? reason, bool isApproved) => supabase
+  Future<void> updateAbsentRequestDoctorName(String doctorID, DateTime date, String doctorName) => supabase
       .from('absentRequest')
       .update({
         'doctorName': doctorName,
+      })
+      .eq('doctorID', doctorID)
+      .eq('date', date)
+      .onError((error, stackTrace) => throw Exception(error));
+  
+  
+  @override
+  Future<void> updateAbsentRequestDateRequest(String doctorID, DateTime date, DateTime dateRequest) => supabase
+      .from('absentRequest')
+      .update({
         'dateRequest': dateRequest,
+      })
+      .eq('doctorID', doctorID)
+      .eq('date', date)
+      .onError((error, stackTrace) => throw Exception(error));
+  
+  
+  @override
+  Future<void> updateAbsentRequestReason(String doctorID, DateTime date, String? reason) => supabase
+      .from('absentRequest')
+      .update({
         'reason': reason,
+      })
+      .eq('doctorID', doctorID)
+      .eq('date', date)
+      .onError((error, stackTrace) => throw Exception(error));
+
+    
+  @override
+  Future<void> updateAbsentRequestIsApproved(String doctorID, DateTime date, bool isApproved) => supabase
+      .from('absentRequest')
+      .update({
         'isApproved': isApproved,
       })
       .eq('doctorID', doctorID)
