@@ -9,6 +9,7 @@ class CategoryApi implements CategoryApiService<Category> {
 
   final SupabaseClient supabase;
 
+  @override
   Future<Category> getCategoryByName(String name) => supabase
       .from('category')
       .select<PostgrestList>()
@@ -20,6 +21,7 @@ class CategoryApi implements CategoryApiService<Category> {
       )
       .onError((error, stackTrace) => throw Exception(error));
 
+  @override
   Future<List<Category>> getAllCategoryList() => supabase
       .from('category')
       .select<PostgrestList>()
@@ -30,6 +32,7 @@ class CategoryApi implements CategoryApiService<Category> {
       )
       .onError((error, stackTrace) => throw Exception(error));
 
+  @override
   Future<void> createCategory(Category Category) => supabase
       .from('category')
       .insert(
@@ -37,6 +40,7 @@ class CategoryApi implements CategoryApiService<Category> {
       )
       .onError((error, stackTrace) => throw Exception(error));
 
+  @override
   Future<void> updateCategoryDescription(String name, String description) =>
       supabase
           .from('category')
@@ -46,6 +50,7 @@ class CategoryApi implements CategoryApiService<Category> {
           .eq('name', name)
           .onError((error, stackTrace) => throw Exception(error));
 
+  @override
   Future<void> updateCategoryName(String name, String newName) => supabase
       .from('category')
       .update({
@@ -54,6 +59,7 @@ class CategoryApi implements CategoryApiService<Category> {
       .eq('name', name)
       .onError((error, stackTrace) => throw Exception(error));
 
+  @override
   Future<void> deleteCategory(String name) => supabase
       .from('category')
       .delete()
@@ -61,6 +67,7 @@ class CategoryApi implements CategoryApiService<Category> {
       .onError((error, stackTrace) => throw Exception(error));
 
   //Stream of a single Working Shift
+  @override
   Stream<Category> streamCategory(String name) => supabase
       .from('category')
       .stream(primaryKey: ['name'])

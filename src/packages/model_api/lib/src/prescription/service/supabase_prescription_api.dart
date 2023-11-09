@@ -8,7 +8,7 @@ class PrescriptionApi implements PrescriptionApiService<Prescription> {
   });
 
   final SupabaseClient supabase;
-
+  @override
   Future<Prescription> getPrescriptionByID(String id) => supabase
       .from('prescription')
       .select<PostgrestList>()
@@ -19,7 +19,7 @@ class PrescriptionApi implements PrescriptionApiService<Prescription> {
             : Prescription.fromJson(value.first),
       )
       .onError((error, stackTrace) => throw Exception(error));
-
+  @override
   Future<List<Prescription>> getAllPrescriptionList() => supabase
       .from('prescription')
       .select<PostgrestList>()
@@ -29,14 +29,14 @@ class PrescriptionApi implements PrescriptionApiService<Prescription> {
             : value.map(Prescription.fromJson).toList(),
       )
       .onError((error, stackTrace) => throw Exception(error));
-
+  @override
   Future<void> createPrescription(Prescription prescription) => supabase
       .from('prescription')
       .insert(
         prescription.toJson(),
       )
       .onError((error, stackTrace) => throw Exception(error));
-
+  @override
   Future<void> updatePrescriptionDone(
           String id, bool done, DateTime dateDone) =>
       supabase
@@ -47,7 +47,7 @@ class PrescriptionApi implements PrescriptionApiService<Prescription> {
           })
           .eq('id', id)
           .onError((error, stackTrace) => throw Exception(error));
-
+  @override
   Future<void> deletePrescription(String id) => supabase
       .from('prescription')
       .delete()
@@ -55,6 +55,7 @@ class PrescriptionApi implements PrescriptionApiService<Prescription> {
       .onError((error, stackTrace) => throw Exception(error));
 
   //Stream of a single Working Shift
+  @override
   Stream<Prescription> streamPrescription(String id) => supabase
       .from('prescription')
       .stream(primaryKey: ['id'])

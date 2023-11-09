@@ -8,7 +8,7 @@ class WorkingShiftApi implements WorkingShiftApiService<WorkingShift> {
   });
 
   final SupabaseClient supabase;
-
+  @override
   Future<List<WorkingShift>> getWorkingShiftListByDoctorID(String doctorID) =>
       supabase
           .from('workingShift')
@@ -21,7 +21,7 @@ class WorkingShiftApi implements WorkingShiftApiService<WorkingShift> {
                 : value.map(WorkingShift.fromJson).toList(),
           )
           .onError((error, stackTrace) => throw Exception(error));
-
+  @override
   Future<List<WorkingShift>> getWorkingShiftListByDoctorID_dayOfWeek(
           String doctorID, String dateOfWeek) =>
       supabase
@@ -36,7 +36,7 @@ class WorkingShiftApi implements WorkingShiftApiService<WorkingShift> {
                 : value.map(WorkingShift.fromJson).toList(),
           )
           .onError((error, stackTrace) => throw Exception(error));
-
+  @override
   Future<WorkingShift> getWorkingShiftByDoctorID_startPeriodID_dayOfWeek(
           String doctorID, int startPeriodID, String dateOfWeek) =>
       supabase
@@ -52,7 +52,7 @@ class WorkingShiftApi implements WorkingShiftApiService<WorkingShift> {
                 : WorkingShift.fromJson(value.first),
           )
           .onError((error, stackTrace) => throw Exception(error));
-
+  @override
   Future<List<WorkingShift>> getAllWorkingShiftList() => supabase
       .from('workingShift')
       .select<PostgrestList>()
@@ -62,14 +62,14 @@ class WorkingShiftApi implements WorkingShiftApiService<WorkingShift> {
             : value.map(WorkingShift.fromJson).toList(),
       )
       .onError((error, stackTrace) => throw Exception(error));
-
+  @override
   Future<void> createWorkingShift(WorkingShift workingShift) => supabase
       .from('workingShift')
       .insert(
         workingShift.toJson(),
       )
       .onError((error, stackTrace) => throw Exception(error));
-
+  @override
   Future<void> updateWorkingShiftPeriodID(String doctorID, int startPeriodID,
           String dateOfWeek, int newStartPeriodID, int newEndPeriodID) =>
       supabase
@@ -82,7 +82,7 @@ class WorkingShiftApi implements WorkingShiftApiService<WorkingShift> {
           .eq('dateOfWeek', dateOfWeek)
           .eq('startPeriodID', startPeriodID)
           .onError((error, stackTrace) => throw Exception(error));
-
+  @override
   Future<void> deleteWorkingShift(
           String doctorID, int startPeriodID, String dateOfWeek) =>
       supabase
@@ -94,6 +94,7 @@ class WorkingShiftApi implements WorkingShiftApiService<WorkingShift> {
           .onError((error, stackTrace) => throw Exception(error));
 
   //Stream of a single Working Shift
+  @override
   Stream<WorkingShift> streamWorkingShift(
           String doctorID, int startPeriodID, String dateOfWeek) =>
       supabase
