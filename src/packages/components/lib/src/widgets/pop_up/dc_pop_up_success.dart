@@ -1,65 +1,39 @@
 import 'package:components/components.dart';
 import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
+import 'package:components/src/widgets/pop_up/base_pop_up.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class DCPopupSuccess extends StatelessWidget {
   const DCPopupSuccess({
+    Key? key,
     required this.title,
     required this.message,
     required this.buttonText,
-    super.key,
-  });
+    this.iconWidth,
+    this.iconHeight,
+  }) : super(key: key);
 
   final String title;
   final String message;
   final String buttonText;
+  final double? iconWidth;
+  final double? iconHeight;
 
   @override
   Widget build(BuildContext context) {
     //Center everything in the middle column using Alert Dialog
-    return AlertDialog(
-      title: Text(
-        title,
-        textAlign: TextAlign.center,
+    return BasePopup(
+      title: title,
+      message: message,
+      buttonText: buttonText,
+      buttonColor: context.colorScheme.surface,
+      popupIcon: SvgPicture.string(
+        DCSVGIcons.success,
+        fit: BoxFit.cover,
+        width: iconHeight ?? 100,
+        height: iconWidth ?? 100,
       ),
-      titleTextStyle: TextStyle(
-        fontFamily: context.textTheme.h6BoldPoppins.fontFamily,
-        fontSize: 20,
-        color: context.colorScheme.primary,
-      ),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          // Image.asset(
-          //   'images/thumbs-up.png',
-          //   height: 100,
-          //   width: 100,
-          // ),
-          Text(
-            message,
-            style: TextStyle(
-              fontFamily: context.textTheme.h6BoldPoppins.fontFamily,
-              color: context.colorScheme.primary,
-            ),
-            textAlign: TextAlign.center,
-          ),
-        ],
-      ),
-      actions: [
-        TextButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          child: Text(
-            buttonText,
-            style: TextStyle(
-              fontFamily: context.textTheme.h6BoldPoppins.fontFamily,
-              color: context.colorScheme.primary,
-            ),
-          ),
-        ),
-      ],
-      actionsAlignment: MainAxisAlignment.center,
     );
   }
 }
