@@ -14,6 +14,8 @@ class DCOutlinedWithHeadingTextFormField extends StatelessWidget {
       horizontal: 8,
       vertical: 12,
     ),
+    this.heightFactor = 0.12,
+    this.widthFactor = 0.8,
     this.useObscuredTextFormField = false,
     this.gapBetweenHeadingAndInput = 8,
     this.headingColor,
@@ -57,6 +59,9 @@ class DCOutlinedWithHeadingTextFormField extends StatelessWidget {
               (prefixIcon == null && prefixIconTooltip == null),
           'Cannot use prefix icon and tooltip with obscured text form field',
         );
+
+  final double heightFactor;
+  final double widthFactor;
 
   final bool useObscuredTextFormField;
 
@@ -107,91 +112,94 @@ class DCOutlinedWithHeadingTextFormField extends StatelessWidget {
       children: [
         DefaultTextStyle.merge(
           style: context.textTheme.h4ExtraBoldPoppins.copyWith(
-            color:
-                headingColor ?? borderColor ?? context.colorScheme.secondary,
+            color: headingColor ?? borderColor ?? context.colorScheme.secondary,
           ),
           child: heading,
         ),
-        SizedBox(height: gapBetweenHeadingAndInput),
+        SizedBox(
+          height: gapBetweenHeadingAndInput,
+        ),
         if (useObscuredTextFormField)
-          DCOutlinedObscuredTextFormField(
-            constraints: textFormFieldConstraints ??
-                const BoxConstraints(
-                  minHeight: 48,
-                  maxHeight: 50,
-                  minWidth: double.infinity,
-                ),
-            iconSize: iconSize ?? 20,
-            color: color ??
-                context
-                    .theme.colorScheme.onSecondary, // The color of text, icon
-            textAlign: textAlign,
-            textAlignVertical: textAlignVertical,
-            textCapitalization: textCapitalization,
-            keyboardType: keyboardType,
-            keyboardAppearance: keyboardAppearance,
-            obscuringCharacter: obscuringCharacter,
-            onChanged: onChanged,
-            maxLength: maxLength,
-            minLines: minLines,
-            maxLines: maxLines,
-            initialText: initialText,
-            helperText: helperText,
-            hintText: hintText,
-            suffixIcon: suffixIcon,
-            onSuffixIconPressed: onSuffixIconPressed,
-            suffixIconTooltip: suffixIconTooltip,
-            onlyShowIconOnFocus: onlyShowIconOnFocus,
-            validator: validator,
-            enabled: enabled,
-            paddingBetweenIconAndInput: paddingBetweenIconAndInput,
-
-            contentPadding: contentPadding,
+          LimitedBox(
+            maxHeight: context.height * heightFactor,
+            maxWidth: context.width,
+            child: DCOutlinedObscuredTextFormField(
+              constraints: textFormFieldConstraints,
+              heightFactor: 1,
+              widthFactor: widthFactor,
+              iconSize: iconSize ?? 20,
+              color: color ??
+                  context
+                      .theme.colorScheme.onSecondary, // The color of text, icon
+              textAlign: textAlign,
+              textAlignVertical: textAlignVertical,
+              textCapitalization: textCapitalization,
+              keyboardType: keyboardType,
+              keyboardAppearance: keyboardAppearance,
+              obscuringCharacter: obscuringCharacter,
+              onChanged: onChanged,
+              maxLength: maxLength,
+              minLines: minLines,
+              maxLines: maxLines,
+              initialText: initialText,
+              helperText: helperText,
+              hintText: hintText,
+              suffixIcon: suffixIcon,
+              onSuffixIconPressed: onSuffixIconPressed,
+              suffixIconTooltip: suffixIconTooltip,
+              onlyShowIconOnFocus: onlyShowIconOnFocus,
+              validator: validator,
+              enabled: enabled,
+              paddingBetweenIconAndInput: paddingBetweenIconAndInput,
+          
+              contentPadding: contentPadding,
+            ),
           )
         else
-          BaseTextFormField(
-            constraints: textFormFieldConstraints ??
-                const BoxConstraints(
-                  minHeight: 48,
-                  maxHeight: 50,
-                  minWidth: double.infinity,
+          LimitedBox(
+            maxHeight: context.height * heightFactor,
+            maxWidth: context.width,
+            child: BaseTextFormField(
+              constraints: textFormFieldConstraints,
+              heightFactor: 1,
+              widthFactor: widthFactor,
+              iconSize: iconSize ?? 20,
+              color: color ??
+                  context
+                      .theme.colorScheme.onSecondary, // The color of text, icon
+              textAlign: textAlign,
+              textAlignVertical: textAlignVertical,
+              textCapitalization: textCapitalization,
+              keyboardType: keyboardType,
+              keyboardAppearance: keyboardAppearance,
+              obscuringCharacter: obscuringCharacter,
+              onChanged: onChanged,
+              maxLength: maxLength,
+              minLines: minLines,
+              maxLines: maxLines,
+              initialText: initialText,
+              helperText: helperText,
+              hintText: hintText,
+              prefixIcon: prefixIcon,
+              suffixIcon: suffixIcon,
+              onPrefixIconPressed: onPrefixIconPressed,
+              onSuffixIconPressed: onSuffixIconPressed,
+              prefixIconTooltip: prefixIconTooltip,
+              suffixIconTooltip: suffixIconTooltip,
+              onlyShowIconOnFocus: onlyShowIconOnFocus,
+              validator: validator,
+              obscureMode: obscureMode,
+              enabled: enabled,
+              paddingBetweenIconAndInput: paddingBetweenIconAndInput,
+              inputBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(borderRadius),
+                borderSide: BorderSide(
+                  color: borderColor ?? context.theme.colorScheme.secondary,
+                  width: borderWidth,
                 ),
-            iconSize: iconSize ?? 20,
-            color: color ??
-                context
-                    .theme.colorScheme.onSecondary, // The color of text, icon
-            textAlign: textAlign,
-            textAlignVertical: textAlignVertical,
-            textCapitalization: textCapitalization,
-            keyboardType: keyboardType,
-            keyboardAppearance: keyboardAppearance,
-            obscuringCharacter: obscuringCharacter,
-            onChanged: onChanged,
-            maxLength: maxLength,
-            minLines: minLines,
-            maxLines: maxLines,
-            initialText: initialText,
-            helperText: helperText,
-            hintText: hintText,
-            prefixIcon: prefixIcon,
-            suffixIcon: suffixIcon,
-            onPrefixIconPressed: onPrefixIconPressed,
-            onSuffixIconPressed: onSuffixIconPressed,
-            prefixIconTooltip: prefixIconTooltip,
-            suffixIconTooltip: suffixIconTooltip,
-            onlyShowIconOnFocus: onlyShowIconOnFocus,
-            validator: validator,
-            obscureMode: obscureMode,
-            enabled: enabled,
-            paddingBetweenIconAndInput: paddingBetweenIconAndInput,
-            inputBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(borderRadius),
-              borderSide: BorderSide(
-                color: borderColor ?? context.theme.colorScheme.secondary,
-                width: borderWidth,
               ),
+              contentPadding: contentPadding,
             ),
-            contentPadding: contentPadding,
           ),
       ],
     );
