@@ -1,6 +1,7 @@
 /// Package for A.P.I related operations on models
 library model_api;
 
+
 // Absent Request
 export 'src/absent_request/service/absent_request_api_service.dart';
 export 'src/absent_request/service/supabase_absent_request_api_service.dart';
@@ -25,15 +26,16 @@ export 'src/users/service/supabase_patient_api_service.dart';
 export 'src/users/service/supabase_receptionist_api_service.dart';
 export 'src/users/service/user_api_service.dart';
 // Appointment
-
+export 'src/appointment/service/appointment_api_service.dart';
+export 'src/appointment/service/supabase_appointment_api_service.dart';
 
 // Working Shift
 export 'src/working_shift/service/supabase_working_shift_api.dart';
 export 'src/working_shift/service/working_shift_api_service.dart';
 
 // Specialization
-// export 'src/specialization/service/specialization_api_service.dart';
-// export 'src/specialization/service/supabase_specialization_api_service.dart';
+export 'src/specialization/service/specialization_api_service.dart';
+export 'src/specialization/service/supabase_specialization_api_service.dart';
 
 
 
