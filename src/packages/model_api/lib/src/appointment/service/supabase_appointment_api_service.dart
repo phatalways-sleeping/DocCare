@@ -4,7 +4,8 @@ import 'package:model_api/src/appointment/service/appointment_api_service.dart';
 import 'package:models/models.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-class SupabaseAppointmentApiService implements AppointmentApiService {
+class SupabaseAppointmentApiService
+    implements AppointmentApiService<Appointment> {
   const SupabaseAppointmentApiService({
     required this.supabase,
   });

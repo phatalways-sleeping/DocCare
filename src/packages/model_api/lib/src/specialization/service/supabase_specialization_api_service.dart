@@ -4,7 +4,8 @@ import 'package:model_api/src/specialization/service/specialization_api_service.
 import 'package:models/models.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-class SupabaseSpecializationApiService implements SpecializationApiService {
+class SupabaseSpecializationApiService
+    implements SpecializationApiService<Specialization> {
   const SupabaseSpecializationApiService({
     required this.supabase,
   });

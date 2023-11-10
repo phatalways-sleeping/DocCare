@@ -2,7 +2,7 @@
 
 import 'package:models/models.dart';
 
-abstract class SpecializationApiService<T extends Specialization> {
+abstract interface class SpecializationApiService<T extends Specialization> {
   const SpecializationApiService();
 
   Future<void> createSpecialization(Specialization specialization);
