@@ -2,25 +2,25 @@ import 'package:components/components.dart';
 import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
 
-class DropdownMenuExample<T> extends StatefulWidget {
+class DCDropdownButton<T> extends StatefulWidget {
   final List<T> items;
   final double dropdownWidth; // New parameter for dropdown width
 
-const DropdownMenuExample({
+const DCDropdownButton({
     required this.items,
     this.dropdownWidth = 200.0, // Default dropdown width if not provided
     Key? key,
   }) : super(key: key);
 
   @override
-  State<DropdownMenuExample<T>> createState() => _DropdownMenuExampleState<T>(items: items, dropdownWidth: dropdownWidth);
+  State<DCDropdownButton<T>> createState() => _DropdownButtonState<T>(items: items, dropdownWidth: dropdownWidth);
 }
 
-class _DropdownMenuExampleState<T> extends State<DropdownMenuExample<T>> {
+class _DropdownButtonState<T> extends State<DCDropdownButton<T>> {
   late T dropdownValue;
   late double dropdownWidth;
 
-  _DropdownMenuExampleState({required List<T> items, required this.dropdownWidth}) {
+  _DropdownButtonState({required List<T> items, required this.dropdownWidth}) {
     dropdownValue = items.first;
   }
 
