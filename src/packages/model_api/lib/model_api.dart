@@ -5,6 +5,9 @@ library model_api;
 // Absent Request
 export 'src/absent_request/service/absent_request_api_service.dart';
 export 'src/absent_request/service/supabase_absent_request_api_service.dart';
+// Appointment
+export 'src/appointment/service/appointment_api_service.dart';
+export 'src/appointment/service/supabase_appointment_api_service.dart';
 // Category
 export 'src/category/service/category_api_service.dart';
 export 'src/category/service/supabase_category_api_service.dart';
@@ -17,6 +20,9 @@ export 'src/medicine/service/supabase_medicine_api_service.dart';
 // Prescription
 export 'src/prescription/service/prescription_api_service.dart';
 export 'src/prescription/service/supabase_prescription_api.dart';
+// Specialization
+export 'src/specialization/service/specialization_api_service.dart';
+export 'src/specialization/service/supabase_specialization_api_service.dart';
 // Statistics
 export 'src/statistics/service/statistics_api_service.dart';
 export 'src/statistics/service/supabase_statistics_api_service.dart';
@@ -25,17 +31,9 @@ export 'src/users/service/supabase_doctor_api_service.dart';
 export 'src/users/service/supabase_patient_api_service.dart';
 export 'src/users/service/supabase_receptionist_api_service.dart';
 export 'src/users/service/user_api_service.dart';
-// Appointment
-export 'src/appointment/service/appointment_api_service.dart';
-export 'src/appointment/service/supabase_appointment_api_service.dart';
-
 // Working Shift
 export 'src/working_shift/service/supabase_working_shift_api.dart';
 export 'src/working_shift/service/working_shift_api_service.dart';
-
-// Specialization
-export 'src/specialization/service/specialization_api_service.dart';
-export 'src/specialization/service/supabase_specialization_api_service.dart';
 
 
 

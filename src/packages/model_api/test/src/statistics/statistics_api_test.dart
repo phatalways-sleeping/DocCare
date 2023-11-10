@@ -1,12 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:model_api/src/statistics/service/supabase_statistics_api_service.dart';
+// import 'package:supabase_flutter/supabase_flutter.dart';
 
 
 void main() {
   group('StatisticsApi', () {
     // Create a Supabase instance
-    final supabase = Supabase.instance.client;
+    // final supabase = Supabase.instance.client;
 
 
 
