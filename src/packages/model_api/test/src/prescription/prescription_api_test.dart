@@ -1,16 +1,16 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:model_api/src/prescription/service/supabase_prescription_api.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() {
   group('PrescriptionApi', () {
     // Create a Supabase instance
     final supabase = Supabase.instance.client;
-    final prescriptionApi = PrescriptionApi(supabase: supabase);
+    final prescriptionApi = SupabasePrescriptionApiService(supabase: supabase);
 
     test('Initialize Supabase', () {
       // Can be created with a Supabase instance
-      expect(PrescriptionApi(supabase: supabase), isNotNull);
+      expect(SupabasePrescriptionApiService(supabase: supabase), isNotNull);
     });
 
     test('Initialize Prescription API', () {

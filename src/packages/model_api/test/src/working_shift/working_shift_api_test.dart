@@ -6,11 +6,11 @@ void main() {
   group('WorkingShiftApi', () {
     //Creat a supabase instance
     final supabase = Supabase.instance.client;
-    final workingShiftApi = WorkingShiftApi(supabase: supabase);
+    final workingShiftApi = SupabaseWorkingShiftApiService(supabase: supabase);
 
     test('Initialize Supabase', () {
       //Can be created with a supabase instance
-      expect(WorkingShiftApi(supabase: supabase), isNotNull);
+      expect(SupabaseWorkingShiftApiService(supabase: supabase), isNotNull);
     });
     // Initialize the WorkingShiftApi with the Supabase client
 
