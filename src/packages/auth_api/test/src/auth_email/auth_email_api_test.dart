@@ -1,4 +1,4 @@
-import 'package:auth_api/src/auth_email/auth_email_api.dart';
+import 'package:auth_api/src/auth_email/service/supabase_auth_email_api_service.dart';
 import 'package:env_flutter/env_flutter.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -6,14 +6,14 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 void main() {
   group('AuthApi Tests', () {
     late SupabaseClient supabase;
-    late AuthApi authApi;
+    late SupabaseAuthEmailApiService authApi;
     setUp(() async {
       await dotenv.load();
       String supabaseUrl = dotenv.get('SUPABASE_URL');
       String supabaseAnonKey = dotenv.get('SUPABASE_ANON_KEY');
       // Initialize SupabaseClient for testing (replace with actual configurations)
       supabase = SupabaseClient(supabaseUrl, supabaseAnonKey);
-      authApi = AuthApi(supabase: supabase);
+      authApi = SupabaseAuthEmailApiService(supabase: supabase);
     });
 
     test('Sign up with email and password', () async {
