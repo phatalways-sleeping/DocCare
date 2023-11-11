@@ -1,11 +1,5 @@
-import 'package:supabase_flutter/supabase_flutter.dart';
-
 abstract interface class AuthEmailApiService {
-  const AuthEmailApiService({
-    required this.supabase,
-  });
-
-  final SupabaseClient supabase;
+  const AuthEmailApiService();
 
   // Sign up with email and password
   Future<void> signUpWithEmailPassword(String email, String password);
