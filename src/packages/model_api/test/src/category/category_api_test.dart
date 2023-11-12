@@ -1,27 +1,22 @@
 import 'package:flutter_test/flutter_test.dart';
-// import 'package:supabase_flutter/supabase_flutter.dart';
-
+import 'package:model_api/src/category/service/supabase_category_api_service.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() {
-  group('StatisticsApi', () {
+  group('CategoryApi', () {
     // Create a Supabase instance
-    // final supabase = Supabase.instance.client;
+    final supabase = Supabase.instance.client;
+    final categoryApi = SupabaseCategoryApiService(supabase: supabase);
 
+    test('Initialize Supabase', () {
+      // Can be created with a Supabase instance
+      expect(SupabaseCategoryApiService(supabase: supabase), isNotNull);
+    });
 
-
-
-    
-    // final statisticsApi = StatisticsApi(supabase: supabase);
-
-    // test('Initialize Supabase', () {
-    //   // Can be created with a Supabase instance
-    //   expect(StatisticsApi(supabase: supabase), isNotNull);
-    // });
-
-    // test('Initialize Statistics API', () {
-    //   // The StatisticsApi should be created with a Supabase instance
-    //   expect(statisticsApi, isNotNull);
-    // });
+    test('Initialize Category API', () {
+      // The CategoryApi should be created with a Supabase instance
+      expect(categoryApi, isNotNull);
+    });
 
     // // This test may change Database
     // test('Create and Retrieve Category', () async {
