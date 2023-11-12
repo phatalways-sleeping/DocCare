@@ -10,7 +10,7 @@ void main() {
           home: Scaffold(
             body: DCButton(
               key: Key('myButton'),
-              onTap: () {}, // Provide a simple empty callback for testing
+              onPressed: () {}, // Provide a simple empty callback for testing
               text: 'Press Me',
             ),
           ),
