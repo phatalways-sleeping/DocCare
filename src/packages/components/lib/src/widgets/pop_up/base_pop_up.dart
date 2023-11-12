@@ -67,24 +67,29 @@ class BasePopup extends StatelessWidget {
           //If has icon size, setup size, else don't do anything
           Flexible(
             //scale the background circle to be a bit bigger than the icon
-            child: FractionallySizedBox(
-              widthFactor: 0.5,
-              heightFactor: 0.5,
-              child: Container(
-                width: popupIconHeight,
-                height: popupIconWidth,
-                decoration: BoxDecoration(
-                  color: iconBackgroundColor ?? context.colorScheme.background,
-                  shape: BoxShape.circle,
-                ),
-                child: Transform.scale(
-                  scale: 2,
-                  child: Center(
-                    child: popupIcon ?? Container(),
+            child: (popupIcon == null)
+                ? FractionallySizedBox(
+                    heightFactor: 0.1,
+                  )
+                : FractionallySizedBox(
+                    widthFactor: 0.5,
+                    heightFactor: 0.5,
+                    child: Container(
+                      width: popupIconHeight,
+                      height: popupIconWidth,
+                      decoration: BoxDecoration(
+                        color: iconBackgroundColor ??
+                            context.colorScheme.background,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Transform.scale(
+                        scale: 2,
+                        child: Center(
+                          child: popupIcon ?? Container(),
+                        ),
+                      ),
+                    ),
                   ),
-                ),
-              ),
-            ),
           ),
           //Set up message with message alignment, message text size and message text color
           Column(
