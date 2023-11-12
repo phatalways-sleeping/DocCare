@@ -67,15 +67,17 @@ class BasePopup extends StatelessWidget {
           Flexible(
             //scale the background circle to be a bit bigger than the icon
             child: FractionallySizedBox(
+              widthFactor: 0.5,
+              heightFactor: 0.5,
               child: Container(
                 width: popupIconHeight,
                 height: popupIconWidth,
                 decoration: BoxDecoration(
-                  color: iconBackgroundColor ?? context.colorScheme.primary,
+                  color: iconBackgroundColor ?? context.colorScheme.background,
                   shape: BoxShape.circle,
                 ),
                 child: Transform.scale(
-                  scale: 0.75,
+                  scale: 2,
                   child: Center(
                     child: popupIcon ?? Container(),
                   ),
@@ -140,8 +142,8 @@ class BasePopup extends StatelessWidget {
                       color: buttonsTextColors ?? context.colorScheme.primary,
                       fontSize: buttonsTextSize ?? 16,
                     ),
-                    textAlign: titleAlignment ?? TextAlign.center,
-                    child: title ?? Container(),
+                    textAlign: TextAlign.center,
+                    child: buttonsText[index],
                   ),
                 ),
               ),

@@ -7,33 +7,77 @@ import 'package:flutter_svg/flutter_svg.dart';
 class DCPopupSuccess extends StatelessWidget {
   const DCPopupSuccess({
     Key? key,
-    required this.title,
     required this.message,
     required this.buttonText,
+    this.messageTextSize,
+    this.messageAlignment,
+    this.messageTextColor,
+    this.title,
+    this.titleTextSize,
+    this.titleAlignment,
+    this.titleTextColor,
     this.iconWidth,
     this.iconHeight,
+    this.iconBackgroundColor,
+    this.buttonsWidth,
+    this.buttonsHeight,
+    this.buttonsColor,
+    this.buttonsTextSize,
+    this.buttonsTextColors,
+    this.onPopupButtonClicked,
   }) : super(key: key);
 
-  final String title;
-  final String message;
-  final String buttonText;
+  final Widget? title;
+  final double? titleTextSize;
+  final TextAlign? titleAlignment;
+  final Color? titleTextColor;
+
+  final List<Widget> message;
+  final List<Color>? messageTextColor;
+  final List<double>? messageTextSize;
+  final List<TextAlign>? messageAlignment;
+
   final double? iconWidth;
   final double? iconHeight;
+  final Color? iconBackgroundColor;
+
+  final List<Text> buttonText;
+  final List<Color>? buttonsColor;
+  final double? buttonsWidth;
+  final double? buttonsHeight;
+  final double? buttonsTextSize;
+  final Color? buttonsTextColors;
+
+  final List<Function>? onPopupButtonClicked;
 
   @override
   Widget build(BuildContext context) {
     //Center everything in the middle column using Alert Dialog
     return BasePopup(
-      title: title,
       message: message,
-      buttonText: buttonText,
-      buttonColor: context.colorScheme.surface,
+      messageTextColor: messageTextColor,
+      messageTextSize: messageTextSize,
+      messageAlignment: messageAlignment,
+      title: title,
+      titleTextSize: titleTextSize,
+      titleAlignment: titleAlignment,
+      titleTextColor: titleTextColor,
+      buttonsText: buttonText,
+      buttonsColor: buttonsColor,
+      buttonsWidth: buttonsWidth,
+      buttonsHeight: buttonsHeight,
+      buttonsTextSize: buttonsTextSize,
+      buttonsTextColors: buttonsTextColors,
       popupIcon: SvgPicture.string(
         DCSVGIcons.success,
         fit: BoxFit.cover,
-        width: iconHeight ?? 100,
-        height: iconWidth ?? 100,
+        width: iconHeight,
+        height: iconWidth,
       ),
+      popupIconWidth: iconWidth,
+      popupIconHeight: iconHeight,
+      iconBackgroundColor: iconBackgroundColor ?? context.colorScheme.primary,
+      onPopupButtonClicked: onPopupButtonClicked,
     );
   }
 }
