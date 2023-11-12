@@ -55,6 +55,7 @@ class BasePopup extends StatelessWidget {
         style: context.textTheme.h4ExtraBoldPoppins.copyWith(
           color: titleTextColor ?? context.colorScheme.primary,
           fontSize: titleTextSize ?? 24,
+          fontWeight: FontWeight.bold,
         ),
         textAlign: titleAlignment ?? TextAlign.center,
         child: title ?? Container(),
