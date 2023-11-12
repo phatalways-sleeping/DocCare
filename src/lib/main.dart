@@ -1,9 +1,10 @@
+import 'package:components/components.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:src/firebase_options.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:env_flutter/env_flutter.dart';
-import 'package:components/src/widgets/header_bar/dc_header_bar.dart';
+import 'package:components/src/widgets/header_bar/dc_customer_header_bar.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -101,7 +102,8 @@ class _MyHomePageState extends State<MyHomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
-      appBar: const DCHeaderBar(title: "DocCare"),
+      appBar: DCCustomerHeaderBar(
+          title: "DocCare", iconType: HeaderIconType.logout),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.

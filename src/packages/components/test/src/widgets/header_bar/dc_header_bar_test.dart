@@ -1,4 +1,5 @@
-import 'package:components/src/widgets/header_bar/dc_header_bar.dart';
+import 'package:components/components.dart';
+import 'package:components/src/widgets/header_bar/dc_customer_header_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -7,14 +8,15 @@ void main() {
     testWidgets('Render DCHeaderBar', (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
-          home: DCHeaderBar(
+          home: BaseHeaderBar(
             title: 'Test Title',
-            onDrawerPressed: () {}, // Mock callback
+            iconType: HeaderIconType.back,
+            onPressed: () {}, // Mock callback
             onNotificationPressed: () {}, // Mock callback
           ),
         ),
       );
-      expect(find.byType(DCHeaderBar), findsOneWidget);
+      expect(find.byType(DCCustomerHeaderBar), findsOneWidget);
 
       expect(find.text('Test Title'), findsOneWidget);
 
@@ -27,9 +29,10 @@ void main() {
 
       await tester.pumpWidget(
         MaterialApp(
-          home: DCHeaderBar(
+          home: BaseHeaderBar(
             title: 'Test Title',
-            onDrawerPressed: () {
+            iconType: HeaderIconType.back,
+            onPressed: () {
               drawerCallbackTriggered = true;
             },
             onNotificationPressed: () {}, // Mock callback
@@ -50,9 +53,10 @@ void main() {
 
       await tester.pumpWidget(
         MaterialApp(
-          home: DCHeaderBar(
+          home: BaseHeaderBar(
             title: 'Test Title',
-            onDrawerPressed: () {}, // Mock callback
+            iconType: HeaderIconType.back,
+            onPressed: () {}, // Mock callback
             onNotificationPressed: () {
               notificationCallbackTriggered = true;
             },
