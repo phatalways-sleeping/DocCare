@@ -83,7 +83,7 @@ class BasePopup extends StatelessWidget {
                         shape: BoxShape.circle,
                       ),
                       child: Transform.scale(
-                        scale: 2,
+                        scale: 3,
                         child: Center(
                           child: popupIcon ?? Container(),
                         ),

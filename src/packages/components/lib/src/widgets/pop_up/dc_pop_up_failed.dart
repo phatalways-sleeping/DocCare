@@ -56,7 +56,7 @@ class DCPopupFailed extends StatelessWidget {
           style: context.textTheme.h4BoldPoppins.copyWith(
             fontSize: messageTextSize ?? 16,
             fontWeight: FontWeight.normal,
-            color: messageTextColor ?? context.colorScheme.onBackground,
+            color: messageTextColor ?? const Color.fromRGBO(103, 114, 148, 1),
           ),
         ),
       ],
@@ -77,8 +77,6 @@ class DCPopupFailed extends StatelessWidget {
       buttonsTextColors: buttonsTextColors ?? context.colorScheme.onBackground,
       popupIcon: Flexible(
         child: FractionallySizedBox(
-          widthFactor: 0.35,
-          heightFactor: 0.25,
           child: SvgPicture.string(
             DCSVGIcons.error,
             fit: BoxFit.cover,

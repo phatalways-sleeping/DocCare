@@ -60,7 +60,7 @@ class DCPopupSuccess extends StatelessWidget {
       ],
       messageTextColor: [
         boldMessageTextColor ?? context.colorScheme.onBackground,
-        messageTextColor ?? context.colorScheme.onBackground,
+        messageTextColor ?? const Color.fromRGBO(103, 114, 148, 1),
       ],
       messageTextSize: [boldMessageTextSize ?? 24, messageTextSize ?? 16],
       buttonsText: [
@@ -75,8 +75,6 @@ class DCPopupSuccess extends StatelessWidget {
       buttonsTextColors: buttonsTextColors ?? context.colorScheme.background,
       popupIcon: Flexible(
         child: FractionallySizedBox(
-          widthFactor: 0.35,
-          heightFactor: 0.25,
           child: SvgPicture.string(
             DCSVGIcons.success,
             fit: BoxFit.cover,
