@@ -1,24 +1,19 @@
 import 'package:components/components.dart';
-import 'package:components/src/widgets/pop_up/base_pop_up.dart';
 import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
+import 'package:components/src/widgets/pop_up/base_pop_up.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class DCPopupFailed extends StatelessWidget {
   const DCPopupFailed({
     Key? key,
+    required this.boldMessage,
     required this.message,
     required this.buttonText,
+    this.boldMessageTextSize,
+    this.boldMessageTextColor,
     this.messageTextSize,
-    this.messageAlignment,
     this.messageTextColor,
-    this.title,
-    this.titleTextSize,
-    this.titleAlignment,
-    this.titleTextColor,
-    this.iconWidth,
-    this.iconHeight,
-    this.iconBackgroundColor,
     this.buttonsWidth,
     this.buttonsHeight,
     this.buttonsColor,
@@ -27,57 +22,71 @@ class DCPopupFailed extends StatelessWidget {
     this.onPopupButtonClicked,
   }) : super(key: key);
 
-  final Widget? title;
-  final double? titleTextSize;
-  final TextAlign? titleAlignment;
-  final Color? titleTextColor;
+  final String boldMessage;
+  final Color? boldMessageTextColor;
+  final double? boldMessageTextSize;
+  final String message;
+  final Color? messageTextColor;
+  final double? messageTextSize;
 
-  final List<Widget> message;
-  final List<Color>? messageTextColor;
-  final List<double>? messageTextSize;
-  final List<TextAlign>? messageAlignment;
-
-  final double? iconWidth;
-  final double? iconHeight;
-  final Color? iconBackgroundColor;
-
-  final List<Text> buttonText;
-  final List<Color>? buttonsColor;
+  final String buttonText;
+  final Color? buttonsColor;
   final double? buttonsWidth;
   final double? buttonsHeight;
   final double? buttonsTextSize;
   final Color? buttonsTextColors;
 
-  final List<Function>? onPopupButtonClicked;
+  final Function? onPopupButtonClicked;
 
   @override
   Widget build(BuildContext context) {
     //Center everything in the middle column using Alert Dialog
     return BasePopup(
-      message: message,
-      messageTextColor: messageTextColor,
-      messageTextSize: messageTextSize,
-      messageAlignment: messageAlignment,
-      title: title,
-      titleTextSize: titleTextSize,
-      titleAlignment: titleAlignment,
-      titleTextColor: titleTextColor,
-      buttonsText: buttonText,
-      buttonsColor: buttonsColor,
+      message: [
+        Text(
+          boldMessage,
+          style: context.textTheme.h4BoldPoppins.copyWith(
+            fontSize: boldMessageTextSize ?? 24,
+            fontWeight: FontWeight.bold,
+            color: boldMessageTextColor ?? context.colorScheme.onBackground,
+          ),
+        ),
+        Text(
+          message,
+          style: context.textTheme.h4BoldPoppins.copyWith(
+            fontSize: messageTextSize ?? 16,
+            fontWeight: FontWeight.normal,
+            color: messageTextColor ?? context.colorScheme.onBackground,
+          ),
+        ),
+      ],
+      messageTextColor: [
+        boldMessageTextColor ?? context.colorScheme.onBackground,
+        messageTextColor ?? context.colorScheme.onBackground,
+      ],
+      messageTextSize: [boldMessageTextSize ?? 24, messageTextSize ?? 16],
+      buttonsText: [
+        Text(
+          buttonText,
+        ),
+      ],
+      buttonsColor: [buttonsColor ?? const Color.fromRGBO(244, 204, 183, 1)],
       buttonsWidth: buttonsWidth,
       buttonsHeight: buttonsHeight,
-      buttonsTextSize: buttonsTextSize,
-      buttonsTextColors: buttonsTextColors,
-      popupIcon: SvgPicture.string(
-        DCSVGIcons.error,
-        fit: BoxFit.cover,
-        width: iconHeight,
-        height: iconWidth,
+      buttonsTextSize: buttonsTextSize ?? 16,
+      buttonsTextColors: buttonsTextColors ?? context.colorScheme.onBackground,
+      popupIcon: Flexible(
+        child: FractionallySizedBox(
+          widthFactor: 0.35,
+          heightFactor: 0.25,
+          child: SvgPicture.string(
+            DCSVGIcons.error,
+            fit: BoxFit.cover,
+          ),
+        ),
       ),
-      popupIconHeight: iconHeight,
-      popupIconWidth: iconWidth,
-      iconBackgroundColor: iconBackgroundColor ?? context.colorScheme.error,
-      onPopupButtonClicked: onPopupButtonClicked,
+      iconBackgroundColor: const Color.fromRGBO(244, 204, 183, 1),
+      onPopupButtonClicked: [onPopupButtonClicked ?? Navigator.of(context).pop],
     );
   }
 }

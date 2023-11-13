@@ -69,10 +69,10 @@ class BasePopup extends StatelessWidget {
             //scale the background circle to be a bit bigger than the icon
             child: (popupIcon == null)
                 ? FractionallySizedBox(
-                    heightFactor: 0.1,
+                    heightFactor: 0.01,
                   )
                 : FractionallySizedBox(
-                    widthFactor: 0.5,
+                    widthFactor: 0.75,
                     heightFactor: 0.5,
                     child: Container(
                       width: popupIconHeight,
@@ -96,20 +96,7 @@ class BasePopup extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: List.generate(
               message.length,
-              (index) => DefaultTextStyle.merge(
-                style: context.textTheme.h4BoldPoppins.copyWith(
-                  color:
-                      messageTextColor?[index] ?? context.colorScheme.primary,
-                  fontSize: messageTextSize?[index] ?? 16,
-                ),
-                textAlign: messageAlignment?[index] ?? TextAlign.center,
-                child: Column(
-                  children: [
-                    message[index],
-                    const SizedBox(height: 8),
-                  ],
-                ),
-              ),
+              (index) => message[index],
             ),
           ),
         ],

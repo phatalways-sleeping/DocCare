@@ -7,18 +7,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 class DCPopupSuccess extends StatelessWidget {
   const DCPopupSuccess({
     Key? key,
+    required this.boldMessage,
     required this.message,
     required this.buttonText,
+    this.boldMessageTextSize,
+    this.boldMessageTextColor,
     this.messageTextSize,
-    this.messageAlignment,
     this.messageTextColor,
-    this.title,
-    this.titleTextSize,
-    this.titleAlignment,
-    this.titleTextColor,
-    this.iconWidth,
-    this.iconHeight,
-    this.iconBackgroundColor,
     this.buttonsWidth,
     this.buttonsHeight,
     this.buttonsColor,
@@ -27,57 +22,69 @@ class DCPopupSuccess extends StatelessWidget {
     this.onPopupButtonClicked,
   }) : super(key: key);
 
-  final Widget? title;
-  final double? titleTextSize;
-  final TextAlign? titleAlignment;
-  final Color? titleTextColor;
+  final String boldMessage;
+  final Color? boldMessageTextColor;
+  final double? boldMessageTextSize;
+  final String message;
+  final Color? messageTextColor;
+  final double? messageTextSize;
 
-  final List<Widget> message;
-  final List<Color>? messageTextColor;
-  final List<double>? messageTextSize;
-  final List<TextAlign>? messageAlignment;
-
-  final double? iconWidth;
-  final double? iconHeight;
-  final Color? iconBackgroundColor;
-
-  final List<Text> buttonText;
-  final List<Color>? buttonsColor;
+  final String buttonText;
+  final Color? buttonsColor;
   final double? buttonsWidth;
   final double? buttonsHeight;
   final double? buttonsTextSize;
   final Color? buttonsTextColors;
 
-  final List<Function>? onPopupButtonClicked;
+  final Function? onPopupButtonClicked;
 
   @override
   Widget build(BuildContext context) {
     //Center everything in the middle column using Alert Dialog
     return BasePopup(
-      message: message,
-      messageTextColor: messageTextColor,
-      messageTextSize: messageTextSize,
-      messageAlignment: messageAlignment,
-      title: title,
-      titleTextSize: titleTextSize,
-      titleAlignment: titleAlignment,
-      titleTextColor: titleTextColor,
-      buttonsText: buttonText,
-      buttonsColor: buttonsColor,
+      message: [
+        Text(
+          boldMessage,
+          style: context.textTheme.h4BoldPoppins.copyWith(
+            fontWeight: FontWeight.normal,
+            fontSize: boldMessageTextSize ?? 24,
+          ),
+        ),
+        Text(
+          message,
+          style: context.textTheme.h4BoldPoppins.copyWith(
+            fontWeight: FontWeight.normal,
+            fontSize: messageTextSize ?? 16,
+          ),
+        ),
+      ],
+      messageTextColor: [
+        boldMessageTextColor ?? context.colorScheme.onBackground,
+        messageTextColor ?? context.colorScheme.onBackground,
+      ],
+      messageTextSize: [boldMessageTextSize ?? 24, messageTextSize ?? 16],
+      buttonsText: [
+        Text(
+          buttonText,
+        ),
+      ],
+      buttonsColor: [buttonsColor ?? const Color.fromRGBO(139, 240, 180, 0.78)],
       buttonsWidth: buttonsWidth,
       buttonsHeight: buttonsHeight,
-      buttonsTextSize: buttonsTextSize,
-      buttonsTextColors: buttonsTextColors,
-      popupIcon: SvgPicture.string(
-        DCSVGIcons.success,
-        fit: BoxFit.cover,
-        width: iconHeight,
-        height: iconWidth,
+      buttonsTextSize: buttonsTextSize ?? 16,
+      buttonsTextColors: buttonsTextColors ?? context.colorScheme.background,
+      popupIcon: Flexible(
+        child: FractionallySizedBox(
+          widthFactor: 0.35,
+          heightFactor: 0.25,
+          child: SvgPicture.string(
+            DCSVGIcons.success,
+            fit: BoxFit.cover,
+          ),
+        ),
       ),
-      popupIconWidth: iconWidth,
-      popupIconHeight: iconHeight,
-      iconBackgroundColor: iconBackgroundColor ?? context.colorScheme.primary,
-      onPopupButtonClicked: onPopupButtonClicked,
+      iconBackgroundColor: const Color.fromRGBO(139, 240, 180, 0.78),
+      onPopupButtonClicked: [onPopupButtonClicked ?? Navigator.of(context).pop],
     );
   }
 }
