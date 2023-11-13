@@ -65,6 +65,7 @@ class DCPopupCancellation extends StatelessWidget {
       titleTextColor: titleTextColor,
       titleTextSize: titleTextSize,
       titleAlignment: titleAlignment,
+      messageAlligment: CrossAxisAlignment.start,
       message: [
         DefaultTextStyle.merge(
           style: context.textTheme.h4BoldPoppins.copyWith(

@@ -70,7 +70,7 @@ class DCPopupDoctorCancel extends StatelessWidget {
       ],
       buttonsText: [
         cancelButtonText ?? 'Cancel',
-        agreeButtonText ?? 'Confirm',
+        agreeButtonText ?? 'Agree',
       ],
       buttonsColor: [
         cancelButtonColor ?? context.colorScheme.error,
@@ -80,12 +80,10 @@ class DCPopupDoctorCancel extends StatelessWidget {
       buttonsHeight: buttonsHeight,
       buttonsTextSize: buttonsTextSize ?? 16,
       buttonsTextColors: buttonsTextColors ?? context.colorScheme.onBackground,
-      popupIcon: Flexible(
-        child: FractionallySizedBox(
-          child: SvgPicture.string(
-            DCSVGIcons.sad,
-            fit: BoxFit.cover,
-          ),
+      popupIcon: FractionallySizedBox(
+        child: SvgPicture.string(
+          DCSVGIcons.sad,
+          fit: BoxFit.cover,
         ),
       ),
       iconBackgroundColor: context.colorScheme.background,

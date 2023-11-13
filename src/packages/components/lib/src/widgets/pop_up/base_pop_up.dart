@@ -19,6 +19,7 @@ class BasePopup extends StatelessWidget {
     this.titleTextSize,
     this.titleAlignment,
     this.titleTextColor,
+    this.messageAlligment,
     this.onPopupButtonClicked = const [],
     super.key,
   });
@@ -39,6 +40,7 @@ class BasePopup extends StatelessWidget {
   final Color? titleTextColor;
   final double? titleTextSize;
   final TextAlign? titleAlignment;
+  final CrossAxisAlignment? messageAlligment;
   final List<void Function(BuildContext context)> onPopupButtonClicked;
 
   @override
@@ -65,60 +67,58 @@ class BasePopup extends StatelessWidget {
                 : FractionallySizedBox(
                     widthFactor: 0.75,
                     heightFactor: 0.5,
-                    child: Container(
-                      width: popupIconWidth,
-                      height: popupIconHeight,
-                      decoration: BoxDecoration(
-                        color: iconBackgroundColor ??
-                            context.colorScheme.background,
-                        shape: BoxShape.circle,
-                      ),
-                      child: Transform.scale(
-                        scale: 3,
-                        child: Center(child: popupIcon),
+                    child: SizedBox(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: iconBackgroundColor ??
+                              context.colorScheme.background,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Transform.scale(
+                          scale: 3,
+                          child: Center(child: popupIcon),
+                        ),
                       ),
                     ),
                   ),
           ),
           Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: messageAlligment ?? CrossAxisAlignment.center,
             children: message,
           ),
         ],
       ),
       actions: <Widget>[
         //set up button with button alignment
-        Flexible(
-          child: FractionallySizedBox(
-            widthFactor: 1,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: List.generate(
-                buttonsText.length,
-                (index) => Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: ElevatedButton(
-                      onPressed: () => onPopupButtonClicked[index](context),
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                          buttonsColor![index],
-                        ),
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
+        FractionallySizedBox(
+          widthFactor: 1,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: List.generate(
+              buttonsText.length,
+              (index) => Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: ElevatedButton(
+                    onPressed: () => onPopupButtonClicked[index](context),
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                        buttonsColor![index],
+                      ),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
                         ),
                       ),
-                      child: DefaultTextStyle.merge(
-                        style: context.textTheme.h4BoldPoppins.copyWith(
-                          color: buttonsTextColors ??
-                              context.colorScheme.background,
-                          fontSize: buttonsTextSize ?? 16,
-                        ),
-                        child: Text(buttonsText[index]),
+                    ),
+                    child: DefaultTextStyle.merge(
+                      style: context.textTheme.h4BoldPoppins.copyWith(
+                        color:
+                            buttonsTextColors ?? context.colorScheme.background,
+                        fontSize: buttonsTextSize ?? 16,
                       ),
+                      child: Text(buttonsText[index]),
                     ),
                   ),
                 ),

@@ -70,12 +70,10 @@ class DCPopupSuccess extends StatelessWidget {
       buttonsHeight: buttonsHeight,
       buttonsTextSize: buttonsTextSize ?? 16,
       buttonsTextColors: buttonsTextColors ?? context.colorScheme.background,
-      popupIcon: Flexible(
-        child: FractionallySizedBox(
-          child: SvgPicture.string(
-            DCSVGIcons.success,
-            fit: BoxFit.cover,
-          ),
+      popupIcon: FractionallySizedBox(
+        child: SvgPicture.string(
+          DCSVGIcons.success,
+          fit: BoxFit.cover,
         ),
       ),
       iconBackgroundColor: context.colorScheme.surface,
