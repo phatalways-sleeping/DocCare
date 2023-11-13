@@ -1,11 +1,11 @@
-import 'package:model_api/src/users/service/user_api_service.dart';
+import 'package:model_api/src/users//service/user_api_service.dart';
 import 'package:models/models.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-/// Implementation of [UserApiService] for [Doctor]
-class DoctorApiService implements MedicalStaffApiService<Doctor> {
+/// Implementation of [UserApiService] for [Customer] with Supabase
+class SupabaseCustomerApiService implements UserApiService<Customer> {
   /// Default constructor
-  const DoctorApiService({
+  const SupabaseCustomerApiService({
     required this.supabase,
   });
 
@@ -13,8 +13,8 @@ class DoctorApiService implements MedicalStaffApiService<Doctor> {
   final SupabaseClient supabase;
 
   @override
-  Future<void> createUser(Doctor user) => supabase
-      .from('doctor')
+  Future<void> createUser(Customer user) => supabase
+      .from('customer')
       .insert(
         user.toJson(),
       )
@@ -24,28 +24,28 @@ class DoctorApiService implements MedicalStaffApiService<Doctor> {
 
   @override
   Future<void> deleteUser(String id) =>
-      supabase.from('doctor').delete().eq('id', id).onError(
+      supabase.from('customer').delete().eq('id', id).onError(
             (error, stackTrace) => throw Exception(error),
           );
 
   @override
-  Future<Doctor> getUser(String id) => supabase
-      .from('doctor')
+  Future<Customer> getUser(String id) => supabase
+      .from('customer')
       .select<PostgrestList>()
       .eq('id', id)
       .limit(1)
       .then(
         (value) => value.isEmpty
             ? throw Exception('Error from getUser: No user found with id $id')
-            : Doctor.fromJson(value.first),
+            : Customer.fromJson(value.first),
       )
       .onError(
         (error, stackTrace) => throw Exception(error),
       );
 
   @override
-  Future<List<Doctor>> getUsers(List<String> ids) => supabase
-      .from('doctor')
+  Future<List<Customer>> getUsers(List<String> ids) => supabase
+      .from('customer')
       .select<PostgrestList>()
       .in_('id', ids)
       .then(
@@ -53,21 +53,23 @@ class DoctorApiService implements MedicalStaffApiService<Doctor> {
             ? throw Exception(
                 'Error from getUsers: No users found with ids $ids',
               )
-            : value.map(Doctor.fromJson).toList(),
+            : value.map(Customer.fromJson).toList(),
       )
       .onError(
         (error, stackTrace) => throw Exception(error),
       );
 
   @override
-  Stream<Doctor> streamUser(String id) =>
-      supabase.from('doctor').stream(primaryKey: ['id']).eq('id', id).map(
-            (event) => Doctor.fromJson(event.first),
+  Stream<Customer> streamUser(String id) =>
+      supabase.from('customer').stream(primaryKey: ['id']).eq('id', id).map(
+            (event) => Customer.fromJson(
+              event.first,
+            ),
           );
 
   @override
   Future<void> updateBirthday(String id, DateTime birthday) => supabase
-      .from('doctor')
+      .from('customer')
       .update(
         {
           'birthday': birthday.toIso8601String(),
@@ -80,7 +82,7 @@ class DoctorApiService implements MedicalStaffApiService<Doctor> {
 
   @override
   Future<void> updateEmail(String id, String email) => supabase
-      .from('doctor')
+      .from('customer')
       .update(
         {
           'email': email,
@@ -93,7 +95,7 @@ class DoctorApiService implements MedicalStaffApiService<Doctor> {
 
   @override
   Future<void> updateFullName(String id, String fullname) => supabase
-      .from('doctor')
+      .from('customer')
       .update(
         {
           'fullname': fullname,
@@ -106,7 +108,7 @@ class DoctorApiService implements MedicalStaffApiService<Doctor> {
 
   @override
   Future<void> updatePhone(String id, String phone) => supabase
-      .from('doctor')
+      .from('customer')
       .update(
         {
           'phone': phone,
@@ -118,8 +120,8 @@ class DoctorApiService implements MedicalStaffApiService<Doctor> {
       );
 
   @override
-  Future<void> updateUser(String id, Doctor user) => supabase
-      .from('doctor')
+  Future<void> updateUser(String id, Customer user) => supabase
+      .from('customer')
       .update(
         user.toJson(),
       )
@@ -127,49 +129,4 @@ class DoctorApiService implements MedicalStaffApiService<Doctor> {
       .onError(
         (error, stackTrace) => throw Exception(error),
       );
-
-  @override
-  Future<void> updateNumberOfRates(String id, int numberOfRates) => supabase
-      .from('doctor')
-      .update({
-        'numberOfRates': numberOfRates,
-      })
-      .eq('id', id)
-      .onError(
-        (error, stackTrace) => throw Exception(error),
-      );
-
-  @override
-  Future<void> updateRating(String id, double rating) => supabase
-      .from('doctor')
-      .update({
-        'rating': rating,
-      })
-      .eq('id', id)
-      .onError(
-        (error, stackTrace) => throw Exception(error),
-      );
-
-  @override
-  Future<void> updateSpecialty(String id, String specializationId) => supabase
-      .from('doctor')
-      .update({
-        'specializationId': specializationId,
-      })
-      .eq('id', id)
-      .onError(
-        (error, stackTrace) => throw Exception(error),
-      );
-
-  @override
-  Future<void> updateStartWorkingFrom(String id, int startWorkingFrom) =>
-      supabase
-          .from('doctor')
-          .update({
-            'startWorkingFrom': startWorkingFrom,
-          })
-          .eq('id', id)
-          .onError(
-            (error, stackTrace) => throw Exception(error),
-          );
 }

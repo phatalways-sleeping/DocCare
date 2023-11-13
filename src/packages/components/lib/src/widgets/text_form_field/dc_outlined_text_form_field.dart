@@ -12,16 +12,15 @@ class DCOutlinedTextFormField extends StatelessWidget {
       horizontal: 8,
       vertical: 12,
     ),
+    this.heightFactor = 0.12,
+    this.widthFactor = 0.8,
     this.keyboardType,
     this.keyboardAppearance,
     this.obscuringCharacter = '•',
     this.borderColor,
     this.borderRadius = 40,
     this.borderWidth = 1,
-    this.constraints = const BoxConstraints(
-      minHeight: 48,
-      minWidth: double.infinity,
-    ),
+    this.constraints,
     this.textAlign = TextAlign.justify,
     this.textAlignVertical = TextAlignVertical.center,
     this.textCapitalization = TextCapitalization.none,
@@ -47,7 +46,17 @@ class DCOutlinedTextFormField extends StatelessWidget {
     this.enabled = true,
     this.paddingBetweenIconAndInput,
     super.key,
-  });
+  })  : assert(
+          widthFactor >= 0 && widthFactor <= 1,
+          'widthFactor must be between 0 and 1',
+        ),
+        assert(
+          heightFactor >= 0 && heightFactor <= 1,
+          'heightFactor must be between 0 and 1',
+        );
+
+  final double heightFactor;
+  final double widthFactor;
 
   final TextAlign textAlign;
   final TextAlignVertical textAlignVertical;
@@ -88,12 +97,9 @@ class DCOutlinedTextFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseTextFormField(
-      constraints: constraints ??
-          const BoxConstraints(
-            minHeight: 48,
-            maxHeight: 50,
-            minWidth: double.infinity,
-          ),
+      heightFactor: heightFactor,
+      widthFactor: widthFactor,
+      constraints: constraints,
       iconSize: iconSize ?? 20,
       color: color ??
           context.theme.colorScheme.onSecondary, // The color of text, icon

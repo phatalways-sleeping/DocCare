@@ -15,16 +15,15 @@ base class BaseTextFormField extends StatefulWidget {
     required this.color,
     required this.inputBorder,
     required this.contentPadding,
+    this.heightFactor = 0.12,
+    this.widthFactor = 0.90,
     this.textAlign = TextAlign.justify,
     this.textAlignVertical = TextAlignVertical.center,
     this.textCapitalization = TextCapitalization.none,
     this.keyboardType,
     this.keyboardAppearance,
     this.obscuringCharacter = '•',
-    this.constraints = const BoxConstraints(
-      minHeight: 48,
-      minWidth: double.infinity,
-    ),
+    this.constraints,
     this.iconSize = 20,
     this.onChanged,
     this.maxLength,
@@ -48,7 +47,17 @@ base class BaseTextFormField extends StatefulWidget {
     this.enabled = true,
     this.paddingBetweenIconAndInput,
     super.key,
-  });
+  })  : assert(
+          widthFactor >= 0 && widthFactor <= 1,
+          'widthFactor must be between 0 and 1',
+        ),
+        assert(
+          heightFactor >= 0 && heightFactor <= 1,
+          'heightFactor must be between 0 and 1',
+        );
+
+  final double heightFactor;
+  final double widthFactor;
 
   final TextInputType? keyboardType;
   final Brightness? keyboardAppearance;
@@ -56,7 +65,7 @@ base class BaseTextFormField extends StatefulWidget {
   final TextAlign textAlign;
   final TextAlignVertical textAlignVertical;
   final TextCapitalization textCapitalization;
-  final BoxConstraints constraints;
+  final BoxConstraints? constraints;
   final double iconSize;
   final Color color;
   final void Function(BuildContext context, TextEditingController controller)?
@@ -134,147 +143,297 @@ class _BaseTextFormFieldState extends State<BaseTextFormField> {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      controller: controller,
-      obscureText: isObscured,
-      enabled: widget.enabled,
-      onChanged: (value) => widget.onChanged?.call(context, controller),
-      maxLength: widget.maxLength,
-      minLines: widget.minLines,
-      maxLines: widget.obscureMode ? 1 : widget.maxLines,
-      cursorColor: widget.color,
-      style: context.textTheme.h6RegularPoppins.copyWith(
-        color: widget.color,
-      ),
-      focusNode: focusNode,
-      onTap: () => focusNode.requestFocus(),
-      validator: widget.validator,
-      autovalidateMode: AutovalidateMode.onUserInteraction,
-      keyboardAppearance: widget.keyboardAppearance,
-      keyboardType: widget.keyboardType,
-      obscuringCharacter: widget.obscuringCharacter,
-      textAlign: widget.textAlign,
-      textAlignVertical: widget.textAlignVertical,
-      textCapitalization: widget.textCapitalization,
-      inputFormatters: [
-        if (widget.keyboardType == TextInputType.number)
-          FilteringTextInputFormatter.digitsOnly,
-      ],
-      decoration: InputDecoration(
-        isDense: true,
-        constraints: widget.constraints,
-        contentPadding: EdgeInsets.symmetric(
-          vertical: widget.contentPadding.vertical / 2,
-          horizontal: widget.contentPadding.horizontal / 2,
+    if (widget.constraints != null) {
+      return TextFormField(
+        controller: controller,
+        obscureText: isObscured,
+        enabled: widget.enabled,
+        onChanged: (value) => widget.onChanged?.call(context, controller),
+        maxLength: widget.maxLength,
+        minLines: widget.minLines,
+        maxLines: widget.obscureMode ? 1 : widget.maxLines,
+        cursorColor: widget.color,
+        style: context.textTheme.h6RegularPoppins.copyWith(
+          color: widget.color,
         ),
-        labelText: widget.labelText,
-        labelStyle: context.textTheme.h6RegularPoppins.copyWith(
-          color: focusNode.hasFocus
-              ? widget.color
-              : widget.color.withOpacity(0.8),
-        ),
-        helperText: widget.helperText,
-        helperStyle: context.textTheme.sub1RegularPoppins.copyWith(
-          color: widget.color.withOpacity(0.8),
-        ),
-        hintText: widget.hintText,
-        hintStyle: context.textTheme.h6RegularPoppins.copyWith(
-          color: widget.color.withOpacity(0.8),
-        ),
-        prefix: Padding(padding: prefixPadding),
-        prefixIcon: widget.prefixIcon != null
-            ? Padding(
-                padding: prefixIconPadding,
-                child: !widget.onlyShowIconOnFocus || focusNode.hasFocus
-                    ? IconButton(
-                        icon: SizedBox(
-                          width: widget.iconSize,
-                          height: widget.iconSize,
-                          child: widget.prefixIcon,
-                        ),
-                        padding: EdgeInsets.zero,
-                        color: focusNode.hasFocus
-                            ? widget.color
-                            : widget.color.withOpacity(0.8),
-                        onPressed: () => widget.onPrefixIconPressed
-                            ?.call(context, controller),
-                        tooltip: widget.prefixIconTooltip,
-                      )
-                    : null,
-              )
-            : null,
-        suffix: Padding(
-          padding: suffixPadding,
-        ),
-        suffixIcon: widget.suffixIcon != null || widget.toggleObscuredModeIcon
-            ? Padding(
-                padding: suffixIconPadding,
-                child: !widget.toggleObscuredModeIcon
-                    ? !widget.onlyShowIconOnFocus || focusNode.hasFocus
-                        ? IconButton(
-                            style: ButtonStyle(
-                              padding: MaterialStateProperty.all(
-                                EdgeInsets.zero,
-                              ),
-                              fixedSize: MaterialStatePropertyAll(
-                                Size.square(widget.iconSize),
-                              ),
-                              elevation: MaterialStateProperty.all(0),
-                            ),
-                            icon: SizedBox(
-                              child: widget.suffixIcon,
-                            ),
-                            color: focusNode.hasFocus
-                                ? widget.color
-                                : context.colorScheme.onBackground
-                                    .withOpacity(0.8),
-                            onPressed: () => widget.onSuffixIconPressed
-                                ?.call(context, controller),
-                            tooltip: widget.suffixIconTooltip,
-                          )
-                        : null
-                    : IconButton(
-                        style: ButtonStyle(
-                          padding: MaterialStateProperty.all(
-                            EdgeInsets.zero,
+        focusNode: focusNode,
+        onTap: () => focusNode.requestFocus(),
+        validator: widget.validator,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        keyboardAppearance: widget.keyboardAppearance,
+        keyboardType: widget.keyboardType,
+        obscuringCharacter: widget.obscuringCharacter,
+        textAlign: widget.textAlign,
+        textAlignVertical: widget.textAlignVertical,
+        textCapitalization: widget.textCapitalization,
+        inputFormatters: [
+          if (widget.keyboardType == TextInputType.number)
+            FilteringTextInputFormatter.digitsOnly,
+        ],
+        decoration: InputDecoration(
+          isDense: true,
+          constraints: widget.constraints,
+          contentPadding: EdgeInsets.symmetric(
+            vertical: widget.contentPadding.vertical / 2,
+            horizontal: widget.contentPadding.horizontal / 2,
+          ),
+          labelText: widget.labelText,
+          labelStyle: context.textTheme.h6RegularPoppins.copyWith(
+            color: focusNode.hasFocus
+                ? widget.color
+                : widget.color.withOpacity(0.8),
+          ),
+          helperText: widget.helperText,
+          helperStyle: context.textTheme.sub1RegularPoppins.copyWith(
+            color: widget.color.withOpacity(0.8),
+          ),
+          hintText: widget.hintText,
+          hintStyle: context.textTheme.h6RegularPoppins.copyWith(
+            color: widget.color.withOpacity(0.8),
+          ),
+          prefix: Padding(padding: prefixPadding),
+          prefixIcon: widget.prefixIcon != null
+              ? Padding(
+                  padding: prefixIconPadding,
+                  child: !widget.onlyShowIconOnFocus || focusNode.hasFocus
+                      ? IconButton(
+                          icon: SizedBox(
+                            width: widget.iconSize,
+                            height: widget.iconSize,
+                            child: widget.prefixIcon,
                           ),
-                          fixedSize: MaterialStatePropertyAll(
-                            Size.square(widget.iconSize),
-                          ),
-                          elevation: MaterialStateProperty.all(0),
-                        ),
-                        icon: isObscured
-                            ? widget.suffixIcon ??
-                                Icon(
-                                  Icons.visibility,
-                                  color: widget.color,
-                                )
-                            : widget.suffixIconOnObscuredMode ??
-                                Icon(
-                                  Icons.visibility_off,
-                                  color: widget.color,
+                          padding: EdgeInsets.zero,
+                          color: focusNode.hasFocus
+                              ? widget.color
+                              : widget.color.withOpacity(0.8),
+                          onPressed: () => widget.onPrefixIconPressed
+                              ?.call(context, controller),
+                          tooltip: widget.prefixIconTooltip,
+                        )
+                      : null,
+                )
+              : null,
+          suffix: Padding(
+            padding: suffixPadding,
+          ),
+          suffixIcon: widget.suffixIcon != null || widget.toggleObscuredModeIcon
+              ? Padding(
+                  padding: suffixIconPadding,
+                  child: !widget.toggleObscuredModeIcon
+                      ? !widget.onlyShowIconOnFocus || focusNode.hasFocus
+                          ? IconButton(
+                              style: ButtonStyle(
+                                padding: MaterialStateProperty.all(
+                                  EdgeInsets.zero,
                                 ),
-                        onPressed: () =>
-                            setState(() => isObscured = !isObscured),
-                        tooltip: 'Toggle password hidden mode.',
-                      ),
-              )
-            : null,
-        enabledBorder: widget.inputBorder.copyWith(
-          borderSide: BorderSide(
-            color: widget.inputBorder.borderSide.color,
+                                fixedSize: MaterialStatePropertyAll(
+                                  Size.square(widget.iconSize),
+                                ),
+                                elevation: MaterialStateProperty.all(0),
+                              ),
+                              icon: SizedBox(
+                                child: widget.suffixIcon,
+                              ),
+                              color: focusNode.hasFocus
+                                  ? widget.color
+                                  : context.colorScheme.onBackground
+                                      .withOpacity(0.8),
+                              onPressed: () => widget.onSuffixIconPressed
+                                  ?.call(context, controller),
+                              tooltip: widget.suffixIconTooltip,
+                            )
+                          : null
+                      : IconButton(
+                          style: ButtonStyle(
+                            padding: MaterialStateProperty.all(
+                              EdgeInsets.zero,
+                            ),
+                            fixedSize: MaterialStatePropertyAll(
+                              Size.square(widget.iconSize),
+                            ),
+                            elevation: MaterialStateProperty.all(0),
+                          ),
+                          icon: isObscured
+                              ? widget.suffixIcon ??
+                                  Icon(
+                                    Icons.visibility,
+                                    color: widget.color,
+                                  )
+                              : widget.suffixIconOnObscuredMode ??
+                                  Icon(
+                                    Icons.visibility_off,
+                                    color: widget.color,
+                                  ),
+                          onPressed: () =>
+                              setState(() => isObscured = !isObscured),
+                          tooltip: 'Toggle password hidden mode.',
+                        ),
+                )
+              : null,
+          enabledBorder: widget.inputBorder.copyWith(
+            borderSide: BorderSide(
+              color: widget.inputBorder.borderSide.color,
+            ),
+          ),
+          disabledBorder: widget.inputBorder.copyWith(
+            borderSide: BorderSide(
+              width: widget.inputBorder.borderSide.width * 1.25,
+              color: widget.inputBorder.borderSide.color,
+            ),
+          ),
+          focusedBorder: widget.inputBorder.copyWith(
+            borderSide: BorderSide(
+              width: widget.inputBorder.borderSide.width * 2.0,
+              color: widget.inputBorder.borderSide.color,
+            ),
           ),
         ),
-        disabledBorder: widget.inputBorder.copyWith(
-          borderSide: BorderSide(
-            width: widget.inputBorder.borderSide.width * 1.25,
-            color: widget.inputBorder.borderSide.color,
-          ),
+      );
+    }
+    return FractionallySizedBox(
+      widthFactor: widget.widthFactor,
+      heightFactor: widget.heightFactor,
+      child: TextFormField(
+        controller: controller,
+        obscureText: isObscured,
+        enabled: widget.enabled,
+        onChanged: (value) => widget.onChanged?.call(context, controller),
+        maxLength: widget.maxLength,
+        minLines: widget.minLines,
+        maxLines: widget.obscureMode ? 1 : widget.maxLines,
+        cursorColor: widget.color,
+        style: context.textTheme.h6RegularPoppins.copyWith(
+          color: widget.color,
         ),
-        focusedBorder: widget.inputBorder.copyWith(
-          borderSide: BorderSide(
-            width: widget.inputBorder.borderSide.width * 2.0,
-            color: widget.inputBorder.borderSide.color,
+        focusNode: focusNode,
+        onTap: () => focusNode.requestFocus(),
+        validator: widget.validator,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        keyboardAppearance: widget.keyboardAppearance,
+        keyboardType: widget.keyboardType,
+        obscuringCharacter: widget.obscuringCharacter,
+        textAlign: widget.textAlign,
+        textAlignVertical: widget.textAlignVertical,
+        textCapitalization: widget.textCapitalization,
+        inputFormatters: [
+          if (widget.keyboardType == TextInputType.number)
+            FilteringTextInputFormatter.digitsOnly,
+        ],
+        decoration: InputDecoration(
+          isDense: true,
+          contentPadding: EdgeInsets.symmetric(
+            vertical: widget.contentPadding.vertical / 2,
+            horizontal: widget.contentPadding.horizontal / 2,
+          ),
+          labelText: widget.labelText,
+          labelStyle: context.textTheme.h6RegularPoppins.copyWith(
+            color: focusNode.hasFocus
+                ? widget.color
+                : widget.color.withOpacity(0.8),
+          ),
+          helperText: widget.helperText,
+          helperStyle: context.textTheme.sub1RegularPoppins.copyWith(
+            color: widget.color.withOpacity(0.8),
+          ),
+          hintText: widget.hintText,
+          hintStyle: context.textTheme.h6RegularPoppins.copyWith(
+            color: widget.color.withOpacity(0.8),
+          ),
+          prefix: Padding(padding: prefixPadding),
+          prefixIcon: widget.prefixIcon != null
+              ? Padding(
+                  padding: prefixIconPadding,
+                  child: !widget.onlyShowIconOnFocus || focusNode.hasFocus
+                      ? IconButton(
+                          icon: SizedBox(
+                            width: widget.iconSize,
+                            height: widget.iconSize,
+                            child: widget.prefixIcon,
+                          ),
+                          padding: EdgeInsets.zero,
+                          color: focusNode.hasFocus
+                              ? widget.color
+                              : widget.color.withOpacity(0.8),
+                          onPressed: () => widget.onPrefixIconPressed
+                              ?.call(context, controller),
+                          tooltip: widget.prefixIconTooltip,
+                        )
+                      : null,
+                )
+              : null,
+          suffix: Padding(
+            padding: suffixPadding,
+          ),
+          suffixIcon: widget.suffixIcon != null || widget.toggleObscuredModeIcon
+              ? Padding(
+                  padding: suffixIconPadding,
+                  child: !widget.toggleObscuredModeIcon
+                      ? !widget.onlyShowIconOnFocus || focusNode.hasFocus
+                          ? IconButton(
+                              style: ButtonStyle(
+                                padding: MaterialStateProperty.all(
+                                  EdgeInsets.zero,
+                                ),
+                                fixedSize: MaterialStatePropertyAll(
+                                  Size.square(widget.iconSize),
+                                ),
+                                elevation: MaterialStateProperty.all(0),
+                              ),
+                              icon: SizedBox(
+                                child: widget.suffixIcon,
+                              ),
+                              color: focusNode.hasFocus
+                                  ? widget.color
+                                  : context.colorScheme.onBackground
+                                      .withOpacity(0.8),
+                              onPressed: () => widget.onSuffixIconPressed
+                                  ?.call(context, controller),
+                              tooltip: widget.suffixIconTooltip,
+                            )
+                          : null
+                      : IconButton(
+                          style: ButtonStyle(
+                            padding: MaterialStateProperty.all(
+                              EdgeInsets.zero,
+                            ),
+                            fixedSize: MaterialStatePropertyAll(
+                              Size.square(widget.iconSize),
+                            ),
+                            elevation: MaterialStateProperty.all(0),
+                          ),
+                          icon: isObscured
+                              ? widget.suffixIcon ??
+                                  Icon(
+                                    Icons.visibility,
+                                    color: widget.color,
+                                  )
+                              : widget.suffixIconOnObscuredMode ??
+                                  Icon(
+                                    Icons.visibility_off,
+                                    color: widget.color,
+                                  ),
+                          onPressed: () =>
+                              setState(() => isObscured = !isObscured),
+                          tooltip: 'Toggle password hidden mode.',
+                        ),
+                )
+              : null,
+          enabledBorder: widget.inputBorder.copyWith(
+            borderSide: BorderSide(
+              color: widget.inputBorder.borderSide.color,
+            ),
+          ),
+          disabledBorder: widget.inputBorder.copyWith(
+            borderSide: BorderSide(
+              width: widget.inputBorder.borderSide.width * 1.25,
+              color: widget.inputBorder.borderSide.color,
+            ),
+          ),
+          focusedBorder: widget.inputBorder.copyWith(
+            borderSide: BorderSide(
+              width: widget.inputBorder.borderSide.width * 2.0,
+              color: widget.inputBorder.borderSide.color,
+            ),
           ),
         ),
       ),

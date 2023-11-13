@@ -1,11 +1,11 @@
-import 'package:model_api/src/users//service/user_api_service.dart';
+import 'package:model_api/src/users/service/user_api_service.dart';
 import 'package:models/models.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-/// Implementation of [UserApiService] for [Customer]
-class CustomerApiService implements UserApiService<Customer> {
+/// Implementation of [UserApiService] for [Receptionist] with Supabase
+class SupabaseReceptionistApiService implements UserApiService<Receptionist> {
   /// Default constructor
-  const CustomerApiService({
+  const SupabaseReceptionistApiService({
     required this.supabase,
   });
 
@@ -13,8 +13,8 @@ class CustomerApiService implements UserApiService<Customer> {
   final SupabaseClient supabase;
 
   @override
-  Future<void> createUser(Customer user) => supabase
-      .from('customer')
+  Future<void> createUser(Receptionist user) => supabase
+      .from('receptionist')
       .insert(
         user.toJson(),
       )
@@ -24,28 +24,28 @@ class CustomerApiService implements UserApiService<Customer> {
 
   @override
   Future<void> deleteUser(String id) =>
-      supabase.from('customer').delete().eq('id', id).onError(
+      supabase.from('receptionist').delete().eq('id', id).onError(
             (error, stackTrace) => throw Exception(error),
           );
 
   @override
-  Future<Customer> getUser(String id) => supabase
-      .from('customer')
+  Future<Receptionist> getUser(String id) => supabase
+      .from('receptionist')
       .select<PostgrestList>()
       .eq('id', id)
       .limit(1)
       .then(
         (value) => value.isEmpty
             ? throw Exception('Error from getUser: No user found with id $id')
-            : Customer.fromJson(value.first),
+            : Receptionist.fromJson(value.first),
       )
       .onError(
         (error, stackTrace) => throw Exception(error),
       );
 
   @override
-  Future<List<Customer>> getUsers(List<String> ids) => supabase
-      .from('customer')
+  Future<List<Receptionist>> getUsers(List<String> ids) => supabase
+      .from('receptionist')
       .select<PostgrestList>()
       .in_('id', ids)
       .then(
@@ -53,23 +53,23 @@ class CustomerApiService implements UserApiService<Customer> {
             ? throw Exception(
                 'Error from getUsers: No users found with ids $ids',
               )
-            : value.map(Customer.fromJson).toList(),
+            : value.map(Receptionist.fromJson).toList(),
       )
       .onError(
         (error, stackTrace) => throw Exception(error),
       );
 
   @override
-  Stream<Customer> streamUser(String id) =>
-      supabase.from('customer').stream(primaryKey: ['id']).eq('id', id).map(
-            (event) => Customer.fromJson(
+  Stream<Receptionist> streamUser(String id) =>
+      supabase.from('receptionist').stream(primaryKey: ['id']).eq('id', id).map(
+            (event) => Receptionist.fromJson(
               event.first,
             ),
           );
 
   @override
   Future<void> updateBirthday(String id, DateTime birthday) => supabase
-      .from('customer')
+      .from('receptionist')
       .update(
         {
           'birthday': birthday.toIso8601String(),
@@ -82,7 +82,7 @@ class CustomerApiService implements UserApiService<Customer> {
 
   @override
   Future<void> updateEmail(String id, String email) => supabase
-      .from('customer')
+      .from('receptionist')
       .update(
         {
           'email': email,
@@ -95,7 +95,7 @@ class CustomerApiService implements UserApiService<Customer> {
 
   @override
   Future<void> updateFullName(String id, String fullname) => supabase
-      .from('customer')
+      .from('receptionist')
       .update(
         {
           'fullname': fullname,
@@ -108,7 +108,7 @@ class CustomerApiService implements UserApiService<Customer> {
 
   @override
   Future<void> updatePhone(String id, String phone) => supabase
-      .from('customer')
+      .from('receptionist')
       .update(
         {
           'phone': phone,
@@ -120,8 +120,8 @@ class CustomerApiService implements UserApiService<Customer> {
       );
 
   @override
-  Future<void> updateUser(String id, Customer user) => supabase
-      .from('customer')
+  Future<void> updateUser(String id, Receptionist user) => supabase
+      .from('receptionist')
       .update(
         user.toJson(),
       )
