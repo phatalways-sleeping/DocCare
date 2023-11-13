@@ -9,7 +9,7 @@ class DCPopupFailed extends StatelessWidget {
     Key? key,
     required this.boldMessage,
     required this.message,
-    required this.buttonText,
+    this.buttonText,
     this.boldMessageTextSize,
     this.boldMessageTextColor,
     this.messageTextSize,
@@ -29,7 +29,7 @@ class DCPopupFailed extends StatelessWidget {
   final Color? messageTextColor;
   final double? messageTextSize;
 
-  final String buttonText;
+  final String? buttonText;
   final Color? buttonsColor;
   final double? buttonsWidth;
   final double? buttonsHeight;
@@ -43,31 +43,23 @@ class DCPopupFailed extends StatelessWidget {
     //Center everything in the middle column using Alert Dialog
     return BasePopup(
       message: [
-        Text(
-          boldMessage,
+        DefaultTextStyle.merge(
           style: context.textTheme.h4BoldPoppins.copyWith(
             fontSize: boldMessageTextSize ?? 24,
             fontWeight: FontWeight.bold,
             color: boldMessageTextColor ?? context.colorScheme.onBackground,
           ),
+          textAlign: TextAlign.center,
+          child: Text(boldMessage),
         ),
-        Text(
-          message,
+        DefaultTextStyle.merge(
           style: context.textTheme.h4BoldPoppins.copyWith(
             fontSize: messageTextSize ?? 16,
             fontWeight: FontWeight.normal,
             color: messageTextColor ?? const Color.fromRGBO(103, 114, 148, 1),
           ),
-        ),
-      ],
-      messageTextColor: [
-        boldMessageTextColor ?? context.colorScheme.onBackground,
-        messageTextColor ?? context.colorScheme.onBackground,
-      ],
-      messageTextSize: [boldMessageTextSize ?? 24, messageTextSize ?? 16],
-      buttonsText: [
-        Text(
-          buttonText,
+          textAlign: TextAlign.center,
+          child: Text(message),
         ),
       ],
       buttonsColor: [buttonsColor ?? const Color.fromRGBO(244, 204, 183, 1)],
@@ -85,6 +77,9 @@ class DCPopupFailed extends StatelessWidget {
       ),
       iconBackgroundColor: const Color.fromRGBO(244, 204, 183, 1),
       onPopupButtonClicked: [onPopupButtonClicked ?? Navigator.of(context).pop],
+      buttonsText: [
+        buttonText ?? 'Confirm',
+      ],
     );
   }
 }

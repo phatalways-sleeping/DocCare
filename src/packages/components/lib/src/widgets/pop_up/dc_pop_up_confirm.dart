@@ -2,17 +2,17 @@ import 'package:components/components.dart';
 import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:components/src/widgets/pop_up/base_pop_up.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
-class DCPopupDoctorCancel extends StatelessWidget {
-  const DCPopupDoctorCancel({
+class DCPopupConfirm extends StatelessWidget {
+  const DCPopupConfirm({
     Key? key,
-    required this.boldMessage,
+    required this.title,
     required this.message,
+    this.titleTextSize,
+    this.titleAlignment,
+    this.titleTextColor,
     this.cancelButtonText,
     this.agreeButtonText,
-    this.boldMessageTextSize,
-    this.boldMessageTextColor,
     this.messageTextSize,
     this.messageTextColor,
     this.buttonsWidth,
@@ -25,9 +25,11 @@ class DCPopupDoctorCancel extends StatelessWidget {
     this.onAgreeButtonClicked,
   }) : super(key: key);
 
-  final String boldMessage;
-  final Color? boldMessageTextColor;
-  final double? boldMessageTextSize;
+  final String title;
+  final Color? titleTextColor;
+  final double? titleTextSize;
+  final TextAlign? titleAlignment;
+
   final String message;
   final Color? messageTextColor;
   final double? messageTextSize;
@@ -48,24 +50,19 @@ class DCPopupDoctorCancel extends StatelessWidget {
     //Center everything in the middle column using Alert Dialog
 
     return BasePopup(
+      title: Text(title),
+      titleTextColor: titleTextColor,
+      titleTextSize: titleTextSize,
+      titleAlignment: titleAlignment,
       message: [
-        DefaultTextStyle.merge(
-          style: context.textTheme.h4BoldPoppins.copyWith(
-            fontSize: boldMessageTextSize ?? 24,
-            fontWeight: FontWeight.bold,
-            color: boldMessageTextColor ?? context.colorScheme.onBackground,
-          ),
-          textAlign: TextAlign.center,
-          child: Text(boldMessage),
-        ),
-        DefaultTextStyle.merge(
+        Text(
+          message,
           style: context.textTheme.h4BoldPoppins.copyWith(
             fontSize: messageTextSize ?? 16,
             fontWeight: FontWeight.normal,
             color: messageTextColor ?? const Color.fromRGBO(103, 114, 148, 1),
           ),
           textAlign: TextAlign.center,
-          child: Text(message),
         ),
       ],
       buttonsText: [
@@ -80,15 +77,6 @@ class DCPopupDoctorCancel extends StatelessWidget {
       buttonsHeight: buttonsHeight,
       buttonsTextSize: buttonsTextSize ?? 16,
       buttonsTextColors: buttonsTextColors ?? context.colorScheme.onBackground,
-      popupIcon: Flexible(
-        child: FractionallySizedBox(
-          child: SvgPicture.string(
-            DCSVGIcons.sad,
-            fit: BoxFit.cover,
-          ),
-        ),
-      ),
-      iconBackgroundColor: const Color.fromRGBO(231, 248, 242, 1),
       onPopupButtonClicked: [
         onCancelButtonClicked ?? Navigator.of(context).pop,
         onAgreeButtonClicked ?? Navigator.of(context).pop,

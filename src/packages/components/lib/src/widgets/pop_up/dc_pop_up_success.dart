@@ -9,7 +9,7 @@ class DCPopupSuccess extends StatelessWidget {
     Key? key,
     required this.boldMessage,
     required this.message,
-    required this.buttonText,
+    this.buttonText,
     this.boldMessageTextSize,
     this.boldMessageTextColor,
     this.messageTextSize,
@@ -29,7 +29,7 @@ class DCPopupSuccess extends StatelessWidget {
   final Color? messageTextColor;
   final double? messageTextSize;
 
-  final String buttonText;
+  final String? buttonText;
   final Color? buttonsColor;
   final double? buttonsWidth;
   final double? buttonsHeight;
@@ -43,30 +43,27 @@ class DCPopupSuccess extends StatelessWidget {
     //Center everything in the middle column using Alert Dialog
     return BasePopup(
       message: [
-        Text(
-          boldMessage,
+        DefaultTextStyle.merge(
           style: context.textTheme.h4BoldPoppins.copyWith(
             fontWeight: FontWeight.normal,
             fontSize: boldMessageTextSize ?? 24,
+            color: boldMessageTextColor ?? context.colorScheme.onBackground,
           ),
+          textAlign: TextAlign.center,
+          child: Text(boldMessage),
         ),
-        Text(
-          message,
+        DefaultTextStyle.merge(
           style: context.textTheme.h4BoldPoppins.copyWith(
             fontWeight: FontWeight.normal,
             fontSize: messageTextSize ?? 16,
+            color: messageTextColor ?? const Color.fromRGBO(103, 114, 148, 1),
           ),
+          textAlign: TextAlign.center,
+          child: Text(message),
         ),
       ],
-      messageTextColor: [
-        boldMessageTextColor ?? context.colorScheme.onBackground,
-        messageTextColor ?? const Color.fromRGBO(103, 114, 148, 1),
-      ],
-      messageTextSize: [boldMessageTextSize ?? 24, messageTextSize ?? 16],
       buttonsText: [
-        Text(
-          buttonText,
-        ),
+        buttonText ?? 'Confirm',
       ],
       buttonsColor: [buttonsColor ?? const Color.fromRGBO(139, 240, 180, 0.78)],
       buttonsWidth: buttonsWidth,
