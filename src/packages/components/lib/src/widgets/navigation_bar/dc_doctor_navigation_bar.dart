@@ -16,65 +16,70 @@ class DCDoctorNavigationBar extends StatelessWidget {
     this.unselectedItemColor,
     this.widthFactor = 0.8,
     this.cornerRadius = 40,
+    this.selectedIndex = 0,
+    this.iconSize = 24,
+    this.bottomPadding = 8.0,
     super.key,
   });
 
   final Color? backgroundColor;
   final Color? selectedItemColor;
   final Color? unselectedItemColor;
+  final int selectedIndex;
   final double widthFactor;
   final double cornerRadius;
+  final double iconSize;
+  final double bottomPadding;
 
-  final void Function(BuildContext context, String typeUser, int index)
-      onItemSelected;
+  final void Function(BuildContext context, int index) onItemSelected;
 
   @override
   Widget build(BuildContext context) {
-    var selectedIndex = 0;
-    var navBarItems = <BottomNavigationBarItem>[];
-
-    final backColor = backgroundColor ?? context.colorScheme.primary;
-
-    final chooseColor = selectedItemColor ?? context.colorScheme.onPrimary;
-
-    final unChooseColor = unselectedItemColor ?? context.colorScheme.quinary;
-
-    navBarItems = [
-      BottomNavigationBarItem(
-        icon: SvgPicture.string(
-          DCSVGIcons.home,
-          height: 24,
-          width: 24,
-          colorFilter: ColorFilter.mode(
-            selectedIndex == 0 ? chooseColor : unChooseColor,
-            BlendMode.srcIn,
-          ),
-        ),
-        label: 'Home',
-      ),
-      BottomNavigationBarItem(
-        icon: SvgPicture.string(
-          DCSVGIcons.messages,
-          height: 24,
-          width: 24,
-          colorFilter: ColorFilter.mode(
-            selectedIndex == 1 ? chooseColor : unChooseColor,
-            BlendMode.srcIn,
-          ),
-        ),
-        label: 'Message',
-      ),
-    ];
-
     return BaseNavigationBar(
       onItemSelected: onItemSelected,
-      backgroundColor: backColor,
-      selectedItemColor: chooseColor,
-      unselectedItemColor: unChooseColor,
+      backgroundColor: backgroundColor,
+      selectedItemColor: selectedItemColor,
+      unselectedItemColor: unselectedItemColor,
       widthFactor: widthFactor,
       cornerRadius: cornerRadius,
-      navBarItems: navBarItems,
+      navBarItems: <BottomNavigationBarItem>[
+        BottomNavigationBarItem(
+          icon: SvgPicture.string(
+            DCSVGIcons.home,
+            height: iconSize,
+            width: iconSize,
+            colorFilter: selectedIndex == 0
+                ? ColorFilter.mode(
+                    selectedItemColor ?? context.colorScheme.onPrimary,
+                    BlendMode.srcIn,
+                  )
+                : ColorFilter.mode(
+                    unselectedItemColor ?? context.colorScheme.quinary,
+                    BlendMode.srcIn,
+                  ),
+          ),
+          label: 'Home',
+        ),
+        BottomNavigationBarItem(
+          icon: SvgPicture.string(
+            DCSVGIcons.messages,
+            height: iconSize,
+            width: iconSize,
+            colorFilter: selectedIndex == 1
+                ? ColorFilter.mode(
+                    selectedItemColor ?? context.colorScheme.onPrimary,
+                    BlendMode.srcIn,
+                  )
+                : ColorFilter.mode(
+                    unselectedItemColor ?? context.colorScheme.quinary,
+                    BlendMode.srcIn,
+                  ),
+          ),
+          label: 'Message',
+        ),
+      ],
       selectedIndex: selectedIndex,
+      bottomPadding: bottomPadding,
     );
   }
 }

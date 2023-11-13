@@ -16,6 +16,9 @@ class DCCustomerNavigationBar extends StatelessWidget {
     this.unselectedItemColor,
     this.widthFactor = 0.8,
     this.cornerRadius = 40,
+    this.selectedIndex = 0,
+    this.iconSize = 24,
+    this.bottomPadding = 8.0,
     super.key,
   });
 
@@ -24,93 +27,110 @@ class DCCustomerNavigationBar extends StatelessWidget {
   final Color? unselectedItemColor;
   final double widthFactor;
   final double cornerRadius;
+  final int selectedIndex;
+  final double iconSize;
+  final double bottomPadding;
 
-  final void Function(BuildContext context, String typeUser, int index)
-      onItemSelected;
+  final void Function(BuildContext context, int index) onItemSelected;
 
   @override
   Widget build(BuildContext context) {
-    var selectedIndex = 0;
-    var navBarItems = <BottomNavigationBarItem>[];
-
-    final backColor = backgroundColor ?? context.colorScheme.primary;
-
-    final chooseColor = selectedItemColor ?? context.colorScheme.onPrimary;
-
-    final unChooseColor = unselectedItemColor ?? context.colorScheme.quinary;
-
-    navBarItems = [
-      BottomNavigationBarItem(
-        icon: SvgPicture.string(
-          DCSVGIcons.home,
-          height: 24,
-          width: 24,
-          colorFilter: ColorFilter.mode(
-            selectedIndex == 0 ? chooseColor : unChooseColor,
-            BlendMode.srcIn,
-          ),
-        ),
-        label: 'Home',
-      ),
-      BottomNavigationBarItem(
-        icon: SvgPicture.string(
-          DCSVGIcons.intake,
-          height: 24,
-          width: 24,
-          colorFilter: ColorFilter.mode(
-            selectedIndex == 1 ? chooseColor : unChooseColor,
-            BlendMode.srcIn,
-          ),
-        ),
-        label: 'Intake',
-      ),
-      BottomNavigationBarItem(
-        icon: SvgPicture.string(
-          DCSVGIcons.doctors,
-          height: 24,
-          width: 24,
-          colorFilter: ColorFilter.mode(
-            selectedIndex == 2 ? chooseColor : unChooseColor,
-            BlendMode.srcIn,
-          ),
-        ),
-        label: 'Doctor',
-      ),
-      BottomNavigationBarItem(
-        icon: SvgPicture.string(
-          DCSVGIcons.booking,
-          height: 24,
-          width: 24,
-          colorFilter: ColorFilter.mode(
-            selectedIndex == 3 ? chooseColor : unChooseColor,
-            BlendMode.srcIn,
-          ),
-        ),
-        label: 'Booking',
-      ),
-      BottomNavigationBarItem(
-        icon: SvgPicture.string(
-          DCSVGIcons.messages,
-          height: 24,
-          width: 24,
-          colorFilter: ColorFilter.mode(
-            selectedIndex == 4 ? chooseColor : unChooseColor,
-            BlendMode.srcIn,
-          ),
-        ),
-        label: 'Messages',
-      ),
-    ];
-
     return BaseNavigationBar(
       onItemSelected: onItemSelected,
-      backgroundColor: backColor,
-      selectedItemColor: chooseColor,
-      unselectedItemColor: unChooseColor,
+      backgroundColor: backgroundColor,
+      selectedItemColor: selectedItemColor,
+      unselectedItemColor: unselectedItemColor,
       widthFactor: widthFactor,
       cornerRadius: cornerRadius,
-      navBarItems: navBarItems,
+      navBarItems: <BottomNavigationBarItem>[
+        BottomNavigationBarItem(
+          icon: SvgPicture.string(
+            DCSVGIcons.home,
+            height: iconSize,
+            width: iconSize,
+            colorFilter: selectedIndex == 0
+                ? ColorFilter.mode(
+                    selectedItemColor ?? context.colorScheme.onPrimary,
+                    BlendMode.srcIn,
+                  )
+                : ColorFilter.mode(
+                    unselectedItemColor ?? context.colorScheme.quinary,
+                    BlendMode.srcIn,
+                  ),
+          ),
+          label: 'Home',
+        ),
+        BottomNavigationBarItem(
+          icon: SvgPicture.string(
+            DCSVGIcons.intake,
+            height: iconSize,
+            width: iconSize,
+            colorFilter: selectedIndex == 1
+                ? ColorFilter.mode(
+                    selectedItemColor ?? context.colorScheme.onPrimary,
+                    BlendMode.srcIn,
+                  )
+                : ColorFilter.mode(
+                    unselectedItemColor ?? context.colorScheme.quinary,
+                    BlendMode.srcIn,
+                  ),
+          ),
+          label: 'Intake',
+        ),
+        BottomNavigationBarItem(
+          icon: SvgPicture.string(
+            DCSVGIcons.doctors,
+            height: iconSize,
+            width: iconSize,
+            colorFilter: selectedIndex == 2
+                ? ColorFilter.mode(
+                    selectedItemColor ?? context.colorScheme.onPrimary,
+                    BlendMode.srcIn,
+                  )
+                : ColorFilter.mode(
+                    unselectedItemColor ?? context.colorScheme.quinary,
+                    BlendMode.srcIn,
+                  ),
+          ),
+          label: 'Doctor',
+        ),
+        BottomNavigationBarItem(
+          icon: SvgPicture.string(
+            DCSVGIcons.booking,
+            height: iconSize,
+            width: iconSize,
+            colorFilter: selectedIndex == 3
+                ? ColorFilter.mode(
+                    selectedItemColor ?? context.colorScheme.onPrimary,
+                    BlendMode.srcIn,
+                  )
+                : ColorFilter.mode(
+                    unselectedItemColor ?? context.colorScheme.quinary,
+                    BlendMode.srcIn,
+                  ),
+          ),
+          label: 'Booking',
+        ),
+        BottomNavigationBarItem(
+          icon: SvgPicture.string(
+            DCSVGIcons.messages,
+            height: iconSize,
+            width: iconSize,
+            colorFilter: selectedIndex == 4
+                ? ColorFilter.mode(
+                    selectedItemColor ?? context.colorScheme.onPrimary,
+                    BlendMode.srcIn,
+                  )
+                : ColorFilter.mode(
+                    unselectedItemColor ?? context.colorScheme.quinary,
+                    BlendMode.srcIn,
+                  ),
+          ),
+          label: 'Messages',
+        ),
+      ],
       selectedIndex: selectedIndex,
+      bottomPadding: bottomPadding,
     );
   }
 }
