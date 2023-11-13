@@ -1,3 +1,4 @@
+export 'navigation_bar/navigation_bar.dart';
 export 'drawer/dc_admin_drawer.dart';
 export 'drawer/dc_customer_drawer.dart';
 export 'drawer/dc_doctor_drawer.dart';
