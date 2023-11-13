@@ -1,7 +1,7 @@
 import 'package:components/components.dart';
+import 'package:components/src/widgets/pop_up/base_pop_up.dart';
 import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
-import 'package:components/src/widgets/pop_up/base_pop_up.dart';
 
 class DCPopupCancellation extends StatelessWidget {
   const DCPopupCancellation({
@@ -52,6 +52,7 @@ class DCPopupCancellation extends StatelessWidget {
   final double? buttonsHeight;
   final double? buttonsTextSize;
   final Color? buttonsTextColors;
+
   final void Function(BuildContext contet)? onCancelButtonClicked;
   final void Function(BuildContext contet)? onAgreeButtonClicked;
 
@@ -78,7 +79,7 @@ class DCPopupCancellation extends StatelessWidget {
           style: context.textTheme.h4BoldPoppins.copyWith(
             fontSize: messageTextSize ?? 14,
             fontWeight: FontWeight.normal,
-            color: messageTextColor ?? const Color.fromRGBO(103, 114, 148, 1),
+            color: messageTextColor ?? context.colorScheme.tertiary,
           ),
           textAlign: TextAlign.left,
           child: Text(newAppointmentMessage),
@@ -96,7 +97,7 @@ class DCPopupCancellation extends StatelessWidget {
           style: context.textTheme.h4BoldPoppins.copyWith(
             fontSize: messageTextSize ?? 14,
             fontWeight: FontWeight.normal,
-            color: messageTextColor ?? const Color.fromRGBO(103, 114, 148, 1),
+            color: messageTextColor ?? context.colorScheme.tertiary,
           ),
           textAlign: TextAlign.left,
           child: Text(symtompsMessage),
@@ -114,7 +115,7 @@ class DCPopupCancellation extends StatelessWidget {
           style: context.textTheme.h4BoldPoppins.copyWith(
             fontSize: messageTextSize ?? 14,
             fontWeight: FontWeight.normal,
-            color: messageTextColor ?? const Color.fromRGBO(103, 114, 148, 1),
+            color: messageTextColor ?? context.colorScheme.tertiary,
           ),
           textAlign: TextAlign.left,
           child: Text(noteMessage),
@@ -125,16 +126,16 @@ class DCPopupCancellation extends StatelessWidget {
         agreeButtonText ?? 'Agree',
       ],
       buttonsColor: [
-        cancelButtonColor ?? const Color.fromRGBO(244, 204, 183, 1),
-        agreeButtonColor ?? const Color.fromRGBO(139, 240, 180, 0.78),
+        cancelButtonColor ?? context.colorScheme.error,
+        agreeButtonColor ?? context.colorScheme.surface,
       ],
       buttonsWidth: buttonsWidth,
       buttonsHeight: buttonsHeight,
       buttonsTextSize: buttonsTextSize ?? 16,
       buttonsTextColors: buttonsTextColors ?? context.colorScheme.onBackground,
       onPopupButtonClicked: [
-        onCancelButtonClicked ?? Navigator.of(context).pop,
-        onAgreeButtonClicked ?? Navigator.of(context).pop,
+        (context) => onAgreeButtonClicked ?? Navigator.of(context).pop(),
+        (context) => onAgreeButtonClicked ?? Navigator.of(context).pop(),
       ],
     );
   }

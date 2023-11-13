@@ -1,7 +1,7 @@
 import 'package:components/components.dart';
+import 'package:components/src/widgets/pop_up/base_pop_up.dart';
 import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
-import 'package:components/src/widgets/pop_up/base_pop_up.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class DCPopupFailed extends StatelessWidget {
@@ -56,13 +56,13 @@ class DCPopupFailed extends StatelessWidget {
           style: context.textTheme.h4BoldPoppins.copyWith(
             fontSize: messageTextSize ?? 16,
             fontWeight: FontWeight.normal,
-            color: messageTextColor ?? const Color.fromRGBO(103, 114, 148, 1),
+            color: messageTextColor ?? context.colorScheme.tertiary,
           ),
           textAlign: TextAlign.center,
           child: Text(message),
         ),
       ],
-      buttonsColor: [buttonsColor ?? const Color.fromRGBO(244, 204, 183, 1)],
+      buttonsColor: [buttonsColor ?? context.colorScheme.error],
       buttonsWidth: buttonsWidth,
       buttonsHeight: buttonsHeight,
       buttonsTextSize: buttonsTextSize ?? 16,
@@ -75,8 +75,10 @@ class DCPopupFailed extends StatelessWidget {
           ),
         ),
       ),
-      iconBackgroundColor: const Color.fromRGBO(244, 204, 183, 1),
-      onPopupButtonClicked: [onPopupButtonClicked ?? Navigator.of(context).pop],
+      iconBackgroundColor: context.colorScheme.error,
+      onPopupButtonClicked: [
+        (context) => onPopupButtonClicked ?? Navigator.of(context).pop(),
+      ],
       buttonsText: [
         buttonText ?? 'Confirm',
       ],

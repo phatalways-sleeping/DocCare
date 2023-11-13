@@ -1,7 +1,7 @@
 import 'package:components/components.dart';
+import 'package:components/src/widgets/pop_up/base_pop_up.dart';
 import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
-import 'package:components/src/widgets/pop_up/base_pop_up.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class DCPopupDoctorCancel extends StatelessWidget {
@@ -62,7 +62,7 @@ class DCPopupDoctorCancel extends StatelessWidget {
           style: context.textTheme.h4BoldPoppins.copyWith(
             fontSize: messageTextSize ?? 16,
             fontWeight: FontWeight.normal,
-            color: messageTextColor ?? const Color.fromRGBO(103, 114, 148, 1),
+            color: messageTextColor ?? context.colorScheme.tertiary,
           ),
           textAlign: TextAlign.center,
           child: Text(message),
@@ -73,8 +73,8 @@ class DCPopupDoctorCancel extends StatelessWidget {
         agreeButtonText ?? 'Confirm',
       ],
       buttonsColor: [
-        cancelButtonColor ?? const Color.fromRGBO(244, 204, 183, 1),
-        agreeButtonColor ?? const Color.fromRGBO(139, 240, 180, 0.78),
+        cancelButtonColor ?? context.colorScheme.error,
+        agreeButtonColor ?? context.colorScheme.surface,
       ],
       buttonsWidth: buttonsWidth,
       buttonsHeight: buttonsHeight,
@@ -88,10 +88,10 @@ class DCPopupDoctorCancel extends StatelessWidget {
           ),
         ),
       ),
-      iconBackgroundColor: const Color.fromRGBO(231, 248, 242, 1),
+      iconBackgroundColor: context.colorScheme.background,
       onPopupButtonClicked: [
-        onCancelButtonClicked ?? Navigator.of(context).pop,
-        onAgreeButtonClicked ?? Navigator.of(context).pop,
+        (context) => onAgreeButtonClicked ?? Navigator.of(context).pop(),
+        (context) => onAgreeButtonClicked ?? Navigator.of(context).pop(),
       ],
     );
   }

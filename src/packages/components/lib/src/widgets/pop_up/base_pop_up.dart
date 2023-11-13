@@ -19,7 +19,7 @@ class BasePopup extends StatelessWidget {
     this.titleTextSize,
     this.titleAlignment,
     this.titleTextColor,
-    this.onPopupButtonClicked,
+    this.onPopupButtonClicked = const [],
     super.key,
   });
 
@@ -39,7 +39,7 @@ class BasePopup extends StatelessWidget {
   final Color? titleTextColor;
   final double? titleTextSize;
   final TextAlign? titleAlignment;
-  final List<Function>? onPopupButtonClicked;
+  final List<void Function(BuildContext context)> onPopupButtonClicked;
 
   @override
   Widget build(BuildContext context) {
@@ -52,14 +52,14 @@ class BasePopup extends StatelessWidget {
           fontWeight: FontWeight.bold,
         ),
         textAlign: titleAlignment ?? TextAlign.center,
-        child: title ?? Container(),
+        child: title ?? const SizedBox.shrink(),
       ),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Flexible(
             child: (popupIcon == null)
-                ? FractionallySizedBox(
+                ? const FractionallySizedBox(
                     heightFactor: 0.01,
                   )
                 : FractionallySizedBox(
@@ -97,13 +97,9 @@ class BasePopup extends StatelessWidget {
                 buttonsText.length,
                 (index) => Expanded(
                   child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: ElevatedButton(
-                      onPressed: () {
-                        if (onPopupButtonClicked != null) {
-                          onPopupButtonClicked![index](context);
-                        }
-                      },
+                      onPressed: () => onPopupButtonClicked[index](context),
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all<Color>(
                           buttonsColor![index],
