@@ -81,7 +81,7 @@ class BasePopup extends StatelessWidget {
                   ),
           ),
           Column(
-            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: message,
           ),
         ],

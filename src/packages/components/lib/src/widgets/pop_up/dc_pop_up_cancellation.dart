@@ -3,11 +3,13 @@ import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:components/src/widgets/pop_up/base_pop_up.dart';
 
-class DCPopupConfirm extends StatelessWidget {
-  const DCPopupConfirm({
+class DCPopupCancellation extends StatelessWidget {
+  const DCPopupCancellation({
     Key? key,
     required this.title,
-    required this.message,
+    required this.newAppointmentMessage,
+    required this.symtompsMessage,
+    required this.noteMessage,
     this.titleTextSize,
     this.titleAlignment,
     this.titleTextColor,
@@ -15,6 +17,8 @@ class DCPopupConfirm extends StatelessWidget {
     this.agreeButtonText,
     this.messageTextSize,
     this.messageTextColor,
+    this.boldMessageTextSize,
+    this.boldMessageTextColor,
     this.buttonsWidth,
     this.buttonsHeight,
     this.cancelButtonColor,
@@ -30,9 +34,15 @@ class DCPopupConfirm extends StatelessWidget {
   final double? titleTextSize;
   final TextAlign? titleAlignment;
 
-  final String message;
+  final String newAppointmentMessage;
+  final String symtompsMessage;
+  final String noteMessage;
+
   final Color? messageTextColor;
   final double? messageTextSize;
+
+  final Color? boldMessageTextColor;
+  final double? boldMessageTextSize;
 
   final String? cancelButtonText;
   final String? agreeButtonText;
@@ -57,17 +67,62 @@ class DCPopupConfirm extends StatelessWidget {
       message: [
         DefaultTextStyle.merge(
           style: context.textTheme.h4BoldPoppins.copyWith(
-            fontSize: messageTextSize ?? 16,
+            fontSize: boldMessageTextSize ?? 20,
+            fontWeight: FontWeight.bold,
+            color: boldMessageTextColor ?? context.colorScheme.onBackground,
+          ),
+          textAlign: TextAlign.left,
+          child: const Text('New appointment'),
+        ),
+        DefaultTextStyle.merge(
+          style: context.textTheme.h4BoldPoppins.copyWith(
+            fontSize: messageTextSize ?? 14,
             fontWeight: FontWeight.normal,
             color: messageTextColor ?? const Color.fromRGBO(103, 114, 148, 1),
           ),
-          textAlign: TextAlign.center,
-          child: Text(message),
+          textAlign: TextAlign.left,
+          child: Text(newAppointmentMessage),
+        ),
+        DefaultTextStyle.merge(
+          style: context.textTheme.h4BoldPoppins.copyWith(
+            fontSize: boldMessageTextSize ?? 20,
+            fontWeight: FontWeight.bold,
+            color: boldMessageTextColor ?? context.colorScheme.onBackground,
+          ),
+          textAlign: TextAlign.left,
+          child: const Text('Symtomps'),
+        ),
+        DefaultTextStyle.merge(
+          style: context.textTheme.h4BoldPoppins.copyWith(
+            fontSize: messageTextSize ?? 14,
+            fontWeight: FontWeight.normal,
+            color: messageTextColor ?? const Color.fromRGBO(103, 114, 148, 1),
+          ),
+          textAlign: TextAlign.left,
+          child: Text(symtompsMessage),
+        ),
+        DefaultTextStyle.merge(
+          style: context.textTheme.h4BoldPoppins.copyWith(
+            fontSize: boldMessageTextSize ?? 20,
+            fontWeight: FontWeight.bold,
+            color: boldMessageTextColor ?? context.colorScheme.onBackground,
+          ),
+          textAlign: TextAlign.left,
+          child: const Text('Note'),
+        ),
+        DefaultTextStyle.merge(
+          style: context.textTheme.h4BoldPoppins.copyWith(
+            fontSize: messageTextSize ?? 14,
+            fontWeight: FontWeight.normal,
+            color: messageTextColor ?? const Color.fromRGBO(103, 114, 148, 1),
+          ),
+          textAlign: TextAlign.left,
+          child: Text(noteMessage),
         ),
       ],
       buttonsText: [
         cancelButtonText ?? 'Cancel',
-        agreeButtonText ?? 'Confirm',
+        agreeButtonText ?? 'Agree',
       ],
       buttonsColor: [
         cancelButtonColor ?? const Color.fromRGBO(244, 204, 183, 1),
