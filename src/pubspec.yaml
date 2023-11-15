@@ -41,6 +41,8 @@ dependencies:
     path: packages/extensions
   components:
     path: packages/components
+  screens:
+    path: packages/screens
   flutter_svg: ^2.0.9
 
 dev_dependencies:

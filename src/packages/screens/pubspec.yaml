@@ -10,6 +10,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  extensions:
+    path: ../extensions
+  components:
+    path: ../components
 
 dev_dependencies:
   flutter_test:
