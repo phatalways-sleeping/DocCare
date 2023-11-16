@@ -8,11 +8,11 @@ void main() {
     test('create', () {
       // Create a `SignUpUser` instance
       final signUpUser = SignupUser(
-        fullname: 'fullname',
-        email: 'email',
-        password: 'password',
-        phone: 'phone',
-        birthday: DateTime(2000),
+        'email',
+        'password',
+        DateTime(2000),
+        'fullname',
+        'phone',
       );
 
       // Verify the instance
@@ -27,20 +27,16 @@ void main() {
     test('from', () {
       // Create a `SignUpUser` instance
       final signUpUser = SignupUser(
-        fullname: 'fullname',
-        email: 'email',
-        password: 'password',
-        phone: 'phone',
-        birthday: DateTime(2000),
+        'email',
+        'password',
+        DateTime(2000),
+        'fullname',
+        'phone',
       );
 
       // Create a `SignUpUser` instance from the `from` method
       final from = SignupUser.from(
-        fullname: 'fullname',
-        email: 'email',
-        password: 'password',
-        phone: 'phone',
-        birthday: DateTime(2000),
+        signUpUser,
       );
 
       // Verify the instance
@@ -51,11 +47,11 @@ void main() {
     test('copyWith', () {
       // Create a `SignUpUser` instance
       final signUpUser = SignupUser(
-        fullname: 'fullname',
-        email: 'email',
-        password: 'password',
-        phone: 'phone',
-        birthday: DateTime(2000),
+        'email',
+        'password',
+        DateTime(2000),
+        'fullname',
+        'phone',
       );
 
       // Copy the `SignUpUser` instance

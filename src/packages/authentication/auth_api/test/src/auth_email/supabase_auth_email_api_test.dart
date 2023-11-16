@@ -1,4 +1,3 @@
-import 'package:auth_api/src/auth_email/error_handler/supabase_auth_email_api_error_handler.dart';
 import 'package:auth_api/src/auth_email/service/supabase_auth_email_api_service.dart';
 import 'package:env_flutter/env_flutter.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -15,7 +14,8 @@ void main() {
       // Initialize SupabaseClient for testing (replace with actual configurations)
       supabase = SupabaseClient(supabaseUrl, supabaseAnonKey);
       authApi = SupabaseAuthEmailApiService(
-          supabase: supabase, errorHandler: SupabaseAuthEmailApiErrorHandler());
+        supabase: supabase,
+      );
     });
 
     test('Sign up with email and password', () async {

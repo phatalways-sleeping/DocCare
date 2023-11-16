@@ -12,4 +12,11 @@ abstract interface class AuthEmailApiService {
 
   // Send password reset email
   Future<void> sendPasswordResetEmail(String email);
+
+  // Change password
+  Future<void> changePassword(
+    String email,
+    String password,
+    String newPassword,
+  );
 }

@@ -1,22 +1,25 @@
-import 'auth_email_api_service.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:auth_api/src/auth_email/error_handler/auth_email_api_error_handler.dart';
+import 'package:auth_api/src/auth_email/error_handler/supabase_auth_email_api_error_handler.dart';
+import 'package:auth_api/src/auth_email/service/auth_email_api_service.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
+/// [SupabaseAuthEmailApiService] is the implementation
+/// of [AuthEmailApiService] using Supabase
 class SupabaseAuthEmailApiService implements AuthEmailApiService {
-  const SupabaseAuthEmailApiService({
+  /// [SupabaseAuthEmailApiService] constructor
+  SupabaseAuthEmailApiService({
     required this.supabase,
-    required this.errorHandler,
   });
-
+  
   final SupabaseClient supabase;
-  final AuthEmailApiErrorHandler errorHandler;
-
+  final AuthEmailApiErrorHandler _errorHandler =
+      const SupabaseAuthEmailApiErrorHandler();
   @override
   Future<void> signUpWithEmailPassword(String email, String password) async {
     try {
       await supabase.auth.signUp(email: email, password: password);
     } catch (e) {
-      errorHandler.handleAuthException(e);
+      _errorHandler.handleAuthException(e);
     }
   }
 
@@ -25,7 +28,7 @@ class SupabaseAuthEmailApiService implements AuthEmailApiService {
     try {
       await supabase.auth.signInWithPassword(email: email, password: password);
     } catch (e) {
-      errorHandler.handleAuthException(e);
+      _errorHandler.handleAuthException(e);
     }
   }
 
@@ -34,7 +37,7 @@ class SupabaseAuthEmailApiService implements AuthEmailApiService {
     try {
       await supabase.auth.signOut();
     } catch (e) {
-      errorHandler.handleAuthException(e);
+      _errorHandler.handleAuthException(e);
     }
   }
 
@@ -43,7 +46,15 @@ class SupabaseAuthEmailApiService implements AuthEmailApiService {
     try {
       await supabase.auth.resetPasswordForEmail(email);
     } catch (e) {
-      errorHandler.handleAuthException(e);
+      _errorHandler.handleAuthException(e);
     }
   }
+
+  @override
+  Future<void> changePassword(
+    String email,
+    String password,
+    String newPassword,
+  ) =>
+      throw UnimplementedError();
 }
