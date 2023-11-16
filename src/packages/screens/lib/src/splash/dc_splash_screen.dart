@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:screens/src/splash/dc_page_view.dart';
+import 'package:screens/src/splash/dc_page_view/dc_page_view.dart';
 
 /// {@template dc_splash_screen}
 class DCSplashScreen extends StatefulWidget {
@@ -10,29 +10,10 @@ class DCSplashScreen extends StatefulWidget {
   State<DCSplashScreen> createState() => _DCSplashScreenState();
 }
 
-class _DCSplashScreenState extends State<DCSplashScreen>
-    with SingleTickerProviderStateMixin {
-  late final scrollController = ScrollController();
-  late final animationController = AnimationController(
-    vsync: this,
-    duration: const Duration(milliseconds: 500),
-  );
-  late final animation = CurvedAnimation(
-    parent: animationController,
-    curve: Curves.easeIn,
-  );
+class _DCSplashScreenState extends State<DCSplashScreen> {
   late final pageController = PageController();
-
-  @override
-  void initState() {
-    animationController.forward();
-    super.initState();
-  }
-
   @override
   void dispose() {
-    scrollController.dispose();
-    animationController.dispose();
     pageController.dispose();
     super.dispose();
   }
