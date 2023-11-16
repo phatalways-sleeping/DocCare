@@ -28,6 +28,8 @@ class DCButton extends StatelessWidget {
     this.pressedOpacity,
     this.hoveredOpacity,
     this.iconSize,
+    this.buttonHeight,
+    this.buttonWidth,
   });
 
   final void Function()? onPressed;
@@ -53,6 +55,9 @@ class DCButton extends StatelessWidget {
   final double? pressedOpacity;
   final double? hoveredOpacity;
   final double? iconSize;
+  final double? buttonWidth;
+  final double? buttonHeight;
+
 
   @override
   Widget build(BuildContext context) {
@@ -71,6 +76,7 @@ class DCButton extends StatelessWidget {
       child: OutlinedButton(
         style: ButtonStyle(
           padding: const MaterialStatePropertyAll(EdgeInsets.zero),
+          minimumSize: MaterialStateProperty.all(Size(buttonWidth ?? 100, buttonHeight ?? 30)), // Change the values as needed
           side: MaterialStateProperty.resolveWith((states) {
             double width = borderWidth ?? 1.0;
             final borderColor =
