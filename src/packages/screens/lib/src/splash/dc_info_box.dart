@@ -9,7 +9,6 @@ class DCInformationBox extends StatelessWidget {
     required this.header,
     required this.body,
     required this.backgroundColor,
-
     this.padding = const EdgeInsets.symmetric(
       horizontal: 12,
       vertical: 8,
@@ -38,7 +37,7 @@ class DCInformationBox extends StatelessWidget {
     return Container(
       padding: padding,
       constraints: BoxConstraints(
-        maxWidth: context.width * 0.44,
+        maxWidth: context.width * 0.45,
         maxHeight: context.height * 0.18,
       ),
       decoration: BoxDecoration(
