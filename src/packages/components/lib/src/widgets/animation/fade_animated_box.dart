@@ -1,5 +1,5 @@
+import 'package:components/src/widgets/animation/base_animated_box.dart';
 import 'package:flutter/material.dart';
-import 'package:components/src/widgets/animation/animated_box.dart';
 
 /// [FadeAnimatedBox] is widget for fade animation
 final class FadeAnimatedBox extends AnimatedBox {

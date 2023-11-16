@@ -1,5 +1,5 @@
+import 'package:components/src/widgets/animation/base_animated_box.dart';
 import 'package:flutter/material.dart';
-import 'package:components/src/widgets/animation/animated_box.dart';
 
 /// [SlideAnimatedBox] is widget for sliding animation
 final class SlideAnimatedBox extends AnimatedBox {
