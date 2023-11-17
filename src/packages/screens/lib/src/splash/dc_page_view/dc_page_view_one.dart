@@ -13,24 +13,29 @@ class DCPageViewOne extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DCPageView(
-      bottom: 0.15,
+      // top: 0.44,
       action: DCButton(
-        onPressed: () {
+        onPressed: () async {
           /// TODO(phatalways-sleeping): Develop the modal bottom sheet for login
-          showModalBottomSheet<bool>(
+          await showModalBottomSheet<bool>(
             elevation: 0,
-            barrierColor: Colors.transparent,
             context: context,
-            backgroundColor: context.colorScheme.surface,
+            backgroundColor: context.colorScheme.background,
+            isScrollControlled: true,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
-            ),
-            builder: (context) => SizedBox(
-              height: context.height * 0.5,
-              child: const Center(
-                child: Text('Hello'),
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(40),
+                topRight: Radius.circular(40),
+              ),
+              side: BorderSide(
+                color: context.colorScheme.secondary,
+                width: 2,
               ),
             ),
+            constraints: BoxConstraints(
+              maxHeight: context.height * 0.6,
+            ),
+            builder: (context) => const DCLoginModalBottomSheet(),
           );
         },
         text: 'Get Started',
@@ -42,18 +47,22 @@ class DCPageViewOne extends StatelessWidget {
         textColor: context.colorScheme.onSecondary,
         borderColor: Colors.transparent,
       ),
-      background: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Image.asset(
-            'assets/images/pic_1.png',
-            fit: BoxFit.cover,
-          ),
-          Image.asset(
-            'assets/images/pic_2.png',
-            fit: BoxFit.cover,
-          ),
-        ],
+      background: SingleChildScrollView(
+        physics: const NeverScrollableScrollPhysics(),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Image.asset(
+              'assets/images/pic_1.png',
+              fit: BoxFit.cover,
+            ),
+            Image.asset(
+              'assets/images/pic_2.png',
+              fit: BoxFit.cover,
+            ),
+          ],
+        ),
       ),
       foreground: [
         SlideAnimatedBox(
@@ -121,9 +130,6 @@ class DCPageViewOne extends StatelessWidget {
                 ),
                 backgroundColor: context.colorScheme.secondary,
               ),
-            ),
-            SizedBox(
-              width: context.width * 0.05,
             ),
             FadeAnimatedBox(
               duration: const Duration(

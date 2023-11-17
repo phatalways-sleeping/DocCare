@@ -1,6 +1,7 @@
 import 'package:components/components.dart';
 import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
+import 'package:screens/src/login/dc_login_modal_bottom_sheet.dart';
 import 'package:screens/src/splash/dc_info_box.dart';
 
 part 'dc_page_view_one.dart';
@@ -16,11 +17,11 @@ base class DCPageView extends StatelessWidget {
     this.duration = const Duration(milliseconds: 500),
     this.footer,
     this.action,
-    this.bottom,
+    this.top,
     super.key,
   }) : assert(
-          footer == null || bottom == null || bottom >= 0.1,
-          'bottom must be greater than 0.2',
+          footer == null || top == null || top >= 0.4,
+          'top must be greater than 0.4',
         );
 
   final Widget background;
@@ -30,7 +31,7 @@ base class DCPageView extends StatelessWidget {
 
   final MainAxisAlignment alignment;
 
-  final double? bottom;
+  final double? top;
 
   final Duration duration;
 
@@ -57,9 +58,9 @@ base class DCPageView extends StatelessWidget {
               child: action!,
             ),
           ),
-        if (bottom != null)
+        if (top != null)
           Positioned(
-            bottom: context.height * bottom!,
+            top: context.height * top!,
             child: DefaultTextStyle.merge(
               style: context.textTheme.h1BoldPoppins,
               child: Column(
@@ -69,11 +70,14 @@ base class DCPageView extends StatelessWidget {
             ),
           )
         else
-          DefaultTextStyle.merge(
-            style: context.textTheme.h1BoldPoppins,
-            child: Column(
-              mainAxisAlignment: alignment,
-              children: foreground,
+          SingleChildScrollView(
+            physics: const NeverScrollableScrollPhysics(),
+            child: DefaultTextStyle.merge(
+              style: context.textTheme.h1BoldPoppins,
+              child: Column(
+                mainAxisAlignment: alignment,
+                children: foreground,
+              ),
             ),
           ),
         if (footer != null)
