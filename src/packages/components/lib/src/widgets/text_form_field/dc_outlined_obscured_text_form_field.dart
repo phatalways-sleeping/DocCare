@@ -59,7 +59,7 @@ class DCOutlinedObscuredTextFormField extends StatelessWidget {
   final TextInputType? keyboardType;
   final Brightness? keyboardAppearance;
   final String obscuringCharacter;
-  final BoxConstraints? constraints;
+  final BoxConstraints constraints;
   final double? iconSize;
   final Color? color;
   final void Function(BuildContext context, TextEditingController controller)?
@@ -89,8 +89,6 @@ class DCOutlinedObscuredTextFormField extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseTextFormField(
       constraints: constraints,
-      heightFactor: heightFactor,
-      widthFactor: widthFactor,
       iconSize: iconSize ?? 20,
       color: color ??
           context.theme.colorScheme.onSecondary, // The color of text, icon

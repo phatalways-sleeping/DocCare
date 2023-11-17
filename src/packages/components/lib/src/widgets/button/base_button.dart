@@ -14,8 +14,8 @@ class BaseButton extends StatelessWidget {
     this.iconColor,
     this.minimumSize,
     this.maximumSize,
+    this.fixedSize,
     this.splashColor,
-    this.styleWithRespectToParent = true,
     this.alignment = Alignment.center,
     this.shadowColor = Colors.transparent,
     this.borderRadius = const BorderRadius.all(
@@ -25,17 +25,10 @@ class BaseButton extends StatelessWidget {
       vertical: 12,
       horizontal: 16,
     ),
-    this.widthFactor = 0.8,
-    this.heightFactor = 0.14,
     this.tapTargetSize = MaterialTapTargetSize.shrinkWrap,
     this.splashFactory = InkRipple.splashFactory,
     super.key,
-  }) : assert(
-          styleWithRespectToParent ||
-              (minimumSize != null && maximumSize != null),
-          '''
-If styleWithRespectToParent is false, then minimumSize and maximumSize must be provided.''',
-        );
+  });
 
   final void Function(BuildContext context) onPressed;
   final EdgeInsetsGeometry padding;
@@ -50,13 +43,9 @@ If styleWithRespectToParent is false, then minimumSize and maximumSize must be p
   final Color? iconColor;
   final Color? splashColor;
 
-  final bool styleWithRespectToParent;
-
   final Size? minimumSize;
   final Size? maximumSize;
-
-  final double widthFactor;
-  final double heightFactor;
+  final Size? fixedSize;
 
   final Alignment alignment;
 
@@ -70,69 +59,6 @@ If styleWithRespectToParent is false, then minimumSize and maximumSize must be p
 
   @override
   Widget build(BuildContext context) {
-    if (styleWithRespectToParent) {
-      return FractionallySizedBox(
-        widthFactor: widthFactor,
-        heightFactor: heightFactor,
-        child: ElevatedButton(
-          onPressed: () => onPressed(context),
-          style: ButtonStyle(
-            padding: MaterialStatePropertyAll(padding),
-            side: MaterialStatePropertyAll(borderSide),
-            overlayColor: const MaterialStatePropertyAll(Colors.transparent),
-            textStyle: MaterialStatePropertyAll(textStyle),
-            iconColor: MaterialStatePropertyAll(iconColor),
-            foregroundColor: MaterialStateProperty.resolveWith((states) {
-              if (states.contains(MaterialState.focused)) {
-                return foregroundColor;
-              } else if (states.contains(MaterialState.hovered)) {
-                return foregroundColor.withOpacity(0.8);
-              } else if (states.contains(MaterialState.pressed)) {
-                return foregroundColor.withOpacity(0.5);
-              } else if (states.contains(MaterialState.disabled)) {
-                return foregroundColor.withOpacity(0.5);
-              }
-              return foregroundColor;
-            }),
-            backgroundColor: splashColor != null
-                ? MaterialStateProperty.resolveWith((states) {
-                    if (states.contains(MaterialState.focused)) {
-                      return splashColor;
-                    } else if (states.contains(MaterialState.hovered)) {
-                      return splashColor?.withOpacity(0.8);
-                    } else if (states.contains(MaterialState.pressed)) {
-                      return splashColor?.withOpacity(0.5);
-                    } else if (states.contains(MaterialState.disabled)) {
-                      return splashColor?.withOpacity(0.5);
-                    }
-                    return Colors.transparent;
-                  })
-                : MaterialStateProperty.resolveWith((states) {
-                    if (states.contains(MaterialState.focused)) {
-                      return backgroundColor;
-                    } else if (states.contains(MaterialState.hovered)) {
-                      return backgroundColor.withOpacity(0.8);
-                    } else if (states.contains(MaterialState.pressed)) {
-                      return backgroundColor.withOpacity(0.5);
-                    } else if (states.contains(MaterialState.disabled)) {
-                      return backgroundColor.withOpacity(0.5);
-                    }
-                    return backgroundColor;
-                  }),
-            shape: MaterialStatePropertyAll(
-              RoundedRectangleBorder(
-                borderRadius: borderRadius,
-              ),
-            ),
-            shadowColor: MaterialStatePropertyAll(shadowColor),
-            splashFactory: InkRipple.splashFactory,
-            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            alignment: alignment,
-          ),
-          child: child,
-        ),
-      );
-    }
     return ElevatedButton(
       onPressed: () => onPressed(context),
       style: ButtonStyle(
@@ -153,6 +79,7 @@ If styleWithRespectToParent is false, then minimumSize and maximumSize must be p
         }),
         minimumSize: MaterialStatePropertyAll(minimumSize),
         maximumSize: MaterialStatePropertyAll(maximumSize),
+        fixedSize: MaterialStatePropertyAll(fixedSize),
         backgroundColor: MaterialStateProperty.resolveWith((states) {
           if (states.contains(MaterialState.focused)) {
             return backgroundColor;

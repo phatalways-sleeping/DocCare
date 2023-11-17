@@ -13,8 +13,7 @@ class DCFilledButton extends StatelessWidget {
     this.borderSide,
     this.minimumSize,
     this.maximumSize,
-    this.widthFactor = 0.8,
-    this.heightFactor = 0.05,
+    this.fixedSize,
     this.alignment = Alignment.center,
     this.tapTargetSize = MaterialTapTargetSize.shrinkWrap,
     this.splashFactory = InkRipple.splashFactory,
@@ -49,9 +48,7 @@ class DCFilledButton extends StatelessWidget {
 
   final Size? minimumSize;
   final Size? maximumSize;
-
-  final double widthFactor;
-  final double heightFactor;
+  final Size? fixedSize;
 
   final Alignment alignment;
 
@@ -80,8 +77,7 @@ class DCFilledButton extends StatelessWidget {
       iconColor: iconColor,
       minimumSize: minimumSize,
       maximumSize: maximumSize,
-      widthFactor: widthFactor,
-      heightFactor: heightFactor,
+      fixedSize: fixedSize,
       alignment: alignment,
       tapTargetSize: tapTargetSize,
       splashFactory: splashFactory,
