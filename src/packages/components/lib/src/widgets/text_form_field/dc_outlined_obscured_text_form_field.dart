@@ -42,6 +42,7 @@ class DCOutlinedObscuredTextFormField extends StatelessWidget {
     this.suffixIcon,
     this.suffixIconOnObscuredMode,
     this.onSuffixIconPressed,
+    this.onFocus,
     this.suffixIconTooltip,
     this.onlyShowIconOnFocus = false,
     this.validator,
@@ -78,6 +79,7 @@ class DCOutlinedObscuredTextFormField extends StatelessWidget {
   final Widget? suffixIconOnObscuredMode;
   final void Function(BuildContext context, TextEditingController controller)?
       onSuffixIconPressed;
+  final void Function(BuildContext context, FocusNode focusNode)? onFocus; 
   final String? suffixIconTooltip;
   final bool onlyShowIconOnFocus;
   final FormFieldValidator<String>? validator;
@@ -129,6 +131,7 @@ class DCOutlinedObscuredTextFormField extends StatelessWidget {
             height: iconSize,
           ),
       onSuffixIconPressed: onSuffixIconPressed,
+      onFocus: onFocus,
       suffixIconTooltip: suffixIconTooltip,
       onlyShowIconOnFocus: onlyShowIconOnFocus,
       validator: validator,

@@ -36,6 +36,7 @@ base class BaseTextFormField extends StatefulWidget {
     this.suffixIconOnObscuredMode,
     this.onPrefixIconPressed,
     this.onSuffixIconPressed,
+    this.onFocus,
     this.prefixIconTooltip,
     this.suffixIconTooltip,
     this.onlyShowIconOnFocus = false,
@@ -74,6 +75,7 @@ base class BaseTextFormField extends StatefulWidget {
       onPrefixIconPressed;
   final void Function(BuildContext context, TextEditingController controller)?
       onSuffixIconPressed;
+  final void Function(BuildContext context, FocusNode focusNode)? onFocus;
   final String? prefixIconTooltip;
   final String? suffixIconTooltip;
   final bool onlyShowIconOnFocus;
@@ -144,7 +146,10 @@ class _BaseTextFormFieldState extends State<BaseTextFormField> {
         color: widget.color,
       ),
       focusNode: focusNode,
-      onTap: () => focusNode.requestFocus(),
+      onTap: () {
+        widget.onFocus?.call(context, focusNode);
+        focusNode.requestFocus();
+      },
       validator: widget.validator,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       keyboardAppearance: widget.keyboardAppearance,

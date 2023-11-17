@@ -43,6 +43,7 @@ class DCOutlinedWithHeadingTextFormField extends StatelessWidget {
     this.suffixIcon,
     this.onPrefixIconPressed,
     this.onSuffixIconPressed,
+    this.onFocus,
     this.prefixIconTooltip,
     this.suffixIconTooltip,
     this.onlyShowIconOnFocus = false,
@@ -93,6 +94,7 @@ class DCOutlinedWithHeadingTextFormField extends StatelessWidget {
       onPrefixIconPressed;
   final void Function(BuildContext context, TextEditingController controller)?
       onSuffixIconPressed;
+  final void Function(BuildContext context, FocusNode focusNode)? onFocus;
   final String? prefixIconTooltip;
   final String? suffixIconTooltip;
   final bool onlyShowIconOnFocus;
@@ -139,6 +141,7 @@ class DCOutlinedWithHeadingTextFormField extends StatelessWidget {
             hintText: hintText,
             suffixIcon: suffixIcon,
             onSuffixIconPressed: onSuffixIconPressed,
+            onFocus: onFocus,
             suffixIconTooltip: suffixIconTooltip,
             onlyShowIconOnFocus: onlyShowIconOnFocus,
             validator: validator,
@@ -171,6 +174,7 @@ class DCOutlinedWithHeadingTextFormField extends StatelessWidget {
             suffixIcon: suffixIcon,
             onPrefixIconPressed: onPrefixIconPressed,
             onSuffixIconPressed: onSuffixIconPressed,
+            onFocus: onFocus,
             prefixIconTooltip: prefixIconTooltip,
             suffixIconTooltip: suffixIconTooltip,
             onlyShowIconOnFocus: onlyShowIconOnFocus,
