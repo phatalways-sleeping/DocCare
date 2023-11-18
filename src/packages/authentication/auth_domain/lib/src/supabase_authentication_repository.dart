@@ -29,8 +29,37 @@ class SupabaseAuthenticationRepository
       );
 
   @override
-  Future<void> login(AuthenticationUserService user) =>
-      _authEmailApiService.signInWithEmailPassword(user.email, user.password);
+  Future<void> login(AuthenticationUserService user) async {
+    /////////////////////////////////////////////////////////////////
+    // TODO: extract these steps of validation to a separate class and use it in all authentication repositories. 
+    // It could use the idea of Chain of Responsibility pattern.
+    /////////////////////////////////////////////////////////////////
+    /// Check if email and password is empty
+    if (user.email.isEmpty) {
+      throw const AuthException('Email cannot be empty');
+    }
+
+    if (user.password.isEmpty) {
+      throw const AuthException('Password cannot be empty');
+    }
+
+    /// Format verification
+    final invalidCharacters = RegExp(r'^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+');
+    if (!invalidCharacters.hasMatch(user.email)) {
+      throw const AuthException('Email is invalid');
+    }
+
+    /// Password length verification
+    if (user.password.length < 8) {
+      throw const AuthException('Password must be at least 8 characters');
+    }
+    /////////////////////////////////////////////////////////////////
+
+    await _authEmailApiService.signInWithEmailPassword(
+      user.email,
+      user.password,
+    );
+  }
 
   @override
   Future<void> logout() => _authEmailApiService.signOut();
