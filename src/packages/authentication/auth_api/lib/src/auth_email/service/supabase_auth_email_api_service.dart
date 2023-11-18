@@ -12,14 +12,12 @@ class SupabaseAuthEmailApiService implements AuthEmailApiService {
   });
 
   final SupabaseClient supabase;
-  final AuthEmailApiErrorHandler _errorHandler =
-      const SupabaseAuthEmailApiErrorHandler();
   @override
   Future<void> signUpWithEmailPassword(String email, String password) async {
     try {
       await supabase.auth.signUp(email: email, password: password);
     } catch (e) {
-      _errorHandler.handleAuthException(Exception(e));
+      throw SupabaseAuthEmailApiErrorHandler(error: Exception(e));
     }
   }
 
@@ -28,7 +26,7 @@ class SupabaseAuthEmailApiService implements AuthEmailApiService {
     try {
       await supabase.auth.signInWithPassword(email: email, password: password);
     } catch (e) {
-      _errorHandler.handleAuthException(Exception(e));
+      throw SupabaseAuthEmailApiErrorHandler(error: Exception(e));
     }
   }
 
@@ -37,7 +35,7 @@ class SupabaseAuthEmailApiService implements AuthEmailApiService {
     try {
       await supabase.auth.signOut();
     } catch (e) {
-      _errorHandler.handleAuthException(Exception(e));
+      throw SupabaseAuthEmailApiErrorHandler(error: Exception(e));
     }
   }
 
@@ -46,7 +44,7 @@ class SupabaseAuthEmailApiService implements AuthEmailApiService {
     try {
       await supabase.auth.resetPasswordForEmail(email);
     } catch (e) {
-      _errorHandler.handleAuthException(Exception(e));
+      throw SupabaseAuthEmailApiErrorHandler(error: Exception(e));
     }
   }
 

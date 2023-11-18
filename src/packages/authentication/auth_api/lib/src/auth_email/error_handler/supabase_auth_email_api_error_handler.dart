@@ -6,7 +6,11 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 /// [AuthEmailApiErrorHandler] for Supabase
 class SupabaseAuthEmailApiErrorHandler implements AuthEmailApiErrorHandler {
   /// [SupabaseAuthEmailApiErrorHandler] constructor
-  const SupabaseAuthEmailApiErrorHandler();
+  const SupabaseAuthEmailApiErrorHandler({
+    required this.error,
+  });
+
+  final Exception error;
 
   @override
   void handleAuthException(Exception e) {
