@@ -15,8 +15,6 @@ abstract interface class AuthEmailApiService {
 
   // Change password
   Future<void> changePassword(
-    String email,
-    String password,
     String newPassword,
   );
 }

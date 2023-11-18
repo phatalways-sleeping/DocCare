@@ -1,3 +1,3 @@
-abstract class AuthEmailApiErrorHandler {
-  void handleAuthException(Exception e);
+abstract interface class AuthEmailApiErrorHandler<T extends Exception> {
+  void handleAuthException(T e);
 }
