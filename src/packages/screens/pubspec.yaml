@@ -8,15 +8,24 @@ environment:
   flutter: ">=3.10.0"
 
 dependencies:
-  flutter:
-    sdk: flutter
-  extensions:
-    path: ../extensions
+  auth_api:
+    path: ../authentication/auth_api
+  auth_domain:
+    path: ../authentication/auth_domain
+  bloc: ^8.1.2
   components:
     path: ../components
+  equatable: ^2.0.5
+  extensions:
+    path: ../extensions
+  flutter:
+    sdk: flutter
   flutter_bloc: ^8.1.3
-  bloc: ^8.1.2
   meta: ^1.9.1
+  models:
+    path: ../models
+  utility:
+    path: ../utility
 
 dev_dependencies:
   flutter_test:

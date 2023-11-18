@@ -8,15 +8,14 @@ class DCPageViewOne extends StatelessWidget {
     super.key,
   });
 
+  /// [pageController] is the [PageController] used to animate the page
   final PageController pageController;
 
   @override
   Widget build(BuildContext context) {
     return DCPageView(
-      // top: 0.44,
       action: DCButton(
         onPressed: () async {
-          /// TODO(phatalways-sleeping): Develop the modal bottom sheet for login
           await showModalBottomSheet<bool>(
             elevation: 0,
             context: context,
@@ -35,7 +34,15 @@ class DCPageViewOne extends StatelessWidget {
             constraints: BoxConstraints(
               maxHeight: context.height * 0.6,
             ),
-            builder: (context) => const DCLoginModalBottomSheet(),
+            // Pass the [LoginBloc] to the [DCLoginModalBottomSheet]
+            // to use it's [LoginState] and [LoginEvent]
+            builder: (context) => BlocProvider(
+              create: (context) => LoginBloc(
+                SupabaseAuthenticationRepository.instance,
+                NotificationManager.instance,
+              ),
+              child: const DCLoginModalBottomSheet(),
+            ),
           );
         },
         text: 'Get Started',
