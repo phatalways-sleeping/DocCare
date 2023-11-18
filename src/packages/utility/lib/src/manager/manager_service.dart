@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/widgets.dart';
+import 'package:utility/src/manager/dialog_manager.dart';
 
 import 'package:utility/utility.dart';
 
@@ -22,7 +23,11 @@ abstract interface class ManagerService<R> {
   void dismiss<T>([T? result]);
 
   /// [show] is the method to show the widget on top of the screen.
-  Future<T?> show<T>(R state);
+  Future<T?> show<T>(R type, {
+    Widget? title,
+    Widget? message,
+    Duration duration = const Duration(seconds: 2),
+  });
 
   /// [dispose] is the method to dispose the manager service.
   /// For example, it is used to close the stream controller.
@@ -32,7 +37,7 @@ abstract interface class ManagerService<R> {
 /// [DialogManagerService] is the base class for all dialog manager services.
 /// including: managing dialog, which requires to display on top of the screen.
 abstract interface class DialogManagerService
-    extends ManagerService<DialogState> {
+    extends ManagerService<DialogType> {
   /// [DialogManagerService] constructor.
   const DialogManagerService();
 }
@@ -41,7 +46,7 @@ abstract interface class DialogManagerService
 /// services, including: managing notification, which requires
 /// to display on top of the screen.
 abstract interface class NotificationManagerService
-    extends ManagerService<NotificationState> {
+    extends ManagerService<NotificationType> {
   /// [NotificationManagerService] constructor.
   const NotificationManagerService();
 }

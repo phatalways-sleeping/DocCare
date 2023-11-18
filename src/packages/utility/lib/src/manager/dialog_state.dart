@@ -1,4 +1,4 @@
-import 'package:flutter/widgets.dart';
+part of 'dialog_manager.dart';
 
 /// [DialogType] is the enum class for dialog type.
 enum DialogType {

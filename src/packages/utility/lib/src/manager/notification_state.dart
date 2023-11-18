@@ -1,48 +1,58 @@
-import 'package:components/components.dart';
-import 'package:extensions/extensions.dart';
-import 'package:flutter/material.dart';
-import 'package:utility/src/manager/notification_manager.dart';
+part of 'notification_manager.dart';
 
 /// [NotificationType] is the enum class for notification type.
 enum NotificationType {
   /// [login] is the enum for login notification type.
   login,
+
+  /// [dismissed] is the enum for dismissed notification type.
+  dismissed,
 }
 
-/// [NotificationState] is the abstract class for all notification states.
-@immutable
-sealed class NotificationState {
-  /// Constructor for [NotificationState].
-  const NotificationState();
+/// [NotificationBuilder] is the abstract class for all notification states.
+sealed class NotificationBuilder {
+  /// Constructor for [NotificationBuilder].
+  const NotificationBuilder();
 
   /// [build] is the method to build the dialog.
   Widget build(BuildContext context);
+
+  /// [wrapWith] is the method to wrap the notification with
+  void wrapWith({required Widget title, required Widget message});
 }
 
-/// [DismissedNotificationState] is the class for dismissed notification state.
-class DismissedNotificationState extends NotificationState {
-  /// Constructor for [DismissedNotificationState].
-  const DismissedNotificationState();
+/// [DismissedNotificationBuilder] is the class for dismissed notification state.
+@immutable
+class DismissedNotificationBuilder extends NotificationBuilder {
+  /// Constructor for [DismissedNotificationBuilder].
+  const DismissedNotificationBuilder();
 
-  // DismissedNotificationState does not have build method
+  // DismissedNotificationBuilder does not have build method
   @override
   Widget build(BuildContext context) => throw UnimplementedError();
+
+  @override
+  void wrapWith({required Widget title, required Widget message}) =>
+      throw UnimplementedError();
 }
 
-/// [LoginNotificationState] is the class for
+/// [LoginNotificationBuilder] is the class for
 /// login notification state.
-class LoginNotificationState extends NotificationState {
-  /// Constructor for [LoginNotificationState].
-  const LoginNotificationState({
-    required this.title,
-    required this.message,
-  });
+class LoginNotificationBuilder extends NotificationBuilder {
+  /// Constructor for [LoginNotificationBuilder].
+  LoginNotificationBuilder();
 
   /// [title] is the title of the notification.
-  final Widget title;
+  late Widget title;
 
   /// [message] is the message of the notification.
-  final Widget message;
+  late Widget message;
+
+  @override
+  void wrapWith({required Widget title, required Widget message}) {
+    this.title = title;
+    this.message = message;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,8 +66,7 @@ class LoginNotificationState extends NotificationState {
             message: message,
             backgroundColor: context.colorScheme.secondary,
             textColor: context.colorScheme.onSecondary,
-            onPressed: (context) =>
-                NotificationManager.instance.dismiss<void>(),
+            onPressed: (context) {},
           ),
         ),
       ),
