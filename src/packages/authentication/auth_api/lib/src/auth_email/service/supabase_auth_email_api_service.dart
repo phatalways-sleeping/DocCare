@@ -10,7 +10,7 @@ class SupabaseAuthEmailApiService implements AuthEmailApiService {
   SupabaseAuthEmailApiService({
     required this.supabase,
   });
-  
+
   final SupabaseClient supabase;
   final AuthEmailApiErrorHandler _errorHandler =
       const SupabaseAuthEmailApiErrorHandler();
@@ -19,7 +19,7 @@ class SupabaseAuthEmailApiService implements AuthEmailApiService {
     try {
       await supabase.auth.signUp(email: email, password: password);
     } catch (e) {
-      _errorHandler.handleAuthException(e);
+      _errorHandler.handleAuthException(Exception(e));
     }
   }
 
@@ -28,7 +28,7 @@ class SupabaseAuthEmailApiService implements AuthEmailApiService {
     try {
       await supabase.auth.signInWithPassword(email: email, password: password);
     } catch (e) {
-      _errorHandler.handleAuthException(e);
+      _errorHandler.handleAuthException(Exception(e));
     }
   }
 
@@ -37,7 +37,7 @@ class SupabaseAuthEmailApiService implements AuthEmailApiService {
     try {
       await supabase.auth.signOut();
     } catch (e) {
-      _errorHandler.handleAuthException(e);
+      _errorHandler.handleAuthException(Exception(e));
     }
   }
 
@@ -46,7 +46,7 @@ class SupabaseAuthEmailApiService implements AuthEmailApiService {
     try {
       await supabase.auth.resetPasswordForEmail(email);
     } catch (e) {
-      _errorHandler.handleAuthException(e);
+      _errorHandler.handleAuthException(Exception(e));
     }
   }
 

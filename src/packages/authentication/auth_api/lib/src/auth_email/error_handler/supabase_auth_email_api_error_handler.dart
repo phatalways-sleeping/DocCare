@@ -7,9 +7,9 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class SupabaseAuthEmailApiErrorHandler implements AuthEmailApiErrorHandler {
   /// [SupabaseAuthEmailApiErrorHandler] constructor
   const SupabaseAuthEmailApiErrorHandler();
-  
+
   @override
-  void handleAuthException(dynamic e) {
+  void handleAuthException(Exception e) {
     // Handle specific platform exceptions and throw custom AuthException
     if (e is PlatformException) {
       if (e.code == 'MISSING_EMAIL') {

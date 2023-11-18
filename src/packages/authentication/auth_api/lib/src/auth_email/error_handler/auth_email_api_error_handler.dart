@@ -1,3 +1,3 @@
 abstract class AuthEmailApiErrorHandler {
-  void handleAuthException(dynamic e);
+  void handleAuthException(Exception e);
 }
