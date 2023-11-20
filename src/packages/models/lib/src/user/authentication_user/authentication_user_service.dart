@@ -13,8 +13,7 @@ abstract interface class AuthenticationUserService {
 
 /// [ChangePasswordUserService] is the interface for the user
 /// service of authentication for sign up
-abstract interface class ChangePasswordUserService
-    extends AuthenticationUserService {
+abstract interface class ChangePasswordUserService {
   /// Constructor
   const ChangePasswordUserService();
 

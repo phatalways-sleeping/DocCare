@@ -23,15 +23,13 @@ class SupabaseAuthenticationRepository
   @override
   Future<void> changePassword(ChangePasswordUserService user) =>
       _authEmailApiService.changePassword(
-        user.email,
-        user.password,
         user.newPassword,
       );
 
   @override
   Future<void> login(AuthenticationUserService user) async {
     /////////////////////////////////////////////////////////////////
-    // TODO: extract these steps of validation to a separate class and use it in all authentication repositories. 
+    // TODO: extract these steps of validation to a separate class and use it in all authentication repositories.
     // It could use the idea of Chain of Responsibility pattern.
     /////////////////////////////////////////////////////////////////
     /// Check if email and password is empty
