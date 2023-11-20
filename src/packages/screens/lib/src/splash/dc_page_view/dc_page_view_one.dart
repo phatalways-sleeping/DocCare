@@ -5,17 +5,23 @@ class DCPageViewOne extends StatelessWidget {
   /// {@macro dc_page_view_one}
   const DCPageViewOne({
     required this.pageController,
+    required this.transitionAnimationController,
     super.key,
   });
 
   /// [pageController] is the [PageController] used to animate the page
   final PageController pageController;
 
+  /// [transitionAnimationController] is the [AnimationController]
+  /// used to animate the transition
+  final AnimationController transitionAnimationController;
+
   @override
   Widget build(BuildContext context) {
     return DCPageView(
       action: DCButton(
         onPressed: () async {
+          final loginBloc = context.read<LoginBloc>();
           await showModalBottomSheet<bool>(
             elevation: 0,
             context: context,
@@ -34,13 +40,12 @@ class DCPageViewOne extends StatelessWidget {
             constraints: BoxConstraints(
               maxHeight: context.height * 0.6,
             ),
+            transitionAnimationController: transitionAnimationController
+              ..forward(),
             // Pass the [LoginBloc] to the [DCLoginModalBottomSheet]
             // to use it's [LoginState] and [LoginEvent]
-            builder: (context) => BlocProvider(
-              create: (context) => LoginBloc(
-                SupabaseAuthenticationRepository.instance,
-                NotificationManager.instance,
-              ),
+            builder: (context) => BlocProvider.value(
+              value: loginBloc,
               child: const DCLoginModalBottomSheet(),
             ),
           );
@@ -54,22 +59,19 @@ class DCPageViewOne extends StatelessWidget {
         textColor: context.colorScheme.onSecondary,
         borderColor: Colors.transparent,
       ),
-      background: SingleChildScrollView(
-        physics: const NeverScrollableScrollPhysics(),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Image.asset(
-              'assets/images/pic_1.png',
-              fit: BoxFit.cover,
-            ),
-            Image.asset(
-              'assets/images/pic_2.png',
-              fit: BoxFit.cover,
-            ),
-          ],
-        ),
+      background: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Image.asset(
+            'assets/images/pic_1.png',
+            fit: BoxFit.cover,
+          ),
+          Image.asset(
+            'assets/images/pic_2.png',
+            fit: BoxFit.cover,
+          ),
+        ],
       ),
       foreground: [
         SlideAnimatedBox(
