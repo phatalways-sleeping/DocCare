@@ -1,4 +1,4 @@
 /// Package for screens in this application
 library screens;
 
-export 'src/screens.dart';
+export 'src/splash/dc_splash_screen.dart';

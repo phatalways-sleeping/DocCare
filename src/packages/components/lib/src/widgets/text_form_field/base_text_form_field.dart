@@ -15,16 +15,13 @@ base class BaseTextFormField extends StatefulWidget {
     required this.color,
     required this.inputBorder,
     required this.contentPadding,
+    required this.constraints,
     this.textAlign = TextAlign.justify,
     this.textAlignVertical = TextAlignVertical.center,
     this.textCapitalization = TextCapitalization.none,
     this.keyboardType,
     this.keyboardAppearance,
     this.obscuringCharacter = '•',
-    this.constraints = const BoxConstraints(
-      minHeight: 48,
-      minWidth: double.infinity,
-    ),
     this.iconSize = 20,
     this.onChanged,
     this.maxLength,
@@ -39,6 +36,7 @@ base class BaseTextFormField extends StatefulWidget {
     this.suffixIconOnObscuredMode,
     this.onPrefixIconPressed,
     this.onSuffixIconPressed,
+    this.onFocus,
     this.prefixIconTooltip,
     this.suffixIconTooltip,
     this.onlyShowIconOnFocus = false,
@@ -77,6 +75,7 @@ base class BaseTextFormField extends StatefulWidget {
       onPrefixIconPressed;
   final void Function(BuildContext context, TextEditingController controller)?
       onSuffixIconPressed;
+  final void Function(BuildContext context, FocusNode focusNode)? onFocus;
   final String? prefixIconTooltip;
   final String? suffixIconTooltip;
   final bool onlyShowIconOnFocus;
@@ -147,7 +146,10 @@ class _BaseTextFormFieldState extends State<BaseTextFormField> {
         color: widget.color,
       ),
       focusNode: focusNode,
-      onTap: () => focusNode.requestFocus(),
+      onTap: () {
+        widget.onFocus?.call(context, focusNode);
+        focusNode.requestFocus();
+      },
       validator: widget.validator,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       keyboardAppearance: widget.keyboardAppearance,
@@ -169,9 +171,8 @@ class _BaseTextFormFieldState extends State<BaseTextFormField> {
         ),
         labelText: widget.labelText,
         labelStyle: context.textTheme.h6RegularPoppins.copyWith(
-          color: focusNode.hasFocus
-              ? widget.color
-              : widget.color.withOpacity(0.8),
+          color:
+              focusNode.hasFocus ? widget.color : widget.color.withOpacity(0.8),
         ),
         helperText: widget.helperText,
         helperStyle: context.textTheme.sub1RegularPoppins.copyWith(

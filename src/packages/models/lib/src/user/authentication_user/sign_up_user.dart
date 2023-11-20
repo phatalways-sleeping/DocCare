@@ -1,36 +1,48 @@
 import 'package:equatable/equatable.dart';
+import 'package:models/src/user/authentication_user/authentication_user_service.dart';
 
-final class SignupUser extends Equatable {
-  const SignupUser({
-    required this.email,
-    required this.password,
-    required this.birthday,
-    required this.fullname,
-    required this.phone,
-  });
+/// [SignupUser] is the user for registration
+final class SignupUser extends Equatable
+    implements RegistrationAuthenticationUserService {
+  /// Constructor
+  const SignupUser(
+    this._email,
+    this._password,
+    this._birthday,
+    this._fullname,
+    this._phone,
+  );
 
-  factory SignupUser.from({
-    required String email,
-    required String password,
-    required DateTime birthday,
-    required String fullname,
-    required String phone,
-  }) {
-    return SignupUser(
-      email: email,
-      password: password,
-      birthday: birthday,
-      fullname: fullname,
-      phone: phone,
-    );
-  }
+  factory SignupUser.from(RegistrationAuthenticationUserService user) =>
+      SignupUser(
+        user.email,
+        user.password,
+        user.birthday,
+        user.fullname,
+        user.phone,
+      );
 
-  final String email;
-  final String password;
-  final DateTime birthday;
-  final String fullname;
-  final String phone;
-  
+  final String _email;
+  final String _password;
+  final DateTime _birthday;
+  final String _fullname;
+  final String _phone;
+
+  @override
+  String get email => _email;
+
+  @override
+  String get password => _password;
+
+  @override
+  DateTime get birthday => _birthday;
+
+  @override
+  String get fullname => _fullname;
+
+  @override
+  String get phone => _phone;
+
   @override
   List<Object?> get props => [email, password, birthday, fullname, phone];
 
@@ -42,11 +54,11 @@ final class SignupUser extends Equatable {
     String? phone,
   }) {
     return SignupUser(
-      email: email ?? this.email,
-      password: password ?? this.password,
-      birthday: birthday ?? this.birthday,
-      fullname: fullname ?? this.fullname,
-      phone: phone ?? this.phone,
+      email ?? this.email,
+      password ?? this.password,
+      birthday ?? this.birthday,
+      fullname ?? this.fullname,
+      phone ?? this.phone,
     );
   }
 }

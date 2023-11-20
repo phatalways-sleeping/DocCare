@@ -1,33 +1,26 @@
 import 'package:equatable/equatable.dart';
+import 'package:models/src/user/authentication_user/authentication_user_service.dart';
 
-final class LoginUser extends Equatable {
-  const LoginUser({
-    required this.email,
-    required this.password,
-  });
+final class LoginUser extends Equatable implements AuthenticationUserService {
+  const LoginUser(
+    this._email,
+    this._password,
+  );
 
-  factory LoginUser.from({
-    required String email,
-    required String password,
-  }) {
-    return LoginUser(
-      email: email,
-      password: password,
-    );
-  }
+  factory LoginUser.from(AuthenticationUserService user) => LoginUser(
+        user.email,
+        user.password,
+      );
 
-  factory LoginUser.forgetPassword({
-    required String email,
-  }) {
-    return LoginUser(
-      email: email,
-      password: '',
-    );
-  }
+  final String _email;
+  final String _password;
 
-  final String email;
-  final String password;
-  
+  @override
+  String get email => _email;
+
+  @override
+  String get password => _password;
+
   @override
   List<Object?> get props => [email, password];
 
@@ -36,8 +29,8 @@ final class LoginUser extends Equatable {
     String? password,
   }) {
     return LoginUser(
-      email: email ?? this.email,
-      password: password ?? this.password,
+      email ?? this.email,
+      password ?? this.password,
     );
   }
 }

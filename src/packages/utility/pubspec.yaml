@@ -1,0 +1,24 @@
+name: utility
+description: Package for utility such as dialog manager, notification manager
+version: 0.1.0+1
+publish_to: none
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+  flutter: ">=3.10.0"
+
+dependencies:
+  components:
+    path: ../components
+  extensions:
+    path: ../extensions
+  flutter:
+    sdk: flutter
+  get_it: ^7.6.4
+  
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  mocktail: ^1.0.0
+  very_good_analysis: ^5.1.0

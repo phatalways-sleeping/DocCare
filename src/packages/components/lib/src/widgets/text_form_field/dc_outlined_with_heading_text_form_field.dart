@@ -17,7 +17,10 @@ class DCOutlinedWithHeadingTextFormField extends StatelessWidget {
     this.useObscuredTextFormField = false,
     this.gapBetweenHeadingAndInput = 8,
     this.headingColor,
-    this.textFormFieldConstraints,
+    this.textFormFieldConstraints = const BoxConstraints(
+      minHeight: 48,
+      minWidth: double.infinity,
+    ),
     this.keyboardType,
     this.keyboardAppearance,
     this.obscuringCharacter = '•',
@@ -40,6 +43,7 @@ class DCOutlinedWithHeadingTextFormField extends StatelessWidget {
     this.suffixIcon,
     this.onPrefixIconPressed,
     this.onSuffixIconPressed,
+    this.onFocus,
     this.prefixIconTooltip,
     this.suffixIconTooltip,
     this.onlyShowIconOnFocus = false,
@@ -70,7 +74,7 @@ class DCOutlinedWithHeadingTextFormField extends StatelessWidget {
   final TextInputType? keyboardType;
   final Brightness? keyboardAppearance;
   final String obscuringCharacter;
-  final BoxConstraints? textFormFieldConstraints;
+  final BoxConstraints textFormFieldConstraints;
   final double? iconSize;
   final Color? color;
   final void Function(BuildContext context, TextEditingController controller)?
@@ -90,6 +94,7 @@ class DCOutlinedWithHeadingTextFormField extends StatelessWidget {
       onPrefixIconPressed;
   final void Function(BuildContext context, TextEditingController controller)?
       onSuffixIconPressed;
+  final void Function(BuildContext context, FocusNode focusNode)? onFocus;
   final String? prefixIconTooltip;
   final String? suffixIconTooltip;
   final bool onlyShowIconOnFocus;
@@ -107,20 +112,16 @@ class DCOutlinedWithHeadingTextFormField extends StatelessWidget {
       children: [
         DefaultTextStyle.merge(
           style: context.textTheme.h4ExtraBoldPoppins.copyWith(
-            color:
-                headingColor ?? borderColor ?? context.colorScheme.secondary,
+            color: headingColor ?? borderColor ?? context.colorScheme.secondary,
           ),
           child: heading,
         ),
-        SizedBox(height: gapBetweenHeadingAndInput),
+        SizedBox(
+          height: gapBetweenHeadingAndInput,
+        ),
         if (useObscuredTextFormField)
           DCOutlinedObscuredTextFormField(
-            constraints: textFormFieldConstraints ??
-                const BoxConstraints(
-                  minHeight: 48,
-                  maxHeight: 50,
-                  minWidth: double.infinity,
-                ),
+            constraints: textFormFieldConstraints,
             iconSize: iconSize ?? 20,
             color: color ??
                 context
@@ -140,22 +141,18 @@ class DCOutlinedWithHeadingTextFormField extends StatelessWidget {
             hintText: hintText,
             suffixIcon: suffixIcon,
             onSuffixIconPressed: onSuffixIconPressed,
+            onFocus: onFocus,
             suffixIconTooltip: suffixIconTooltip,
             onlyShowIconOnFocus: onlyShowIconOnFocus,
             validator: validator,
             enabled: enabled,
             paddingBetweenIconAndInput: paddingBetweenIconAndInput,
-
+          
             contentPadding: contentPadding,
           )
         else
           BaseTextFormField(
-            constraints: textFormFieldConstraints ??
-                const BoxConstraints(
-                  minHeight: 48,
-                  maxHeight: 50,
-                  minWidth: double.infinity,
-                ),
+            constraints: textFormFieldConstraints,
             iconSize: iconSize ?? 20,
             color: color ??
                 context
@@ -177,6 +174,7 @@ class DCOutlinedWithHeadingTextFormField extends StatelessWidget {
             suffixIcon: suffixIcon,
             onPrefixIconPressed: onPrefixIconPressed,
             onSuffixIconPressed: onSuffixIconPressed,
+            onFocus: onFocus,
             prefixIconTooltip: prefixIconTooltip,
             suffixIconTooltip: suffixIconTooltip,
             onlyShowIconOnFocus: onlyShowIconOnFocus,
