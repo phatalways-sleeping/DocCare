@@ -19,45 +19,25 @@ class DCPageViewOne extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DCPageView(
-      action: DCButton(
-        onPressed: () async {
-          final loginBloc = context.read<LoginBloc>();
-          await showModalBottomSheet<bool>(
-            elevation: 0,
-            context: context,
-            backgroundColor: context.colorScheme.background,
-            isScrollControlled: true,
-            shape: RoundedRectangleBorder(
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(40),
-                topRight: Radius.circular(40),
-              ),
-              side: BorderSide(
-                color: context.colorScheme.secondary,
-                width: 2,
-              ),
-            ),
-            constraints: BoxConstraints(
-              maxHeight: context.height * 0.6,
-            ),
-            transitionAnimationController: transitionAnimationController
-              ..forward(),
-            // Pass the [LoginBloc] to the [DCLoginModalBottomSheet]
-            // to use it's [LoginState] and [LoginEvent]
-            builder: (context) => BlocProvider.value(
-              value: loginBloc,
-              child: const DCLoginModalBottomSheet(),
-            ),
+      action: DCFilledButton(
+        onPressed: (context) async {
+          await showDCLoginModalBottomSheet<bool>(
+            context,
+            transitionAnimationController,
           );
         },
-        text: 'Get Started',
         padding: const EdgeInsets.symmetric(
           horizontal: 20,
           vertical: 6,
         ),
         backgroundColor: context.colorScheme.secondary,
-        textColor: context.colorScheme.onSecondary,
-        borderColor: Colors.transparent,
+        child: Text(
+          'Get Started',
+          style: context.textTheme.bodyRegularPoppins.copyWith(
+            color: context.colorScheme.onSecondary,
+            fontSize: 14,
+          ),
+        ),
       ),
       background: Column(
         mainAxisAlignment: MainAxisAlignment.center,

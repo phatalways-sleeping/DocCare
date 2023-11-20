@@ -5,20 +5,20 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:screens/screens.dart' show DCSplashScreen;
 import 'package:screens/src/login/controller/login_bloc.dart';
 
-/// [DCLoginModalBottomSheet] is a [StatelessWidget] that displays a modal
+/// [_DCLoginModalBottomSheet] is a [StatelessWidget] that displays a modal
 /// bottom sheet for logging in.
 /// It appears when the user taps the "Get Started" button on the
 /// [DCSplashScreen].
-class DCLoginModalBottomSheet extends StatefulWidget {
-  /// [DCLoginModalBottomSheet] constructor.
-  const DCLoginModalBottomSheet({super.key});
+class _DCLoginModalBottomSheet extends StatefulWidget {
+  /// [_DCLoginModalBottomSheet] constructor.
+  const _DCLoginModalBottomSheet({super.key});
 
   @override
-  State<DCLoginModalBottomSheet> createState() =>
-      _DCLoginModalBottomSheetState();
+  State<_DCLoginModalBottomSheet> createState() =>
+      __DCLoginModalBottomSheetState();
 }
 
-class _DCLoginModalBottomSheetState extends State<DCLoginModalBottomSheet> {
+class __DCLoginModalBottomSheetState extends State<_DCLoginModalBottomSheet> {
   late double height = context.height * 0.5;
 
   @override
@@ -60,9 +60,8 @@ class _DCLoginModalBottomSheetState extends State<DCLoginModalBottomSheet> {
                 });
               }
             },
-            onChanged: (context, controller) => context
-                .read<LoginBloc>()
-                .add(EmailInputEvent(controller.text)),
+            onChanged: (context, controller) =>
+                context.read<LoginBloc>().add(EmailInputEvent(controller.text)),
           ),
           DCOutlinedObscuredTextFormField(
             borderColor: context.colorScheme.onBackground,
@@ -227,4 +226,40 @@ class _DCLoginModalBottomSheetState extends State<DCLoginModalBottomSheet> {
       ),
     );
   }
+}
+
+/// [showDCLoginModalBottomSheet] is a function that displays a modal
+/// bottom sheet for logging in.
+Future<T?> showDCLoginModalBottomSheet<T>(
+  BuildContext context,
+  AnimationController transitionAnimationController, {
+  double borderRaidus = 40,
+}) {
+  final loginBloc = context.read<LoginBloc>();
+  return showModalBottomSheet<T>(
+    elevation: 0,
+    context: context,
+    backgroundColor: context.colorScheme.background,
+    isScrollControlled: true,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.only(
+        topLeft: Radius.circular(borderRaidus),
+        topRight: Radius.circular(borderRaidus),
+      ),
+      side: BorderSide(
+        color: context.colorScheme.secondary,
+        width: 2,
+      ),
+    ),
+    constraints: BoxConstraints(
+      maxHeight: context.height * 0.6,
+    ),
+    transitionAnimationController: transitionAnimationController..forward(),
+    // Pass the [LoginBloc] to the [_DCLoginModalBottomSheet]
+    // to use it's [LoginState] and [LoginEvent]
+    builder: (context) => BlocProvider.value(
+      value: loginBloc,
+      child: const _DCLoginModalBottomSheet(),
+    ),
+  );
 }

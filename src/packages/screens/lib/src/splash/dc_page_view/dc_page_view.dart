@@ -1,8 +1,6 @@
 import 'package:components/components.dart';
 import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:screens/src/login/controller/login_bloc.dart';
 import 'package:screens/src/login/dc_login_modal_bottom_sheet.dart';
 import 'package:screens/src/splash/dc_info_box.dart';
 

@@ -48,11 +48,6 @@ class _DCSplashScreenState extends State<DCSplashScreen>
             controller: pageController,
             itemCount: 2,
             scrollDirection: Axis.vertical,
-            onPageChanged: (value) {
-              if (value == 1) {
-                transitionAnimationController.forward();
-              }
-            },
             itemBuilder: (BuildContext context, int index) {
               if (index == 0) {
                 return BlocListener<LoginBloc, LoginState>(
@@ -68,7 +63,10 @@ class _DCSplashScreenState extends State<DCSplashScreen>
                   ),
                 );
               }
-              return const DCPageViewTwo();
+              return DCPageViewTwo(
+                transitionAnimationController: transitionAnimationController,
+                pageController: pageController,
+              );
             },
           ),
         ),
