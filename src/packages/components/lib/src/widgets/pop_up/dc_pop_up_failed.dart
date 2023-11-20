@@ -44,7 +44,7 @@ class DCPopupFailed extends StatelessWidget {
     return BasePopup(
       message: [
         DefaultTextStyle.merge(
-          style: context.textTheme.h4BoldPoppins.copyWith(
+          style: context.textTheme.h4RegularPoppins.copyWith(
             fontSize: boldMessageTextSize ?? 24,
             fontWeight: FontWeight.bold,
             color: boldMessageTextColor ?? context.colorScheme.onBackground,
@@ -53,7 +53,7 @@ class DCPopupFailed extends StatelessWidget {
           child: Text(boldMessage),
         ),
         DefaultTextStyle.merge(
-          style: context.textTheme.h4BoldPoppins.copyWith(
+          style: context.textTheme.h4RegularPoppins.copyWith(
             fontSize: messageTextSize ?? 16,
             fontWeight: FontWeight.normal,
             color: messageTextColor ?? context.colorScheme.tertiary,

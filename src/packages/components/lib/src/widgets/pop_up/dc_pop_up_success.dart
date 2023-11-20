@@ -53,7 +53,7 @@ class DCPopupSuccess extends StatelessWidget {
           child: Text(boldMessage),
         ),
         DefaultTextStyle.merge(
-          style: context.textTheme.h4BoldPoppins.copyWith(
+          style: context.textTheme.h4RegularPoppins.copyWith(
             fontWeight: FontWeight.normal,
             fontSize: messageTextSize ?? 16,
             color: messageTextColor ?? context.colorScheme.tertiary,
@@ -65,7 +65,7 @@ class DCPopupSuccess extends StatelessWidget {
       buttonsText: [
         buttonText ?? 'Confirm',
       ],
-      buttonsColor: [buttonsColor ?? context.colorScheme.surface],
+      buttonsColor: [buttonsColor ?? const Color.fromRGBO(14, 190, 127, 1)],
       buttonsWidth: buttonsWidth,
       buttonsHeight: buttonsHeight,
       buttonsTextSize: buttonsTextSize ?? 16,
@@ -76,7 +76,7 @@ class DCPopupSuccess extends StatelessWidget {
           fit: BoxFit.cover,
         ),
       ),
-      iconBackgroundColor: context.colorScheme.surface,
+      iconBackgroundColor: const Color.fromRGBO(231, 248, 242, 1),
       onPopupButtonClicked: [
         (context) => onPopupButtonClicked ?? Navigator.of(context).pop(),
       ],

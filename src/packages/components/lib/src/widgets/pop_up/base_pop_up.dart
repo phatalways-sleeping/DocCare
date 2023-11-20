@@ -1,6 +1,7 @@
 import 'package:components/components.dart';
 import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
+import 'package:components/src/widgets/button/dc_button.dart';
 
 class BasePopup extends StatelessWidget {
   const BasePopup({
@@ -100,26 +101,19 @@ class BasePopup extends StatelessWidget {
               (index) => Expanded(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: ElevatedButton(
-                    onPressed: () => onPopupButtonClicked[index](context),
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(
-                        buttonsColor![index],
-                      ),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                    ),
-                    child: DefaultTextStyle.merge(
-                      style: context.textTheme.h4BoldPoppins.copyWith(
-                        color:
-                            buttonsTextColors ?? context.colorScheme.background,
-                        fontSize: buttonsTextSize ?? 16,
-                      ),
-                      child: Text(buttonsText[index]),
-                    ),
+                  //use dc button to make it easier to customize
+                  child: DCButton(
+                    text: buttonsText[index],
+                    buttonWidth: buttonsWidth,
+                    buttonHeight: buttonsHeight,
+                    textSize: buttonsTextSize,
+                    textColor: buttonsTextColors,
+                    backgroundColor: buttonsColor?[index],
+                    borderWidth: 0,
+                    borderColor: context.colorScheme.background,
+                    onPressed: () {
+                      onPopupButtonClicked[index](context);
+                    },
                   ),
                 ),
               ),
@@ -128,6 +122,9 @@ class BasePopup extends StatelessWidget {
         ),
       ],
       actionsAlignment: MainAxisAlignment.center,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(25),
+      ),
     );
   }
 }

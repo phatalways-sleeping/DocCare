@@ -51,15 +51,15 @@ class DCPopupConfirm extends StatelessWidget {
 
     return BasePopup(
       title: Text(title),
-      titleTextColor: titleTextColor,
-      titleTextSize: titleTextSize,
+      titleTextColor: titleTextColor ?? context.colorScheme.onBackground,
+      titleTextSize: titleTextSize ?? 24,
       titleAlignment: titleAlignment,
       message: [
         DefaultTextStyle.merge(
-          style: context.textTheme.h4BoldPoppins.copyWith(
-            fontSize: messageTextSize ?? 16,
+          style: context.textTheme.h4RegularPoppins.copyWith(
+            fontSize: messageTextSize ?? 14,
             fontWeight: FontWeight.normal,
-            color: messageTextColor ?? context.colorScheme.tertiary,
+            color: messageTextColor ?? context.colorScheme.onTertiary,
           ),
           textAlign: TextAlign.center,
           child: Text(message),
@@ -71,11 +71,11 @@ class DCPopupConfirm extends StatelessWidget {
       ],
       buttonsColor: [
         cancelButtonColor ?? context.colorScheme.error,
-        agreeButtonColor ?? context.colorScheme.surface,
+        agreeButtonColor ?? context.colorScheme.primary,
       ],
       buttonsWidth: buttonsWidth,
       buttonsHeight: buttonsHeight,
-      buttonsTextSize: buttonsTextSize ?? 16,
+      buttonsTextSize: buttonsTextSize ?? 14,
       buttonsTextColors: buttonsTextColors ?? context.colorScheme.onBackground,
       onPopupButtonClicked: [
         (context) => onAgreeButtonClicked ?? Navigator.of(context).pop(),

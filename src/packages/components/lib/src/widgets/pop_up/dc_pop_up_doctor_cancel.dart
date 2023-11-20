@@ -59,7 +59,7 @@ class DCPopupDoctorCancel extends StatelessWidget {
           child: Text(boldMessage),
         ),
         DefaultTextStyle.merge(
-          style: context.textTheme.h4BoldPoppins.copyWith(
+          style: context.textTheme.h4RegularPoppins.copyWith(
             fontSize: messageTextSize ?? 16,
             fontWeight: FontWeight.normal,
             color: messageTextColor ?? context.colorScheme.tertiary,
@@ -74,7 +74,7 @@ class DCPopupDoctorCancel extends StatelessWidget {
       ],
       buttonsColor: [
         cancelButtonColor ?? context.colorScheme.error,
-        agreeButtonColor ?? context.colorScheme.surface,
+        agreeButtonColor ?? context.colorScheme.primary,
       ],
       buttonsWidth: buttonsWidth,
       buttonsHeight: buttonsHeight,
@@ -86,7 +86,8 @@ class DCPopupDoctorCancel extends StatelessWidget {
           fit: BoxFit.cover,
         ),
       ),
-      iconBackgroundColor: context.colorScheme.background,
+      iconBackgroundColor:
+          const Color.fromRGBO(231, 248, 242, 1), //Add to color scheme later
       onPopupButtonClicked: [
         (context) => onAgreeButtonClicked ?? Navigator.of(context).pop(),
         (context) => onAgreeButtonClicked ?? Navigator.of(context).pop(),
