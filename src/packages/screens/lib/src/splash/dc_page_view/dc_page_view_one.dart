@@ -1,7 +1,7 @@
 part of 'dc_page_view.dart';
 
 /// {@template dc_page_view_one}
-class DCPageViewOne extends StatelessWidget {
+class DCPageViewOne extends StatefulWidget {
   /// {@macro dc_page_view_one}
   const DCPageViewOne({
     required this.pageController,
@@ -17,13 +17,27 @@ class DCPageViewOne extends StatelessWidget {
   final AnimationController transitionAnimationController;
 
   @override
+  State<DCPageViewOne> createState() => _DCPageViewOneState();
+}
+
+class _DCPageViewOneState extends State<DCPageViewOne> {
+  late final passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    passwordController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return DCPageView(
       action: DCFilledButton(
         onPressed: (context) async {
           await showDCLoginModalBottomSheet<bool>(
             context,
-            transitionAnimationController,
+            widget.transitionAnimationController,
+            passwordController: passwordController,
           );
         },
         padding: const EdgeInsets.symmetric(
@@ -149,7 +163,7 @@ class DCPageViewOne extends StatelessWidget {
           color: context.colorScheme.onBackground,
           size: 30,
         ),
-        onPressed: () => pageController.animateToPage(
+        onPressed: () => widget.pageController.animateToPage(
           1,
           duration: const Duration(milliseconds: 1500),
           curve: Curves.decelerate,
