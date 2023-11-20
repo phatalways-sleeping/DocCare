@@ -80,7 +80,7 @@ final class LoginLoading extends LoginState {
   /// This is useful when the user wants to go back to the initial state.
   LoginState toggleBackToInitial() => LoginInitial.input(
         email: email,
-        password: '',
+        password: password,
       );
 
   @override

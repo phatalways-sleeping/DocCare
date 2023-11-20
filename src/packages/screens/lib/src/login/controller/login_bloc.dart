@@ -7,8 +7,6 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/widgets.dart';
 import 'package:meta/meta.dart';
 import 'package:models/models.dart' show LoginUser;
-import 'package:screens/src/login/dc_login_modal_bottom_sheet.dart'
-    show DCLoginModalBottomSheet;
 import 'package:utility/utility.dart'
     show NotificationManagerService, NotificationType;
 
@@ -16,7 +14,7 @@ part 'login_event.dart';
 part 'login_state.dart';
 
 /// [LoginBloc] is a [Bloc] that handles the login process.
-/// It is used in the [DCLoginModalBottomSheet].
+/// It is used in the dc_login_modal_bottom_sheet.dart file.
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   /// [LoginBloc] constructor. It sets the initial state to [LoginInitial].
   /// It requires [AuthenticationRepositoryService]
