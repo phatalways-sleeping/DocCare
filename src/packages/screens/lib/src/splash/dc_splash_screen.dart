@@ -5,6 +5,25 @@ import 'package:screens/src/login/controller/login_bloc.dart';
 import 'package:screens/src/splash/dc_page_view/dc_page_view.dart';
 import 'package:utility/utility.dart';
 
+/// DC Splash Screen is an entrance screen of the application
+/// It requires a GlobalKey<NavigatorState> to be injected at the root of the
+/// application.
+/// Therefore, to use this screen:
+/// 1. Add the following code to the root of the application:
+/// ```dart
+/// final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+/// NotificationManager.init(navigatorKey);
+/// ```
+/// 2. Initialize Supabase
+/// 3. Add the following code to the root of the application:
+/// ```dart
+/// MaterialApp(
+///   theme: ThemeData(
+///      colorScheme: const DocCareLightColorScheme(),
+///   ),
+///   home: DCSplashScreen(key: navigatorKey),
+/// );
+/// ```
 /// {@template dc_splash_screen}
 class DCSplashScreen extends StatefulWidget {
   /// {@macro screens}
