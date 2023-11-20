@@ -27,6 +27,8 @@ class SupabaseAuthEmailApiErrorHandler
       );
     } else if (e.message == 'Network error') {
       throw const AuthException('Network error, try again');
+    } else {
+      throw e;
     }
   }
 }
