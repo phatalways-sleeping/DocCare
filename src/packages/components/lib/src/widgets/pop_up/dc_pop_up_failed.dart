@@ -36,7 +36,7 @@ class DCPopupFailed extends StatelessWidget {
   final double? buttonsTextSize;
   final Color? buttonsTextColors;
 
-  final Function? onPopupButtonClicked;
+  final void Function(BuildContext context)? onPopupButtonClicked;
 
   @override
   Widget build(BuildContext context) {

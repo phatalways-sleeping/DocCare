@@ -40,8 +40,8 @@ class DCPopupDoctorCancel extends StatelessWidget {
   final double? buttonsHeight;
   final double? buttonsTextSize;
   final Color? buttonsTextColors;
-  final void Function(BuildContext contet)? onCancelButtonClicked;
-  final void Function(BuildContext contet)? onAgreeButtonClicked;
+  final void Function(BuildContext context)? onCancelButtonClicked;
+  final void Function(BuildContext context)? onAgreeButtonClicked;
 
   @override
   Widget build(BuildContext context) {

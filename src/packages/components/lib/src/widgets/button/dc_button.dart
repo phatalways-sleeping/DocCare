@@ -58,7 +58,6 @@ class DCButton extends StatelessWidget {
   final double? buttonWidth;
   final double? buttonHeight;
 
-
   @override
   Widget build(BuildContext context) {
     final textWidget = Text(
@@ -76,11 +75,11 @@ class DCButton extends StatelessWidget {
       child: OutlinedButton(
         style: ButtonStyle(
           padding: const MaterialStatePropertyAll(EdgeInsets.zero),
-          minimumSize: MaterialStateProperty.all(Size(buttonWidth ?? 100, buttonHeight ?? 30)), // Change the values as needed
+          minimumSize: MaterialStateProperty.all(Size(buttonWidth ?? 100,
+              buttonHeight ?? 30)), // Change the values as needed
           side: MaterialStateProperty.resolveWith((states) {
             double width = borderWidth ?? 1.0;
-            final borderColor =
-                this.borderColor ?? Colors.black;
+            final borderColor = this.borderColor ?? Colors.black;
             if (states.contains(MaterialState.disabled)) {
               return BorderSide(
                 color: Color(0xFFB9B9B9),
@@ -152,11 +151,10 @@ class DCButton extends StatelessWidget {
                 ),
               if (widgetLeft != null) widgetLeft!,
               SizedBox(
-                width: iconLeft != null ||
-                        imageLeft != null ||
-                        widgetLeft != null
-                    ? gapBetweenElements ?? 10
-                    : 0,
+                width:
+                    iconLeft != null || imageLeft != null || widgetLeft != null
+                        ? gapBetweenElements ?? 10
+                        : 0,
               ),
               if (fillParentWidth)
                 Expanded(
