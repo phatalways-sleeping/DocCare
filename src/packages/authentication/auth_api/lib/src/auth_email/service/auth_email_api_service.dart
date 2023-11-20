@@ -1,22 +1,27 @@
+/// [AuthEmailApiService] is an abstract class that provides the base for all
+/// authentication services
 abstract interface class AuthEmailApiService {
+  /// [AuthEmailApiService] constructor
   const AuthEmailApiService();
 
-  // Sign up with email and password
+  /// All methods should throw [Exception] 
+  /// or instance extends [Exception] if there is any error
+
+  /// [signUpWithEmailPassword] signs up with email and password
+  
   Future<void> signUpWithEmailPassword(String email, String password);
 
-  // Sign in with email and password
+  /// [signInWithEmailPassword] signs in with email and password
   Future<void> signInWithEmailPassword(String email, String password);
 
-  // Sign out
+  /// [signOut] signs out
   Future<void> signOut();
 
-  // Send password reset email
+  /// [sendPasswordResetEmail] sends password reset email
   Future<void> sendPasswordResetEmail(String email);
 
-  // Change password
+  /// [changePassword] changes password
   Future<void> changePassword(
-    String email,
-    String password,
     String newPassword,
   );
 }
