@@ -10,6 +10,7 @@ class DCOutlinedWithHeadingTextFormField extends StatelessWidget {
   /// Creates an outlined text form field.
   const DCOutlinedWithHeadingTextFormField({
     required this.heading,
+    this.controller,
     this.contentPadding = const EdgeInsets.symmetric(
       horizontal: 8,
       vertical: 12,
@@ -61,6 +62,8 @@ class DCOutlinedWithHeadingTextFormField extends StatelessWidget {
               (prefixIcon == null && prefixIconTooltip == null),
           'Cannot use prefix icon and tooltip with obscured text form field',
         );
+
+  final TextEditingController? controller;
 
   final bool useObscuredTextFormField;
 
@@ -122,6 +125,7 @@ class DCOutlinedWithHeadingTextFormField extends StatelessWidget {
         if (useObscuredTextFormField)
           DCOutlinedObscuredTextFormField(
             constraints: textFormFieldConstraints,
+            controller: controller,
             iconSize: iconSize ?? 20,
             color: color ??
                 context
@@ -153,6 +157,7 @@ class DCOutlinedWithHeadingTextFormField extends StatelessWidget {
         else
           BaseTextFormField(
             constraints: textFormFieldConstraints,
+            controller: controller,
             iconSize: iconSize ?? 20,
             color: color ??
                 context

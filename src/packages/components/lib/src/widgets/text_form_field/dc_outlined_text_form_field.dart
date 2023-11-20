@@ -12,6 +12,7 @@ class DCOutlinedTextFormField extends StatelessWidget {
       horizontal: 8,
       vertical: 12,
     ),
+    this.controller,
     this.heightFactor = 0.12,
     this.widthFactor = 0.8,
     this.keyboardType,
@@ -51,6 +52,8 @@ class DCOutlinedTextFormField extends StatelessWidget {
     this.paddingBetweenIconAndInput,
     super.key,
   });
+
+  final TextEditingController? controller;
 
   final double heightFactor;
   final double widthFactor;
@@ -97,6 +100,7 @@ class DCOutlinedTextFormField extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseTextFormField(
       constraints: constraints,
+      controller: controller,
       iconSize: iconSize ?? 20,
       color: color ??
           context.theme.colorScheme.onSecondary, // The color of text, icon

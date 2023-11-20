@@ -14,6 +14,7 @@ class DCOutlinedObscuredTextFormField extends StatelessWidget {
       horizontal: 8,
       vertical: 12,
     ),
+    this.controller,
     this.heightFactor = 0.12,
     this.widthFactor = 0.8,
     this.keyboardType,
@@ -51,6 +52,8 @@ class DCOutlinedObscuredTextFormField extends StatelessWidget {
     super.key,
   });
 
+  final TextEditingController? controller;
+
   final double heightFactor;
   final double widthFactor;
 
@@ -79,7 +82,7 @@ class DCOutlinedObscuredTextFormField extends StatelessWidget {
   final Widget? suffixIconOnObscuredMode;
   final void Function(BuildContext context, TextEditingController controller)?
       onSuffixIconPressed;
-  final void Function(BuildContext context, FocusNode focusNode)? onFocus; 
+  final void Function(BuildContext context, FocusNode focusNode)? onFocus;
   final String? suffixIconTooltip;
   final bool onlyShowIconOnFocus;
   final FormFieldValidator<String>? validator;
@@ -91,6 +94,7 @@ class DCOutlinedObscuredTextFormField extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseTextFormField(
       constraints: constraints,
+      controller: controller,
       iconSize: iconSize ?? 20,
       color: color ??
           context.theme.colorScheme.onSecondary, // The color of text, icon
