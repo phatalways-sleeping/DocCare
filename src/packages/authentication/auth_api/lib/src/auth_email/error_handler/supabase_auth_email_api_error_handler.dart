@@ -11,21 +11,22 @@ class SupabaseAuthEmailApiErrorHandler
   @override
   void handleAuthException(AuthException e) {
     // Handle specific platform exceptions and throw custom AuthException
-    if (e.message == "Invalid email or password") {
-      throw const AuthException("Invalid email or password. Please type again");
-    } else if (e.message == "User not confirmed") {
-      throw const AuthException("User not confirmed. Please try again");
-    } else if (e.message == "User disabled") {
-      throw const AuthException("User disabled. Please try again");
-    } else if (e.message == "User not found") {
-      throw const AuthException("User not found.");
-    } else if (e.message == "Too many attempts. Please try again later") {
-      throw const AuthException("Too many attempts. Please try again later");
-    } else if (e.message == "Password is too weak") {
+    if (e.message == 'Invalid email or password') {
+      throw const AuthException('Invalid email or password. Please type again');
+    } else if (e.message == 'User not confirmed') {
+      throw const AuthException('User not confirmed. Please try again');
+    } else if (e.message == 'User disabled') {
+      throw const AuthException('User disabled. Please try again');
+    } else if (e.message == 'User not found') {
+      throw const AuthException('User not found.');
+    } else if (e.message == 'Too many attempts. Please try again later') {
+      throw const AuthException('Too many attempts. Please try again later');
+    } else if (e.message == 'Password is too weak') {
       throw const AuthException(
-          "Password is too weak, please use stronger password");
-    } else if (e.message == "Network error") {
-      throw const AuthException("Network error, try again");
+        'Password is too weak, please use stronger password',
+      );
+    } else if (e.message == 'Network error') {
+      throw const AuthException('Network error, try again');
     }
   }
 }

@@ -1,3 +1,4 @@
+import 'package:auth_api/src/auth_email/error_handler/auth_email_api_error_handler.dart';
 import 'package:auth_api/src/auth_email/error_handler/supabase_auth_email_api_error_handler.dart';
 import 'package:auth_api/src/auth_email/service/auth_email_api_service.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -10,9 +11,14 @@ class SupabaseAuthEmailApiService implements AuthEmailApiService {
     required this.supabase,
   });
 
+  /// [supabase] is the instance of [SupabaseClient]
   final SupabaseClient supabase;
-  final SupabaseAuthEmailApiErrorHandler errorHandler =
-      SupabaseAuthEmailApiErrorHandler();
+
+  /// [errorHandler] is the concrete implementation
+  /// of [AuthEmailApiErrorHandler]
+  final AuthEmailApiErrorHandler<AuthException> errorHandler =
+      const SupabaseAuthEmailApiErrorHandler();
+  
   @override
   Future<void> signUpWithEmailPassword(String email, String password) async {
     try {
