@@ -1,12 +1,13 @@
 // ignore_for_file: public_member_api_docs, unused_local_variable
-import 'package:extensions/extensions.dart';
 import 'package:components/components.dart';
+import 'package:components/src/widgets/header_bar/base_header_bar.dart';
+import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:components/src/widgets/header_bar/base_header_bar.dart';
 
-class DCDoctorHeaderBar extends StatefulWidget {
+class DCDoctorHeaderBar extends StatefulWidget implements PreferredSizeWidget {
   const DCDoctorHeaderBar({
+    super.key,
     this.headerBarTitle,
     this.onLeadingIconPressed,
     this.onActionsIconPressed,
@@ -20,9 +21,9 @@ class DCDoctorHeaderBar extends StatefulWidget {
     this.haveNotification = false,
   });
   final String? headerBarTitle;
-  final bool? haveLogout;
-  final bool? haveBack;
-  final bool? haveNotification;
+  final bool haveLogout;
+  final bool haveBack;
+  final bool haveNotification;
   final double widthFactor;
   final double cornerRadius;
   final void Function(BuildContext context)? onLeadingIconPressed;
@@ -31,6 +32,8 @@ class DCDoctorHeaderBar extends StatefulWidget {
   final Color? selectedItemColor;
   final Color? unselectedItemColor;
 
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
   @override
   State<DCDoctorHeaderBar> createState() => _DCDoctorHeaderBarState();
 }
@@ -43,26 +46,20 @@ class _DCDoctorHeaderBarState extends State<DCDoctorHeaderBar> {
 
   @override
   Widget build(BuildContext context) {
-    final backColor = widget.backgroundColor ?? context.colorScheme.primary;
+    final backColor = widget.backgroundColor ?? context.colorScheme.background;
     final chooseColor =
         widget.selectedItemColor ?? context.colorScheme.onPrimary;
     final unChooseColor =
         widget.unselectedItemColor ?? context.colorScheme.quinary;
     final haveNotification = widget.haveNotification;
-    final String headerBarTitle = widget.headerBarTitle ?? "";
+    final headerBarTitle = widget.headerBarTitle ?? "xcsada";
 
     return BaseHeaderBar(
       headerBarTitle: headerBarTitle,
       backgroundColor: backColor,
-      leadingItems: widget.haveBack == true
-          ? DCHeaderBarItem(
-              prefixIcon: SvgPicture.string(
-                DCSVGIcons.back,
-                fit: BoxFit.cover,
-                height: 24,
-                width: 24,
-              ),
-              onTap: (context) {
+      leadingItems: widget.haveBack
+          ? InkWell(
+              onTap: () {
                 widget.onLeadingIconPressed?.call(context);
 
                 setState(() {
@@ -70,41 +67,48 @@ class _DCDoctorHeaderBarState extends State<DCDoctorHeaderBar> {
                   actionSelected = false;
                 });
               },
+              child: SvgPicture.string(
+                DCSVGIcons.back,
+                fit: BoxFit.cover,
+                height: 24,
+                width: 24,
+              ),
             )
-          : widget.haveLogout == true
-              ? DCHeaderBarItem(
-                  prefixIcon: SvgPicture.string(
-                    DCSVGIcons.logout,
-                    fit: BoxFit.cover,
-                    height: 24,
-                    width: 24,
-                  ),
-                  onTap: (context) {
+          : widget.haveLogout
+              ? InkWell(
+                  onTap: () {
                     widget.onLeadingIconPressed?.call(context);
 
                     setState(() {
                       leadingSelected = true;
                       actionSelected = false;
                     });
-                  })
+                  },
+                  child: SvgPicture.string(
+                    DCSVGIcons.logout,
+                    fit: BoxFit.cover,
+                    height: 24,
+                    width: 24,
+                  ),
+                )
               : null,
-      actionItems: haveNotification == true
+      actionItems: haveNotification
           ? [
-              DCHeaderBarItem(
-                prefixIcon: SvgPicture.string(
-                  DCSVGIcons.notification,
-                  fit: BoxFit.cover,
-                  height: 24,
-                  width: 24,
-                ),
-                onTap: (context) {
-                  widget.onActionsIconPressed?.call(context);
+              InkWell(
+                onTap: () {
+                  widget.onLeadingIconPressed?.call(context);
 
                   setState(() {
                     leadingSelected = false;
                     actionSelected = true;
                   });
                 },
+                child: SvgPicture.string(
+                  DCSVGIcons.notification,
+                  fit: BoxFit.cover,
+                  height: 24,
+                  width: 24,
+                ),
               )
             ]
           : [],
