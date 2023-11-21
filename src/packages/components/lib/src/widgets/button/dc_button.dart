@@ -20,8 +20,8 @@ class DCButton extends StatelessWidget {
     this.heightFactor,
     this.widthFactor,
   }) : assert(
-          textSize == null || (textSize! > 0 && textSize! < 100),
-          'If textSize is provided, it should be between 0 and 100',
+          textSize == null || (textSize! > 5 && textSize! < 100),
+          'If textSize is provided, it should be between 5 and 100',
         ),
         assert(
           heightFactor == null || (heightFactor! >= 0 && heightFactor! <= 0.9),
@@ -53,18 +53,20 @@ class DCButton extends StatelessWidget {
     final double screenHeight = MediaQuery.of(context).size.height;
     final double calculatedButtonWidth = widthFactor != null
         ? screenWidth * widthFactor! // Calculate button width based on widthFactor
-        : screenWidth * 0.3; // Default to 50% of screen width
+        : screenWidth * 0.3; // Default to 30% of screen width
 
     final double calculatedButtonHeight = heightFactor != null
         ? screenHeight * heightFactor! // Calculate button height based on heightFactor
-        : screenHeight * 0.06; // Default to 10% of screen height
+        : screenHeight * 0.06; // Default to 6% of screen height
+
+
     final DocCareLightColorScheme colorScheme = DocCareLightColorScheme();
     final textWidget = Text(
       text,
       style: textStyle ??
           context.textTheme.h6RegularPoppins.copyWith(
             color: textColor ?? colorScheme.onSecondary ,
-            fontSize: this.textSize ?? 14,
+            fontSize: textSize,
           ),
       //maxLines: ButtonConfig.maxLines,
     );
