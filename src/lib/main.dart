@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:src/firebase_options.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:env_flutter/env_flutter.dart';
-
+import 'package:components/src/widgets/button/dc_button.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load();
@@ -137,10 +137,15 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
+      floatingActionButton: DCButton(
+        onPressed: (context) => _incrementCounter(),
+        text: 'click!',
+        widthFactor: 0.8,
+        //textSize: 50,
+       // backgroundColor: Colors.white,
+       // borderColor: Colors.blueAccent,
+        //textColor: Colors.blueAccent,
+
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }

@@ -23,7 +23,14 @@ class DCButton extends StatelessWidget {
           textSize == null || (textSize! > 0 && textSize! < 100),
           'If textSize is provided, it should be between 0 and 100',
         ),
-        
+        assert(
+          heightFactor == null || (heightFactor! >= 0 && heightFactor! <= 0.9),
+          'If heightFactor is provided, it should be between 0 and 0.95',
+        ),
+        assert(
+          widthFactor == null || (widthFactor! >= 0 && widthFactor! <= 0.9),
+          'If widthFactor is provided, it should be between 0 and 0.95',
+        ),
         super(key: key);
   final void Function(BuildContext context) onPressed;
   final Color? borderColor;
@@ -44,7 +51,6 @@ class DCButton extends StatelessWidget {
   Widget build(BuildContext context) {
      final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
-
     final double calculatedButtonWidth = widthFactor != null
         ? screenWidth * widthFactor! // Calculate button width based on widthFactor
         : screenWidth * 0.3; // Default to 50% of screen width
