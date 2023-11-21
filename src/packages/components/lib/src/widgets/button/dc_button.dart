@@ -2,8 +2,9 @@ import 'package:components/components.dart';
 import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:components/src/theme/color_scheme/light_color_scheme.dart';
+
 class DCButton extends StatelessWidget {
-   DCButton({
+  DCButton({
     Key? key,
     required this.text,
     this.textStyle,
@@ -11,15 +12,18 @@ class DCButton extends StatelessWidget {
     this.borderColor,
     this.backgroundColor,
     this.textColor,
-    this.padding,
     this.borderRadius,
     this.textSize,
     this.borderWidth,
     this.pressedOpacity,
     this.hoveredOpacity,
+    this.imageLeft,
+    this.imageRight,
     this.heightFactor,
     this.widthFactor,
-  }) : assert(
+    this.imageSize,
+    this.gapBetweenElements,
+  })  : assert(
           textSize == null || (textSize! > 5 && textSize! < 100),
           'If textSize is provided, it should be between 5 and 100',
         ),
@@ -31,6 +35,14 @@ class DCButton extends StatelessWidget {
           widthFactor == null || (widthFactor! >= 0 && widthFactor! <= 0.9),
           'If widthFactor is provided, it should be between 0 and 0.95',
         ),
+        assert(
+          imageSize == null || (imageSize! > 5 && imageSize! < 100),
+          'If imageSize is provided, it should be between 5 and 100',
+        ),
+        assert(
+          gapBetweenElements == null || (gapBetweenElements! > 5 && gapBetweenElements! < 100),
+          'If gapBetweenElements is provided, it should be between 5 and 100',
+        ),
         super(key: key);
   final void Function(BuildContext context) onPressed;
   final Color? borderColor;
@@ -38,34 +50,38 @@ class DCButton extends StatelessWidget {
   final Color? textColor;
   final TextStyle? textStyle;
   final String text;
-  final EdgeInsetsGeometry? padding;
   final double? borderRadius;
   final double? textSize;
   final double? borderWidth;
   final double? pressedOpacity;
   final double? hoveredOpacity;
-  final double? heightFactor; 
+  final double? heightFactor;
   final double? widthFactor;
+  final ImageProvider? imageLeft;
+  final ImageProvider? imageRight;
+  final double? imageSize;
+  final double? gapBetweenElements;
 
   @override
   Widget build(BuildContext context) {
-     final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
     final double calculatedButtonWidth = widthFactor != null
-        ? screenWidth * widthFactor! // Calculate button width based on widthFactor
+        ? screenWidth *
+            widthFactor! // Calculate button width based on widthFactor
         : screenWidth * 0.3; // Default to 30% of screen width
 
     final double calculatedButtonHeight = heightFactor != null
-        ? screenHeight * heightFactor! // Calculate button height based on heightFactor
+        ? screenHeight *
+            heightFactor! // Calculate button height based on heightFactor
         : screenHeight * 0.06; // Default to 6% of screen height
-
 
     final DocCareLightColorScheme colorScheme = DocCareLightColorScheme();
     final textWidget = Text(
       text,
       style: textStyle ??
           context.textTheme.h6RegularPoppins.copyWith(
-            color: textColor ?? colorScheme.onSecondary ,
+            color: textColor ?? colorScheme.onSecondary,
             fontSize: textSize,
           ),
       //maxLines: ButtonConfig.maxLines,
@@ -76,11 +92,11 @@ class DCButton extends StatelessWidget {
       child: OutlinedButton(
         style: ButtonStyle(
           padding: const MaterialStatePropertyAll(EdgeInsets.zero),
-          minimumSize: MaterialStateProperty.all(Size(calculatedButtonWidth, calculatedButtonHeight)),
+          minimumSize: MaterialStateProperty.all(
+              Size(calculatedButtonWidth, calculatedButtonHeight)),
           side: MaterialStateProperty.resolveWith((states) {
             double width = borderWidth ?? 0.0;
-            final borderColor =
-                this.borderColor ?? colorScheme.onBackground;
+            final borderColor = this.borderColor ?? colorScheme.onBackground;
             if (states.contains(MaterialState.disabled)) {
               return BorderSide(
                 color: colorScheme.tertiary,
@@ -106,7 +122,7 @@ class DCButton extends StatelessWidget {
             final backgroundColor = this.backgroundColor ?? colorScheme.primary;
             if (states.contains(MaterialState.disabled)) {
               return colorScheme.tertiary;
-            } else if (states.contains(MaterialState.pressed) ) {
+            } else if (states.contains(MaterialState.pressed)) {
               return backgroundColor.withOpacity(this.pressedOpacity ?? 0.5);
             } else if (states.contains(MaterialState.hovered)) {
               return backgroundColor.withOpacity(this.hoveredOpacity ?? 0.8);
@@ -121,27 +137,34 @@ class DCButton extends StatelessWidget {
         ),
         onPressed: () => onPressed(context),
         child: Padding(
-          padding: padding ??
-              EdgeInsets.symmetric(
-                vertical: 8.0,
-                horizontal: 8.0,
-              ),
+          padding: EdgeInsets.symmetric(
+            vertical: 8.0,
+            horizontal: 8.0,
+          ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
-            children: <Widget>[             
-              // if (fillParentWidth)
-              //   Expanded(
-              //     child: Column(
-              //       mainAxisAlignment: MainAxisAlignment.center,
-              //       mainAxisSize: MainAxisSize.min,
-              //       // crossAxisAlignment: CrossAxisAlignment.stretch,
-              //       children: <Widget>[
-              //         textWidget,
-              //       ],
-              //     ),
-              //   ),
-              // if (!fillParentWidth)
-               textWidget,
+            children: <Widget>[
+              if (imageLeft != null)
+                Image(
+                  image: imageLeft!,
+                  width: this.imageSize ?? 14,
+                  height: this.imageSize ?? 14,
+                  fit: BoxFit.scaleDown,
+                ),
+              SizedBox(
+                width: imageLeft != null ? gapBetweenElements ?? 10 : 0,
+              ),
+              SizedBox(
+                width: imageRight != null ? gapBetweenElements ?? 10 : 0,
+              ),
+              if (imageRight != null)
+                Image(
+                  image: imageRight!,
+                  width: this.imageSize ?? 14,
+                  height: this.imageSize ?? 14,
+                  fit: BoxFit.scaleDown,
+                ),
+              textWidget,
             ],
           ),
         ),
