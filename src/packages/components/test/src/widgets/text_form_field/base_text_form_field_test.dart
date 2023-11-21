@@ -14,6 +14,7 @@ void main() {
               hintText: 'Hint Text',
               labelText: 'Label Text',
               helperText: 'Helper Text',
+              constraints: const BoxConstraints.expand(),
               obscureMode: true,
               keyboardType: TextInputType.text,
               textAlign: TextAlign.center,
@@ -140,6 +141,7 @@ void main() {
                 ),
               ),
               contentPadding: EdgeInsets.zero,
+              constraints: const BoxConstraints.expand(),
             ),
           ),
         ),
@@ -166,6 +168,7 @@ void main() {
         MaterialApp(
           home: Scaffold(
             body: BaseTextFormField(
+              constraints: const BoxConstraints.expand(),
               hintText: 'Hint Text',
               labelText: 'Label Text',
               helperText: 'Helper Text',

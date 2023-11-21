@@ -42,6 +42,7 @@ class DCOutlinedObscuredTextFormField extends StatelessWidget {
     this.suffixIcon,
     this.suffixIconOnObscuredMode,
     this.onSuffixIconPressed,
+    this.onFocus,
     this.suffixIconTooltip,
     this.onlyShowIconOnFocus = false,
     this.validator,
@@ -59,7 +60,7 @@ class DCOutlinedObscuredTextFormField extends StatelessWidget {
   final TextInputType? keyboardType;
   final Brightness? keyboardAppearance;
   final String obscuringCharacter;
-  final BoxConstraints? constraints;
+  final BoxConstraints constraints;
   final double? iconSize;
   final Color? color;
   final void Function(BuildContext context, TextEditingController controller)?
@@ -78,6 +79,7 @@ class DCOutlinedObscuredTextFormField extends StatelessWidget {
   final Widget? suffixIconOnObscuredMode;
   final void Function(BuildContext context, TextEditingController controller)?
       onSuffixIconPressed;
+  final void Function(BuildContext context, FocusNode focusNode)? onFocus; 
   final String? suffixIconTooltip;
   final bool onlyShowIconOnFocus;
   final FormFieldValidator<String>? validator;
@@ -89,8 +91,6 @@ class DCOutlinedObscuredTextFormField extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseTextFormField(
       constraints: constraints,
-      heightFactor: heightFactor,
-      widthFactor: widthFactor,
       iconSize: iconSize ?? 20,
       color: color ??
           context.theme.colorScheme.onSecondary, // The color of text, icon
@@ -131,6 +131,7 @@ class DCOutlinedObscuredTextFormField extends StatelessWidget {
             height: iconSize,
           ),
       onSuffixIconPressed: onSuffixIconPressed,
+      onFocus: onFocus,
       suffixIconTooltip: suffixIconTooltip,
       onlyShowIconOnFocus: onlyShowIconOnFocus,
       validator: validator,

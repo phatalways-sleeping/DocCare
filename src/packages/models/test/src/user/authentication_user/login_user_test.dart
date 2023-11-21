@@ -8,8 +8,8 @@ void main() {
     test('create', () {
       // Create a `LoginUser` instance
       const loginUser = LoginUser(
-        email: 'email',
-        password: 'password',
+        'email',
+        'password',
       );
 
       // Verify the instance
@@ -21,43 +21,26 @@ void main() {
     test('from', () {
       // Create a `LoginUser` instance
       const loginUser = LoginUser(
-        email: 'email',
-        password: 'password',
+        'email',
+        'password',
       );
 
       // Create a `LoginUser` instance from the `from` method
       final from = LoginUser.from(
-        email: 'email',
-        password: 'password',
+        loginUser,
       );
 
       // Verify the instance
       expect(from, loginUser);
     });
 
-    // Test the factory `forgetPassword` method
-    test('forgetPassword', () {
-      // Create a `LoginUser` instance
-      const loginUser = LoginUser(
-        email: 'email',
-        password: '',
-      );
-
-      // Create a `LoginUser` instance from the `forgetPassword` method
-      final forgetPassword = LoginUser.forgetPassword(
-        email: 'email',
-      );
-
-      // Verify the instance
-      expect(forgetPassword, loginUser);
-    });
 
     // Test the `copyWith` method
     test('copyWith', () {
       // Create a `LoginUser` instance
       const loginUser = LoginUser(
-        email: 'email',
-        password: 'password',
+        'email',
+        'password',
       );
 
       // Copy the `LoginUser` instance

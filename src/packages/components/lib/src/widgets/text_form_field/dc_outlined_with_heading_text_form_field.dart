@@ -14,12 +14,13 @@ class DCOutlinedWithHeadingTextFormField extends StatelessWidget {
       horizontal: 8,
       vertical: 12,
     ),
-    this.heightFactor = 0.12,
-    this.widthFactor = 0.8,
     this.useObscuredTextFormField = false,
     this.gapBetweenHeadingAndInput = 8,
     this.headingColor,
-    this.textFormFieldConstraints,
+    this.textFormFieldConstraints = const BoxConstraints(
+      minHeight: 48,
+      minWidth: double.infinity,
+    ),
     this.keyboardType,
     this.keyboardAppearance,
     this.obscuringCharacter = '•',
@@ -42,6 +43,7 @@ class DCOutlinedWithHeadingTextFormField extends StatelessWidget {
     this.suffixIcon,
     this.onPrefixIconPressed,
     this.onSuffixIconPressed,
+    this.onFocus,
     this.prefixIconTooltip,
     this.suffixIconTooltip,
     this.onlyShowIconOnFocus = false,
@@ -60,9 +62,6 @@ class DCOutlinedWithHeadingTextFormField extends StatelessWidget {
           'Cannot use prefix icon and tooltip with obscured text form field',
         );
 
-  final double heightFactor;
-  final double widthFactor;
-
   final bool useObscuredTextFormField;
 
   final Widget heading;
@@ -75,7 +74,7 @@ class DCOutlinedWithHeadingTextFormField extends StatelessWidget {
   final TextInputType? keyboardType;
   final Brightness? keyboardAppearance;
   final String obscuringCharacter;
-  final BoxConstraints? textFormFieldConstraints;
+  final BoxConstraints textFormFieldConstraints;
   final double? iconSize;
   final Color? color;
   final void Function(BuildContext context, TextEditingController controller)?
@@ -95,6 +94,7 @@ class DCOutlinedWithHeadingTextFormField extends StatelessWidget {
       onPrefixIconPressed;
   final void Function(BuildContext context, TextEditingController controller)?
       onSuffixIconPressed;
+  final void Function(BuildContext context, FocusNode focusNode)? onFocus;
   final String? prefixIconTooltip;
   final String? suffixIconTooltip;
   final bool onlyShowIconOnFocus;
@@ -120,86 +120,76 @@ class DCOutlinedWithHeadingTextFormField extends StatelessWidget {
           height: gapBetweenHeadingAndInput,
         ),
         if (useObscuredTextFormField)
-          LimitedBox(
-            maxHeight: context.height * heightFactor,
-            maxWidth: context.width,
-            child: DCOutlinedObscuredTextFormField(
-              constraints: textFormFieldConstraints,
-              heightFactor: 1,
-              widthFactor: widthFactor,
-              iconSize: iconSize ?? 20,
-              color: color ??
-                  context
-                      .theme.colorScheme.onSecondary, // The color of text, icon
-              textAlign: textAlign,
-              textAlignVertical: textAlignVertical,
-              textCapitalization: textCapitalization,
-              keyboardType: keyboardType,
-              keyboardAppearance: keyboardAppearance,
-              obscuringCharacter: obscuringCharacter,
-              onChanged: onChanged,
-              maxLength: maxLength,
-              minLines: minLines,
-              maxLines: maxLines,
-              initialText: initialText,
-              helperText: helperText,
-              hintText: hintText,
-              suffixIcon: suffixIcon,
-              onSuffixIconPressed: onSuffixIconPressed,
-              suffixIconTooltip: suffixIconTooltip,
-              onlyShowIconOnFocus: onlyShowIconOnFocus,
-              validator: validator,
-              enabled: enabled,
-              paddingBetweenIconAndInput: paddingBetweenIconAndInput,
+          DCOutlinedObscuredTextFormField(
+            constraints: textFormFieldConstraints,
+            iconSize: iconSize ?? 20,
+            color: color ??
+                context
+                    .theme.colorScheme.onSecondary, // The color of text, icon
+            textAlign: textAlign,
+            textAlignVertical: textAlignVertical,
+            textCapitalization: textCapitalization,
+            keyboardType: keyboardType,
+            keyboardAppearance: keyboardAppearance,
+            obscuringCharacter: obscuringCharacter,
+            onChanged: onChanged,
+            maxLength: maxLength,
+            minLines: minLines,
+            maxLines: maxLines,
+            initialText: initialText,
+            helperText: helperText,
+            hintText: hintText,
+            suffixIcon: suffixIcon,
+            onSuffixIconPressed: onSuffixIconPressed,
+            onFocus: onFocus,
+            suffixIconTooltip: suffixIconTooltip,
+            onlyShowIconOnFocus: onlyShowIconOnFocus,
+            validator: validator,
+            enabled: enabled,
+            paddingBetweenIconAndInput: paddingBetweenIconAndInput,
           
-              contentPadding: contentPadding,
-            ),
+            contentPadding: contentPadding,
           )
         else
-          LimitedBox(
-            maxHeight: context.height * heightFactor,
-            maxWidth: context.width,
-            child: BaseTextFormField(
-              constraints: textFormFieldConstraints,
-              heightFactor: 1,
-              widthFactor: widthFactor,
-              iconSize: iconSize ?? 20,
-              color: color ??
-                  context
-                      .theme.colorScheme.onSecondary, // The color of text, icon
-              textAlign: textAlign,
-              textAlignVertical: textAlignVertical,
-              textCapitalization: textCapitalization,
-              keyboardType: keyboardType,
-              keyboardAppearance: keyboardAppearance,
-              obscuringCharacter: obscuringCharacter,
-              onChanged: onChanged,
-              maxLength: maxLength,
-              minLines: minLines,
-              maxLines: maxLines,
-              initialText: initialText,
-              helperText: helperText,
-              hintText: hintText,
-              prefixIcon: prefixIcon,
-              suffixIcon: suffixIcon,
-              onPrefixIconPressed: onPrefixIconPressed,
-              onSuffixIconPressed: onSuffixIconPressed,
-              prefixIconTooltip: prefixIconTooltip,
-              suffixIconTooltip: suffixIconTooltip,
-              onlyShowIconOnFocus: onlyShowIconOnFocus,
-              validator: validator,
-              obscureMode: obscureMode,
-              enabled: enabled,
-              paddingBetweenIconAndInput: paddingBetweenIconAndInput,
-              inputBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(borderRadius),
-                borderSide: BorderSide(
-                  color: borderColor ?? context.theme.colorScheme.secondary,
-                  width: borderWidth,
-                ),
+          BaseTextFormField(
+            constraints: textFormFieldConstraints,
+            iconSize: iconSize ?? 20,
+            color: color ??
+                context
+                    .theme.colorScheme.onSecondary, // The color of text, icon
+            textAlign: textAlign,
+            textAlignVertical: textAlignVertical,
+            textCapitalization: textCapitalization,
+            keyboardType: keyboardType,
+            keyboardAppearance: keyboardAppearance,
+            obscuringCharacter: obscuringCharacter,
+            onChanged: onChanged,
+            maxLength: maxLength,
+            minLines: minLines,
+            maxLines: maxLines,
+            initialText: initialText,
+            helperText: helperText,
+            hintText: hintText,
+            prefixIcon: prefixIcon,
+            suffixIcon: suffixIcon,
+            onPrefixIconPressed: onPrefixIconPressed,
+            onSuffixIconPressed: onSuffixIconPressed,
+            onFocus: onFocus,
+            prefixIconTooltip: prefixIconTooltip,
+            suffixIconTooltip: suffixIconTooltip,
+            onlyShowIconOnFocus: onlyShowIconOnFocus,
+            validator: validator,
+            obscureMode: obscureMode,
+            enabled: enabled,
+            paddingBetweenIconAndInput: paddingBetweenIconAndInput,
+            inputBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(borderRadius),
+              borderSide: BorderSide(
+                color: borderColor ?? context.theme.colorScheme.secondary,
+                width: borderWidth,
               ),
-              contentPadding: contentPadding,
             ),
+            contentPadding: contentPadding,
           ),
       ],
     );

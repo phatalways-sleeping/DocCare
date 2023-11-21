@@ -20,7 +20,10 @@ class DCOutlinedTextFormField extends StatelessWidget {
     this.borderColor,
     this.borderRadius = 40,
     this.borderWidth = 1,
-    this.constraints,
+    this.constraints = const BoxConstraints(
+      minHeight: 48,
+      minWidth: double.infinity,
+    ),
     this.textAlign = TextAlign.justify,
     this.textAlignVertical = TextAlignVertical.center,
     this.textCapitalization = TextCapitalization.none,
@@ -38,6 +41,7 @@ class DCOutlinedTextFormField extends StatelessWidget {
     this.suffixIcon,
     this.onPrefixIconPressed,
     this.onSuffixIconPressed,
+    this.onFocus,
     this.prefixIconTooltip,
     this.suffixIconTooltip,
     this.onlyShowIconOnFocus = false,
@@ -46,14 +50,7 @@ class DCOutlinedTextFormField extends StatelessWidget {
     this.enabled = true,
     this.paddingBetweenIconAndInput,
     super.key,
-  })  : assert(
-          widthFactor >= 0 && widthFactor <= 1,
-          'widthFactor must be between 0 and 1',
-        ),
-        assert(
-          heightFactor >= 0 && heightFactor <= 1,
-          'heightFactor must be between 0 and 1',
-        );
+  });
 
   final double heightFactor;
   final double widthFactor;
@@ -64,7 +61,7 @@ class DCOutlinedTextFormField extends StatelessWidget {
   final TextInputType? keyboardType;
   final Brightness? keyboardAppearance;
   final String obscuringCharacter;
-  final BoxConstraints? constraints;
+  final BoxConstraints constraints;
   final double? iconSize;
   final Color? color;
   final void Function(BuildContext context, TextEditingController controller)?
@@ -85,6 +82,8 @@ class DCOutlinedTextFormField extends StatelessWidget {
       onPrefixIconPressed;
   final void Function(BuildContext context, TextEditingController controller)?
       onSuffixIconPressed;
+  final void Function(BuildContext context, FocusNode focusNode)?
+      onFocus;
   final String? prefixIconTooltip;
   final String? suffixIconTooltip;
   final bool onlyShowIconOnFocus;
@@ -97,8 +96,6 @@ class DCOutlinedTextFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseTextFormField(
-      heightFactor: heightFactor,
-      widthFactor: widthFactor,
       constraints: constraints,
       iconSize: iconSize ?? 20,
       color: color ??
@@ -121,6 +118,7 @@ class DCOutlinedTextFormField extends StatelessWidget {
       suffixIcon: suffixIcon,
       onPrefixIconPressed: onPrefixIconPressed,
       onSuffixIconPressed: onSuffixIconPressed,
+      onFocus: onFocus,
       prefixIconTooltip: prefixIconTooltip,
       suffixIconTooltip: suffixIconTooltip,
       onlyShowIconOnFocus: onlyShowIconOnFocus,
