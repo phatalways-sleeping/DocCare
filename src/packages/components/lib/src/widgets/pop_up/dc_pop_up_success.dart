@@ -19,7 +19,7 @@ class DCPopupSuccess extends StatelessWidget {
     this.buttonsColor,
     this.buttonsTextSize,
     this.buttonsTextColors,
-    this.onPopupButtonClicked,
+    this.onConfirmButtonClicked,
   }) : super(key: key);
 
   final String boldMessage;
@@ -36,7 +36,7 @@ class DCPopupSuccess extends StatelessWidget {
   final double? buttonsTextSize;
   final Color? buttonsTextColors;
 
-  final void Function(BuildContext context)? onPopupButtonClicked;
+  final void Function(BuildContext context)? onConfirmButtonClicked;
 
   @override
   Widget build(BuildContext context) {
@@ -77,9 +77,8 @@ class DCPopupSuccess extends StatelessWidget {
         ),
       ),
       iconBackgroundColor: const Color.fromRGBO(231, 248, 242, 1),
-      onPopupButtonClicked: [
-        (context) => onPopupButtonClicked ?? Navigator.of(context).pop(),
-      ],
+      onConfirmButtonClicked: (context) =>
+          onConfirmButtonClicked ?? Navigator.of(context).pop(),
     );
   }
 }

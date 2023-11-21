@@ -22,7 +22,7 @@ class DCPopupDoctorCancel extends StatelessWidget {
     this.buttonsTextSize,
     this.buttonsTextColors,
     this.onCancelButtonClicked,
-    this.onAgreeButtonClicked,
+    this.onConfirmButtonClicked,
   }) : super(key: key);
 
   final String boldMessage;
@@ -41,7 +41,7 @@ class DCPopupDoctorCancel extends StatelessWidget {
   final double? buttonsTextSize;
   final Color? buttonsTextColors;
   final void Function(BuildContext context)? onCancelButtonClicked;
-  final void Function(BuildContext context)? onAgreeButtonClicked;
+  final void Function(BuildContext context)? onConfirmButtonClicked;
 
   @override
   Widget build(BuildContext context) {
@@ -86,12 +86,12 @@ class DCPopupDoctorCancel extends StatelessWidget {
           fit: BoxFit.cover,
         ),
       ),
+      onCancelButtonClicked: (context) =>
+          onCancelButtonClicked ?? Navigator.of(context).pop(),
+      onConfirmButtonClicked: (context) =>
+          onConfirmButtonClicked ?? Navigator.of(context).pop(),
       iconBackgroundColor:
           const Color.fromRGBO(231, 248, 242, 1), //Add to color scheme later
-      onPopupButtonClicked: [
-        (context) => onAgreeButtonClicked ?? Navigator.of(context).pop(),
-        (context) => onAgreeButtonClicked ?? Navigator.of(context).pop(),
-      ],
     );
   }
 }

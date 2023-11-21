@@ -26,7 +26,7 @@ class DCPopupCancellation extends StatelessWidget {
     this.buttonsTextSize,
     this.buttonsTextColors,
     this.onCancelButtonClicked,
-    this.onAgreeButtonClicked,
+    this.onConfirmButtonClicked,
   }) : super(key: key);
 
   final String title;
@@ -54,17 +54,18 @@ class DCPopupCancellation extends StatelessWidget {
   final Color? buttonsTextColors;
 
   final void Function(BuildContext context)? onCancelButtonClicked;
-  final void Function(BuildContext context)? onAgreeButtonClicked;
+  final void Function(BuildContext context)? onConfirmButtonClicked;
 
   @override
   Widget build(BuildContext context) {
     //Center everything in the middle column using Alert Dialog
 
     return BasePopup(
+      popupPadding: 20,
       title: Text(title),
-      titleTextColor: titleTextColor,
-      titleTextSize: titleTextSize,
-      titleAlignment: titleAlignment,
+      titleTextColor: titleTextColor ?? context.colorScheme.onBackground,
+      titleTextSize: titleTextSize ?? 20,
+      titleAlignment: titleAlignment ?? TextAlign.left,
       messageAlligment: CrossAxisAlignment.start,
       message: [
         DefaultTextStyle.merge(
@@ -77,7 +78,7 @@ class DCPopupCancellation extends StatelessWidget {
           child: const Text('New appointment'),
         ),
         DefaultTextStyle.merge(
-          style: context.textTheme.h4BoldPoppins.copyWith(
+          style: context.textTheme.h4RegularPoppins.copyWith(
             fontSize: messageTextSize ?? 14,
             fontWeight: FontWeight.normal,
             color: messageTextColor ?? context.colorScheme.tertiary,
@@ -86,7 +87,7 @@ class DCPopupCancellation extends StatelessWidget {
           child: Text(newAppointmentMessage),
         ),
         DefaultTextStyle.merge(
-          style: context.textTheme.h4BoldPoppins.copyWith(
+          style: context.textTheme.h4RegularPoppins.copyWith(
             fontSize: boldMessageTextSize ?? 20,
             fontWeight: FontWeight.bold,
             color: boldMessageTextColor ?? context.colorScheme.onBackground,
@@ -95,7 +96,7 @@ class DCPopupCancellation extends StatelessWidget {
           child: const Text('Symtomps'),
         ),
         DefaultTextStyle.merge(
-          style: context.textTheme.h4BoldPoppins.copyWith(
+          style: context.textTheme.h4RegularPoppins.copyWith(
             fontSize: messageTextSize ?? 14,
             fontWeight: FontWeight.normal,
             color: messageTextColor ?? context.colorScheme.tertiary,
@@ -113,7 +114,7 @@ class DCPopupCancellation extends StatelessWidget {
           child: const Text('Note'),
         ),
         DefaultTextStyle.merge(
-          style: context.textTheme.h4BoldPoppins.copyWith(
+          style: context.textTheme.h4RegularPoppins.copyWith(
             fontSize: messageTextSize ?? 14,
             fontWeight: FontWeight.normal,
             color: messageTextColor ?? context.colorScheme.tertiary,
@@ -134,10 +135,10 @@ class DCPopupCancellation extends StatelessWidget {
       buttonsHeight: buttonsHeight,
       buttonsTextSize: buttonsTextSize ?? 16,
       buttonsTextColors: buttonsTextColors ?? context.colorScheme.onBackground,
-      onPopupButtonClicked: [
-        (context) => onAgreeButtonClicked ?? Navigator.of(context).pop(),
-        (context) => onAgreeButtonClicked ?? Navigator.of(context).pop(),
-      ],
+      onCancelButtonClicked: (context) =>
+          onCancelButtonClicked ?? Navigator.of(context).pop(),
+      onConfirmButtonClicked: (context) =>
+          onConfirmButtonClicked ?? Navigator.of(context).pop(),
     );
   }
 }

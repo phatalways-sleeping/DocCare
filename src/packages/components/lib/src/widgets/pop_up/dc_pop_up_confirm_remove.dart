@@ -3,8 +3,8 @@ import 'package:components/src/widgets/pop_up/base_pop_up.dart';
 import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
 
-class DCPopupConfirm extends StatelessWidget {
-  const DCPopupConfirm({
+class DCPopupConfirmRemove extends StatelessWidget {
+  const DCPopupConfirmRemove({
     Key? key,
     required this.title,
     required this.message,
@@ -22,7 +22,7 @@ class DCPopupConfirm extends StatelessWidget {
     this.buttonsTextSize,
     this.buttonsTextColors,
     this.onCancelButtonClicked,
-    this.onAgreeButtonClicked,
+    this.onConfirmButtonClicked,
   }) : super(key: key);
 
   final String title;
@@ -43,7 +43,7 @@ class DCPopupConfirm extends StatelessWidget {
   final double? buttonsTextSize;
   final Color? buttonsTextColors;
   final void Function(BuildContext context)? onCancelButtonClicked;
-  final void Function(BuildContext context)? onAgreeButtonClicked;
+  final void Function(BuildContext context)? onConfirmButtonClicked;
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +51,7 @@ class DCPopupConfirm extends StatelessWidget {
 
     return BasePopup(
       title: Text(title),
-      titleTextColor: titleTextColor ?? context.colorScheme.onBackground,
+      titleTextColor: titleTextColor ?? context.colorScheme.tertiary,
       titleTextSize: titleTextSize ?? 24,
       titleAlignment: titleAlignment,
       message: [
@@ -77,10 +77,10 @@ class DCPopupConfirm extends StatelessWidget {
       buttonsHeight: buttonsHeight,
       buttonsTextSize: buttonsTextSize ?? 14,
       buttonsTextColors: buttonsTextColors ?? context.colorScheme.onBackground,
-      onPopupButtonClicked: [
-        (context) => onAgreeButtonClicked ?? Navigator.of(context).pop(),
-        (context) => onAgreeButtonClicked ?? Navigator.of(context).pop(),
-      ],
+      onConfirmButtonClicked: (context) =>
+          onConfirmButtonClicked ?? Navigator.of(context).pop(),
+      onCancelButtonClicked: (context) =>
+          onConfirmButtonClicked ?? Navigator.of(context).pop(),
     );
   }
 }

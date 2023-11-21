@@ -19,7 +19,7 @@ class DCPopupFailed extends StatelessWidget {
     this.buttonsColor,
     this.buttonsTextSize,
     this.buttonsTextColors,
-    this.onPopupButtonClicked,
+    this.onCancelButtonClicked,
   }) : super(key: key);
 
   final String boldMessage;
@@ -36,7 +36,7 @@ class DCPopupFailed extends StatelessWidget {
   final double? buttonsTextSize;
   final Color? buttonsTextColors;
 
-  final void Function(BuildContext context)? onPopupButtonClicked;
+  final void Function(BuildContext context)? onCancelButtonClicked;
 
   @override
   Widget build(BuildContext context) {
@@ -74,9 +74,8 @@ class DCPopupFailed extends StatelessWidget {
         ),
       ),
       iconBackgroundColor: context.colorScheme.error,
-      onPopupButtonClicked: [
-        (context) => onPopupButtonClicked ?? Navigator.of(context).pop(),
-      ],
+      onCancelButtonClicked: (context) =>
+          onCancelButtonClicked ?? Navigator.of(context).pop(),
       buttonsText: [
         buttonText ?? 'Confirm',
       ],
