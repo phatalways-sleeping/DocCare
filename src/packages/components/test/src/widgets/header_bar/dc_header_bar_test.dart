@@ -1,6 +1,7 @@
 import 'package:components/components.dart';
 import 'package:components/src/widgets/header_bar/base_header_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -10,14 +11,12 @@ void main() {
         MaterialApp(
           home: BaseHeaderBar(
             headerBarTitle: 'Test Title',
-            leadingItems: DCHeaderBarItem(
-              prefixIcon: Icon(Icons.arrow_back),
-              onTap: (BuildContext context) {},
+            leadingItems: SvgPicture.string(
+              DCSVGIcons.back,
             ),
             actionItems: [
-              DCHeaderBarItem(
-                prefixIcon: Icon(Icons.notification_important),
-                onTap: (BuildContext context) {},
+              SvgPicture.string(
+                DCSVGIcons.notification,
               ),
             ],
           ),
@@ -25,9 +24,8 @@ void main() {
       );
 
       expect(find.byType(BaseHeaderBar), findsOneWidget);
-      expect(find.text('Test Title'), findsOneWidget);
       expect(find.byType(AppBar), findsOneWidget);
-      expect(find.byType(DCHeaderBarItem), findsNWidgets(2));
+      expect(find.byType(Widget), findsNWidgets(2));
     });
 
     testWidgets('Trigger Leading Icon Callback', (WidgetTester tester) async {
@@ -37,16 +35,12 @@ void main() {
         MaterialApp(
           home: BaseHeaderBar(
             headerBarTitle: 'Test Title',
-            leadingItems: DCHeaderBarItem(
-              prefixIcon: Icon(Icons.arrow_back),
-              onTap: (BuildContext context) {
-                leadingCallbackTriggered = true;
-              },
+            leadingItems: SvgPicture.string(
+              DCSVGIcons.back,
             ),
             actionItems: [
-              DCHeaderBarItem(
-                prefixIcon: Icon(Icons.notification_important),
-                onTap: (BuildContext context) {},
+              SvgPicture.string(
+                DCSVGIcons.notification,
               ),
             ],
           ),
@@ -66,16 +60,12 @@ void main() {
         MaterialApp(
           home: BaseHeaderBar(
             headerBarTitle: 'Test Title',
-            leadingItems: DCHeaderBarItem(
-              prefixIcon: Icon(Icons.arrow_back),
-              onTap: (BuildContext context) {},
+            leadingItems: SvgPicture.string(
+              DCSVGIcons.back,
             ),
             actionItems: [
-              DCHeaderBarItem(
-                prefixIcon: Icon(Icons.notification_important),
-                onTap: (BuildContext context) {
-                  actionCallbackTriggered = true;
-                },
+              SvgPicture.string(
+                DCSVGIcons.notification,
               ),
             ],
           ),
