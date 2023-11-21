@@ -13,19 +13,16 @@ class DCPopupCancellation extends StatelessWidget {
     this.titleTextSize,
     this.titleAlignment,
     this.titleTextColor,
-    this.cancelButtonText,
-    this.agreeButtonText,
+    this.confirmButtonColor,
     this.messageTextSize,
     this.messageTextColor,
     this.boldMessageTextSize,
     this.boldMessageTextColor,
     this.buttonsWidth,
     this.buttonsHeight,
-    this.cancelButtonColor,
-    this.agreeButtonColor,
+    this.confirmButtonText,
     this.buttonsTextSize,
     this.buttonsTextColors,
-    this.onCancelButtonClicked,
     this.onConfirmButtonClicked,
   }) : super(key: key);
 
@@ -44,16 +41,13 @@ class DCPopupCancellation extends StatelessWidget {
   final Color? boldMessageTextColor;
   final double? boldMessageTextSize;
 
-  final String? cancelButtonText;
-  final String? agreeButtonText;
-  final Color? cancelButtonColor;
-  final Color? agreeButtonColor;
+  final String? confirmButtonText;
+  final Color? confirmButtonColor;
   final double? buttonsWidth;
   final double? buttonsHeight;
   final double? buttonsTextSize;
   final Color? buttonsTextColors;
 
-  final void Function(BuildContext context)? onCancelButtonClicked;
   final void Function(BuildContext context)? onConfirmButtonClicked;
 
   @override
@@ -124,19 +118,15 @@ class DCPopupCancellation extends StatelessWidget {
         ),
       ],
       buttonsText: [
-        cancelButtonText ?? 'Cancel',
-        agreeButtonText ?? 'Agree',
+        confirmButtonText ?? 'Agree',
       ],
       buttonsColor: [
-        cancelButtonColor ?? context.colorScheme.error,
-        agreeButtonColor ?? context.colorScheme.surface,
+        confirmButtonColor ?? const Color.fromRGBO(14, 190, 127, 1),
       ],
       buttonsWidth: buttonsWidth,
       buttonsHeight: buttonsHeight,
       buttonsTextSize: buttonsTextSize ?? 16,
-      buttonsTextColors: buttonsTextColors ?? context.colorScheme.onBackground,
-      onCancelButtonClicked: (context) =>
-          onCancelButtonClicked ?? Navigator.of(context).pop(),
+      buttonsTextColors: buttonsTextColors ?? context.colorScheme.background,
       onConfirmButtonClicked: (context) =>
           onConfirmButtonClicked ?? Navigator.of(context).pop(),
     );

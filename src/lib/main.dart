@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:src/firebase_options.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:env_flutter/env_flutter.dart';
+import 'package:components/src/widgets/pop_up/dc_pop_up_success.dart';
+import 'package:components/src/widgets/pop_up/dc_pop_up_cancellation.dart';
+import 'package:components/src/widgets/pop_up/dc_pop_up_confirm_change.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -154,6 +157,35 @@ class _MyHomePageState extends State<MyHomePage> {
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
+            ),
+            //pop-up cancell
+            ElevatedButton(
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (context) => DCPopupCancellation(
+                    title: 'Are you sure?',
+                    newAppointmentMessage:
+                        'You are about to change your password',
+                    symtompsMessage: 'You are about to change your password',
+                    noteMessage: 'You are about to change your password',
+                  ),
+                );
+              },
+              child: const Text('Pop-up cancel'),
+            ),
+            //pop-up success
+            ElevatedButton(
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (context) => const DCPopupSuccess(
+                    message: 'You have successfully changed your password',
+                    boldMessage: 'Success',
+                  ),
+                );
+              },
+              child: const Text('Pop-up success'),
             ),
           ],
         ),

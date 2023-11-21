@@ -10,7 +10,7 @@ class DCPopupDoctorCancel extends StatelessWidget {
     required this.boldMessage,
     required this.message,
     this.cancelButtonText,
-    this.agreeButtonText,
+    this.confirmButtonText,
     this.boldMessageTextSize,
     this.boldMessageTextColor,
     this.messageTextSize,
@@ -18,7 +18,7 @@ class DCPopupDoctorCancel extends StatelessWidget {
     this.buttonsWidth,
     this.buttonsHeight,
     this.cancelButtonColor,
-    this.agreeButtonColor,
+    this.confirmButtonColor,
     this.buttonsTextSize,
     this.buttonsTextColors,
     this.onCancelButtonClicked,
@@ -33,9 +33,9 @@ class DCPopupDoctorCancel extends StatelessWidget {
   final double? messageTextSize;
 
   final String? cancelButtonText;
-  final String? agreeButtonText;
+  final String? confirmButtonText;
   final Color? cancelButtonColor;
-  final Color? agreeButtonColor;
+  final Color? confirmButtonColor;
   final double? buttonsWidth;
   final double? buttonsHeight;
   final double? buttonsTextSize;
@@ -70,11 +70,11 @@ class DCPopupDoctorCancel extends StatelessWidget {
       ],
       buttonsText: [
         cancelButtonText ?? 'Cancel',
-        agreeButtonText ?? 'Agree',
+        confirmButtonText ?? 'confirm',
       ],
       buttonsColor: [
         cancelButtonColor ?? context.colorScheme.error,
-        agreeButtonColor ?? context.colorScheme.primary,
+        confirmButtonColor ?? context.colorScheme.primary,
       ],
       buttonsWidth: buttonsWidth,
       buttonsHeight: buttonsHeight,
