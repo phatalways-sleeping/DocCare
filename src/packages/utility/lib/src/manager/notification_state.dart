@@ -5,6 +5,9 @@ enum NotificationType {
   /// [login] is the enum for login notification type.
   login,
 
+  /// [signUp] is the enum for sign up notification type.
+  signUp,
+
   /// [dismissed] is the enum for dismissed notification type.
   dismissed,
 }
@@ -41,6 +44,42 @@ class DismissedNotificationBuilder extends NotificationBuilder {
 class LoginNotificationBuilder extends NotificationBuilder {
   /// Constructor for [LoginNotificationBuilder].
   LoginNotificationBuilder();
+
+  /// [title] is the title of the notification.
+  late Widget title;
+
+  /// [message] is the message of the notification.
+  late Widget message;
+
+  @override
+  void wrapWith({required Widget title, required Widget message}) {
+    this.title = title;
+    this.message = message;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Align(
+        alignment: Alignment.topCenter,
+        child: Padding(
+          padding: const EdgeInsets.only(top: 8),
+          child: DCNotification(
+            title: title,
+            message: message,
+            backgroundColor: context.colorScheme.secondary,
+            textColor: context.colorScheme.onSecondary,
+            onPressed: (context) {},
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class SignUpNotificationBuilder extends NotificationBuilder {
+  /// Constructor for [SignUpNotificationBuilder].
+  SignUpNotificationBuilder();
 
   /// [title] is the title of the notification.
   late Widget title;
