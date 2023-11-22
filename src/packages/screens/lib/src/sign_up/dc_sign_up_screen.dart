@@ -37,6 +37,7 @@ class _DCSignUpScreenState extends State<DCSignUpScreen> {
                   Container(
                     padding: const EdgeInsets.all(16),
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
                           children: [
@@ -137,6 +138,15 @@ class _DCSignUpScreenState extends State<DCSignUpScreen> {
                               .add(ConfirmPasswordInputEvent(controller.text)),
                         ),
                         const SizedBox(height: 16),
+                        Center(
+                          child: DCButton(
+                            text: 'Sign Up',
+                            onPressed: (context) =>
+                                context.read<SignUpBloc>().add(
+                                      const SignUpButtonPressedEvent(),
+                                    ),
+                          ),
+                        )
                       ],
                     ),
                   ),

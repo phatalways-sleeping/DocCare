@@ -114,8 +114,9 @@ class DCOutlinedWithHeadingTextFormField extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         DefaultTextStyle.merge(
-          style: context.textTheme.h4ExtraBoldPoppins.copyWith(
+          style: context.textTheme.h1RegularPoppins.copyWith(
             color: headingColor ?? borderColor ?? context.colorScheme.secondary,
+            fontSize: 18,
           ),
           child: heading,
         ),
@@ -151,7 +152,9 @@ class DCOutlinedWithHeadingTextFormField extends StatelessWidget {
             validator: validator,
             enabled: enabled,
             paddingBetweenIconAndInput: paddingBetweenIconAndInput,
-          
+            borderRadius: borderRadius,
+            borderWidth: borderWidth,
+            borderColor: borderColor,
             contentPadding: contentPadding,
           )
         else
