@@ -130,7 +130,7 @@ class _BaseTextFormFieldState extends State<BaseTextFormField> {
 
   @override
   void dispose() {
-    controller.dispose();
+    if (widget.controller == null) controller.dispose();
     focusNode.dispose();
     super.dispose();
   }
