@@ -27,6 +27,7 @@ class BasePopup extends StatelessWidget {
     this.messageAlligment,
     this.onConfirmButtonClicked,
     this.onCancelButtonClicked,
+    this.hasPadding = true,
     super.key,
   });
 
@@ -90,6 +91,9 @@ class BasePopup extends StatelessWidget {
   /// The function that will be called when the cancel button is clicked
   final void Function(BuildContext context)? onCancelButtonClicked;
 
+  /// Whether the popup has padding or not
+  final bool hasPadding;
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -136,7 +140,9 @@ class BasePopup extends StatelessWidget {
               message.length,
               (index) => Padding(
                 padding: EdgeInsets.only(
-                  top: (index > 0 && index.isEven) ? popupPadding : 0,
+                  top: (index > 0 && index.isEven && hasPadding)
+                      ? popupPadding
+                      : 0,
                 ),
                 child: message[index],
               ),

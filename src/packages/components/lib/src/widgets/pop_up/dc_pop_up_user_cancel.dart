@@ -3,15 +3,15 @@ import 'package:components/src/widgets/pop_up/base_pop_up.dart';
 import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
 
-/// [DCPopupConfirmAppointment] is a popup that can be used to show a message to the user
+/// [DCPopupUserCancel] is a popup that can be used to show a message to the user
 /// with a title and a list of message.
 /// This is used when one wants to cancel an appointment.
-class DCPopupConfirmAppointment extends StatelessWidget {
-  /// Constructor for [DCPopupConfirmAppointment]
-  const DCPopupConfirmAppointment({
+class DCPopupUserCancel extends StatelessWidget {
+  /// Constructor for [DCPopupUserCancel]
+  const DCPopupUserCancel({
     required this.title,
     required this.newAppointmentMessage,
-    required this.symtompsMessage,
+    required this.importantMessage,
     required this.noteMessage,
     super.key,
     this.titleTextSize,
@@ -25,13 +25,9 @@ class DCPopupConfirmAppointment extends StatelessWidget {
     this.buttonsWidth,
     this.buttonsHeight,
     this.confirmButtonText,
-    this.cancelButtonText,
-    this.cancelButtonColor,
     this.buttonsTextSize,
-    this.cancelButtonTextColor,
     this.confirmButtonTextColor,
     this.onConfirmButtonClicked,
-    this.onCancelButtonClicked,
   });
 
   /// The title of the popup
@@ -50,7 +46,7 @@ class DCPopupConfirmAppointment extends StatelessWidget {
   final String newAppointmentMessage;
 
   /// The message of the popup for the symtomps
-  final String symtompsMessage;
+  final String importantMessage;
 
   /// The message of the popup for the note
   final String noteMessage;
@@ -73,12 +69,6 @@ class DCPopupConfirmAppointment extends StatelessWidget {
   /// The color of the confirm button
   final Color? confirmButtonColor;
 
-  /// The text of the cancel button
-  final String? cancelButtonText;
-
-  /// The color of the cancel button
-  final Color? cancelButtonColor;
-
   /// The width of the buttons
   final double? buttonsWidth;
 
@@ -91,14 +81,8 @@ class DCPopupConfirmAppointment extends StatelessWidget {
   /// The color of the confirm text
   final Color? confirmButtonTextColor;
 
-  // The color of the cancel text
-  final Color? cancelButtonTextColor;
-
   /// The function to be called when the confirm button is clicked
   final void Function(BuildContext context)? onConfirmButtonClicked;
-
-  /// The function to be called when the cancel button is clicked
-  final void Function(BuildContext context)? onCancelButtonClicked;
 
   @override
   Widget build(BuildContext context) {
@@ -135,7 +119,7 @@ class DCPopupConfirmAppointment extends StatelessWidget {
             color: boldMessageTextColor ?? context.colorScheme.onBackground,
           ),
           textAlign: TextAlign.left,
-          child: const Text('Symtomps'),
+          child: const Text('Something important'),
         ),
         DefaultTextStyle.merge(
           style: context.textTheme.h4RegularPoppins.copyWith(
@@ -144,7 +128,7 @@ class DCPopupConfirmAppointment extends StatelessWidget {
             color: messageTextColor ?? context.colorScheme.tertiary,
           ),
           textAlign: TextAlign.left,
-          child: Text(symtompsMessage),
+          child: Text(importantMessage),
         ),
         DefaultTextStyle.merge(
           style: context.textTheme.h4BoldPoppins.copyWith(
@@ -166,22 +150,18 @@ class DCPopupConfirmAppointment extends StatelessWidget {
         ),
       ],
       buttonsText: [
-        cancelButtonText ?? 'Cancel',
-        confirmButtonText ?? 'Confirm',
+        confirmButtonText ?? 'Agree',
       ],
       buttonsColor: [
-        cancelButtonColor ?? context.colorScheme.error,
         confirmButtonColor ?? context.colorScheme.senary,
       ],
       buttonsWidth: buttonsWidth,
       buttonsHeight: buttonsHeight,
       buttonsTextSize: buttonsTextSize ?? 16,
       buttonsTextColors: [
-        cancelButtonColor ?? context.colorScheme.onBackground,
-        confirmButtonColor ?? context.colorScheme.onBackground,
+        confirmButtonColor ?? context.colorScheme.background,
       ],
       onConfirmButtonClicked: onConfirmButtonClicked,
-      onCancelButtonClicked: onCancelButtonClicked,
     );
   }
 }
