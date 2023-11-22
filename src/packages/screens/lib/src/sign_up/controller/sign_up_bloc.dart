@@ -1,16 +1,12 @@
 // ignore_for_file: public_member_api_docs
 
 import 'package:auth_api/auth_api.dart' show AuthException;
-
 import 'package:auth_domain/auth_domain.dart'
     show AuthenticationRepositoryService;
-
 import 'package:bloc/bloc.dart';
-
 import 'package:equatable/equatable.dart';
-
 import 'package:flutter/widgets.dart';
-
+import 'package:intl/intl.dart';
 import 'package:models/models.dart' show SignUpUser;
 
 import 'package:utility/utility.dart'
@@ -66,7 +62,9 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     BirthdayInputEvent event,
     Emitter<SignUpState> emit,
   ) {
-    emit(state.copyWith(birthday: event.birthday));
+    final formatter = DateFormat('dd/mm/yyyy');
+    final birthday = formatter.parse(event.birthday);
+    emit(state.copyWith(birthday: birthday));
   }
 
   void _onPhoneInputEvent(

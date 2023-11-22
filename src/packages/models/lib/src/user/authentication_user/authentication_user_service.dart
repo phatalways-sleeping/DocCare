@@ -29,7 +29,7 @@ abstract interface class RegistrationAuthenticationUserService
   const RegistrationAuthenticationUserService();
 
   /// [birthday] is the birthday of the user
-  String get birthday;
+  DateTime get birthday;
 
   /// [fullname] is the fullname of the user
   String get fullname;

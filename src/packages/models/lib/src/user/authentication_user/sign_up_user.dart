@@ -26,7 +26,7 @@ final class SignUpUser extends Equatable
 
   final String _email;
   final String _password;
-  final String _birthday;
+  final DateTime _birthday;
   final String _fullname;
   final String _phone;
 
@@ -37,7 +37,7 @@ final class SignUpUser extends Equatable
   String get password => _password;
 
   @override
-  String get birthday => _birthday;
+  DateTime get birthday => _birthday;
 
   @override
   String get fullname => _fullname;
@@ -51,7 +51,7 @@ final class SignUpUser extends Equatable
   SignUpUser copyWith({
     String? email,
     String? password,
-    String? birthday,
+    DateTime? birthday,
     String? fullname,
     String? phone,
   }) {

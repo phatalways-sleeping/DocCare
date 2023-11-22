@@ -20,7 +20,7 @@ sealed class SignUpState extends Equatable {
 
   final String password;
 
-  final String birthday;
+  final DateTime birthday;
 
   final String confirmPassword;
 
@@ -43,7 +43,7 @@ sealed class SignUpState extends Equatable {
     String? fullName,
     String? email,
     String? password,
-    String? birthday,
+    DateTime? birthday,
     String? confirmPassword,
     bool? checkedTerm,
     String? phone,
@@ -56,7 +56,7 @@ final class SignUpInitial extends SignUpState {
           fullName: '',
           email: '',
           password: '',
-          birthday: '',
+          birthday: DateTime(1970),
           confirmPassword: '',
           checkedTerm: false,
           phone: '',
@@ -77,7 +77,7 @@ final class SignUpInitial extends SignUpState {
     String? fullName,
     String? email,
     String? password,
-    String? birthday,
+    DateTime? birthday,
     String? confirmPassword,
     bool? checkedTerm,
     String? phone,
@@ -129,7 +129,7 @@ final class SignUpLoading extends SignUpState {
     String? fullName,
     String? email,
     String? password,
-    String? birthday,
+    DateTime? birthday,
     String? confirmPassword,
     bool? checkedTerm,
     String? phone,
@@ -171,7 +171,7 @@ final class SignUpSuccess extends SignUpState {
     String? fullName,
     String? email,
     String? password,
-    String? birthday,
+    DateTime? birthday,
     String? confirmPassword,
     bool? checkedTerm,
     String? phone,
@@ -228,7 +228,7 @@ final class SignUpFailure extends SignUpState {
     String? fullName,
     String? email,
     String? password,
-    String? birthday,
+    DateTime? birthday,
     String? confirmPassword,
     bool? checkedTerm,
     String? phone,
