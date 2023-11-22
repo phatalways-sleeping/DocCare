@@ -1,72 +1,88 @@
 import 'package:components/components.dart';
 import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
+import 'package:components/src/theme/color_scheme/light_color_scheme.dart';
 
 class DCButton extends StatelessWidget {
-  const DCButton({
-    super.key,
+  DCButton({
+    Key? key,
     required this.text,
     this.textStyle,
-    this.onPressed,
+    required this.onPressed,
     this.borderColor,
     this.backgroundColor,
-    this.foregroundColor,
     this.textColor,
-    this.iconColor,
-    this.iconLeft,
-    this.iconRight,
-    this.imageLeft,
-    this.imageRight,
-    this.widgetLeft,
-    this.widgetRight,
-    this.fillParentWidth = false,
-    this.padding,
-    this.gapBetweenElements,
     this.borderRadius,
     this.textSize,
     this.borderWidth,
     this.pressedOpacity,
     this.hoveredOpacity,
-    this.iconSize,
-    this.buttonHeight,
-    this.buttonWidth,
-  });
-
-  final void Function()? onPressed;
-  final Color? iconColor;
+    this.imageLeft,
+    this.imageRight,
+    this.heightFactor,
+    this.widthFactor,
+    this.imageSize,
+    this.gapBetweenElements,
+  })  : assert(
+          textSize == null || (textSize! > 5 && textSize! < 100),
+          'If textSize is provided, it should be between 5 and 100',
+        ),
+        assert(
+          heightFactor == null || (heightFactor! >= 0 && heightFactor! <= 0.9),
+          'If heightFactor is provided, it should be between 0 and 0.95',
+        ),
+        assert(
+          widthFactor == null || (widthFactor! >= 0 && widthFactor! <= 0.9),
+          'If widthFactor is provided, it should be between 0 and 0.95',
+        ),
+        assert(
+          imageSize == null || (imageSize! > 5 && imageSize! < 100),
+          'If imageSize is provided, it should be between 5 and 100',
+        ),
+        assert(
+          gapBetweenElements == null || (gapBetweenElements! > 5 && gapBetweenElements! < 100),
+          'If gapBetweenElements is provided, it should be between 5 and 100',
+        ),
+        super(key: key);
+  final void Function(BuildContext context) onPressed;
   final Color? borderColor;
   final Color? backgroundColor;
-  final Color? foregroundColor;
   final Color? textColor;
   final TextStyle? textStyle;
   final String text;
-  final IconData? iconLeft;
-  final IconData? iconRight;
-  final AssetImage? imageLeft;
-  final AssetImage? imageRight;
-  final Widget? widgetLeft;
-  final Widget? widgetRight;
-  final bool fillParentWidth;
-  final EdgeInsetsGeometry? padding;
-  final double? gapBetweenElements;
   final double? borderRadius;
   final double? textSize;
   final double? borderWidth;
   final double? pressedOpacity;
   final double? hoveredOpacity;
-  final double? iconSize;
-  final double? buttonWidth;
-  final double? buttonHeight;
-
+  final double? heightFactor;
+  final double? widthFactor;
+  final ImageProvider? imageLeft;
+  final ImageProvider? imageRight;
+  final double? imageSize;
+  final double? gapBetweenElements;
 
   @override
   Widget build(BuildContext context) {
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
+    final double calculatedButtonWidth = widthFactor != null
+        ? screenWidth *
+            widthFactor! // Calculate button width based on widthFactor
+        : screenWidth * 0.3; // Default to 30% of screen width
+
+    final double calculatedButtonHeight = heightFactor != null
+        ? screenHeight *
+            heightFactor! // Calculate button height based on heightFactor
+        : screenHeight * 0.06; // Default to 6% of screen height
+
+    final DocCareLightColorScheme colorScheme = DocCareLightColorScheme();
     final textWidget = Text(
       text,
       style: textStyle ??
           context.textTheme.h6RegularPoppins.copyWith(
-            color: textColor ?? Colors.black,
-            fontSize: this.textSize ?? 14,
+            color: textColor ?? colorScheme.onSecondary,
+            fontSize: textSize,
           ),
       //maxLines: ButtonConfig.maxLines,
     );
@@ -76,14 +92,14 @@ class DCButton extends StatelessWidget {
       child: OutlinedButton(
         style: ButtonStyle(
           padding: const MaterialStatePropertyAll(EdgeInsets.zero),
-          minimumSize: MaterialStateProperty.all(Size(buttonWidth ?? 100, buttonHeight ?? 30)), // Change the values as needed
+          minimumSize: MaterialStateProperty.all(
+              Size(calculatedButtonWidth, calculatedButtonHeight)),
           side: MaterialStateProperty.resolveWith((states) {
-            double width = borderWidth ?? 1.0;
-            final borderColor =
-                this.borderColor ?? Colors.black;
+            double width = borderWidth ?? 0.0;
+            final borderColor = this.borderColor ?? colorScheme.onBackground;
             if (states.contains(MaterialState.disabled)) {
               return BorderSide(
-                color: Color(0xFFB9B9B9),
+                color: colorScheme.tertiary,
                 width: width,
               );
             } else if (states.contains(MaterialState.pressed)) {
@@ -103,10 +119,9 @@ class DCButton extends StatelessWidget {
             );
           }),
           backgroundColor: MaterialStateProperty.resolveWith((states) {
-            final backgroundColor = this.backgroundColor ?? Colors.greenAccent;
+            final backgroundColor = this.backgroundColor ?? colorScheme.primary;
             if (states.contains(MaterialState.disabled)) {
-              // TODO(sxweetlollipop2912): replace with color theme gray/03
-              return const Color(0xFFB9B9B9);
+              return colorScheme.tertiary;
             } else if (states.contains(MaterialState.pressed)) {
               return backgroundColor.withOpacity(this.pressedOpacity ?? 0.5);
             } else if (states.contains(MaterialState.hovered)) {
@@ -114,83 +129,42 @@ class DCButton extends StatelessWidget {
             }
             return backgroundColor;
           }),
-          foregroundColor: MaterialStateProperty.resolveWith((states) {
-            if (states.contains(MaterialState.disabled)) {
-              return Colors.white;
-            } else {
-              return foregroundColor;
-            }
-          }),
           shape: MaterialStatePropertyAll(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(this.borderRadius ?? 80),
             ),
           ),
         ),
-        onPressed: onPressed,
+        onPressed: () => onPressed(context),
         child: Padding(
-          padding: padding ??
-              EdgeInsets.symmetric(
-                vertical: 8.0,
-                horizontal: 8.0,
-              ),
+          padding: EdgeInsets.symmetric(
+            vertical: 8.0,
+            horizontal: 8.0,
+          ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              if (iconLeft != null)
-                Icon(
-                  iconLeft,
-                  size: this.iconSize ?? 14,
-                  color: iconColor,
-                ),
               if (imageLeft != null)
                 Image(
                   image: imageLeft!,
-                  width: this.iconSize ?? 14,
-                  height: this.iconSize ?? 14,
+                  width: this.imageSize ?? 14,
+                  height: this.imageSize ?? 14,
                   fit: BoxFit.scaleDown,
                 ),
-              if (widgetLeft != null) widgetLeft!,
               SizedBox(
-                width: iconLeft != null ||
-                        imageLeft != null ||
-                        widgetLeft != null
-                    ? gapBetweenElements ?? 10
-                    : 0,
+                width: imageLeft != null ? gapBetweenElements ?? 10 : 0,
               ),
-              if (fillParentWidth)
-                Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    // crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: <Widget>[
-                      textWidget,
-                    ],
-                  ),
-                ),
-              if (!fillParentWidth) textWidget,
               SizedBox(
-                width: iconRight != null ||
-                        imageRight != null ||
-                        widgetRight != null
-                    ? gapBetweenElements ?? 10
-                    : 0,
+                width: imageRight != null ? gapBetweenElements ?? 10 : 0,
               ),
-              if (iconRight != null)
-                Icon(
-                  iconRight,
-                  size: this.iconSize ?? 14,
-                  color: iconColor,
-                ),
               if (imageRight != null)
                 Image(
                   image: imageRight!,
-                  width: this.iconSize ?? 14,
-                  height: this.iconSize ?? 14,
+                  width: this.imageSize ?? 14,
+                  height: this.imageSize ?? 14,
                   fit: BoxFit.scaleDown,
                 ),
-              if (widgetRight != null) widgetRight!,
+              textWidget,
             ],
           ),
         ),
