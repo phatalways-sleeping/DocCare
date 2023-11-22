@@ -62,9 +62,37 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     BirthdayInputEvent event,
     Emitter<SignUpState> emit,
   ) {
-    final formatter = DateFormat('dd/mm/yyyy');
-    final birthday = formatter.parse(event.birthday);
-    emit(state.copyWith(birthday: birthday));
+    final formatter = DateFormat('dd/MM/yyyy');
+    final pattern = RegExp(r'^\d{2}\/\d{2}\/\d{4}$');
+    if (!pattern.hasMatch(event.birthday)) {
+      return;
+    }
+    try {
+      final birthday = formatter.parseStrict(
+        event.birthday,
+      );
+      emit(state.copyWith(birthday: birthday));
+    } on FormatException {
+      _notificationManagerService
+          .show<void>(
+            NotificationType.signUp,
+            title: const Text(
+              'Something went wrong',
+              style: TextStyle(
+                fontSize: 16,
+              ),
+            ),
+            message: const Text(
+              'Please enter a valid date format (dd/mm/yyyy)',
+              style: TextStyle(
+                fontSize: 13,
+              ),
+            ),
+          )
+          .then(
+            (value) => emit((state as SignUpLoading).toggleBackToInitial()),
+          );
+    }
   }
 
   void _onPhoneInputEvent(
