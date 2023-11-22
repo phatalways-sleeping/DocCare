@@ -120,7 +120,34 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     SignUpButtonPressedEvent event,
     Emitter<SignUpState> emit,
   ) async {
-    emit(SignUpLoading.from(state));
+    if (state.fullName.isEmpty ||
+        state.password.isEmpty ||
+        state.email.isEmpty ||
+        state.phone.isEmpty ||
+        state.confirmPassword.isEmpty ||
+        state.checkedTerm == false) {
+      await _notificationManagerService
+          .show<void>(
+            NotificationType.signUp,
+            title: const Text(
+              'Something went wrong',
+              style: TextStyle(
+                fontSize: 16,
+              ),
+            ),
+            message: const Text(
+              'Please fill all the fields',
+              style: TextStyle(
+                fontSize: 13,
+              ),
+            ),
+          )
+          .then(
+            (value) => emit((state as SignUpLoading).toggleBackToInitial()),
+          );
+
+      return;
+    }
 
     if (state.password != state.confirmPassword) {
       await _notificationManagerService
@@ -181,5 +208,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
             (value) => emit((state as SignUpLoading).toggleBackToInitial()),
           );
     }
+
+    emit(SignUpLoading.from(state));
   }
 }

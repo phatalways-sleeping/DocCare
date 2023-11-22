@@ -5,9 +5,9 @@ import 'package:components/components.dart';
 import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:screens/src/sign_up/controller/sign_up_bloc.dart';
 import 'package:utility/utility.dart';
-import 'package:flutter_svg/svg.dart';
 
 class DCSignUpScreen extends StatefulWidget {
   const DCSignUpScreen({super.key});
@@ -35,7 +35,10 @@ class _DCSignUpScreenState extends State<DCSignUpScreen> {
               delegate: SliverChildListDelegate(
                 [
                   Container(
-                    padding: const EdgeInsets.all(16),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: context.width * 0.05,
+                      vertical: context.height * 0.05,
+                    ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
