@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:screens/src/sign_up/controller/sign_up_bloc.dart';
 import 'package:utility/utility.dart';
+import 'package:flutter_svg/svg.dart';
 
 class DCSignUpScreen extends StatefulWidget {
   const DCSignUpScreen({super.key});
@@ -37,6 +38,30 @@ class _DCSignUpScreenState extends State<DCSignUpScreen> {
                     padding: const EdgeInsets.all(16),
                     child: Column(
                       children: [
+                        Row(
+                          children: [
+                            Text(
+                              'Set up your profile  ',
+                              style: context.textTheme.h6BoldPoppins.copyWith(
+                                fontSize: 30,
+                              ),
+                            ),
+                            SvgPicture.string(
+                              DCSVGIcons.signup,
+                              height: 34,
+                              width: 34,
+                            ),
+                          ],
+                        ),
+                        Text(
+                          'Create new account to access our service',
+                          style: context.textTheme.h1RegularPoppins.copyWith(
+                            fontSize: 20,
+                          ),
+                          overflow: TextOverflow.clip,
+                          softWrap: true,
+                        ),
+                        const SizedBox(height: 16),
                         DCOutlinedWithHeadingTextFormField(
                           heading: const Text('Full Name'),
                           headingColor: context.colorScheme.onSurface,
@@ -90,6 +115,7 @@ class _DCSignUpScreenState extends State<DCSignUpScreen> {
                           heading: const Text('Password'),
                           headingColor: context.colorScheme.onSurface,
                           borderColor: context.colorScheme.onBackground,
+                          useObscuredTextFormField: true,
                           color: context.colorScheme.onBackground,
                           borderRadius: 16,
                           keyboardType: TextInputType.visiblePassword,
@@ -102,6 +128,7 @@ class _DCSignUpScreenState extends State<DCSignUpScreen> {
                           heading: const Text('Confirm Password'),
                           headingColor: context.colorScheme.onSurface,
                           borderColor: context.colorScheme.onBackground,
+                          useObscuredTextFormField: true,
                           color: context.colorScheme.onBackground,
                           borderRadius: 16,
                           keyboardType: TextInputType.visiblePassword,

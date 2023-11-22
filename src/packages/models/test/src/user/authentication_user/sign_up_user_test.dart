@@ -10,7 +10,7 @@ void main() {
       final signUpUser = SignUpUser(
         'email',
         'password',
-        'birthday',
+        DateTime(2000),
         'fullname',
         'phone',
       );
@@ -29,7 +29,7 @@ void main() {
       final signUpUser = SignUpUser(
         'email',
         'password',
-        'birthday',
+        DateTime(2000),
         'fullname',
         'phone',
       );
@@ -49,7 +49,7 @@ void main() {
       final signUpUser = SignUpUser(
         'email',
         'password',
-        'birthday',
+        DateTime(2000),
         'fullname',
         'phone',
       );
@@ -60,7 +60,7 @@ void main() {
         email: 'email2',
         password: 'password2',
         phone: 'phone2',
-        birthday: 'birthday',
+        birthday: DateTime(2000),
       );
 
       // Verify the copy
@@ -68,7 +68,7 @@ void main() {
       expect(copy.email, 'email2');
       expect(copy.password, 'password2');
       expect(copy.phone, 'phone2');
-      expect(copy.birthday, 'birthday');
+      expect(copy.birthday, DateTime(2000));
     });
   });
 }
