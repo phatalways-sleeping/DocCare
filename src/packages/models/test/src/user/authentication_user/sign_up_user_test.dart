@@ -7,10 +7,10 @@ void main() {
     // Test create a `SignUpUser` instance
     test('create', () {
       // Create a `SignUpUser` instance
-      final signUpUser = SignupUser(
+      final signUpUser = SignUpUser(
         'email',
         'password',
-        DateTime(2000),
+        'birthday',
         'fullname',
         'phone',
       );
@@ -26,16 +26,16 @@ void main() {
     // Test the factory `from` method
     test('from', () {
       // Create a `SignUpUser` instance
-      final signUpUser = SignupUser(
+      final signUpUser = SignUpUser(
         'email',
         'password',
-        DateTime(2000),
+        'birthday',
         'fullname',
         'phone',
       );
 
       // Create a `SignUpUser` instance from the `from` method
-      final from = SignupUser.from(
+      final from = SignUpUser.from(
         signUpUser,
       );
 
@@ -46,10 +46,10 @@ void main() {
     // Test the `copyWith` method
     test('copyWith', () {
       // Create a `SignUpUser` instance
-      final signUpUser = SignupUser(
+      final signUpUser = SignUpUser(
         'email',
         'password',
-        DateTime(2000),
+        'birthday',
         'fullname',
         'phone',
       );
@@ -60,7 +60,7 @@ void main() {
         email: 'email2',
         password: 'password2',
         phone: 'phone2',
-        birthday: DateTime(2001),
+        birthday: 'birthday',
       );
 
       // Verify the copy
@@ -68,7 +68,7 @@ void main() {
       expect(copy.email, 'email2');
       expect(copy.password, 'password2');
       expect(copy.phone, 'phone2');
-      expect(copy.birthday, DateTime(2001));
+      expect(copy.birthday, 'birthday');
     });
   });
 }
