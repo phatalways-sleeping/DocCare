@@ -90,7 +90,9 @@ class DCPopupConfirmChange extends StatelessWidget {
       buttonsWidth: buttonsWidth,
       buttonsHeight: buttonsHeight,
       buttonsTextSize: buttonsTextSize ?? 14,
-      buttonsTextColors: buttonsTextColors ?? context.colorScheme.onBackground,
+      buttonsTextColors: [
+        buttonsTextColors ?? context.colorScheme.onBackground,
+      ],
       onConfirmButtonClicked: onConfirmButtonClicked,
       onCancelButtonClicked: onCancelButtonClicked,
     );

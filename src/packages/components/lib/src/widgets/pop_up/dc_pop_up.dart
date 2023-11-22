@@ -1,4 +1,4 @@
-export 'dc_pop_up_cancellation.dart';
+export 'dc_pop_up_confirm_appointment.dart';
 export 'dc_pop_up_confirm_remove.dart';
 export 'dc_pop_up_doctor_cancel.dart';
 export 'dc_pop_up_failed.dart';

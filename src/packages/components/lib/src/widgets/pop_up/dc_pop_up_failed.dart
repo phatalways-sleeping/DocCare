@@ -66,7 +66,9 @@ class DCPopupFailed extends StatelessWidget {
       buttonsWidth: buttonsWidth,
       buttonsHeight: buttonsHeight,
       buttonsTextSize: buttonsTextSize ?? 16,
-      buttonsTextColors: buttonsTextColors ?? context.colorScheme.onBackground,
+      buttonsTextColors: [
+        buttonsTextColors ?? context.colorScheme.onBackground,
+      ],
       popupIcon: FractionallySizedBox(
         child: SvgPicture.string(
           DCSVGIcons.error,

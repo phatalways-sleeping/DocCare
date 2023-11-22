@@ -76,7 +76,9 @@ class DCPopupConfirmRemove extends StatelessWidget {
       buttonsWidth: buttonsWidth,
       buttonsHeight: buttonsHeight,
       buttonsTextSize: buttonsTextSize ?? 14,
-      buttonsTextColors: buttonsTextColors ?? context.colorScheme.onBackground,
+      buttonsTextColors: [
+        buttonsTextColors ?? context.colorScheme.onBackground,
+      ],
       onConfirmButtonClicked: (context) =>
           onConfirmButtonClicked ?? Navigator.of(context).pop(),
       onCancelButtonClicked: (context) =>

@@ -3,17 +3,16 @@ import 'package:components/src/widgets/pop_up/base_pop_up.dart';
 import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
 
-/// [DCPopupCancellation] is a popup that can be used to show a message to the user
+/// [DCPopupConfirmAppointment] is a popup that can be used to show a message to the user
 /// with a title and a list of message.
 /// This is used when one wants to cancel an appointment.
-class DCPopupCancellation extends StatelessWidget {
-  /// Constructor for [DCPopupCancellation]
-  const DCPopupCancellation({
+class DCPopupConfirmAppointment extends StatelessWidget {
+  /// Constructor for [DCPopupConfirmAppointment]
+  const DCPopupConfirmAppointment({
     required this.title,
     required this.newAppointmentMessage,
     required this.symtompsMessage,
     required this.noteMessage,
-    this.showCancelButton = false,
     super.key,
     this.titleTextSize,
     this.titleAlignment,
@@ -29,7 +28,8 @@ class DCPopupCancellation extends StatelessWidget {
     this.cancelButtonText,
     this.cancelButtonColor,
     this.buttonsTextSize,
-    this.buttonsTextColors,
+    this.cancelButtonTextColor,
+    this.confirmButtonTextColor,
     this.onConfirmButtonClicked,
     this.onCancelButtonClicked,
   });
@@ -88,11 +88,11 @@ class DCPopupCancellation extends StatelessWidget {
   /// The size of the buttons text
   final double? buttonsTextSize;
 
-  /// The color of the buttons text
-  final Color? buttonsTextColors;
+  /// The color of the confirm text
+  final Color? confirmButtonTextColor;
 
-  /// Whether to show the cancel button or not
-  final bool showCancelButton;
+  // The color of the cancel text
+  final Color? cancelButtonTextColor;
 
   /// The function to be called when the confirm button is clicked
   final void Function(BuildContext context)? onConfirmButtonClicked;
@@ -129,7 +129,7 @@ class DCPopupCancellation extends StatelessWidget {
           child: Text(newAppointmentMessage),
         ),
         DefaultTextStyle.merge(
-          style: context.textTheme.h4RegularPoppins.copyWith(
+          style: context.textTheme.h4BoldPoppins.copyWith(
             fontSize: boldMessageTextSize ?? 20,
             fontWeight: FontWeight.bold,
             color: boldMessageTextColor ?? context.colorScheme.onBackground,
@@ -166,17 +166,20 @@ class DCPopupCancellation extends StatelessWidget {
         ),
       ],
       buttonsText: [
-        if (showCancelButton) cancelButtonText ?? 'Cancel',
+        cancelButtonText ?? 'Cancel',
         confirmButtonText ?? 'Agree',
       ],
       buttonsColor: [
-        if (showCancelButton) cancelButtonColor ?? context.colorScheme.error,
+        cancelButtonColor ?? context.colorScheme.error,
         confirmButtonColor ?? context.colorScheme.senary,
       ],
       buttonsWidth: buttonsWidth,
       buttonsHeight: buttonsHeight,
       buttonsTextSize: buttonsTextSize ?? 16,
-      buttonsTextColors: buttonsTextColors ?? context.colorScheme.background,
+      buttonsTextColors: [
+        cancelButtonColor ?? context.colorScheme.onBackground,
+        confirmButtonColor ?? context.colorScheme.onBackground,
+      ],
       onConfirmButtonClicked: onConfirmButtonClicked,
       onCancelButtonClicked: onCancelButtonClicked,
     );

@@ -61,7 +61,7 @@ class BasePopup extends StatelessWidget {
   final double? buttonsTextSize;
 
   /// The color of the buttons text
-  final Color? buttonsTextColors;
+  final List<Color>? buttonsTextColors;
 
   /// The icon of the popup
   final Widget? popupIcon;
@@ -162,7 +162,7 @@ class BasePopup extends StatelessWidget {
                     buttonHeight: buttonsHeight,
                     textStyle: buttonsTextStyle,
                     textSize: buttonsTextSize,
-                    textColor: buttonsTextColors,
+                    textColor: buttonsTextColors?[index],
                     backgroundColor: buttonsColor?[index],
                     borderWidth: 0,
                     borderColor: context.colorScheme.background,
