@@ -8,29 +8,23 @@ import 'package:flutter_svg/flutter_svg.dart';
 class DCDoctorHeaderBar extends StatefulWidget implements PreferredSizeWidget {
   const DCDoctorHeaderBar({
     super.key,
-    this.headerBarTitle,
+    this.title,
     this.onLeadingIconPressed,
     this.onActionsIconPressed,
     this.backgroundColor,
-    this.selectedItemColor,
-    this.unselectedItemColor,
-    this.widthFactor = 0.8,
     this.cornerRadius = 40,
-    this.haveBack = false,
+    this.allowNavigateBack = false,
     this.haveLogout = false,
     this.haveNotification = false,
   });
-  final String? headerBarTitle;
+  final String? title;
   final bool haveLogout;
-  final bool haveBack;
+  final bool allowNavigateBack;
   final bool haveNotification;
-  final double widthFactor;
   final double cornerRadius;
   final void Function(BuildContext context)? onLeadingIconPressed;
   final void Function(BuildContext context)? onActionsIconPressed;
   final Color? backgroundColor;
-  final Color? selectedItemColor;
-  final Color? unselectedItemColor;
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
@@ -39,79 +33,49 @@ class DCDoctorHeaderBar extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _DCDoctorHeaderBarState extends State<DCDoctorHeaderBar> {
-  // This is temporary solution for the drawer item selection
-  // Later we will use the BLoC to handle the state
-  bool leadingSelected = false;
-  bool actionSelected = false;
-
   @override
   Widget build(BuildContext context) {
-    final backColor = widget.backgroundColor ?? context.colorScheme.background;
-    final chooseColor =
-        widget.selectedItemColor ?? context.colorScheme.onPrimary;
-    final unChooseColor =
-        widget.unselectedItemColor ?? context.colorScheme.quinary;
+    final backgroundColor =
+        widget.backgroundColor ?? context.colorScheme.background;
     final haveNotification = widget.haveNotification;
-    final headerBarTitle = widget.headerBarTitle ?? "xcsada";
+    final title = widget.title ?? '';
 
     return BaseHeaderBar(
-      headerBarTitle: headerBarTitle,
-      backgroundColor: backColor,
-      leadingItems: widget.haveBack
-          ? InkWell(
-              onTap: () {
-                widget.onLeadingIconPressed?.call(context);
-
-                setState(() {
-                  leadingSelected = true;
-                  actionSelected = false;
-                });
-              },
-              child: SvgPicture.string(
+      headerBarTitle: title,
+      backgroundColor: backgroundColor,
+      leadingItems: widget.allowNavigateBack
+          ? IconButton(
+              icon: SvgPicture.string(
                 DCSVGIcons.back,
-                fit: BoxFit.cover,
-                height: 24,
-                width: 24,
-              ),
-            )
-          : widget.haveLogout
-              ? InkWell(
-                  onTap: () {
-                    widget.onLeadingIconPressed?.call(context);
-
-                    setState(() {
-                      leadingSelected = true;
-                      actionSelected = false;
-                    });
-                  },
-                  child: SvgPicture.string(
-                    DCSVGIcons.logout,
-                    fit: BoxFit.cover,
-                    height: 24,
-                    width: 24,
-                  ),
-                )
-              : null,
-      actionItems: haveNotification
-          ? [
-              InkWell(
-                onTap: () {
-                  widget.onLeadingIconPressed?.call(context);
-
-                  setState(() {
-                    leadingSelected = false;
-                    actionSelected = true;
-                  });
-                },
-                child: SvgPicture.string(
-                  DCSVGIcons.notification,
-                  fit: BoxFit.cover,
-                  height: 24,
-                  width: 24,
+                width: 30,
+                height: 20,
+                colorFilter: ColorFilter.mode(
+                  context.colorScheme.onBackground,
+                  BlendMode.srcIn,
                 ),
-              )
-            ]
-          : [],
+              ),
+              onPressed: () {
+                widget.onLeadingIconPressed?.call(context);
+              },
+            )
+          : null,
+      actionItems: [
+        if (haveNotification)
+          IconButton(
+            icon: SvgPicture.string(
+              DCSVGIcons.notification,
+              width: 25,
+              height: 25,
+              colorFilter: ColorFilter.mode(
+                context.colorScheme.onBackground,
+                BlendMode.srcIn,
+              ),
+            ),
+            onPressed: () {
+              widget.onActionsIconPressed?.call(context);
+            },
+          ),
+      ],
     );
   }
 }
