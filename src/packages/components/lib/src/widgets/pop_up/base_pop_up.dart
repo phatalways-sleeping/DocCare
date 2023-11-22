@@ -1,13 +1,15 @@
 import 'package:components/components.dart';
 import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
-import 'package:components/src/widgets/button/dc_button.dart';
 
+/// [BasePopup] is a popup that can be used to show a message to the user
+/// with a title and a list of message.
 class BasePopup extends StatelessWidget {
+  /// Constructor for [BasePopup]
   const BasePopup({
     required this.message,
     required this.buttonsText,
-    this.popupPadding,
+    this.popupPadding = 10,
     this.buttonsWidth,
     this.buttonsHeight,
     this.buttonsColor,
@@ -28,33 +30,70 @@ class BasePopup extends StatelessWidget {
     super.key,
   });
 
+  /// The title of the popup
   final Widget? title;
+
+  /// The color of the icon background
   final Color? iconBackgroundColor;
-  //Message is in a list so that many message can be stack on each other
-  final double? popupPadding;
+
+  /// The padding of the popup
+  final double popupPadding;
+
+  /// The list of message
   final List<Widget> message;
+
+  /// The text of the buttons
   final List<String> buttonsText;
+
+  /// The color of the buttons
   final List<Color>? buttonsColor;
+
+  /// The style of the buttons text
   final TextStyle? buttonsTextStyle;
+
+  /// The width of the buttons
   final double? buttonsWidth;
+
+  /// The height of the buttons
   final double? buttonsHeight;
+
+  /// The size of the buttons text
   final double? buttonsTextSize;
+
+  /// The color of the buttons text
   final Color? buttonsTextColors;
+
+  /// The icon of the popup
   final Widget? popupIcon;
+
+  /// The width of the icon
   final double? popupIconWidth;
+
+  /// The height of the icon
   final double? popupIconHeight;
+
+  /// The color of the title text
   final Color? titleTextColor;
+
+  /// The size of the title text
   final double? titleTextSize;
+
+  /// The alignment of the title
   final TextAlign? titleAlignment;
+
+  /// The alignment of the message
   final CrossAxisAlignment? messageAlligment;
+
+  /// The function that will be called when the confirm button is clicked
   final void Function(BuildContext context)? onConfirmButtonClicked;
+
+  /// The function that will be called when the cancel button is clicked
   final void Function(BuildContext context)? onCancelButtonClicked;
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      contentPadding: EdgeInsets.all(popupPadding ?? 10),
-      //set up title with title alignment, title text size and title text color
+      contentPadding: EdgeInsets.all(popupPadding),
       title: DefaultTextStyle.merge(
         style: context.textTheme.h4ExtraBoldPoppins.copyWith(
           color: titleTextColor ?? context.colorScheme.onBackground,
@@ -92,13 +131,12 @@ class BasePopup extends StatelessWidget {
           ),
           Column(
             mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: messageAlligment ?? CrossAxisAlignment.center,
-            //chidren containts message with padding from top
+            crossAxisAlignment: messageAlligment ?? CrossAxisAlignment.start,
             children: List.generate(
               message.length,
               (index) => Padding(
                 padding: EdgeInsets.only(
-                  top: (index > 0 && index.isEven) ? (popupPadding ?? 10) : 0,
+                  top: (index > 0 && index.isEven) ? popupPadding : 0,
                 ),
                 child: message[index],
               ),
@@ -107,7 +145,6 @@ class BasePopup extends StatelessWidget {
         ],
       ),
       actions: <Widget>[
-        //set up button with button alignment
         FractionallySizedBox(
           widthFactor: 1,
           child: Row(

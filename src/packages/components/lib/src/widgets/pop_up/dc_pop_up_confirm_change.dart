@@ -1,7 +1,6 @@
 import 'package:components/components.dart';
 import 'package:components/src/widgets/pop_up/base_pop_up.dart';
 import 'package:extensions/extensions.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class DCPopupConfirmChange extends StatelessWidget {
@@ -55,8 +54,6 @@ class DCPopupConfirmChange extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //Center everything in the middle column using Alert Dialog
-
     return BasePopup(
       title: Text(title),
       titleTextColor: titleTextColor ?? context.colorScheme.tertiary,
@@ -94,10 +91,8 @@ class DCPopupConfirmChange extends StatelessWidget {
       buttonsHeight: buttonsHeight,
       buttonsTextSize: buttonsTextSize ?? 14,
       buttonsTextColors: buttonsTextColors ?? context.colorScheme.onBackground,
-      onConfirmButtonClicked: (context) =>
-          onConfirmButtonClicked ?? Navigator.of(context).pop(),
-      onCancelButtonClicked: (context) =>
-          onConfirmButtonClicked ?? Navigator.of(context).pop(),
+      onConfirmButtonClicked: onConfirmButtonClicked,
+      onCancelButtonClicked: onCancelButtonClicked,
     );
   }
 }
