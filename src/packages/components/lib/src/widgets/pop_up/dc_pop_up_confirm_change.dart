@@ -23,7 +23,8 @@ class DCPopupConfirmChange extends StatelessWidget {
     this.cancelButtonColor,
     this.confirmButtonColor,
     this.buttonsTextSize,
-    this.buttonsTextColors,
+    this.cancelButtonTextColor,
+    this.confirmButtonTextColor,
     this.onCancelButtonClicked,
     this.onConfirmButtonClicked,
   }) : super(key: key);
@@ -48,7 +49,8 @@ class DCPopupConfirmChange extends StatelessWidget {
   final double? buttonsWidth;
   final double? buttonsHeight;
   final double? buttonsTextSize;
-  final Color? buttonsTextColors;
+  final Color? cancelButtonTextColor;
+  final Color? confirmButtonTextColor;
   final void Function(BuildContext context)? onCancelButtonClicked;
   final void Function(BuildContext context)? onConfirmButtonClicked;
 
@@ -91,7 +93,8 @@ class DCPopupConfirmChange extends StatelessWidget {
       buttonsHeight: buttonsHeight,
       buttonsTextSize: buttonsTextSize ?? 14,
       buttonsTextColors: [
-        buttonsTextColors ?? context.colorScheme.onBackground,
+        cancelButtonTextColor ?? context.colorScheme.onBackground,
+        confirmButtonTextColor ?? context.colorScheme.onBackground,
       ],
       onConfirmButtonClicked: onConfirmButtonClicked,
       onCancelButtonClicked: onCancelButtonClicked,

@@ -18,7 +18,7 @@ class DCPopupFailed extends StatelessWidget {
     this.buttonsHeight,
     this.buttonsColor,
     this.buttonsTextSize,
-    this.buttonsTextColors,
+    this.cancelButtonTextColor,
     this.onCancelButtonClicked,
   }) : super(key: key);
 
@@ -34,7 +34,7 @@ class DCPopupFailed extends StatelessWidget {
   final double? buttonsWidth;
   final double? buttonsHeight;
   final double? buttonsTextSize;
-  final Color? buttonsTextColors;
+  final Color? cancelButtonTextColor;
 
   final void Function(BuildContext context)? onCancelButtonClicked;
 
@@ -67,7 +67,7 @@ class DCPopupFailed extends StatelessWidget {
       buttonsHeight: buttonsHeight,
       buttonsTextSize: buttonsTextSize ?? 16,
       buttonsTextColors: [
-        buttonsTextColors ?? context.colorScheme.onBackground,
+        cancelButtonTextColor ?? context.colorScheme.onBackground,
       ],
       popupIcon: FractionallySizedBox(
         child: SvgPicture.string(

@@ -177,8 +177,8 @@ class DCPopupConfirmAppointment extends StatelessWidget {
       buttonsHeight: buttonsHeight,
       buttonsTextSize: buttonsTextSize ?? 16,
       buttonsTextColors: [
-        cancelButtonColor ?? context.colorScheme.onBackground,
-        confirmButtonColor ?? context.colorScheme.onBackground,
+        cancelButtonTextColor ?? context.colorScheme.onBackground,
+        confirmButtonTextColor ?? context.colorScheme.onBackground,
       ],
       onConfirmButtonClicked: onConfirmButtonClicked,
       onCancelButtonClicked: onCancelButtonClicked,

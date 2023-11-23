@@ -18,7 +18,7 @@ class DCPopupSuccess extends StatelessWidget {
     this.buttonsHeight,
     this.buttonsColor,
     this.buttonsTextSize,
-    this.buttonsTextColors,
+    this.confirmButtonTextColor,
     this.onConfirmButtonClicked,
   }) : super(key: key);
 
@@ -34,7 +34,7 @@ class DCPopupSuccess extends StatelessWidget {
   final double? buttonsWidth;
   final double? buttonsHeight;
   final double? buttonsTextSize;
-  final Color? buttonsTextColors;
+  final Color? confirmButtonTextColor;
 
   final void Function(BuildContext context)? onConfirmButtonClicked;
 
@@ -70,7 +70,7 @@ class DCPopupSuccess extends StatelessWidget {
       buttonsHeight: buttonsHeight,
       buttonsTextSize: buttonsTextSize ?? 16,
       buttonsTextColors: [
-        buttonsTextColors ?? context.colorScheme.background,
+        confirmButtonTextColor ?? context.colorScheme.onBackground,
       ],
       popupIcon: FractionallySizedBox(
         child: SvgPicture.string(

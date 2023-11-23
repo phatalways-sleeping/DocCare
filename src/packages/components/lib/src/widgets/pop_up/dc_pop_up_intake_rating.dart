@@ -247,8 +247,8 @@ class DCPopupIntakeRating extends StatelessWidget {
       buttonsHeight: buttonsHeight,
       buttonsTextSize: buttonsTextSize ?? 16,
       buttonsTextColors: [
-        reviewButtonColor ?? context.colorScheme.onBackground,
-        confirmButtonColor ?? context.colorScheme.onBackground,
+        reviewButtonTextColor ?? context.colorScheme.onBackground,
+        confirmButtonTextColor ?? context.colorScheme.onBackground,
       ],
       onConfirmButtonClicked: onConfirmButtonClicked,
       onCancelButtonClicked: onReviewButtonClicked,
