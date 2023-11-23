@@ -1,7 +1,6 @@
-import 'dart:io';
+import 'dart:io' show File;
 
-import 'dart:typed_data';
-
+import 'package:flutter/foundation.dart' show Uint8List;
 import 'package:storage/src/api/storage_api_service.dart';
 import 'package:storage/src/api/supabase_storage_api_service.dart';
 import 'package:storage/src/domain/storage_repository_service.dart';

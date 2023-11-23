@@ -1,6 +1,6 @@
-import 'dart:io';
+import 'dart:io' show File;
 
-import 'package:flutter/foundation.dart';
+import 'package:flutter/foundation.dart' show Uint8List;
 import 'package:storage/src/response/storage_response.dart';
 
 /// [StorageApiService] is an interface for providing functionality to access
