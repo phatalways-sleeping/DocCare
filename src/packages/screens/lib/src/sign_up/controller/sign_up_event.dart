@@ -38,12 +38,12 @@ final class PasswordInputEvent extends SignUpEvent {
 }
 
 final class BirthdayInputEvent extends SignUpEvent {
-  const BirthdayInputEvent(this.birthday);
+  const BirthdayInputEvent(this.tempBirthday);
 
-  final String birthday;
+  final String tempBirthday;
 
   @override
-  List<Object> get props => [birthday];
+  List<Object> get props => [tempBirthday];
 }
 
 final class PhoneInputEvent extends SignUpEvent {
@@ -71,6 +71,15 @@ final class TermsAndConditionsCheckboxChangedEvent extends SignUpEvent {
 
   @override
   List<Object> get props => [checkedTerm];
+}
+
+final class ValidateBirthdayInputEvent extends SignUpEvent {
+  const ValidateBirthdayInputEvent(this.tempBirthday);
+
+  final String tempBirthday;
+
+  @override
+  List<Object> get props => [tempBirthday];
 }
 
 final class SignUpButtonPressedEvent extends SignUpEvent {

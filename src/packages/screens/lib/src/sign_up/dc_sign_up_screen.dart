@@ -79,17 +79,33 @@ class _DCSignUpScreenState extends State<DCSignUpScreen> {
                               .add(FullNameInputEvent(controller.text)),
                         ),
                         const SizedBox(height: 8),
-                        DCOutlinedWithHeadingTextFormField(
-                          heading: const Text('Birthday'),
-                          hintText: 'dd/mm/yyyy',
-                          headingColor: context.colorScheme.onSurface,
-                          borderColor: context.colorScheme.onBackground,
-                          color: context.colorScheme.onBackground,
-                          borderRadius: 16,
-                          keyboardType: TextInputType.datetime,
-                          onChanged: (context, controller) => context
-                              .read<SignUpBloc>()
-                              .add(BirthdayInputEvent(controller.text)),
+                        BlocBuilder<SignUpBloc, SignUpState>(
+                          builder: (context, state) {
+                            return DCOutlinedWithHeadingTextFormField(
+                              heading: const Text('Birthday'),
+                              hintText: 'dd/mm/yyyy',
+                              headingColor: context.colorScheme.onSurface,
+                              borderColor: context.colorScheme.onBackground,
+                              color: context.colorScheme.onBackground,
+                              borderRadius: 16,
+                              keyboardType: TextInputType.datetime,
+                              onChanged: (context, controller) => context
+                                  .read<SignUpBloc>()
+                                  .add(BirthdayInputEvent(controller.text)),
+                              onFocusChange: (context, focusNode) {
+                                if (state.tempBirthday == '') {
+                                  return;
+                                }
+                                if (!focusNode.hasFocus) {
+                                  context.read<SignUpBloc>().add(
+                                        ValidateBirthdayInputEvent(
+                                          state.tempBirthday,
+                                        ),
+                                      );
+                                }
+                              },
+                            );
+                          },
                         ),
                         const SizedBox(height: 8),
                         DCOutlinedWithHeadingTextFormField(
@@ -167,7 +183,7 @@ class _DCSignUpScreenState extends State<DCSignUpScreen> {
                                   onChanged: (value) {
                                     context.read<SignUpBloc>().add(
                                           TermsAndConditionsCheckboxChangedEvent(
-                                            value ?? false,
+                                            !state.checkedTerm,
                                           ),
                                         );
                                   },
@@ -201,12 +217,25 @@ class _DCSignUpScreenState extends State<DCSignUpScreen> {
                         ),
                         const SizedBox(height: 8),
                         Center(
-                          child: DCButton(
-                            text: 'Sign Up',
-                            onPressed: (context) =>
-                                context.read<SignUpBloc>().add(
-                                      const SignUpButtonPressedEvent(),
-                                    ),
+                          child: BlocBuilder<SignUpBloc, SignUpState>(
+                            builder: (context, state) {
+                              if (state is SignUpInitial) {
+                                return DCButton(
+                                  text: 'Sign Up',
+                                  onPressed: (context) =>
+                                      context.read<SignUpBloc>().add(
+                                            const SignUpButtonPressedEvent(),
+                                          ),
+                                );
+                              }
+                              return SizedBox(
+                                height: 30,
+                                width: 30,
+                                child: CircularProgressIndicator(
+                                  color: context.colorScheme.primary,
+                                ),
+                              );
+                            },
                           ),
                         )
                       ],
