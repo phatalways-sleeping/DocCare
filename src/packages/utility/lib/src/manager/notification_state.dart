@@ -7,6 +7,9 @@ enum NotificationType {
 
   /// [dismissed] is the enum for dismissed notification type.
   dismissed,
+
+  /// [adminCreateStaff] is the enum for admin create staff notification type.
+  adminCreateStaff,
 }
 
 /// [NotificationBuilder] is the abstract class for all notification states.
@@ -41,6 +44,42 @@ class DismissedNotificationBuilder extends NotificationBuilder {
 class LoginNotificationBuilder extends NotificationBuilder {
   /// Constructor for [LoginNotificationBuilder].
   LoginNotificationBuilder();
+
+  /// [title] is the title of the notification.
+  late Widget title;
+
+  /// [message] is the message of the notification.
+  late Widget message;
+
+  @override
+  void wrapWith({required Widget title, required Widget message}) {
+    this.title = title;
+    this.message = message;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Align(
+        alignment: Alignment.topCenter,
+        child: Padding(
+          padding: const EdgeInsets.only(top: 8),
+          child: DCNotification(
+            title: title,
+            message: message,
+            backgroundColor: context.colorScheme.secondary,
+            textColor: context.colorScheme.onSecondary,
+            onPressed: (context) {},
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class AdminCreateStaffNotificationBuilder extends NotificationBuilder {
+  /// Constructor for [AdminCreateStaffNotificationBuilder].
+  AdminCreateStaffNotificationBuilder();
 
   /// [title] is the title of the notification.
   late Widget title;
