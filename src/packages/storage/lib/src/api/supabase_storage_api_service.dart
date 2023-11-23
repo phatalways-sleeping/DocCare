@@ -7,10 +7,9 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 /// [SupabaseStorageApiService] is an implementation of [StorageApiService]
 /// for Supabase storage.
-class SupabaseStorageApiService
-    implements StorageApiService<FileOptions, TransformOptions> {
+class SupabaseStorageApiService implements StorageApiService {
   /// Creates a [SupabaseStorageApiService].
-  SupabaseStorageApiService(this.storage);
+  const SupabaseStorageApiService(this.storage);
 
   /// [storage] is the supabase client.
   final SupabaseStorageClient storage;
