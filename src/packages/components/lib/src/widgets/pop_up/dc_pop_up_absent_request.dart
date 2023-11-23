@@ -77,14 +77,17 @@ class DCPopupAbsentRequest extends StatelessWidget {
       titleTextSize: titleTextSize ?? 24,
       titleAlignment: titleAlignment,
       message: [
-        DefaultTextStyle.merge(
-          style: context.textTheme.h4RegularPoppins.copyWith(
-            fontSize: doctorNameTextSize ?? 14,
-            fontWeight: FontWeight.normal,
-            color: doctorNameTextColor ?? context.colorScheme.onTertiary,
+        FractionallySizedBox(
+          widthFactor: 1,
+          child: DefaultTextStyle.merge(
+            style: context.textTheme.h4RegularPoppins.copyWith(
+              fontSize: doctorNameTextSize ?? 14,
+              fontWeight: FontWeight.normal,
+              color: doctorNameTextColor ?? context.colorScheme.onTertiary,
+            ),
+            textAlign: TextAlign.center,
+            child: Text('$doctorName requests for an absence from work'),
           ),
-          textAlign: TextAlign.center,
-          child: Text('$doctorName requests for an absence from work'),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,

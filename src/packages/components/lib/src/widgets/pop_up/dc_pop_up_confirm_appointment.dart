@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 /// [DCPopupConfirmAppointment] is a popup that can be used to show a message to the user
 /// with a title and a list of message.
-/// This is used when one wants to cancel an appointment.
+/// This is used before one confirm an appointment.
 class DCPopupConfirmAppointment extends StatelessWidget {
   /// Constructor for [DCPopupConfirmAppointment]
   const DCPopupConfirmAppointment({
