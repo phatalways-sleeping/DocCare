@@ -3,6 +3,7 @@
 import 'package:auth_domain/auth_domain.dart';
 import 'package:components/components.dart';
 import 'package:extensions/extensions.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -65,7 +66,7 @@ class _DCSignUpScreenState extends State<DCSignUpScreen> {
                           overflow: TextOverflow.clip,
                           softWrap: true,
                         ),
-                        const SizedBox(height: 16),
+                        const SizedBox(height: 8),
                         DCOutlinedWithHeadingTextFormField(
                           heading: const Text('Full Name'),
                           headingColor: context.colorScheme.onSurface,
@@ -77,7 +78,7 @@ class _DCSignUpScreenState extends State<DCSignUpScreen> {
                               .read<SignUpBloc>()
                               .add(FullNameInputEvent(controller.text)),
                         ),
-                        const SizedBox(height: 16),
+                        const SizedBox(height: 8),
                         DCOutlinedWithHeadingTextFormField(
                           heading: const Text('Birthday'),
                           hintText: 'dd/mm/yyyy',
@@ -90,7 +91,7 @@ class _DCSignUpScreenState extends State<DCSignUpScreen> {
                               .read<SignUpBloc>()
                               .add(BirthdayInputEvent(controller.text)),
                         ),
-                        const SizedBox(height: 16),
+                        const SizedBox(height: 8),
                         DCOutlinedWithHeadingTextFormField(
                           heading: const Text('Email'),
                           headingColor: context.colorScheme.onSurface,
@@ -102,7 +103,7 @@ class _DCSignUpScreenState extends State<DCSignUpScreen> {
                               .read<SignUpBloc>()
                               .add(FullNameInputEvent(controller.text)),
                         ),
-                        const SizedBox(height: 16),
+                        const SizedBox(height: 8),
                         DCOutlinedWithHeadingTextFormField(
                           heading: const Text('Phone'),
                           headingColor: context.colorScheme.onSurface,
@@ -114,7 +115,7 @@ class _DCSignUpScreenState extends State<DCSignUpScreen> {
                               .read<SignUpBloc>()
                               .add(PhoneInputEvent(controller.text)),
                         ),
-                        const SizedBox(height: 16),
+                        const SizedBox(height: 8),
                         DCOutlinedWithHeadingTextFormField(
                           heading: const Text('Password'),
                           headingColor: context.colorScheme.onSurface,
@@ -127,7 +128,7 @@ class _DCSignUpScreenState extends State<DCSignUpScreen> {
                               .read<SignUpBloc>()
                               .add(PasswordInputEvent(controller.text)),
                         ),
-                        const SizedBox(height: 16),
+                        const SizedBox(height: 8),
                         DCOutlinedWithHeadingTextFormField(
                           heading: const Text('Confirm Password'),
                           headingColor: context.colorScheme.onSurface,
@@ -140,7 +141,65 @@ class _DCSignUpScreenState extends State<DCSignUpScreen> {
                               .read<SignUpBloc>()
                               .add(ConfirmPasswordInputEvent(controller.text)),
                         ),
-                        const SizedBox(height: 16),
+                        Row(
+                          children: [
+                            BlocBuilder<SignUpBloc, SignUpState>(
+                              buildWhen: (previous, current) =>
+                                  previous.checkedTerm != current.checkedTerm,
+                              builder: (context, state) {
+                                return Checkbox(
+                                  checkColor: context.colorScheme.onBackground,
+                                  fillColor: state.checkedTerm
+                                      ? MaterialStateProperty.all(
+                                          context.colorScheme.primary,
+                                        )
+                                      : MaterialStateProperty.all(
+                                          context.colorScheme.background,
+                                        ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(6),
+                                  ),
+                                  side: BorderSide(
+                                    color: context.colorScheme.onBackground,
+                                    width: 1.5,
+                                  ),
+                                  value: state.checkedTerm,
+                                  onChanged: (value) {
+                                    context.read<SignUpBloc>().add(
+                                          TermsAndConditionsCheckboxChangedEvent(
+                                            value ?? false,
+                                          ),
+                                        );
+                                  },
+                                );
+                              },
+                            ),
+                            Text(
+                              'I have read and agree to the ',
+                              style:
+                                  context.textTheme.h1RegularPoppins.copyWith(
+                                fontSize: 16,
+                              ),
+                              overflow: TextOverflow.clip,
+                              softWrap: true,
+                            ),
+                            Text.rich(
+                              TextSpan(
+                                text: 'Terms and Conditions',
+                                style:
+                                    context.textTheme.h1RegularPoppins.copyWith(
+                                  fontSize: 16,
+                                  color: context.colorScheme.primary,
+                                ),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    // TODO(phucchuhoang): navigate to terms and conditions screen
+                                  },
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 8),
                         Center(
                           child: DCButton(
                             text: 'Sign Up',
