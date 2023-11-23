@@ -7,7 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 /// [DCPopupIntakeRating] is a popup that can be used to show a message to the user
 /// with a title and a list of message.
 /// This is used when one wants to review their intake.
-class DCPopupIntakeRating extends StatelessWidget {
+class DCPopupIntakeRating extends StatefulWidget {
   /// Constructor for [DCPopupIntakeRating]
   const DCPopupIntakeRating({
     required this.title,
@@ -36,6 +36,7 @@ class DCPopupIntakeRating extends StatelessWidget {
     this.onConfirmButtonClicked,
     this.onReviewButtonClicked,
     this.buttonsTextSize,
+    this.totalRating = 0,
   });
 
   ///The name of the doctor
@@ -113,13 +114,29 @@ class DCPopupIntakeRating extends StatelessWidget {
   /// The function to be called when the cancel button is clicked
   final void Function(BuildContext context)? onReviewButtonClicked;
 
+  // The total rating of the intake
+  final int totalRating;
+
+  @override
+  State<StatefulWidget> createState() => _DCPopupIntakeRatingState();
+}
+
+class _DCPopupIntakeRatingState extends State<DCPopupIntakeRating> {
+  List<SvgPicture> ratings = List.generate(
+    5,
+    (index) => SvgPicture.string(
+      DCSVGIcons.yellowStar,
+      fit: BoxFit.cover,
+    ),
+  );
+
   @override
   Widget build(BuildContext context) {
     return BasePopup(
       popupPadding: 20,
       title: Column(
         children: [
-          Text(title),
+          Text(widget.title),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
@@ -130,15 +147,15 @@ class DCPopupIntakeRating extends StatelessWidget {
                   color: context.colorScheme.onBackground,
                 ),
                 textAlign: TextAlign.center,
-                child: Text('From Dr. $doctorName'),
+                child: Text('From Dr.${widget.doctorName}'),
               ),
             ],
           ),
         ],
       ),
-      titleTextColor: titleTextColor ?? context.colorScheme.onBackground,
-      titleTextSize: titleTextSize ?? 20,
-      titleAlignment: titleAlignment ?? TextAlign.center,
+      titleTextColor: widget.titleTextColor ?? context.colorScheme.onBackground,
+      titleTextSize: widget.titleTextSize ?? 20,
+      titleAlignment: widget.titleAlignment ?? TextAlign.center,
       messageAlligment: CrossAxisAlignment.start,
       message: [
         Row(
@@ -151,7 +168,7 @@ class DCPopupIntakeRating extends StatelessWidget {
             ),
             DefaultTextStyle.merge(
               style: context.textTheme.h4BoldPoppins.copyWith(
-                fontSize: diagnosisMessageTextSize ?? 20,
+                fontSize: widget.diagnosisMessageTextSize ?? 20,
                 fontWeight: FontWeight.bold,
                 color: context.colorScheme.onBackground,
               ),
@@ -162,12 +179,13 @@ class DCPopupIntakeRating extends StatelessWidget {
         ),
         DefaultTextStyle.merge(
           style: context.textTheme.h4RegularPoppins.copyWith(
-            fontSize: diagnosisMessageTextSize ?? 14,
+            fontSize: widget.diagnosisMessageTextSize ?? 14,
             fontWeight: FontWeight.normal,
-            color: diagnosisMessageTextColor ?? context.colorScheme.tertiary,
+            color:
+                widget.confirmButtonTextColor ?? context.colorScheme.tertiary,
           ),
           textAlign: TextAlign.left,
-          child: Text(diagnosisMessage),
+          child: Text(widget.diagnosisMessage),
         ),
         Row(
           children: [
@@ -179,7 +197,7 @@ class DCPopupIntakeRating extends StatelessWidget {
             ),
             DefaultTextStyle.merge(
               style: context.textTheme.h4BoldPoppins.copyWith(
-                fontSize: medicinesMessageTextSize ?? 20,
+                fontSize: widget.medicinesMessageTextSize ?? 20,
                 fontWeight: FontWeight.bold,
                 color: context.colorScheme.onBackground,
               ),
@@ -190,12 +208,13 @@ class DCPopupIntakeRating extends StatelessWidget {
         ),
         DefaultTextStyle.merge(
           style: context.textTheme.h4RegularPoppins.copyWith(
-            fontSize: medicinesMessageTextSize ?? 14,
+            fontSize: widget.medicinesMessageTextSize ?? 14,
             fontWeight: FontWeight.normal,
-            color: medicinesMessageTextColor ?? context.colorScheme.tertiary,
+            color: widget.medicinesMessageTextColor ??
+                context.colorScheme.tertiary,
           ),
           textAlign: TextAlign.left,
-          child: Text(medicinesMessage),
+          child: Text(widget.medicinesMessage),
         ),
         Row(
           children: [
@@ -207,7 +226,7 @@ class DCPopupIntakeRating extends StatelessWidget {
             ),
             DefaultTextStyle.merge(
               style: context.textTheme.h4BoldPoppins.copyWith(
-                fontSize: noteMessageTextSize ?? 20,
+                fontSize: widget.noteMessageTextSize ?? 20,
                 fontWeight: FontWeight.bold,
                 color: context.colorScheme.onBackground,
               ),
@@ -218,40 +237,67 @@ class DCPopupIntakeRating extends StatelessWidget {
         ),
         DefaultTextStyle.merge(
           style: context.textTheme.h4RegularPoppins.copyWith(
-            fontSize: noteMessageTextSize ?? 14,
+            fontSize: widget.noteMessageTextSize ?? 14,
             fontWeight: FontWeight.normal,
-            color: noteMessageTextColor ?? context.colorScheme.tertiary,
+            color: widget.noteMessageTextColor ?? context.colorScheme.tertiary,
           ),
           textAlign: TextAlign.left,
-          child: Text(noteMessage),
+          child: Text(widget.noteMessage),
         ),
         DefaultTextStyle.merge(
           style: context.textTheme.h4BoldPoppins.copyWith(
-            fontSize: noteMessageTextSize ?? 20,
+            fontSize: widget.noteMessageTextSize ?? 20,
             fontWeight: FontWeight.bold,
             color: context.colorScheme.onBackground,
           ),
           textAlign: TextAlign.left,
           child: const Text('Review'),
         ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: List.generate(
+            ratings.length,
+            (index) => IconButton(
+              onPressed: () {
+                setState(() {
+                  for (var i = 0; i <= index; i++) {
+                    ratings[i] = SvgPicture.string(
+                      DCSVGIcons.yellowStar,
+                      fit: BoxFit.cover,
+                    );
+                  }
+
+                  for (var i = index + 1; i < ratings.length; i++) {
+                    ratings[i] = SvgPicture.string(
+                      DCSVGIcons.greyStar,
+                      fit: BoxFit.cover,
+                    );
+                  }
+                });
+              },
+              splashRadius: 0.5,
+              icon: ratings[index],
+            ),
+          ),
+        )
       ],
       buttonsText: [
-        reviewButtonText ?? 'Review',
-        confirmButtonText ?? 'Done',
+        widget.reviewButtonText ?? 'Review',
+        widget.confirmButtonText ?? 'Done',
       ],
       buttonsColor: [
-        reviewButtonColor ?? context.colorScheme.senary,
-        confirmButtonColor ?? context.colorScheme.senary,
+        widget.reviewButtonColor ?? context.colorScheme.senary,
+        widget.confirmButtonColor ?? context.colorScheme.senary,
       ],
-      buttonsWidth: buttonsWidth,
-      buttonsHeight: buttonsHeight,
-      buttonsTextSize: buttonsTextSize ?? 16,
+      buttonsWidth: widget.buttonsWidth,
+      buttonsHeight: widget.buttonsHeight,
+      buttonsTextSize: widget.buttonsTextSize ?? 16,
       buttonsTextColors: [
-        reviewButtonTextColor ?? context.colorScheme.onBackground,
-        confirmButtonTextColor ?? context.colorScheme.onBackground,
+        widget.reviewButtonTextColor ?? context.colorScheme.onBackground,
+        widget.confirmButtonTextColor ?? context.colorScheme.onBackground,
       ],
-      onConfirmButtonClicked: onConfirmButtonClicked,
-      onCancelButtonClicked: onReviewButtonClicked,
+      onConfirmButtonClicked: widget.onConfirmButtonClicked,
+      onCancelButtonClicked: widget.onReviewButtonClicked,
     );
   }
 }
