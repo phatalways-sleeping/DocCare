@@ -23,7 +23,8 @@ abstract interface class ManagerService<R> {
   void dismiss<T>([T? result]);
 
   /// [show] is the method to show the widget on top of the screen.
-  Future<T?> show<T>(R type, {
+  Future<T?> show<T>(
+    R type, {
     Widget? title,
     Widget? message,
     Duration duration = const Duration(seconds: 2),
@@ -49,4 +50,12 @@ abstract interface class NotificationManagerService
     extends ManagerService<NotificationType> {
   /// [NotificationManagerService] constructor.
   const NotificationManagerService();
+}
+
+/// [ManagerStateMixin] is the mixin class for all manager states.
+/// including: dialog state, notification state, which requires to
+/// display on top of the screen.
+mixin ManagerStateMixin {
+  /// [build] is the method to build the widget on top of the screen.
+  Widget build(BuildContext context);
 }
