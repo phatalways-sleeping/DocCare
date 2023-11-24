@@ -27,4 +27,7 @@ class DocCareLightColorScheme extends ColorScheme {
 
   /// {@macro quinary}
   Color get quinary => const Color.fromRGBO(142, 141, 145, 1);
+
+  /// {@macro senary}
+  Color get senary => const Color.fromRGBO(14, 190, 127, 1);
 }

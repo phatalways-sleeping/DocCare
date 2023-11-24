@@ -1,3 +1,4 @@
+export 'pop_up/dc_pop_up.dart';
 export 'header_bar/dc_customer_header_bar.dart';
 export 'header_bar/dc_admin_header_bar.dart';
 export 'header_bar/dc_doctor_header_bar.dart';
