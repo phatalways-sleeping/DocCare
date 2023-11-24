@@ -117,7 +117,7 @@ class _DCSignUpScreenState extends State<DCSignUpScreen> {
                           keyboardType: TextInputType.emailAddress,
                           onChanged: (context, controller) => context
                               .read<SignUpBloc>()
-                              .add(FullNameInputEvent(controller.text)),
+                              .add(EmailInputEvent(controller.text)),
                         ),
                         const SizedBox(height: 8),
                         DCOutlinedWithHeadingTextFormField(
@@ -227,6 +227,9 @@ class _DCSignUpScreenState extends State<DCSignUpScreen> {
                                             const SignUpButtonPressedEvent(),
                                           ),
                                 );
+                              } else if (state is SignUpSuccess) {
+                                // TODO(phucchuhoang): handle navigate to home screen
+                                return const Text('Sign up success');
                               }
                               return SizedBox(
                                 height: 30,
@@ -237,7 +240,7 @@ class _DCSignUpScreenState extends State<DCSignUpScreen> {
                               );
                             },
                           ),
-                        )
+                        ),
                       ],
                     ),
                   ),

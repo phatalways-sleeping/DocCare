@@ -70,8 +70,6 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     ValidateBirthdayInputEvent event,
     Emitter<SignUpState> emit,
   ) {
-    print("ValidateBirthday");
-    print(event.tempBirthday);
     final check = FormValidator.validateDate(event.tempBirthday).isValid;
     if (!check) {
       _notificationManagerService
@@ -95,7 +93,6 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
           );
       return;
     }
-    print("hshdsd");
     final formatter = DateFormat('dd/MM/yyyy');
     final birthday = formatter.parseStrict(
       event.tempBirthday,
