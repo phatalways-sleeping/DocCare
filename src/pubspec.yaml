@@ -50,6 +50,7 @@ dependencies:
   utility:
     path: packages/utility
   flutter_svg: ^2.0.9
+  uuid: ^4.2.1
 
 dev_dependencies:
   flutter_test:

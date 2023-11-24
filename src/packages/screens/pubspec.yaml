@@ -8,6 +8,8 @@ environment:
   flutter: ">=3.10.0"
 
 dependencies:
+  administrator:
+    path: ../administrator
   auth_api:
     path: ../authentication/auth_api
   auth_domain:

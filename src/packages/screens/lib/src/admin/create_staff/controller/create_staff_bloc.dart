@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs
+import 'package:administrator/administrator.dart';
 import 'package:auth_api/auth_api.dart' show AuthException;
 import 'package:auth_domain/auth_domain.dart'
     show AuthenticationRepositoryService;
