@@ -3,7 +3,6 @@
 import 'package:auth_domain/auth_domain.dart';
 import 'package:components/components.dart';
 import 'package:extensions/extensions.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -20,10 +19,15 @@ class DCSignUpScreen extends StatefulWidget {
 class _DCSignUpScreenState extends State<DCSignUpScreen> {
   @override
   Widget build(BuildContext context) {
-    // TODO(phucchuhoang): change appBar to custom app bar
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Sign Up'),
+      appBar: DCCustomerHeaderBar(
+        cornerRadius: 12,
+        backgroundColor: context.colorScheme.background,
+        allowNavigateBack: true,
+        onLeadingIconPressed: (context) {
+          // TODO: handle navigate back to splash screen
+          Navigator.of(context).pop();
+        },
       ),
       body: BlocProvider(
         create: (_) => SignUpBloc(
@@ -69,6 +73,7 @@ class _DCSignUpScreenState extends State<DCSignUpScreen> {
                         const SizedBox(height: 8),
                         DCOutlinedWithHeadingTextFormField(
                           heading: const Text('Full Name'),
+                          hintText: "What's your name?",
                           headingColor: context.colorScheme.onSurface,
                           borderColor: context.colorScheme.onBackground,
                           color: context.colorScheme.onBackground,
@@ -110,6 +115,7 @@ class _DCSignUpScreenState extends State<DCSignUpScreen> {
                         const SizedBox(height: 8),
                         DCOutlinedWithHeadingTextFormField(
                           heading: const Text('Email'),
+                          hintText: "What's your email?",
                           headingColor: context.colorScheme.onSurface,
                           borderColor: context.colorScheme.onBackground,
                           color: context.colorScheme.onBackground,
@@ -122,6 +128,7 @@ class _DCSignUpScreenState extends State<DCSignUpScreen> {
                         const SizedBox(height: 8),
                         DCOutlinedWithHeadingTextFormField(
                           heading: const Text('Phone'),
+                          hintText: "What's your phone number?",
                           headingColor: context.colorScheme.onSurface,
                           borderColor: context.colorScheme.onBackground,
                           color: context.colorScheme.onBackground,
@@ -134,6 +141,7 @@ class _DCSignUpScreenState extends State<DCSignUpScreen> {
                         const SizedBox(height: 8),
                         DCOutlinedWithHeadingTextFormField(
                           heading: const Text('Password'),
+                          hintText: 'Your password should be at least 8 digits',
                           headingColor: context.colorScheme.onSurface,
                           borderColor: context.colorScheme.onBackground,
                           useObscuredTextFormField: true,
@@ -147,6 +155,7 @@ class _DCSignUpScreenState extends State<DCSignUpScreen> {
                         const SizedBox(height: 8),
                         DCOutlinedWithHeadingTextFormField(
                           heading: const Text('Confirm Password'),
+                          hintText: 'Confirm your password',
                           headingColor: context.colorScheme.onSurface,
                           borderColor: context.colorScheme.onBackground,
                           useObscuredTextFormField: true,
@@ -157,7 +166,9 @@ class _DCSignUpScreenState extends State<DCSignUpScreen> {
                               .read<SignUpBloc>()
                               .add(ConfirmPasswordInputEvent(controller.text)),
                         ),
-                        Row(
+                        Wrap(
+                          crossAxisAlignment: WrapCrossAlignment.center,
+                          runAlignment: WrapAlignment.center,
                           children: [
                             BlocBuilder<SignUpBloc, SignUpState>(
                               buildWhen: (previous, current) =>
@@ -190,27 +201,39 @@ class _DCSignUpScreenState extends State<DCSignUpScreen> {
                                 );
                               },
                             ),
+                            ...'I have read and agree to the'.split(' ').map(
+                                  (word) => Text(
+                                    '$word ',
+                                    style: context.textTheme.h1RegularPoppins
+                                        .copyWith(
+                                      fontSize: 16,
+                                    ),
+                                    overflow: TextOverflow.clip,
+                                    softWrap: true,
+                                  ),
+                                ),
                             Text(
-                              'I have read and agree to the ',
+                              'Terms',
                               style:
                                   context.textTheme.h1RegularPoppins.copyWith(
                                 fontSize: 16,
+                                color: context.colorScheme.primary,
                               ),
-                              overflow: TextOverflow.clip,
-                              softWrap: true,
                             ),
-                            Text.rich(
-                              TextSpan(
-                                text: 'Terms and Conditions',
-                                style:
-                                    context.textTheme.h1RegularPoppins.copyWith(
-                                  fontSize: 16,
-                                  color: context.colorScheme.primary,
-                                ),
-                                recognizer: TapGestureRecognizer()
-                                  ..onTap = () {
-                                    // TODO(phucchuhoang): navigate to terms and conditions screen
-                                  },
+                            Text(
+                              ' and ',
+                              style:
+                                  context.textTheme.h1RegularPoppins.copyWith(
+                                fontSize: 16,
+                                color: context.colorScheme.primary,
+                              ),
+                            ),
+                            Text(
+                              'Conditions',
+                              style:
+                                  context.textTheme.h1RegularPoppins.copyWith(
+                                fontSize: 16,
+                                color: context.colorScheme.primary,
                               ),
                             ),
                           ],
@@ -222,6 +245,7 @@ class _DCSignUpScreenState extends State<DCSignUpScreen> {
                               if (state is SignUpInitial) {
                                 return DCButton(
                                   text: 'Sign Up',
+                                  widthFactor: 0.8,
                                   onPressed: (context) =>
                                       context.read<SignUpBloc>().add(
                                             const SignUpButtonPressedEvent(),
