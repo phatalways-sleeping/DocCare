@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:src/firebase_options.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:env_flutter/env_flutter.dart';
+import 'package:components/src/widgets/pop_up/dc_pop_up_confirm_change.dart';
+import 'package:components/src/widgets/pop_up/dc_pop_up_absent_request.dart';
 import 'package:screens/src/profile/dc_doctor_profile.dart';
 
 Future<void> main() async {
@@ -120,6 +122,6 @@ class _MyHomePageState extends State<MyHomePage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
-    return DCDoctorProfile();
+    return DCDoctorProfile(doctorID: 'D001');
   }
 }

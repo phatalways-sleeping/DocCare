@@ -4,9 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:screens/src/profile/controller/profile_bloc.dart';
 import 'package:utility/utility.dart';
+import 'package:components/src/widgets/pop_up/dc_pop_up_confirm_change.dart';
+import 'package:model_api/src/users/service/supabase_doctor_api_service.dart';
 
 class DCDoctorProfile extends StatefulWidget {
-  const DCDoctorProfile({super.key});
+  const DCDoctorProfile({
+    required this.doctorID,
+    super.key,
+  });
+
+  final String doctorID;
+
   @override
   _DCDoctorProfileState createState() => _DCDoctorProfileState();
 }
@@ -26,7 +34,20 @@ class _DCDoctorProfileState extends State<DCDoctorProfile> {
             Icons.arrow_back_ios,
             color: Colors.black,
           ),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (context) => DCPopupConfirmChange(
+                title: 'Confirm change',
+                message:
+                    'Look like you have made some changes to your profile.',
+                boldMessage: 'Confirm these changes?',
+                onConfirmButtonClicked: (context) =>
+                    Navigator.of(context).pop(),
+                onCancelButtonClicked: (context) => Navigator.of(context).pop(),
+              ),
+            );
+          },
         ),
       ),
       body: BlocProvider(

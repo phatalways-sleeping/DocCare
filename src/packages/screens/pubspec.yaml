@@ -12,6 +12,8 @@ dependencies:
     path: ../authentication/auth_api
   auth_domain:
     path: ../authentication/auth_domain
+  model_api:
+    path: ../model_api
   bloc: ^8.1.2
   components:
     path: ../components
