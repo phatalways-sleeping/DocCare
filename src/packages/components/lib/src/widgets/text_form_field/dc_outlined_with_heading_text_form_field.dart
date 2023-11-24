@@ -45,6 +45,7 @@ class DCOutlinedWithHeadingTextFormField extends StatelessWidget {
     this.onPrefixIconPressed,
     this.onSuffixIconPressed,
     this.onFocus,
+    this.onFocusChange,
     this.prefixIconTooltip,
     this.suffixIconTooltip,
     this.onlyShowIconOnFocus = false,
@@ -98,6 +99,7 @@ class DCOutlinedWithHeadingTextFormField extends StatelessWidget {
   final void Function(BuildContext context, TextEditingController controller)?
       onSuffixIconPressed;
   final void Function(BuildContext context, FocusNode focusNode)? onFocus;
+  final void Function(BuildContext context, FocusNode focusNode)? onFocusChange;
   final String? prefixIconTooltip;
   final String? suffixIconTooltip;
   final bool onlyShowIconOnFocus;
@@ -114,8 +116,9 @@ class DCOutlinedWithHeadingTextFormField extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         DefaultTextStyle.merge(
-          style: context.textTheme.h4ExtraBoldPoppins.copyWith(
+          style: context.textTheme.h1RegularPoppins.copyWith(
             color: headingColor ?? borderColor ?? context.colorScheme.secondary,
+            fontSize: 18,
           ),
           child: heading,
         ),
@@ -146,12 +149,15 @@ class DCOutlinedWithHeadingTextFormField extends StatelessWidget {
             suffixIcon: suffixIcon,
             onSuffixIconPressed: onSuffixIconPressed,
             onFocus: onFocus,
+            onFocusChange: onFocusChange,
             suffixIconTooltip: suffixIconTooltip,
             onlyShowIconOnFocus: onlyShowIconOnFocus,
             validator: validator,
             enabled: enabled,
             paddingBetweenIconAndInput: paddingBetweenIconAndInput,
-          
+            borderRadius: borderRadius,
+            borderWidth: borderWidth,
+            borderColor: borderColor,
             contentPadding: contentPadding,
           )
         else
@@ -180,6 +186,7 @@ class DCOutlinedWithHeadingTextFormField extends StatelessWidget {
             onPrefixIconPressed: onPrefixIconPressed,
             onSuffixIconPressed: onSuffixIconPressed,
             onFocus: onFocus,
+            onFocusChange: onFocusChange,
             prefixIconTooltip: prefixIconTooltip,
             suffixIconTooltip: suffixIconTooltip,
             onlyShowIconOnFocus: onlyShowIconOnFocus,

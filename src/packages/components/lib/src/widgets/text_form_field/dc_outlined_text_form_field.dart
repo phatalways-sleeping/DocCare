@@ -43,6 +43,7 @@ class DCOutlinedTextFormField extends StatelessWidget {
     this.onPrefixIconPressed,
     this.onSuffixIconPressed,
     this.onFocus,
+    this.onFocusChange,
     this.prefixIconTooltip,
     this.suffixIconTooltip,
     this.onlyShowIconOnFocus = false,
@@ -85,8 +86,8 @@ class DCOutlinedTextFormField extends StatelessWidget {
       onPrefixIconPressed;
   final void Function(BuildContext context, TextEditingController controller)?
       onSuffixIconPressed;
-  final void Function(BuildContext context, FocusNode focusNode)?
-      onFocus;
+  final void Function(BuildContext context, FocusNode focusNode)? onFocus;
+  final void Function(BuildContext context, FocusNode focusNode)? onFocusChange;
   final String? prefixIconTooltip;
   final String? suffixIconTooltip;
   final bool onlyShowIconOnFocus;
@@ -123,6 +124,7 @@ class DCOutlinedTextFormField extends StatelessWidget {
       onPrefixIconPressed: onPrefixIconPressed,
       onSuffixIconPressed: onSuffixIconPressed,
       onFocus: onFocus,
+      onFocusChange: onFocusChange,
       prefixIconTooltip: prefixIconTooltip,
       suffixIconTooltip: suffixIconTooltip,
       onlyShowIconOnFocus: onlyShowIconOnFocus,

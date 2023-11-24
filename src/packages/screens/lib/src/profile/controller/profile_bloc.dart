@@ -1,10 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
-import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
 import 'package:flutter/widgets.dart';
-import 'package:models/models.dart';
 import 'package:intl/intl.dart';
 
 import 'package:utility/utility.dart'
@@ -76,8 +73,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     Emitter<ProfileState> emit,
   ) {
     print("Validate Birthday");
-    print(event.birthday);
-    final check = FormValidator.validateDate(event.birthday).isValid;
+    final check = FormValidator.validateDate(event.tempBirthday).isValid;
     if (!check) {
       _notificationManagerService
           .show<void>(
@@ -103,7 +99,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     print("hshdsd");
     final formatter = DateFormat('dd/MM/yyyy');
     final birthday = formatter.parseStrict(
-      event.birthday,
+      event.tempBirthday,
     );
     emit(state.copyWith(birthday: birthday));
   }

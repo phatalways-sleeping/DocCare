@@ -9,9 +9,7 @@ sealed class ProfileEvent extends Equatable {
 }
 
 final class FullNameInputEvent extends ProfileEvent {
-  const FullNameInputEvent({
-    required this.fullName,
-  });
+  const FullNameInputEvent(this.fullName);
 
   final String fullName;
 
@@ -20,9 +18,7 @@ final class FullNameInputEvent extends ProfileEvent {
 }
 
 final class EmailInputEvent extends ProfileEvent {
-  const EmailInputEvent({
-    required this.email,
-  });
+  const EmailInputEvent(this.email);
 
   final String email;
 
@@ -31,9 +27,7 @@ final class EmailInputEvent extends ProfileEvent {
 }
 
 final class BirthdayInputEvent extends ProfileEvent {
-  const BirthdayInputEvent({
-    required this.tempBirthday,
-  });
+  const BirthdayInputEvent(this.tempBirthday);
 
   final String tempBirthday;
 
@@ -42,9 +36,7 @@ final class BirthdayInputEvent extends ProfileEvent {
 }
 
 final class PhoneNumberInputEvent extends ProfileEvent {
-  const PhoneNumberInputEvent({
-    required this.phone,
-  });
+  const PhoneNumberInputEvent(this.phone);
 
   final String phone;
 
@@ -53,9 +45,7 @@ final class PhoneNumberInputEvent extends ProfileEvent {
 }
 
 final class SpecializationInputEvent extends ProfileEvent {
-  const SpecializationInputEvent({
-    required this.specializationId,
-  });
+  const SpecializationInputEvent(this.specializationId);
 
   final String specializationId;
 
@@ -64,9 +54,7 @@ final class SpecializationInputEvent extends ProfileEvent {
 }
 
 final class StartingYearInputEvent extends ProfileEvent {
-  const StartingYearInputEvent({
-    required this.startWorkingFrom,
-  });
+  const StartingYearInputEvent(this.startWorkingFrom);
 
   final int startWorkingFrom;
 
@@ -75,12 +63,12 @@ final class StartingYearInputEvent extends ProfileEvent {
 }
 
 final class ValidateBirthdayInputEvent extends ProfileEvent {
-  const ValidateBirthdayInputEvent(this.birthday);
+  const ValidateBirthdayInputEvent(this.tempBirthday);
 
-  final String birthday;
+  final String tempBirthday;
 
   @override
-  List<Object> get props => [birthday];
+  List<Object> get props => [tempBirthday];
 }
 
 final class ChangePasswordButtonPressedEvent extends ProfileEvent {
