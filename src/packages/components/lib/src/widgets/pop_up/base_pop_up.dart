@@ -162,17 +162,16 @@ class BasePopup extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   //use dc button to make it easier to customize
                   child: DCButton(
-                    fillParentWidth: true,
+                    widthFactor: buttonsWidth,
+                    heightFactor: buttonsHeight,
                     text: buttonsText[index],
-                    buttonWidth: buttonsWidth,
-                    buttonHeight: buttonsHeight,
                     textStyle: buttonsTextStyle,
                     textSize: buttonsTextSize,
                     textColor: buttonsTextColors?[index],
                     backgroundColor: buttonsColor?[index],
                     borderWidth: 0,
                     borderColor: context.colorScheme.background,
-                    onPressed: () {
+                    onPressed: (context) {
                       if (index.isOdd || onConfirmButtonClicked == null) {
                         onCancelButtonClicked?.call(context);
                       }
