@@ -2,6 +2,8 @@ import 'package:auth_api/auth_api.dart';
 import 'package:auth_domain/auth_domain.dart';
 import 'package:models/models.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:utility/utility.dart'
+    show FormValidator;
 
 /// [SupabaseAuthenticationRepository] is the implementation of
 /// [AuthenticationRepositoryService] for Supabase
@@ -28,30 +30,18 @@ class SupabaseAuthenticationRepository
 
   @override
   Future<void> login(AuthenticationUserService user) async {
-    /////////////////////////////////////////////////////////////////
-    // TODO: extract these steps of validation to a separate class and use it in all authentication repositories.
-    // It could use the idea of Chain of Responsibility pattern.
-    /////////////////////////////////////////////////////////////////
-    /// Check if email and password is empty
-    if (user.email.isEmpty) {
-      throw const AuthException('Email cannot be empty');
+    final emailValidation =
+        FormValidator.validateEmail(user.email);
+    final passwordValidation =
+        FormValidator.validatePassword(user.password);
+
+    if (!emailValidation.isValid) {
+      throw AuthException(emailValidation.cause!);
     }
 
-    if (user.password.isEmpty) {
-      throw const AuthException('Password cannot be empty');
+    if (!passwordValidation.isValid) {
+      throw AuthException(passwordValidation.cause!);
     }
-
-    /// Format verification
-    final invalidCharacters = RegExp(r'^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+');
-    if (!invalidCharacters.hasMatch(user.email)) {
-      throw const AuthException('Email is invalid');
-    }
-
-    /// Password length verification
-    if (user.password.length < 8) {
-      throw const AuthException('Password must be at least 8 characters');
-    }
-    /////////////////////////////////////////////////////////////////
 
     await _authEmailApiService.signInWithEmailPassword(
       user.email,

@@ -11,7 +11,11 @@ import 'package:screens/src/login/controller/login_bloc.dart';
 /// [DCSplashScreen].
 class _DCLoginModalBottomSheet extends StatefulWidget {
   /// [_DCLoginModalBottomSheet] constructor.
-  const _DCLoginModalBottomSheet({super.key});
+  const _DCLoginModalBottomSheet({
+    this.passwordController,
+  });
+
+  final TextEditingController? passwordController;
 
   @override
   State<_DCLoginModalBottomSheet> createState() =>
@@ -64,6 +68,7 @@ class __DCLoginModalBottomSheetState extends State<_DCLoginModalBottomSheet> {
                 context.read<LoginBloc>().add(EmailInputEvent(controller.text)),
           ),
           DCOutlinedObscuredTextFormField(
+            controller: widget.passwordController,
             borderColor: context.colorScheme.onBackground,
             color: context.colorScheme.onBackground,
             borderRadius: 16,
@@ -105,9 +110,12 @@ class __DCLoginModalBottomSheetState extends State<_DCLoginModalBottomSheet> {
                   context.height * 0.05,
                 ),
                 backgroundColor: context.colorScheme.error,
-                onPressed: (context) => context.read<LoginBloc>().add(
-                      const LoginButtonPressedEvent(),
-                    ),
+                onPressed: (context) {
+                  widget.passwordController?.clear();
+                  context.read<LoginBloc>().add(
+                        const LoginButtonPressedEvent(),
+                      );
+                },
                 child: Text(
                   'Login',
                   style: context.textTheme.bodyRegularPoppins.copyWith(
@@ -234,6 +242,7 @@ Future<T?> showDCLoginModalBottomSheet<T>(
   BuildContext context,
   AnimationController transitionAnimationController, {
   double borderRaidus = 40,
+  TextEditingController? passwordController,
 }) {
   final loginBloc = context.read<LoginBloc>();
   return showModalBottomSheet<T>(
@@ -259,7 +268,9 @@ Future<T?> showDCLoginModalBottomSheet<T>(
     // to use it's [LoginState] and [LoginEvent]
     builder: (context) => BlocProvider.value(
       value: loginBloc,
-      child: const _DCLoginModalBottomSheet(),
+      child: _DCLoginModalBottomSheet(
+        passwordController: passwordController,
+      ),
     ),
   );
 }

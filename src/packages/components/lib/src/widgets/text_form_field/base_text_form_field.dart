@@ -16,6 +16,7 @@ base class BaseTextFormField extends StatefulWidget {
     required this.inputBorder,
     required this.contentPadding,
     required this.constraints,
+    this.controller,
     this.textAlign = TextAlign.justify,
     this.textAlignVertical = TextAlignVertical.center,
     this.textCapitalization = TextCapitalization.none,
@@ -47,6 +48,8 @@ base class BaseTextFormField extends StatefulWidget {
     this.paddingBetweenIconAndInput,
     super.key,
   });
+
+  final TextEditingController? controller;
 
   final TextInputType? keyboardType;
   final Brightness? keyboardAppearance;
@@ -94,9 +97,10 @@ base class BaseTextFormField extends StatefulWidget {
 
 class _BaseTextFormFieldState extends State<BaseTextFormField> {
   late bool isObscured = widget.obscureMode;
-  late TextEditingController controller = TextEditingController(
-    text: widget.initialText,
-  );
+  late TextEditingController controller = widget.controller ??
+      TextEditingController(
+        text: widget.initialText,
+      );
   late FocusNode focusNode = FocusNode();
 
   late final prefixPadding = widget.prefixIcon == null
@@ -126,7 +130,7 @@ class _BaseTextFormFieldState extends State<BaseTextFormField> {
 
   @override
   void dispose() {
-    controller.dispose();
+    if (widget.controller == null) controller.dispose();
     focusNode.dispose();
     super.dispose();
   }
