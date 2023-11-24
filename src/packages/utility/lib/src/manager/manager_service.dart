@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/widgets.dart';
-import 'package:utility/src/manager/dialog_manager.dart';
 
 import 'package:utility/utility.dart';
 
@@ -35,13 +34,6 @@ abstract interface class ManagerService<R> {
   void dispose();
 }
 
-/// [DialogManagerService] is the base class for all dialog manager services.
-/// including: managing dialog, which requires to display on top of the screen.
-abstract interface class DialogManagerService
-    extends ManagerService<DialogType> {
-  /// [DialogManagerService] constructor.
-  const DialogManagerService();
-}
 
 /// [NotificationManagerService] is the base class for all notification manager
 /// services, including: managing notification, which requires
