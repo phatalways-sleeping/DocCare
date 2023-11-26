@@ -3,7 +3,7 @@ import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:model_api/model_api.dart';
-import 'package:screens/src/profile/controller/profile_bloc.dart';
+import 'package:screens/src/profile/doctor/controller/doctor_profile_bloc.dart';
 import 'package:utility/utility.dart';
 import 'package:components/src/widgets/pop_up/dc_pop_up_confirm_change.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -17,17 +17,17 @@ class DCDoctorProfile extends StatefulWidget {
   final String doctorID;
 
   @override
-  _DCDoctorProfileState createState() => _DCDoctorProfileState();
+  _DCDoctorDoctorProfileState createState() => _DCDoctorDoctorProfileState();
 }
 
-class _DCDoctorProfileState extends State<DCDoctorProfile> {
+class _DCDoctorDoctorProfileState extends State<DCDoctorProfile> {
   late double height = context.height * 0.5;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       //Create the initial state with initial event
-      create: (context) => ProfileBloc(
+      create: (context) => DoctorProfileBloc(
         widget.doctorID,
         NotificationManager.instance,
         SupabaseDoctorApiService(
@@ -36,7 +36,7 @@ class _DCDoctorProfileState extends State<DCDoctorProfile> {
       )..add(
           const InitialEvent(),
         ),
-      child: BlocConsumer<ProfileBloc, ProfileState>(
+      child: BlocConsumer<DoctorProfileBloc, DoctorProfileState>(
         listener: (context, state) => {print(state)},
         builder: (context, state) {
           return Scaffold(
@@ -50,7 +50,7 @@ class _DCDoctorProfileState extends State<DCDoctorProfile> {
                   color: Colors.black,
                 ),
                 onPressed: () {
-                  if (state is ProfileInitial) {
+                  if (state is DoctorProfileInitial) {
                     Navigator.of(context).pop();
                     return;
                   }
@@ -62,13 +62,13 @@ class _DCDoctorProfileState extends State<DCDoctorProfile> {
                           'Look like you have made some changes to your profile',
                       boldMessage: 'Confirm these changes?',
                       onConfirmButtonClicked: (bcontext) {
-                        context.read<ProfileBloc>().add(
+                        context.read<DoctorProfileBloc>().add(
                               const ConfirmButtonPressedEvent(),
                             );
                         Navigator.of(bcontext).pop();
                       },
                       onCancelButtonClicked: (bcontext) {
-                        context.read<ProfileBloc>().add(
+                        context.read<DoctorProfileBloc>().add(
                               const CancelButtonPressedEvent(),
                             );
                         Navigator.of(bcontext).pop();
@@ -111,7 +111,7 @@ class _DCDoctorProfileState extends State<DCDoctorProfile> {
                               vertical: context.height * 0.02,
                             ),
                             onChanged: (context, controller) => context
-                                .read<ProfileBloc>()
+                                .read<DoctorProfileBloc>()
                                 .add(FullNameInputEvent(controller.text)),
                           ),
                           SizedBox(
@@ -135,7 +135,7 @@ class _DCDoctorProfileState extends State<DCDoctorProfile> {
                               vertical: context.height * 0.02,
                             ),
                             onChanged: (context, controller) => context
-                                .read<ProfileBloc>()
+                                .read<DoctorProfileBloc>()
                                 .add(EmailInputEvent(controller.text)),
                           ),
                           SizedBox(
@@ -160,7 +160,7 @@ class _DCDoctorProfileState extends State<DCDoctorProfile> {
                               vertical: context.height * 0.02,
                             ),
                             onChanged: (context, controller) =>
-                                context.read<ProfileBloc>().add(
+                                context.read<DoctorProfileBloc>().add(
                                       BirthdayInputEvent(controller.text),
                                     ),
                             onFocusChange: (context, focusNode) {
@@ -168,7 +168,7 @@ class _DCDoctorProfileState extends State<DCDoctorProfile> {
                                 return;
                               }
                               if (!focusNode.hasFocus) {
-                                context.read<ProfileBloc>().add(
+                                context.read<DoctorProfileBloc>().add(
                                       ValidateBirthdayInputEvent(
                                         state.tempBirthday,
                                       ),
@@ -197,7 +197,7 @@ class _DCDoctorProfileState extends State<DCDoctorProfile> {
                               vertical: context.height * 0.02,
                             ),
                             onChanged: (context, controller) => context
-                                .read<ProfileBloc>()
+                                .read<DoctorProfileBloc>()
                                 .add(PhoneNumberInputEvent(controller.text)),
                           ),
                           SizedBox(
@@ -221,7 +221,7 @@ class _DCDoctorProfileState extends State<DCDoctorProfile> {
                               vertical: context.height * 0.02,
                             ),
                             onChanged: (context, controller) => context
-                                .read<ProfileBloc>()
+                                .read<DoctorProfileBloc>()
                                 .add(SpecializationInputEvent(controller.text)),
                           ),
                           SizedBox(
@@ -245,7 +245,7 @@ class _DCDoctorProfileState extends State<DCDoctorProfile> {
                               vertical: context.height * 0.02,
                             ),
                             onChanged: (context, controller) =>
-                                context.read<ProfileBloc>().add(
+                                context.read<DoctorProfileBloc>().add(
                                       StartingYearInputEvent(
                                         int.parse(controller.text),
                                       ),
@@ -254,6 +254,7 @@ class _DCDoctorProfileState extends State<DCDoctorProfile> {
                           SizedBox(
                             height: context.height * 0.05,
                           ),
+                          //TODO (Vinh): Change password on pressed logic
                           DCOutlinedButton(
                             onPressed: (context) {},
                             padding: EdgeInsets.symmetric(

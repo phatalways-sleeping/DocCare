@@ -5,15 +5,15 @@ import 'package:intl/intl.dart';
 import 'package:utility/utility.dart'
     show FormValidator, NotificationManagerService, NotificationType;
 import 'package:model_api/src/users/service/supabase_doctor_api_service.dart';
-part 'profile_event.dart';
-part 'profile_state.dart';
+part 'doctor_profile_event.dart';
+part 'doctor_profile_state.dart';
 
-class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
-  ProfileBloc(
+class DoctorProfileBloc extends Bloc<DoctorProfileEvent, DoctorProfileState> {
+  DoctorProfileBloc(
     this.doctorID,
     this._notificationManagerService,
     this._supabaseDoctorApiService,
-  ) : super(ProfileInitial.empty()) {
+  ) : super(DoctorProfileInitial.empty()) {
     on<InitialEvent>(_onInitialEvent);
     on<FullNameInputEvent>(_onFullNameInputEvent);
     on<EmailInputEvent>(_onEmailInputEvent);
@@ -33,13 +33,13 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
   void _onInitialEvent(
     InitialEvent event,
-    Emitter<ProfileState> emit,
+    Emitter<DoctorProfileState> emit,
   ) async {
     try {
-      emit(ProfileInitial.empty());
+      emit(DoctorProfileInitial.empty());
       await _supabaseDoctorApiService.getUser(doctorID).then(
             (value) => emit(
-              ProfileInitial.input(
+              DoctorProfileInitial.input(
                 fullName: value.fullname,
                 email: value.email,
                 tempBirthday: value.birthday.toString(),
@@ -51,18 +51,19 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
             ),
           );
     } catch (e) {
-      emit(ProfileInitial.empty());
+      emit(DoctorProfileInitial.empty());
       return;
     }
     emit(state.copyWith());
   }
 
+  //TODO (Vinh): Loading state animation. Might separate to another state
   void _onFullNameInputEvent(
     FullNameInputEvent event,
-    Emitter<ProfileState> emit,
+    Emitter<DoctorProfileState> emit,
   ) {
     emit(
-      ProfileOnChange(
+      DoctorProfileOnChange(
           fullName: event.fullName,
           email: state.email,
           tempBirthday: state.tempBirthday,
@@ -75,10 +76,10 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
   void _onEmailInputEvent(
     EmailInputEvent event,
-    Emitter<ProfileState> emit,
+    Emitter<DoctorProfileState> emit,
   ) {
     emit(
-      ProfileOnChange(
+      DoctorProfileOnChange(
           fullName: state.fullName,
           email: event.email,
           tempBirthday: state.tempBirthday,
@@ -91,14 +92,14 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
   void _onCancelButtonPressedEvent(
     CancelButtonPressedEvent event,
-    Emitter<ProfileState> emit,
+    Emitter<DoctorProfileState> emit,
   ) {
-    emit((state as ProfileOnChange).toggleBackToInitial());
+    emit((state as DoctorProfileOnChange).toggleBackToInitial());
   }
 
   Future<void> _onConfirmButtonPressedEvent(
     ConfirmButtonPressedEvent event,
-    Emitter<ProfileState> emit,
+    Emitter<DoctorProfileState> emit,
   ) async {
     if (state.fullName.isEmpty ||
         state.email.isEmpty ||
@@ -125,7 +126,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
     try {
       emit(
-        ProfileLoading(
+        DoctorProfileLoading(
           fullName: state.fullName,
           email: state.email,
           tempBirthday: state.tempBirthday,
@@ -163,7 +164,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         ),
       ]);
     } catch (e) {
-      assert(state is ProfileLoading, 'Loading failed');
+      assert(state is DoctorProfileLoading, 'Loading failed');
     }
 
     await _notificationManagerService
@@ -181,16 +182,17 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
           ),
         )
         .then(
-          (value) => emit((state as ProfileLoading).toggleBackToInitial()),
+          (value) =>
+              emit((state as DoctorProfileLoading).toggleBackToInitial()),
         );
   }
 
   void _onBirthdayInputEvent(
     BirthdayInputEvent event,
-    Emitter<ProfileState> emit,
+    Emitter<DoctorProfileState> emit,
   ) {
     emit(
-      ProfileOnChange(
+      DoctorProfileOnChange(
         fullName: state.fullName,
         email: state.email,
         tempBirthday: event.tempBirthday,
@@ -204,10 +206,10 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
   void _onPhoneNumberInputEvent(
     PhoneNumberInputEvent event,
-    Emitter<ProfileState> emit,
+    Emitter<DoctorProfileState> emit,
   ) {
     emit(
-      ProfileOnChange(
+      DoctorProfileOnChange(
         fullName: state.fullName,
         email: state.email,
         tempBirthday: state.tempBirthday,
@@ -221,10 +223,10 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
   void _onSpecializationInputEvent(
     SpecializationInputEvent event,
-    Emitter<ProfileState> emit,
+    Emitter<DoctorProfileState> emit,
   ) {
     emit(
-      ProfileOnChange(
+      DoctorProfileOnChange(
         fullName: state.fullName,
         email: state.email,
         tempBirthday: state.tempBirthday,
@@ -238,10 +240,10 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
   void _onStartWorkingFromInputEvent(
     StartingYearInputEvent event,
-    Emitter<ProfileState> emit,
+    Emitter<DoctorProfileState> emit,
   ) {
     emit(
-      ProfileOnChange(
+      DoctorProfileOnChange(
         fullName: state.fullName,
         email: state.email,
         tempBirthday: state.tempBirthday,
@@ -255,7 +257,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
   void _onValidateBirthdayInputEvent(
     ValidateBirthdayInputEvent event,
-    Emitter<ProfileState> emit,
+    Emitter<DoctorProfileState> emit,
   ) {
     final check = FormValidator.validateDate(event.tempBirthday).isValid;
     if (!check) {
@@ -276,7 +278,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
             ),
           )
           .then(
-            (value) => emit((state as ProfileOnChange).toggleBackToInitial()),
+            (value) =>
+                emit((state as DoctorProfileOnChange).toggleBackToInitial()),
           );
       return;
     }
@@ -289,7 +292,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
   void _onChangePasswordButtonPressedEvent(
     ChangePasswordButtonPressedEvent event,
-    Emitter<ProfileState> emit,
+    Emitter<DoctorProfileState> emit,
   ) {
     emit(state.copyWith());
   }

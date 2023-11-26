@@ -1,14 +1,14 @@
-part of 'profile_bloc.dart';
+part of 'doctor_profile_bloc.dart';
 
 @immutable
-sealed class ProfileEvent extends Equatable {
-  const ProfileEvent();
+sealed class DoctorProfileEvent extends Equatable {
+  const DoctorProfileEvent();
 
   @override
   List<Object> get props => [];
 }
 
-final class FullNameInputEvent extends ProfileEvent {
+final class FullNameInputEvent extends DoctorProfileEvent {
   const FullNameInputEvent(this.fullName);
 
   final String fullName;
@@ -17,21 +17,21 @@ final class FullNameInputEvent extends ProfileEvent {
   List<Object> get props => [fullName];
 }
 
-final class ConfirmButtonPressedEvent extends ProfileEvent {
+final class ConfirmButtonPressedEvent extends DoctorProfileEvent {
   const ConfirmButtonPressedEvent();
 
   @override
   List<Object> get props => [];
 }
 
-final class CancelButtonPressedEvent extends ProfileEvent {
+final class CancelButtonPressedEvent extends DoctorProfileEvent {
   const CancelButtonPressedEvent();
 
   @override
   List<Object> get props => [];
 }
 
-final class EmailInputEvent extends ProfileEvent {
+final class EmailInputEvent extends DoctorProfileEvent {
   const EmailInputEvent(this.email);
 
   final String email;
@@ -40,7 +40,7 @@ final class EmailInputEvent extends ProfileEvent {
   List<Object> get props => [email];
 }
 
-final class BirthdayInputEvent extends ProfileEvent {
+final class BirthdayInputEvent extends DoctorProfileEvent {
   const BirthdayInputEvent(this.tempBirthday);
 
   final String tempBirthday;
@@ -49,7 +49,7 @@ final class BirthdayInputEvent extends ProfileEvent {
   List<Object> get props => [tempBirthday];
 }
 
-final class PhoneNumberInputEvent extends ProfileEvent {
+final class PhoneNumberInputEvent extends DoctorProfileEvent {
   const PhoneNumberInputEvent(this.phone);
 
   final String phone;
@@ -58,14 +58,14 @@ final class PhoneNumberInputEvent extends ProfileEvent {
   List<Object> get props => [phone];
 }
 
-final class InitialEvent extends ProfileEvent {
+final class InitialEvent extends DoctorProfileEvent {
   const InitialEvent();
 
   @override
   List<Object> get props => [];
 }
 
-final class SpecializationInputEvent extends ProfileEvent {
+final class SpecializationInputEvent extends DoctorProfileEvent {
   const SpecializationInputEvent(this.specializationId);
 
   final String specializationId;
@@ -74,7 +74,7 @@ final class SpecializationInputEvent extends ProfileEvent {
   List<Object> get props => [specializationId];
 }
 
-final class StartingYearInputEvent extends ProfileEvent {
+final class StartingYearInputEvent extends DoctorProfileEvent {
   const StartingYearInputEvent(this.startWorkingFrom);
 
   final int startWorkingFrom;
@@ -83,7 +83,7 @@ final class StartingYearInputEvent extends ProfileEvent {
   List<Object> get props => [startWorkingFrom];
 }
 
-final class ValidateBirthdayInputEvent extends ProfileEvent {
+final class ValidateBirthdayInputEvent extends DoctorProfileEvent {
   const ValidateBirthdayInputEvent(this.tempBirthday);
 
   final String tempBirthday;
@@ -92,6 +92,6 @@ final class ValidateBirthdayInputEvent extends ProfileEvent {
   List<Object> get props => [tempBirthday];
 }
 
-final class ChangePasswordButtonPressedEvent extends ProfileEvent {
+final class ChangePasswordButtonPressedEvent extends DoctorProfileEvent {
   const ChangePasswordButtonPressedEvent();
 }

@@ -1,8 +1,8 @@
-part of 'profile_bloc.dart';
+part of 'doctor_profile_bloc.dart';
 
 @immutable
-sealed class ProfileState extends Equatable {
-  const ProfileState({
+sealed class DoctorProfileState extends Equatable {
+  const DoctorProfileState({
     required this.fullName,
     required this.email,
     required this.tempBirthday,
@@ -31,7 +31,7 @@ sealed class ProfileState extends Equatable {
         startWorkingFrom,
       ];
 
-  ProfileState copyWith({
+  DoctorProfileState copyWith({
     String? fullName,
     String? email,
     String? tempBirthday,
@@ -42,8 +42,8 @@ sealed class ProfileState extends Equatable {
   });
 }
 
-final class ProfileInitial extends ProfileState {
-  ProfileInitial.empty()
+final class DoctorProfileInitial extends DoctorProfileState {
+  DoctorProfileInitial.empty()
       : super(
           fullName: '',
           email: '',
@@ -54,7 +54,7 @@ final class ProfileInitial extends ProfileState {
           startWorkingFrom: 0,
         );
 
-  const ProfileInitial.input({
+  const DoctorProfileInitial.input({
     required super.fullName,
     required super.email,
     required super.tempBirthday,
@@ -65,7 +65,7 @@ final class ProfileInitial extends ProfileState {
   });
 
   @override
-  ProfileState copyWith({
+  DoctorProfileState copyWith({
     String? fullName,
     String? email,
     String? tempBirthday,
@@ -74,7 +74,7 @@ final class ProfileInitial extends ProfileState {
     String? specializationId,
     int? startWorkingFrom,
   }) =>
-      ProfileInitial.input(
+      DoctorProfileInitial.input(
         fullName: fullName ?? super.fullName,
         email: email ?? super.email,
         tempBirthday: tempBirthday ?? super.tempBirthday,
@@ -85,8 +85,8 @@ final class ProfileInitial extends ProfileState {
       );
 }
 
-final class ProfileOnChange extends ProfileState {
-  const ProfileOnChange({
+final class DoctorProfileOnChange extends DoctorProfileState {
+  const DoctorProfileOnChange({
     required super.fullName,
     required super.email,
     required super.tempBirthday,
@@ -96,18 +96,19 @@ final class ProfileOnChange extends ProfileState {
     required super.startWorkingFrom,
   });
 
-  factory ProfileOnChange.from(ProfileState profileState) => ProfileOnChange(
-        fullName: profileState.fullName,
-        email: profileState.email,
-        tempBirthday: profileState.tempBirthday,
-        birthday: profileState.birthday,
-        phone: profileState.phone,
-        specializationId: profileState.specializationId,
-        startWorkingFrom: profileState.startWorkingFrom,
+  factory DoctorProfileOnChange.from(DoctorProfileState DoctorProfileState) =>
+      DoctorProfileOnChange(
+        fullName: DoctorProfileState.fullName,
+        email: DoctorProfileState.email,
+        tempBirthday: DoctorProfileState.tempBirthday,
+        birthday: DoctorProfileState.birthday,
+        phone: DoctorProfileState.phone,
+        specializationId: DoctorProfileState.specializationId,
+        startWorkingFrom: DoctorProfileState.startWorkingFrom,
       );
 
   @override
-  ProfileState copyWith({
+  DoctorProfileState copyWith({
     String? fullName,
     String? email,
     String? tempBirthday,
@@ -116,7 +117,7 @@ final class ProfileOnChange extends ProfileState {
     String? specializationId,
     int? startWorkingFrom,
   }) =>
-      ProfileOnChange(
+      DoctorProfileOnChange(
         fullName: fullName ?? super.fullName,
         email: email ?? super.email,
         tempBirthday: tempBirthday ?? super.tempBirthday,
@@ -126,7 +127,7 @@ final class ProfileOnChange extends ProfileState {
         startWorkingFrom: startWorkingFrom ?? super.startWorkingFrom,
       );
 
-  ProfileState toggleBackToInitial() => ProfileInitial.input(
+  DoctorProfileState toggleBackToInitial() => DoctorProfileInitial.input(
         fullName: fullName,
         email: email,
         tempBirthday: tempBirthday,
@@ -137,8 +138,8 @@ final class ProfileOnChange extends ProfileState {
       );
 }
 
-final class ProfileChangeSuccess extends ProfileState {
-  const ProfileChangeSuccess({
+final class DoctorProfileChangeSuccess extends DoctorProfileState {
+  const DoctorProfileChangeSuccess({
     required super.fullName,
     required super.email,
     required super.tempBirthday,
@@ -148,19 +149,20 @@ final class ProfileChangeSuccess extends ProfileState {
     required super.startWorkingFrom,
   });
 
-  factory ProfileChangeSuccess.from(ProfileState profileState) =>
-      ProfileChangeSuccess(
-        fullName: profileState.fullName,
-        email: profileState.email,
-        tempBirthday: profileState.tempBirthday,
-        birthday: profileState.birthday,
-        phone: profileState.phone,
-        specializationId: profileState.specializationId,
-        startWorkingFrom: profileState.startWorkingFrom,
+  factory DoctorProfileChangeSuccess.from(
+          DoctorProfileState DoctorProfileState) =>
+      DoctorProfileChangeSuccess(
+        fullName: DoctorProfileState.fullName,
+        email: DoctorProfileState.email,
+        tempBirthday: DoctorProfileState.tempBirthday,
+        birthday: DoctorProfileState.birthday,
+        phone: DoctorProfileState.phone,
+        specializationId: DoctorProfileState.specializationId,
+        startWorkingFrom: DoctorProfileState.startWorkingFrom,
       );
 
   @override
-  ProfileState copyWith({
+  DoctorProfileState copyWith({
     String? fullName,
     String? email,
     String? tempBirthday,
@@ -169,7 +171,7 @@ final class ProfileChangeSuccess extends ProfileState {
     String? specializationId,
     int? startWorkingFrom,
   }) =>
-      ProfileChangeSuccess(
+      DoctorProfileChangeSuccess(
         fullName: fullName ?? super.fullName,
         email: email ?? super.email,
         birthday: birthday ?? super.birthday,
@@ -180,8 +182,8 @@ final class ProfileChangeSuccess extends ProfileState {
       );
 }
 
-final class ProfileChangeFailure extends ProfileState {
-  const ProfileChangeFailure({
+final class DoctorProfileChangeFailure extends DoctorProfileState {
+  const DoctorProfileChangeFailure({
     required super.fullName,
     required super.email,
     required super.tempBirthday,
@@ -191,19 +193,20 @@ final class ProfileChangeFailure extends ProfileState {
     required super.startWorkingFrom,
   });
 
-  factory ProfileChangeFailure.from(ProfileState profileState) =>
-      ProfileChangeFailure(
-        fullName: profileState.fullName,
-        email: profileState.email,
-        tempBirthday: profileState.tempBirthday,
-        birthday: profileState.birthday,
-        phone: profileState.phone,
-        specializationId: profileState.specializationId,
-        startWorkingFrom: profileState.startWorkingFrom,
+  factory DoctorProfileChangeFailure.from(
+          DoctorProfileState DoctorProfileState) =>
+      DoctorProfileChangeFailure(
+        fullName: DoctorProfileState.fullName,
+        email: DoctorProfileState.email,
+        tempBirthday: DoctorProfileState.tempBirthday,
+        birthday: DoctorProfileState.birthday,
+        phone: DoctorProfileState.phone,
+        specializationId: DoctorProfileState.specializationId,
+        startWorkingFrom: DoctorProfileState.startWorkingFrom,
       );
 
   @override
-  ProfileState copyWith({
+  DoctorProfileState copyWith({
     String? fullName,
     String? email,
     String? tempBirthday,
@@ -212,7 +215,7 @@ final class ProfileChangeFailure extends ProfileState {
     String? specializationId,
     int? startWorkingFrom,
   }) =>
-      ProfileChangeFailure(
+      DoctorProfileChangeFailure(
         fullName: fullName ?? super.fullName,
         email: email ?? super.email,
         tempBirthday: tempBirthday ?? super.tempBirthday,
@@ -223,8 +226,8 @@ final class ProfileChangeFailure extends ProfileState {
       );
 }
 
-final class ProfileLoading extends ProfileState {
-  const ProfileLoading({
+final class DoctorProfileLoading extends DoctorProfileState {
+  const DoctorProfileLoading({
     required super.fullName,
     required super.email,
     required super.tempBirthday,
@@ -234,17 +237,18 @@ final class ProfileLoading extends ProfileState {
     required super.startWorkingFrom,
   });
 
-  factory ProfileLoading.from(ProfileState profileState) => ProfileLoading(
-        fullName: profileState.fullName,
-        email: profileState.email,
-        tempBirthday: profileState.tempBirthday,
-        birthday: profileState.birthday,
-        phone: profileState.phone,
-        specializationId: profileState.specializationId,
-        startWorkingFrom: profileState.startWorkingFrom,
+  factory DoctorProfileLoading.from(DoctorProfileState DoctorProfileState) =>
+      DoctorProfileLoading(
+        fullName: DoctorProfileState.fullName,
+        email: DoctorProfileState.email,
+        tempBirthday: DoctorProfileState.tempBirthday,
+        birthday: DoctorProfileState.birthday,
+        phone: DoctorProfileState.phone,
+        specializationId: DoctorProfileState.specializationId,
+        startWorkingFrom: DoctorProfileState.startWorkingFrom,
       );
 
-  ProfileState toggleBackToInitial() => ProfileInitial.input(
+  DoctorProfileState toggleBackToInitial() => DoctorProfileInitial.input(
         fullName: fullName,
         email: email,
         tempBirthday: tempBirthday,
@@ -255,7 +259,7 @@ final class ProfileLoading extends ProfileState {
       );
 
   @override
-  ProfileState copyWith({
+  DoctorProfileState copyWith({
     String? fullName,
     String? email,
     String? tempBirthday,
@@ -264,7 +268,7 @@ final class ProfileLoading extends ProfileState {
     String? specializationId,
     int? startWorkingFrom,
   }) =>
-      ProfileLoading(
+      DoctorProfileLoading(
         fullName: fullName ?? super.fullName,
         email: email ?? super.email,
         tempBirthday: tempBirthday ?? super.tempBirthday,
