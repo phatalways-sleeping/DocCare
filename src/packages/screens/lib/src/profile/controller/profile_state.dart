@@ -125,6 +125,16 @@ final class ProfileOnChange extends ProfileState {
         specializationId: specializationId ?? super.specializationId,
         startWorkingFrom: startWorkingFrom ?? super.startWorkingFrom,
       );
+
+  ProfileState toggleBackToInitial() => ProfileInitial.input(
+        fullName: fullName,
+        email: email,
+        tempBirthday: tempBirthday,
+        birthday: birthday,
+        phone: phone,
+        specializationId: specializationId,
+        startWorkingFrom: startWorkingFrom,
+      );
 }
 
 final class ProfileChangeSuccess extends ProfileState {

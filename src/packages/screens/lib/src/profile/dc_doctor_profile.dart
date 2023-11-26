@@ -59,7 +59,7 @@ class _DCDoctorProfileState extends State<DCDoctorProfile> {
                     builder: (context) => DCPopupConfirmChange(
                       title: 'Confirm change',
                       message:
-                          'Look like you have made some changes to your profile.',
+                          'Look like you have made some changes to your profile',
                       boldMessage: 'Confirm these changes?',
                       onConfirmButtonClicked: (context) =>
                           Navigator.of(context).pop(),
@@ -253,7 +253,9 @@ class _DCDoctorProfileState extends State<DCDoctorProfile> {
                               vertical: 8,
                             ),
                             fixedSize: Size(
-                                context.width * 0.9, context.height * 0.07),
+                              context.width * 0.9,
+                              context.height * 0.07,
+                            ),
                             borderSide: BorderSide(
                               color: context.colorScheme.onBackground,
                             ),

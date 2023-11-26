@@ -126,13 +126,14 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   ) {
     emit(
       ProfileOnChange(
-          fullName: state.fullName,
-          email: state.email,
-          tempBirthday: state.tempBirthday,
-          birthday: state.birthday,
-          phone: state.phone,
-          specializationId: event.specializationId,
-          startWorkingFrom: state.startWorkingFrom),
+        fullName: state.fullName,
+        email: state.email,
+        tempBirthday: state.tempBirthday,
+        birthday: state.birthday,
+        phone: state.phone,
+        specializationId: event.specializationId,
+        startWorkingFrom: state.startWorkingFrom,
+      ),
     );
   }
 
@@ -140,14 +141,17 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     StartingYearInputEvent event,
     Emitter<ProfileState> emit,
   ) {
-    emit(ProfileOnChange(
+    emit(
+      ProfileOnChange(
         fullName: state.fullName,
         email: state.email,
         tempBirthday: state.tempBirthday,
         birthday: state.birthday,
         phone: state.phone,
         specializationId: state.specializationId,
-        startWorkingFrom: event.startWorkingFrom));
+        startWorkingFrom: event.startWorkingFrom,
+      ),
+    );
   }
 
   void _onValidateBirthdayInputEvent(
@@ -158,7 +162,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     if (!check) {
       _notificationManagerService
           .show<void>(
-            NotificationType.dismissed,
+            NotificationType.signUp,
             title: const Text(
               'Something went wrong',
               style: TextStyle(
@@ -173,7 +177,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
             ),
           )
           .then(
-            (value) => emit((state as ProfileLoading).toggleBackToInitial()),
+            (value) => emit((state as ProfileOnChange).toggleBackToInitial()),
           );
       return;
     }
