@@ -17,6 +17,20 @@ final class FullNameInputEvent extends ProfileEvent {
   List<Object> get props => [fullName];
 }
 
+final class ConfirmButtonPressedEvent extends ProfileEvent {
+  const ConfirmButtonPressedEvent();
+
+  @override
+  List<Object> get props => [];
+}
+
+final class CancelButtonPressedEvent extends ProfileEvent {
+  const CancelButtonPressedEvent();
+
+  @override
+  List<Object> get props => [];
+}
+
 final class EmailInputEvent extends ProfileEvent {
   const EmailInputEvent(this.email);
 

@@ -2,7 +2,6 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:utility/utility.dart'
     show FormValidator, NotificationManagerService, NotificationType;
 import 'package:model_api/src/users/service/supabase_doctor_api_service.dart';
@@ -24,6 +23,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     on<StartingYearInputEvent>(_onStartWorkingFromInputEvent);
     on<ValidateBirthdayInputEvent>(_onValidateBirthdayInputEvent);
     on<ChangePasswordButtonPressedEvent>(_onChangePasswordButtonPressedEvent);
+    on<ConfirmButtonPressedEvent>(_onConfirmButtonPressedEvent);
+    on<CancelButtonPressedEvent>(_onCancelButtonPressedEvent);
   }
 
   final String doctorID;
@@ -88,19 +89,116 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     );
   }
 
+  void _onCancelButtonPressedEvent(
+    CancelButtonPressedEvent event,
+    Emitter<ProfileState> emit,
+  ) {
+    emit((state as ProfileOnChange).toggleBackToInitial());
+  }
+
+  Future<void> _onConfirmButtonPressedEvent(
+    ConfirmButtonPressedEvent event,
+    Emitter<ProfileState> emit,
+  ) async {
+    if (state.fullName.isEmpty ||
+        state.email.isEmpty ||
+        state.email.isEmpty ||
+        state.phone.isEmpty ||
+        state.specializationId.isEmpty ||
+        state.startWorkingFrom == 0) {
+      await _notificationManagerService.show<void>(
+        NotificationType.signUp,
+        title: const Text(
+          'There is an empty field in your profile',
+          style: TextStyle(
+            fontSize: 16,
+          ),
+        ),
+        message: const Text(
+          'Please fill in all the fields',
+          style: TextStyle(fontSize: 13),
+        ),
+      );
+
+      return;
+    }
+
+    try {
+      emit(
+        ProfileLoading(
+          fullName: state.fullName,
+          email: state.email,
+          tempBirthday: state.tempBirthday,
+          birthday: state.birthday,
+          phone: state.phone,
+          specializationId: state.specializationId,
+          startWorkingFrom: state.startWorkingFrom,
+        ),
+      );
+      //print('Update in process');
+      await Future.wait([
+        _supabaseDoctorApiService.updateFullName(
+          doctorID,
+          state.fullName,
+        ),
+        _supabaseDoctorApiService.updateEmail(
+          doctorID,
+          state.email,
+        ),
+        _supabaseDoctorApiService.updateBirthday(
+          doctorID,
+          state.birthday,
+        ),
+        _supabaseDoctorApiService.updatePhone(
+          doctorID,
+          state.phone,
+        ),
+        _supabaseDoctorApiService.updateSpecialty(
+          doctorID,
+          state.specializationId,
+        ),
+        _supabaseDoctorApiService.updateStartWorkingFrom(
+          doctorID,
+          state.startWorkingFrom,
+        ),
+      ]);
+    } catch (e) {
+      assert(state is ProfileLoading, 'Loading failed');
+    }
+
+    await _notificationManagerService
+        .show<void>(
+          NotificationType.signUp,
+          title: const Text(
+            'Your profile has been updated',
+            style: TextStyle(
+              fontSize: 16,
+            ),
+          ),
+          message: const Text(
+            'Your profile has been updated successfully',
+            style: TextStyle(fontSize: 13),
+          ),
+        )
+        .then(
+          (value) => emit((state as ProfileLoading).toggleBackToInitial()),
+        );
+  }
+
   void _onBirthdayInputEvent(
     BirthdayInputEvent event,
     Emitter<ProfileState> emit,
   ) {
     emit(
       ProfileOnChange(
-          fullName: state.fullName,
-          email: state.email,
-          tempBirthday: event.tempBirthday,
-          birthday: state.birthday,
-          phone: state.phone,
-          specializationId: state.specializationId,
-          startWorkingFrom: state.startWorkingFrom),
+        fullName: state.fullName,
+        email: state.email,
+        tempBirthday: event.tempBirthday,
+        birthday: state.birthday,
+        phone: state.phone,
+        specializationId: state.specializationId,
+        startWorkingFrom: state.startWorkingFrom,
+      ),
     );
   }
 
@@ -110,13 +208,14 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   ) {
     emit(
       ProfileOnChange(
-          fullName: state.fullName,
-          email: state.email,
-          tempBirthday: state.tempBirthday,
-          birthday: state.birthday,
-          phone: event.phone,
-          specializationId: state.specializationId,
-          startWorkingFrom: state.startWorkingFrom),
+        fullName: state.fullName,
+        email: state.email,
+        tempBirthday: state.tempBirthday,
+        birthday: state.birthday,
+        phone: event.phone,
+        specializationId: state.specializationId,
+        startWorkingFrom: state.startWorkingFrom,
+      ),
     );
   }
 

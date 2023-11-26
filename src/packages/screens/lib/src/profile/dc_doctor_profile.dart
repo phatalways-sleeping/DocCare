@@ -37,7 +37,7 @@ class _DCDoctorProfileState extends State<DCDoctorProfile> {
           const InitialEvent(),
         ),
       child: BlocConsumer<ProfileBloc, ProfileState>(
-        listener: (context, state) => {},
+        listener: (context, state) => {print(state)},
         builder: (context, state) {
           return Scaffold(
             appBar: AppBar(
@@ -56,15 +56,23 @@ class _DCDoctorProfileState extends State<DCDoctorProfile> {
                   }
                   showDialog(
                     context: context,
-                    builder: (context) => DCPopupConfirmChange(
+                    builder: (acontext) => DCPopupConfirmChange(
                       title: 'Confirm change',
                       message:
                           'Look like you have made some changes to your profile',
                       boldMessage: 'Confirm these changes?',
-                      onConfirmButtonClicked: (context) =>
-                          Navigator.of(context).pop(),
-                      onCancelButtonClicked: (context) =>
-                          Navigator.of(context).pop(),
+                      onConfirmButtonClicked: (bcontext) {
+                        context.read<ProfileBloc>().add(
+                              const ConfirmButtonPressedEvent(),
+                            );
+                        Navigator.of(bcontext).pop();
+                      },
+                      onCancelButtonClicked: (bcontext) {
+                        context.read<ProfileBloc>().add(
+                              const CancelButtonPressedEvent(),
+                            );
+                        Navigator.of(bcontext).pop();
+                      },
                     ),
                   );
                 },
