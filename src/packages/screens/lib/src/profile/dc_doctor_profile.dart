@@ -25,50 +25,58 @@ class _DCDoctorProfileState extends State<DCDoctorProfile> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: context.colorScheme.background,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_ios,
-            color: Colors.black,
-          ),
-          onPressed: () {
-            showDialog(
-              context: context,
-              builder: (context) => DCPopupConfirmChange(
-                title: 'Confirm change',
-                message:
-                    'Look like you have made some changes to your profile.',
-                boldMessage: 'Confirm these changes?',
-                onConfirmButtonClicked: (context) =>
-                    Navigator.of(context).pop(),
-                onCancelButtonClicked: (context) => Navigator.of(context).pop(),
-              ),
-            );
-          },
+    return BlocProvider(
+      //Create the initial state with initial event
+      create: (context) => ProfileBloc(
+        widget.doctorID,
+        NotificationManager.instance,
+        SupabaseDoctorApiService(
+          supabase: Supabase.instance.client,
         ),
-      ),
-      body: BlocProvider(
-        //Create the initial state with initial event
-        create: (context) => ProfileBloc(
-          widget.doctorID,
-          NotificationManager.instance,
-          SupabaseDoctorApiService(
-            supabase: Supabase.instance.client,
-          ),
-        )..add(
-            const InitialEvent(),
-          ),
-        child: BlocConsumer<ProfileBloc, ProfileState>(
-          listener: (context, state) => {},
-          builder: (context, state) {
-            return CustomScrollView(
+      )..add(
+          const InitialEvent(),
+        ),
+      child: BlocConsumer<ProfileBloc, ProfileState>(
+        listener: (context, state) => {},
+        builder: (context, state) {
+          return Scaffold(
+            appBar: AppBar(
+              centerTitle: true,
+              backgroundColor: context.colorScheme.background,
+              elevation: 0,
+              leading: IconButton(
+                icon: const Icon(
+                  Icons.arrow_back_ios,
+                  color: Colors.black,
+                ),
+                onPressed: () {
+                  if (state is ProfileInitial) {
+                    Navigator.of(context).pop();
+                    return;
+                  }
+                  showDialog(
+                    context: context,
+                    builder: (context) => DCPopupConfirmChange(
+                      title: 'Confirm change',
+                      message:
+                          'Look like you have made some changes to your profile.',
+                      boldMessage: 'Confirm these changes?',
+                      onConfirmButtonClicked: (context) =>
+                          Navigator.of(context).pop(),
+                      onCancelButtonClicked: (context) =>
+                          Navigator.of(context).pop(),
+                    ),
+                  );
+                },
+              ),
+            ),
+            body: CustomScrollView(
               slivers: <Widget>[
                 SliverList(
                   delegate: SliverChildListDelegate([
+                    Image(
+                      image: AssetImage('assets/images/pic_5.png'),
+                    ),
                     Container(
                       padding: EdgeInsets.symmetric(
                         horizontal: context.width * 0.05,
@@ -86,7 +94,7 @@ class _DCDoctorProfileState extends State<DCDoctorProfile> {
                               child: const Text('Fullname'),
                             ),
                             textAlign: TextAlign.center,
-                            initialText: state.fullName,
+                            hintText: state.fullName,
                             textFormFieldConstraints: BoxConstraints(
                               maxWidth: context.width * 0.9,
                             ),
@@ -110,7 +118,7 @@ class _DCDoctorProfileState extends State<DCDoctorProfile> {
                               child: const Text('Email'),
                             ),
                             textAlign: TextAlign.center,
-                            initialText: state.email,
+                            hintText: state.email,
                             textFormFieldConstraints: BoxConstraints(
                               maxWidth: context.width * 0.9,
                             ),
@@ -134,7 +142,7 @@ class _DCDoctorProfileState extends State<DCDoctorProfile> {
                               child: const Text('Birthday'),
                             ),
                             textAlign: TextAlign.center,
-                            initialText: state.birthday.toString(),
+                            hintText: state.birthday.toString(),
                             textFormFieldConstraints: BoxConstraints(
                               maxWidth: context.width * 0.9,
                             ),
@@ -172,7 +180,7 @@ class _DCDoctorProfileState extends State<DCDoctorProfile> {
                               child: const Text('Phone Number'),
                             ),
                             textAlign: TextAlign.center,
-                            initialText: state.phone,
+                            hintText: state.phone,
                             textFormFieldConstraints: BoxConstraints(
                               maxWidth: context.width * 0.9,
                             ),
@@ -196,7 +204,7 @@ class _DCDoctorProfileState extends State<DCDoctorProfile> {
                               child: const Text('Specialization'),
                             ),
                             textAlign: TextAlign.center,
-                            initialText: state.specializationId,
+                            hintText: state.specializationId,
                             textFormFieldConstraints: BoxConstraints(
                               maxWidth: context.width * 0.9,
                             ),
@@ -220,7 +228,7 @@ class _DCDoctorProfileState extends State<DCDoctorProfile> {
                               child: const Text('Starting year'),
                             ),
                             textAlign: TextAlign.center,
-                            initialText: state.startWorkingFrom.toString(),
+                            hintText: state.startWorkingFrom.toString(),
                             textFormFieldConstraints: BoxConstraints(
                               maxWidth: context.width * 0.9,
                             ),
@@ -265,9 +273,9 @@ class _DCDoctorProfileState extends State<DCDoctorProfile> {
                   ]),
                 ),
               ],
-            );
-          },
-        ),
+            ),
+          );
+        },
       ),
     );
   }

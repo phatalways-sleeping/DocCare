@@ -85,6 +85,48 @@ final class ProfileInitial extends ProfileState {
       );
 }
 
+final class ProfileOnChange extends ProfileState {
+  const ProfileOnChange({
+    required super.fullName,
+    required super.email,
+    required super.tempBirthday,
+    required super.birthday,
+    required super.phone,
+    required super.specializationId,
+    required super.startWorkingFrom,
+  });
+
+  factory ProfileOnChange.from(ProfileState profileState) => ProfileOnChange(
+        fullName: profileState.fullName,
+        email: profileState.email,
+        tempBirthday: profileState.tempBirthday,
+        birthday: profileState.birthday,
+        phone: profileState.phone,
+        specializationId: profileState.specializationId,
+        startWorkingFrom: profileState.startWorkingFrom,
+      );
+
+  @override
+  ProfileState copyWith({
+    String? fullName,
+    String? email,
+    String? tempBirthday,
+    DateTime? birthday,
+    String? phone,
+    String? specializationId,
+    int? startWorkingFrom,
+  }) =>
+      ProfileOnChange(
+        fullName: fullName ?? super.fullName,
+        email: email ?? super.email,
+        tempBirthday: tempBirthday ?? super.tempBirthday,
+        birthday: birthday ?? super.birthday,
+        phone: phone ?? super.phone,
+        specializationId: specializationId ?? super.specializationId,
+        startWorkingFrom: startWorkingFrom ?? super.startWorkingFrom,
+      );
+}
+
 final class ProfileChangeSuccess extends ProfileState {
   const ProfileChangeSuccess({
     required super.fullName,
@@ -122,49 +164,6 @@ final class ProfileChangeSuccess extends ProfileState {
         email: email ?? super.email,
         birthday: birthday ?? super.birthday,
         tempBirthday: tempBirthday ?? super.tempBirthday,
-        phone: phone ?? super.phone,
-        specializationId: specializationId ?? super.specializationId,
-        startWorkingFrom: startWorkingFrom ?? super.startWorkingFrom,
-      );
-}
-
-final class ProfileRetrieveDataSuccess extends ProfileState {
-  const ProfileRetrieveDataSuccess({
-    required super.fullName,
-    required super.email,
-    required super.tempBirthday,
-    required super.birthday,
-    required super.phone,
-    required super.specializationId,
-    required super.startWorkingFrom,
-  });
-
-  factory ProfileRetrieveDataSuccess.from(ProfileState profileState) =>
-      ProfileRetrieveDataSuccess(
-        fullName: profileState.fullName,
-        email: profileState.email,
-        tempBirthday: profileState.tempBirthday,
-        birthday: profileState.birthday,
-        phone: profileState.phone,
-        specializationId: profileState.specializationId,
-        startWorkingFrom: profileState.startWorkingFrom,
-      );
-
-  @override
-  ProfileState copyWith({
-    String? fullName,
-    String? email,
-    String? tempBirthday,
-    DateTime? birthday,
-    String? phone,
-    String? specializationId,
-    int? startWorkingFrom,
-  }) =>
-      ProfileRetrieveDataSuccess(
-        fullName: fullName ?? super.fullName,
-        email: email ?? super.email,
-        tempBirthday: tempBirthday ?? super.tempBirthday,
-        birthday: birthday ?? super.birthday,
         phone: phone ?? super.phone,
         specializationId: specializationId ?? super.specializationId,
         startWorkingFrom: startWorkingFrom ?? super.startWorkingFrom,

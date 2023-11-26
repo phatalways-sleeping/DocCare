@@ -50,59 +50,110 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
             ),
           );
     } catch (e) {
-      print("Oops");
       emit(ProfileInitial.empty());
       return;
     }
+    emit(state.copyWith());
   }
 
   void _onFullNameInputEvent(
     FullNameInputEvent event,
     Emitter<ProfileState> emit,
   ) {
-    emit(state.copyWith(fullName: event.fullName));
+    emit(
+      ProfileOnChange(
+          fullName: event.fullName,
+          email: state.email,
+          tempBirthday: state.tempBirthday,
+          birthday: state.birthday,
+          phone: state.phone,
+          specializationId: state.specializationId,
+          startWorkingFrom: state.startWorkingFrom),
+    );
   }
 
   void _onEmailInputEvent(
     EmailInputEvent event,
     Emitter<ProfileState> emit,
   ) {
-    emit(state.copyWith(email: event.email));
+    emit(
+      ProfileOnChange(
+          fullName: state.fullName,
+          email: event.email,
+          tempBirthday: state.tempBirthday,
+          birthday: state.birthday,
+          phone: state.phone,
+          specializationId: state.specializationId,
+          startWorkingFrom: state.startWorkingFrom),
+    );
   }
 
   void _onBirthdayInputEvent(
     BirthdayInputEvent event,
     Emitter<ProfileState> emit,
   ) {
-    emit(state.copyWith(tempBirthday: event.tempBirthday));
+    emit(
+      ProfileOnChange(
+          fullName: state.fullName,
+          email: state.email,
+          tempBirthday: event.tempBirthday,
+          birthday: state.birthday,
+          phone: state.phone,
+          specializationId: state.specializationId,
+          startWorkingFrom: state.startWorkingFrom),
+    );
   }
 
   void _onPhoneNumberInputEvent(
     PhoneNumberInputEvent event,
     Emitter<ProfileState> emit,
   ) {
-    emit(state.copyWith(phone: event.phone));
+    emit(
+      ProfileOnChange(
+          fullName: state.fullName,
+          email: state.email,
+          tempBirthday: state.tempBirthday,
+          birthday: state.birthday,
+          phone: event.phone,
+          specializationId: state.specializationId,
+          startWorkingFrom: state.startWorkingFrom),
+    );
   }
 
   void _onSpecializationInputEvent(
     SpecializationInputEvent event,
     Emitter<ProfileState> emit,
   ) {
-    emit(state.copyWith(specializationId: event.specializationId));
+    emit(
+      ProfileOnChange(
+          fullName: state.fullName,
+          email: state.email,
+          tempBirthday: state.tempBirthday,
+          birthday: state.birthday,
+          phone: state.phone,
+          specializationId: event.specializationId,
+          startWorkingFrom: state.startWorkingFrom),
+    );
   }
 
   void _onStartWorkingFromInputEvent(
     StartingYearInputEvent event,
     Emitter<ProfileState> emit,
   ) {
-    emit(state.copyWith(startWorkingFrom: event.startWorkingFrom));
+    emit(ProfileOnChange(
+        fullName: state.fullName,
+        email: state.email,
+        tempBirthday: state.tempBirthday,
+        birthday: state.birthday,
+        phone: state.phone,
+        specializationId: state.specializationId,
+        startWorkingFrom: event.startWorkingFrom));
   }
 
   void _onValidateBirthdayInputEvent(
     ValidateBirthdayInputEvent event,
     Emitter<ProfileState> emit,
   ) {
-    print("Validate Birthday");
     final check = FormValidator.validateDate(event.tempBirthday).isValid;
     if (!check) {
       _notificationManagerService
@@ -126,7 +177,6 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
           );
       return;
     }
-    print("hshdsd");
     final formatter = DateFormat('dd/MM/yyyy');
     final birthday = formatter.parseStrict(
       event.tempBirthday,
