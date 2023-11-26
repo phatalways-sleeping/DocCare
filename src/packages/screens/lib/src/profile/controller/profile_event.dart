@@ -44,6 +44,13 @@ final class PhoneNumberInputEvent extends ProfileEvent {
   List<Object> get props => [phone];
 }
 
+final class InitialEvent extends ProfileEvent {
+  const InitialEvent();
+
+  @override
+  List<Object> get props => [];
+}
+
 final class SpecializationInputEvent extends ProfileEvent {
   const SpecializationInputEvent(this.specializationId);
 

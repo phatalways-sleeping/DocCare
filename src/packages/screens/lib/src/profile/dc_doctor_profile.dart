@@ -2,10 +2,11 @@ import 'package:components/components.dart';
 import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:model_api/model_api.dart';
 import 'package:screens/src/profile/controller/profile_bloc.dart';
 import 'package:utility/utility.dart';
 import 'package:components/src/widgets/pop_up/dc_pop_up_confirm_change.dart';
-import 'package:model_api/src/users/service/supabase_doctor_api_service.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class DCDoctorProfile extends StatefulWidget {
   const DCDoctorProfile({
@@ -51,68 +52,80 @@ class _DCDoctorProfileState extends State<DCDoctorProfile> {
         ),
       ),
       body: BlocProvider(
-        create: (_) => ProfileBloc(NotificationManager.instance),
-        child: CustomScrollView(
-          slivers: <Widget>[
-            SliverList(
-              delegate: SliverChildListDelegate([
-                Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: context.width * 0.05,
-                    vertical: context.height * 0.05,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      DCOutlinedWithHeadingTextFormField(
-                        heading: DefaultTextStyle.merge(
-                          style: context.textTheme.h6RegularPoppins.copyWith(
-                            color: context.colorScheme.tertiary,
+        //Create the initial state with initial event
+        create: (context) => ProfileBloc(
+          widget.doctorID,
+          NotificationManager.instance,
+          SupabaseDoctorApiService(
+            supabase: Supabase.instance.client,
+          ),
+        )..add(
+            const InitialEvent(),
+          ),
+        child: BlocConsumer<ProfileBloc, ProfileState>(
+          listener: (context, state) => {},
+          builder: (context, state) {
+            return CustomScrollView(
+              slivers: <Widget>[
+                SliverList(
+                  delegate: SliverChildListDelegate([
+                    Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: context.width * 0.05,
+                        vertical: context.height * 0.05,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          DCOutlinedWithHeadingTextFormField(
+                            heading: DefaultTextStyle.merge(
+                              style:
+                                  context.textTheme.h6RegularPoppins.copyWith(
+                                color: context.colorScheme.tertiary,
+                              ),
+                              child: const Text('Fullname'),
+                            ),
+                            textAlign: TextAlign.center,
+                            initialText: state.fullName,
+                            textFormFieldConstraints: BoxConstraints(
+                              maxWidth: context.width * 0.9,
+                            ),
+                            contentPadding: EdgeInsets.symmetric(
+                              horizontal: context.width * 0.03,
+                              vertical: context.height * 0.02,
+                            ),
+                            onChanged: (context, controller) => context
+                                .read<ProfileBloc>()
+                                .add(FullNameInputEvent(controller.text)),
                           ),
-                          child: const Text('Fullname'),
-                        ),
-                        textAlign: TextAlign.center,
-                        initialText: 'John Doe',
-                        textFormFieldConstraints: BoxConstraints(
-                          maxWidth: context.width * 0.9,
-                        ),
-                        contentPadding: EdgeInsets.symmetric(
-                          horizontal: context.width * 0.03,
-                          vertical: context.height * 0.02,
-                        ),
-                        onChanged: (context, controller) => context
-                            .read<ProfileBloc>()
-                            .add(FullNameInputEvent(controller.text)),
-                      ),
-                      SizedBox(
-                        height: context.height * 0.02,
-                      ),
-                      DCOutlinedWithHeadingTextFormField(
-                        heading: DefaultTextStyle.merge(
-                          style: context.textTheme.h6RegularPoppins.copyWith(
-                            color: context.colorScheme.tertiary,
+                          SizedBox(
+                            height: context.height * 0.02,
                           ),
-                          child: const Text('Email'),
-                        ),
-                        textAlign: TextAlign.center,
-                        initialText: 'john@gmail.com',
-                        textFormFieldConstraints: BoxConstraints(
-                          maxWidth: context.width * 0.9,
-                        ),
-                        contentPadding: EdgeInsets.symmetric(
-                          horizontal: context.width * 0.03,
-                          vertical: context.height * 0.02,
-                        ),
-                        onChanged: (context, controller) => context
-                            .read<ProfileBloc>()
-                            .add(EmailInputEvent(controller.text)),
-                      ),
-                      SizedBox(
-                        height: context.height * 0.02,
-                      ),
-                      BlocBuilder<ProfileBloc, ProfileState>(
-                        builder: (context, state) {
-                          return DCOutlinedWithHeadingTextFormField(
+                          DCOutlinedWithHeadingTextFormField(
+                            heading: DefaultTextStyle.merge(
+                              style:
+                                  context.textTheme.h6RegularPoppins.copyWith(
+                                color: context.colorScheme.tertiary,
+                              ),
+                              child: const Text('Email'),
+                            ),
+                            textAlign: TextAlign.center,
+                            initialText: state.email,
+                            textFormFieldConstraints: BoxConstraints(
+                              maxWidth: context.width * 0.9,
+                            ),
+                            contentPadding: EdgeInsets.symmetric(
+                              horizontal: context.width * 0.03,
+                              vertical: context.height * 0.02,
+                            ),
+                            onChanged: (context, controller) => context
+                                .read<ProfileBloc>()
+                                .add(EmailInputEvent(controller.text)),
+                          ),
+                          SizedBox(
+                            height: context.height * 0.02,
+                          ),
+                          DCOutlinedWithHeadingTextFormField(
                             heading: DefaultTextStyle.merge(
                               style:
                                   context.textTheme.h6RegularPoppins.copyWith(
@@ -121,7 +134,7 @@ class _DCDoctorProfileState extends State<DCDoctorProfile> {
                               child: const Text('Birthday'),
                             ),
                             textAlign: TextAlign.center,
-                            initialText: '23/07/1999',
+                            initialText: state.birthday.toString(),
                             textFormFieldConstraints: BoxConstraints(
                               maxWidth: context.width * 0.9,
                             ),
@@ -146,110 +159,114 @@ class _DCDoctorProfileState extends State<DCDoctorProfile> {
                                     );
                               }
                             },
-                          );
-                        },
-                      ),
-                      SizedBox(
-                        height: context.height * 0.02,
-                      ),
-                      DCOutlinedWithHeadingTextFormField(
-                        heading: DefaultTextStyle.merge(
-                          style: context.textTheme.h6RegularPoppins.copyWith(
-                            color: context.colorScheme.tertiary,
                           ),
-                          child: const Text('Phone Number'),
-                        ),
-                        textAlign: TextAlign.center,
-                        initialText: '0123456789',
-                        textFormFieldConstraints: BoxConstraints(
-                          maxWidth: context.width * 0.9,
-                        ),
-                        contentPadding: EdgeInsets.symmetric(
-                          horizontal: context.width * 0.03,
-                          vertical: context.height * 0.02,
-                        ),
-                        onChanged: (context, controller) => context
-                            .read<ProfileBloc>()
-                            .add(PhoneNumberInputEvent(controller.text)),
-                      ),
-                      SizedBox(
-                        height: context.height * 0.02,
-                      ),
-                      DCOutlinedWithHeadingTextFormField(
-                        heading: DefaultTextStyle.merge(
-                          style: context.textTheme.h6RegularPoppins.copyWith(
-                            color: context.colorScheme.tertiary,
+                          SizedBox(
+                            height: context.height * 0.02,
                           ),
-                          child: const Text('Specialization'),
-                        ),
-                        textAlign: TextAlign.center,
-                        initialText: 'Psychology',
-                        textFormFieldConstraints: BoxConstraints(
-                          maxWidth: context.width * 0.9,
-                        ),
-                        contentPadding: EdgeInsets.symmetric(
-                          horizontal: context.width * 0.03,
-                          vertical: context.height * 0.02,
-                        ),
-                        onChanged: (context, controller) => context
-                            .read<ProfileBloc>()
-                            .add(SpecializationInputEvent(controller.text)),
-                      ),
-                      SizedBox(
-                        height: context.height * 0.02,
-                      ),
-                      DCOutlinedWithHeadingTextFormField(
-                        heading: DefaultTextStyle.merge(
-                          style: context.textTheme.h6RegularPoppins.copyWith(
-                            color: context.colorScheme.tertiary,
+                          DCOutlinedWithHeadingTextFormField(
+                            heading: DefaultTextStyle.merge(
+                              style:
+                                  context.textTheme.h6RegularPoppins.copyWith(
+                                color: context.colorScheme.tertiary,
+                              ),
+                              child: const Text('Phone Number'),
+                            ),
+                            textAlign: TextAlign.center,
+                            initialText: state.phone,
+                            textFormFieldConstraints: BoxConstraints(
+                              maxWidth: context.width * 0.9,
+                            ),
+                            contentPadding: EdgeInsets.symmetric(
+                              horizontal: context.width * 0.03,
+                              vertical: context.height * 0.02,
+                            ),
+                            onChanged: (context, controller) => context
+                                .read<ProfileBloc>()
+                                .add(PhoneNumberInputEvent(controller.text)),
                           ),
-                          child: const Text('Starting year'),
-                        ),
-                        textAlign: TextAlign.center,
-                        initialText: '1990',
-                        textFormFieldConstraints: BoxConstraints(
-                          maxWidth: context.width * 0.9,
-                        ),
-                        contentPadding: EdgeInsets.symmetric(
-                          horizontal: context.width * 0.03,
-                          vertical: context.height * 0.02,
-                        ),
-                        onChanged: (context, controller) =>
-                            context.read<ProfileBloc>().add(
-                                  StartingYearInputEvent(
-                                    int.parse(controller.text),
-                                  ),
-                                ),
-                      ),
-                      SizedBox(
-                        height: context.height * 0.05,
-                      ),
-                      DCOutlinedButton(
-                        onPressed: (context) {},
-                        padding: EdgeInsets.symmetric(
-                          horizontal: context.width * 0.05,
-                          vertical: 8,
-                        ),
-                        fixedSize:
-                            Size(context.width * 0.9, context.height * 0.07),
-                        borderSide: BorderSide(
-                          color: context.colorScheme.onBackground,
-                        ),
-                        foregroundColor: context.colorScheme.background,
-                        child: DefaultTextStyle.merge(
-                          style: context.textTheme.bodyRegularPoppins.copyWith(
-                            color: context.colorScheme.background,
-                            fontSize: 16,
+                          SizedBox(
+                            height: context.height * 0.02,
                           ),
-                          child: const Text('Change password'),
-                        ),
+                          DCOutlinedWithHeadingTextFormField(
+                            heading: DefaultTextStyle.merge(
+                              style:
+                                  context.textTheme.h6RegularPoppins.copyWith(
+                                color: context.colorScheme.tertiary,
+                              ),
+                              child: const Text('Specialization'),
+                            ),
+                            textAlign: TextAlign.center,
+                            initialText: state.specializationId,
+                            textFormFieldConstraints: BoxConstraints(
+                              maxWidth: context.width * 0.9,
+                            ),
+                            contentPadding: EdgeInsets.symmetric(
+                              horizontal: context.width * 0.03,
+                              vertical: context.height * 0.02,
+                            ),
+                            onChanged: (context, controller) => context
+                                .read<ProfileBloc>()
+                                .add(SpecializationInputEvent(controller.text)),
+                          ),
+                          SizedBox(
+                            height: context.height * 0.02,
+                          ),
+                          DCOutlinedWithHeadingTextFormField(
+                            heading: DefaultTextStyle.merge(
+                              style:
+                                  context.textTheme.h6RegularPoppins.copyWith(
+                                color: context.colorScheme.tertiary,
+                              ),
+                              child: const Text('Starting year'),
+                            ),
+                            textAlign: TextAlign.center,
+                            initialText: state.startWorkingFrom.toString(),
+                            textFormFieldConstraints: BoxConstraints(
+                              maxWidth: context.width * 0.9,
+                            ),
+                            contentPadding: EdgeInsets.symmetric(
+                              horizontal: context.width * 0.03,
+                              vertical: context.height * 0.02,
+                            ),
+                            onChanged: (context, controller) =>
+                                context.read<ProfileBloc>().add(
+                                      StartingYearInputEvent(
+                                        int.parse(controller.text),
+                                      ),
+                                    ),
+                          ),
+                          SizedBox(
+                            height: context.height * 0.05,
+                          ),
+                          DCOutlinedButton(
+                            onPressed: (context) {},
+                            padding: EdgeInsets.symmetric(
+                              horizontal: context.width * 0.05,
+                              vertical: 8,
+                            ),
+                            fixedSize: Size(
+                                context.width * 0.9, context.height * 0.07),
+                            borderSide: BorderSide(
+                              color: context.colorScheme.onBackground,
+                            ),
+                            foregroundColor: context.colorScheme.background,
+                            child: DefaultTextStyle.merge(
+                              style:
+                                  context.textTheme.bodyRegularPoppins.copyWith(
+                                color: context.colorScheme.background,
+                                fontSize: 16,
+                              ),
+                              child: const Text('Change password'),
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ]),
                 ),
-              ]),
-            ),
-          ],
+              ],
+            );
+          },
         ),
       ),
     );
