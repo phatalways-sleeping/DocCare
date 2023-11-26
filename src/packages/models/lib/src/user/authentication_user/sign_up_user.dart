@@ -1,11 +1,13 @@
+// ignore_for_file: public_member_api_docs
+
 import 'package:equatable/equatable.dart';
 import 'package:models/src/user/authentication_user/authentication_user_service.dart';
 
-/// [SignupUser] is the user for registration
-final class SignupUser extends Equatable
+/// [SignUpUser] is the user for registration
+final class SignUpUser extends Equatable
     implements RegistrationAuthenticationUserService {
   /// Constructor
-  const SignupUser(
+  const SignUpUser(
     this._email,
     this._password,
     this._birthday,
@@ -13,8 +15,8 @@ final class SignupUser extends Equatable
     this._phone,
   );
 
-  factory SignupUser.from(RegistrationAuthenticationUserService user) =>
-      SignupUser(
+  factory SignUpUser.from(RegistrationAuthenticationUserService user) =>
+      SignUpUser(
         user.email,
         user.password,
         user.birthday,
@@ -46,14 +48,14 @@ final class SignupUser extends Equatable
   @override
   List<Object?> get props => [email, password, birthday, fullname, phone];
 
-  SignupUser copyWith({
+  SignUpUser copyWith({
     String? email,
     String? password,
     DateTime? birthday,
     String? fullname,
     String? phone,
   }) {
-    return SignupUser(
+    return SignUpUser(
       email ?? this.email,
       password ?? this.password,
       birthday ?? this.birthday,

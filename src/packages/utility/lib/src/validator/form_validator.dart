@@ -3,6 +3,7 @@ import 'package:utility/src/validator/field_validation_response.dart';
 /// [FormValidator] is a class that contains all the form validation methods.
 class FormValidator {
   const FormValidator._();
+
   /// [validateEmail] is a method that validates the email address.
   /// It returns a [FieldValidationResponse]
   static FieldValidationResponse validateEmail(String email) {
@@ -130,7 +131,8 @@ class FormValidator {
 
   /// [validateDate] is a method that validates the date.
   /// It returns a [FieldValidationResponse]
-  static FieldValidationResponse validateDate(String date, {
+  static FieldValidationResponse validateDate(
+    String date, {
     bool birthDateValidation = true,
   }) {
     if (date.isEmpty) {
@@ -145,14 +147,37 @@ class FormValidator {
         field: 'Date',
       );
     }
+    final dateParts = date.split('/');
+    final day = int.parse(dateParts[0]);
+    final month = int.parse(dateParts[1]);
+    final year = int.parse(dateParts[2]);
+    const inValidDateResponse = FieldValidationResponse(
+      isValid: false,
+      cause: 'Date must be in the format dd/mm/yyyy',
+      field: 'Date',
+    );
+
+    if (month < 1 || month > 12 || day < 1 || day > 31) {
+      return inValidDateResponse;
+    }
+
+    // Check for valid day in February
+    if (month == 2) {
+      final isLeapYear = year % 4 == 0 && (year % 100 != 0 || year % 400 == 0);
+      if (isLeapYear && day > 29) {
+        return inValidDateResponse;
+      } else if (!isLeapYear && day > 28) {
+        return inValidDateResponse;
+      }
+    }
+
+    // Check for valid day in April, June, September, and November
+    if ((month == 4 || month == 6 || month == 9 || month == 11) && day > 30) {
+      return inValidDateResponse;
+    }
 
     if (birthDateValidation) {
       try {
-        final dateParts = date.split('/');
-        final day = int.parse(dateParts[0]);
-        final month = int.parse(dateParts[1]);
-        final year = int.parse(dateParts[2]);
-
         final processDate = DateTime(year, month, day);
 
         if (processDate.isAfter(DateTime.now())) {

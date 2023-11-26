@@ -162,6 +162,8 @@ class BasePopup extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   //use dc button to make it easier to customize
                   child: DCButton(
+                    widthFactor: buttonsWidth,
+                    heightFactor: buttonsHeight,
                     text: buttonsText[index],
                     textStyle: buttonsTextStyle,
                     textSize: buttonsTextSize,
