@@ -22,9 +22,7 @@ class SupabaseAdminControlStaffApiService
     int startWorkingFrom,
     double rating,
     int numberOfRates,
-    List<String> dayOfWeek,
-    List<int> startPeriodId,
-    List<int> endPeriodId,
+    Map<String, List<int>> dayOfWeek,
   ) async {
     try {
       var doctorId = uuid.v1();
@@ -42,8 +40,6 @@ class SupabaseAdminControlStaffApiService
       await supabase.rpc('sp_add_working_shift', params: {
         'dayofweek': dayOfWeek,
         'doctorid': doctorId,
-        'endperiodid': endPeriodId,
-        'startperiodid': startPeriodId,
       });
     } on AuthException catch (e) {
       // Handle the exception appropriately, e.g., log or throw a custom exception.
