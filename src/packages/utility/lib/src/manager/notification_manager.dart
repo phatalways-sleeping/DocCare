@@ -52,8 +52,8 @@ class NotificationManager implements NotificationManagerService {
         return GetIt.instance<LoginNotificationBuilder>();
       case NotificationType.dismissed:
         return GetIt.instance<DismissedNotificationBuilder>();
-      case NotificationType.adminCreateStaff:
-        return GetIt.instance<AdminCreateStaffNotificationBuilder>();
+      case NotificationType.adminControlStaff:
+        return GetIt.instance<AdminControlStaffNotificationBuilder>();
     }
   }
 

@@ -8,8 +8,8 @@ enum NotificationType {
   /// [dismissed] is the enum for dismissed notification type.
   dismissed,
 
-  /// [adminCreateStaff] is the enum for admin create staff notification type.
-  adminCreateStaff,
+  /// [adminControlStaff] is the enum for admin Control staff notification type.
+  adminControlStaff,
 }
 
 /// [NotificationBuilder] is the abstract class for all notification states.
@@ -77,9 +77,9 @@ class LoginNotificationBuilder extends NotificationBuilder {
   }
 }
 
-class AdminCreateStaffNotificationBuilder extends NotificationBuilder {
-  /// Constructor for [AdminCreateStaffNotificationBuilder].
-  AdminCreateStaffNotificationBuilder();
+class AdminControlStaffNotificationBuilder extends NotificationBuilder {
+  /// Constructor for [AdminControlStaffNotificationBuilder].
+  AdminControlStaffNotificationBuilder();
 
   /// [title] is the title of the notification.
   late Widget title;
