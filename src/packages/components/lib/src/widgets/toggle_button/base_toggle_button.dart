@@ -34,6 +34,7 @@ class BaseToggleButton extends StatefulWidget {
 }
 
 class _BaseToggleButtonState extends State<BaseToggleButton> {
+  late var selectItems = widget.selectedElements;
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
@@ -56,11 +57,11 @@ class _BaseToggleButtonState extends State<BaseToggleButton> {
               onPressed: (int index) {
                 setState(() {
                   // Toggle the selected state of the button that is tapped.
-                  for (int i = 0; i < widget.selectedElements.length; i++) {
-                    widget.selectedElements[i] = (i == index);
+                  for (int i = 0; i < selectItems.length; i++) {
+                    selectItems[i] = (i == index);
                   }
                   // Call onChanged callback with the selected element
-                  if (widget.selectedElements[index]) {
+                  if (selectItems[index]) {
                     widget.onChanged?.call(
                       context,
                       TextEditingController(text: widget.elements[index]),
@@ -78,7 +79,7 @@ class _BaseToggleButtonState extends State<BaseToggleButton> {
                 minWidth: 80.0,
               ),
               fillColor: Theme.of(context).colorScheme.error,
-              isSelected: widget.selectedElements,
+              isSelected: selectItems,
               children: widget.elements
                   .map((element) => Padding(
                         padding: const EdgeInsets.all(8.0),
