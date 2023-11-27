@@ -13,9 +13,7 @@ abstract interface class AdminControlStaffApiService {
     int startWorkingFrom,
     double rating,
     int numberOfRates,
-    List<String> dayOfWeek,
-    List<int> startPeriodID,
-    List<int> endPeriodID,
+    Map<String, List<int>> dayOfWeek,
   );
 
   /// [signUpReceptionist] is the method for sign up Receptionist

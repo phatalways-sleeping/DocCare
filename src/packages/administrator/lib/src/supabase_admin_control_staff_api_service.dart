@@ -32,9 +32,7 @@ class SupabaseAdminControlStaffApiService
     int startWorkingFrom,
     double rating,
     int numberOfRates,
-    List<String> dayOfWeek,
-    List<int> startPeriodID,
-    List<int> endPeriodID,
+    Map<String, List<int>> dayOfWeek,
   ) async {
     try {
       var doctorID = uuid.v1();
@@ -49,12 +47,17 @@ class SupabaseAdminControlStaffApiService
         'specializationid': specializationId,
         'startworkingfrom': startWorkingFrom,
       });
-      await supabase.rpc('sp_add_working_shift', params: {
-        'dayofweek': dayOfWeek,
-        'doctorid': doctorID,
-        'endperiodid': endPeriodID,
-        'startperiodid': startPeriodID,
-      });
+      for (var entry in dayOfWeek.entries) {
+        // entry.key is the dayofweek
+        // entry.value[0] is the endperiodid
+        // entry.value[1] is the startperiodid
+        await supabase.rpc('sp_add_working_shift', params: {
+          'dayofweek': entry.key,
+          'doctorid': doctorID,
+          'endperiodid': entry.value[0],
+          'startperiodid': entry.value[1],
+        });
+      }
     } on AuthException catch (e) {
       throw Exception(e);
     }
