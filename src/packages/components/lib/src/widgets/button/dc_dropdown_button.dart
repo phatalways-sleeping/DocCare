@@ -2,7 +2,6 @@ import 'package:components/components.dart';
 import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
 
-
 class DCDropdownButton<T> extends StatefulWidget {
   final List<T> items;
   final double? dropdownWidth;
@@ -19,6 +18,9 @@ class DCDropdownButton<T> extends StatefulWidget {
   final String? errorText;
   final TextStyle? textStyle;
   final Color? textColor;
+  final String? label;
+  final void Function(BuildContext context, TextEditingController controller,
+      T? selectedValue)? onItemSelected;
 
   const DCDropdownButton({
     required this.items,
@@ -36,6 +38,8 @@ class DCDropdownButton<T> extends StatefulWidget {
     this.textStyle,
     this.requestFocusOnTap, // defualt is true
     this.textColor,
+    this.onItemSelected,
+    this.label,
     Key? key,
   }) : super(key: key);
 
@@ -45,10 +49,13 @@ class DCDropdownButton<T> extends StatefulWidget {
 
 class _DropdownButtonState<T> extends State<DCDropdownButton<T>> {
   T? dropdownValue;
+  final TextEditingController _controller = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     dropdownValue = widget.items.first;
     return DropdownMenu<T>(
+      label: Text(widget.label ?? ""),
       width: widget.dropdownWidth ?? 200.0,
       enabled: widget.enabled ?? true,
       menuHeight: widget.menuHeight,
@@ -77,6 +84,10 @@ class _DropdownButtonState<T> extends State<DCDropdownButton<T>> {
         setState(() {
           dropdownValue = value!;
         });
+
+        if (widget.onItemSelected != null) {
+          widget.onItemSelected!(context, _controller, value);
+        }
       },
       dropdownMenuEntries: widget.items.map<DropdownMenuEntry<T>>((T value) {
         return DropdownMenuEntry<T>(
