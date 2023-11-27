@@ -16,12 +16,9 @@ enum NotificationType {
 }
 
 /// [NotificationBuilder] is the abstract class for all notification states.
-sealed class NotificationBuilder {
+sealed class NotificationBuilder with ManagerStateMixin {
   /// Constructor for [NotificationBuilder].
   const NotificationBuilder();
-
-  /// [build] is the method to build the dialog.
-  Widget build(BuildContext context);
 
   /// [wrapWith] is the method to wrap the notification with
   void wrapWith({required Widget title, required Widget message});
@@ -115,7 +112,8 @@ class ErrorNotificationBuilder extends NotificationBuilder {
     );
   }
 }
-
+/// [SignUpNotificationBuilder] is the class for
+/// sign up notification state.
 class SignUpNotificationBuilder extends NotificationBuilder {
   /// Constructor for [SignUpNotificationBuilder].
   SignUpNotificationBuilder();
