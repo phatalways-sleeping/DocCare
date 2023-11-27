@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 /// {@template DocCareLightColorScheme}
 /// Packages for components
 /// {@endtemplate}
