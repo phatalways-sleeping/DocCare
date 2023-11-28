@@ -109,60 +109,27 @@ final class ChangePasswordFailure extends ChangePasswordState {
       );
 }
 
-final class ChangePasswordError extends ChangePasswordState {
-  const ChangePasswordError({
+final class ChangePasswordValid extends ChangePasswordState {
+  const ChangePasswordValid({
     required super.email,
-    required this.message,
   });
 
-  factory ChangePasswordError.from(
+  factory ChangePasswordValid.from(
     ChangePasswordState state,
-    String message,
   ) =>
-      ChangePasswordError(
+      ChangePasswordValid(
         email: state.email,
-        message: message,
       );
 
   ChangePasswordState toggleBackToInitial() => ChangePasswordInitial.input(
         email: email,
       );
 
-  final String message;
-
   @override
   ChangePasswordState copyWith({
     String? email,
   }) =>
-      ChangePasswordError(
+      ChangePasswordValid(
         email: email ?? this.email,
-        message: message,
-      );
-}
-
-final class ChangePasswordCooldown extends ChangePasswordState {
-  const ChangePasswordCooldown({
-    required super.email,
-    required this.start,
-  });
-
-  factory ChangePasswordCooldown.from(
-    ChangePasswordState state,
-    int start,
-  ) =>
-      ChangePasswordCooldown(
-        email: state.email,
-        start: start,
-      );
-
-  final int start;
-
-  @override
-  ChangePasswordState copyWith({
-    String? email,
-  }) =>
-      ChangePasswordCooldown(
-        email: email ?? this.email,
-        start: start,
       );
 }

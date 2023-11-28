@@ -40,7 +40,9 @@ class ChangePasswordBloc
     ValidateEmailEvent event,
     Emitter<ChangePasswordState> emit,
   ) {
-    print('current email: ${state.email}');
+    if (event.email == '') {
+      return;
+    }
     final check = FormValidator.validateEmail(event.email);
     if (!check.isValid) {
       _notificationManagerService.show<void>(
@@ -54,10 +56,10 @@ class ChangePasswordBloc
           style: TextStyle(fontSize: 14),
         ),
       );
-      emit(ChangePasswordError.from(state, 'Please enter a valid email'));
+      emit(ChangePasswordInitial.input(email: state.email));
       return;
     }
-    emit(ChangePasswordInitial.input(email: state.email));
+    emit(ChangePasswordValid.from(state));
   }
 
   Future<void> _onChangePasswordButtonPressedEvent(
@@ -89,7 +91,7 @@ class ChangePasswordBloc
           )
           .then(
             (value) => emit(
-              (state as ChangePasswordLoading).toggleBackToInitial(),
+              ChangePasswordValid.from(state),
             ),
           );
     }

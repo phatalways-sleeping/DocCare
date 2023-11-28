@@ -127,22 +127,39 @@ class _DCChangePasswordScreenState extends State<DCChangePasswordScreen> {
                                   style: context.textTheme.h1RegularPoppins
                                       .copyWith(fontSize: 16),
                                 );
-                              } else if (state is ChangePasswordError) {
+                              } else if (state is ChangePasswordInitial) {
                                 // When there is an error
-                                return DCButton(
-                                  text: 'Email is not valid',
+                                return DCFilledButton(
                                   onPressed: (context) {},
+                                  child: Text(
+                                    'Email is not valid',
+                                    style: context.textTheme.h1RegularPoppins
+                                        .copyWith(
+                                      fontSize: 16,
+                                      color: context.colorScheme.onSecondary,
+                                    ),
+                                  ),
                                 );
                               } else {
-                                // Default state - button is enabled
-                                return DCButton(
-                                  text: 'Send reset password link',
+                                // De1ult state - button is enabled
+                                return DCFilledButton(
                                   onPressed: (context) {
+                                    if (state.email == '') {
+                                      return;
+                                    }
                                     context.read<ChangePasswordBloc>().add(
-                                          ChangePasswordButtonPressedEvent(),
+                                          const ChangePasswordButtonPressedEvent(),
                                         );
                                     startTimer(); // Start or restart the timer
                                   },
+                                  child: Text(
+                                    'Send Password Reset Link',
+                                    style: context.textTheme.h1RegularPoppins
+                                        .copyWith(
+                                      fontSize: 16,
+                                      color: context.colorScheme.onSecondary,
+                                    ),
+                                  ),
                                 );
                               }
                             },
