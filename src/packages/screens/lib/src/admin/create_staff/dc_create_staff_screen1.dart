@@ -16,10 +16,8 @@ class DCCreateStaffScreen1 extends StatefulWidget {
 }
 
 class _DCCreateStaffScreen1State extends State<DCCreateStaffScreen1> {
-  String selectedRole = 'Doctor';
   @override
   Widget build(BuildContext context) {
-    // TODO(phucchuhoang): change appBar to custom app bar
     return Scaffold(
       appBar: const DCAdminHeaderBar(
         headerBarTitle: ('Create staff'),
@@ -76,7 +74,7 @@ class BodyWidget extends StatelessWidget {
                 keyboardType: TextInputType.emailAddress,
                 onChanged: (context, controller) => context
                     .read<CreateStaffBloc>()
-                    .add(FullNameInputEvent(controller.text)),
+                    .add(EmailInputEvent(controller.text)),
               ),
               const SizedBox(height: 16),
               DCOutlinedWithHeadingTextFormField(
