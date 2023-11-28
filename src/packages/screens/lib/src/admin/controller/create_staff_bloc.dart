@@ -3,7 +3,9 @@ import 'package:administrator/administrator.dart';
 import 'package:auth_api/auth_api.dart' show AuthException;
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'dart:async';
 // ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
 import 'package:utility/utility.dart'
@@ -37,6 +39,13 @@ class CreateStaffBloc extends Bloc<CreateStaffEvent, CreateStaffState> {
   final NotificationManagerService _notificationManagerService;
 
   final AdminControlStaffApiService _supabaseAdminService;
+
+  BuildContext? _context;
+
+  void setContext(BuildContext context) {
+    _context = context;
+  }
+
   void _onFullNameInputEvent(
     FullNameInputEvent event,
     Emitter<CreateStaffState> emit,
@@ -62,9 +71,41 @@ class CreateStaffBloc extends Bloc<CreateStaffEvent, CreateStaffState> {
     BirthdayInputEvent event,
     Emitter<CreateStaffState> emit,
   ) {
-    final formatter = DateFormat('dd/mm/yyyy');
-    final birthday = formatter.parse(event.birthday);
-    emit(state.copyWith(birthday: birthday));
+    const duration = Duration(seconds: 1); // Adjust the duration as needed
+    Timer? _timer;
+    // Cancel the previous timer, if any
+    _timer = Timer(duration, () {
+      try {
+        final formatter = DateFormat('dd/MM/yyyy');
+        final birthday = formatter.parse(event.birthday);
+        emit(state.copyWith(birthday: birthday));
+      } catch (e) {
+        // Handle parsing error, e.g., invalid date format
+        _showErrorDialog();
+      }
+    });
+  }
+
+  void _showErrorDialog() {
+    if (_context != null) {
+      showDialog(
+        context: _context!,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Error'),
+            content: Text('Please enter the date in the format dd/MM/yyyy'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+    }
   }
 
   void _onPhoneInputEvent(

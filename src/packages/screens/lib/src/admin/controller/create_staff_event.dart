@@ -109,24 +109,6 @@ final class DayOfWeekInputEvent extends CreateStaffEvent {
   List<Object> get props => [dayOfWeek];
 }
 
-final class StartPeriodIDInputEvent extends CreateStaffEvent {
-  const StartPeriodIDInputEvent(this.startPeriodID);
-
-  final List<int> startPeriodID;
-
-  @override
-  List<Object> get props => [startPeriodID];
-}
-
-final class EndPeriodIDInputEvent extends CreateStaffEvent {
-  const EndPeriodIDInputEvent(this.endPeriodID);
-
-  final List<int> endPeriodID;
-
-  @override
-  List<Object> get props => [endPeriodID];
-}
-
 final class CreateStaffButtonPressedEvent extends CreateStaffEvent {
   const CreateStaffButtonPressedEvent();
 }
