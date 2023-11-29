@@ -1,8 +1,12 @@
 // ignore_for_file: public_member_api_docs, inference_failure_on_function_return_type
 
+import 'package:administrator/administrator.dart';
 import 'package:components/components.dart';
 import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:screens/src/admin/controller/create_staff_bloc.dart';
+import 'package:utility/utility.dart';
 
 class DCCreateStaffScreen2 extends StatefulWidget {
   @override
@@ -79,16 +83,40 @@ class _DCCreateStaffScreen2State extends State<DCCreateStaffScreen2> {
           itemBuilder: (_, index) {
             return Padding(
               padding: EdgeInsets.all(10.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Container(
-                    margin: EdgeInsets.only(left: 10.0),
-                    child: Text("${index + 1} : ${data[index]}"),
-                  ),
-                  Divider()
-                ],
-              ),
+              child: BlocBuilder<CreateStaffBloc, CreateStaffState>(
+                  builder: (context, state) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Container(
+                      margin: EdgeInsets.only(left: 10.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          if (index == 0)
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("Full name: ${state.fullName}"),
+                                Text("Email: ${state.email}"),
+                                Text("Password: ${state.password}"),
+                                Text(
+                                    "Birthday: ${state.birthday?.toString() ?? ''}"),
+                                Text("Phone Number: ${state.phone}"),
+                                Text("Role: ${state.role}"),
+                                if (state.role == 'Doctor')
+                                  Text(
+                                      "Specialization: ${state.specializationId}"),
+                              ],
+                            ),
+                          Text("${index + 1} : ${data[index]}"),
+                        ],
+                      ),
+                    ),
+                    Divider()
+                  ],
+                );
+              }),
             );
           },
         ),
@@ -103,34 +131,54 @@ class _DCCreateStaffScreen2State extends State<DCCreateStaffScreen2> {
       ),
     );
 
-    Widget submitButton = Container(
+    Widget nextButton = Container(
       child: ElevatedButton(
         onPressed: submitData,
         child: const Padding(
           padding: EdgeInsets.all(16.0),
-          child: Text('Submit Data'),
+          child: Text('Next'),
+        ),
+      ),
+    );
+
+    Widget submitButton = Container(
+      child: ElevatedButton(
+        onPressed: () {
+          context.read<CreateStaffBloc>().add(
+                const CreateStaffButtonPressedEvent(),
+              );
+        },
+        child: const Padding(
+          padding: EdgeInsets.all(16.0),
+          child: Text('Submit'),
         ),
       ),
     );
 
     return MaterialApp(
-      home: Scaffold(
-        appBar: const DCAdminHeaderBar(
-          headerBarTitle: ('Add working shift'),
-          allowNavigationBack: true,
+      home: BlocProvider(
+        create: (_) => CreateStaffBloc(
+          NotificationManager.instance,
+          SupabaseAdminControlStaffApiService.instance,
         ),
-        body: Container(
-          margin: EdgeInsets.all(10.0),
-          child: Column(
-            children: <Widget>[
-              if (data.isEmpty) dynamicTextField else result,
-              if (data.isEmpty) submitButton else Container(),
-            ],
+        child: Scaffold(
+          appBar: const DCAdminHeaderBar(
+            headerBarTitle: ('Add working shift'),
+            allowNavigationBack: true,
           ),
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: addDynamic,
-          child: floatingIcon,
+          body: Container(
+            margin: EdgeInsets.all(10.0),
+            child: Column(
+              children: <Widget>[
+                if (data.isEmpty) dynamicTextField else result,
+                if (data.isEmpty) nextButton else submitButton,
+              ],
+            ),
+          ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: addDynamic,
+            child: floatingIcon,
+          ),
         ),
       ),
     );
