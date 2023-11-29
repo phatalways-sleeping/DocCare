@@ -1,4 +1,4 @@
-// ignore_for_file: public_member_api_docs
+// ignore_for_file: public_member_api_docs, inference_failure_on_function_invocation
 import 'package:administrator/administrator.dart';
 import 'package:auth_api/auth_api.dart' show AuthException;
 import 'package:bloc/bloc.dart';
@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'dart:async';
 // ignore: depend_on_referenced_packages
-import 'package:intl/intl.dart';
 import 'package:utility/utility.dart'
     show NotificationManagerService, NotificationType;
 
@@ -71,19 +70,8 @@ class CreateStaffBloc extends Bloc<CreateStaffEvent, CreateStaffState> {
     BirthdayInputEvent event,
     Emitter<CreateStaffState> emit,
   ) {
-    const duration = Duration(seconds: 1); // Adjust the duration as needed
-    Timer? _timer;
+// Adjust the duration as needed
     // Cancel the previous timer, if any
-    _timer = Timer(duration, () {
-      try {
-        final formatter = DateFormat('dd/MM/yyyy');
-        final birthday = formatter.parse(event.birthday);
-        emit(state.copyWith(birthday: birthday));
-      } catch (e) {
-        // Handle parsing error, e.g., invalid date format
-        _showErrorDialog();
-      }
-    });
   }
 
   void _showErrorDialog() {
