@@ -35,15 +35,14 @@ sealed class ProfileState extends Equatable {
 }
 
 final class ProfileInitial extends ProfileState {
-  factory ProfileInitial.empty() {
-    return ProfileInitial.input(
-      fullName: '',
-      email: '',
-      tempBirthday: '',
-      birthday: DateTime.now(),
-      phone: '',
-    );
-  }
+  ProfileInitial.empty()
+      : super(
+          fullName: '',
+          email: '',
+          tempBirthday: '',
+          birthday: DateTime.now(),
+          phone: '',
+        );
 
   const ProfileInitial.input({
     required super.fullName,
@@ -71,17 +70,16 @@ final class ProfileInitial extends ProfileState {
 }
 
 final class DoctorProfileInitial extends ProfileState {
-  factory DoctorProfileInitial.empty() {
-    return DoctorProfileInitial.input(
-      fullName: '',
-      email: '',
-      tempBirthday: '',
-      birthday: DateTime.now(),
-      phone: '',
-      specializationId: '',
-      startWorkingFrom: 0,
-    );
-  }
+  DoctorProfileInitial.empty({
+    this.specializationId = '',
+    this.startWorkingFrom = 0,
+  }) : super(
+          fullName: '',
+          email: '',
+          tempBirthday: '',
+          birthday: DateTime.now(),
+          phone: '',
+        );
 
   const DoctorProfileInitial.input({
     required super.fullName,
@@ -89,9 +87,9 @@ final class DoctorProfileInitial extends ProfileState {
     required super.tempBirthday,
     required super.birthday,
     required super.phone,
-    required this.specializationId,
-    required this.startWorkingFrom,
-  });
+    this.specializationId = '',
+    this.startWorkingFrom = 0,
+  }) : super();
 
   final String specializationId;
   final int startWorkingFrom;

@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/widgets.dart';
@@ -21,14 +19,14 @@ String getIDType(String ID) {
     return 'RECEPTIONIST';
 }
 
-class ProfileBloc extends Bloc<ProfileEvent, ProfileInitial> {
+class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   ProfileBloc(
     this.ID,
     this._notificationManagerService,
     this._supabaseDoctorApiService,
     this._supabasePatientApiService,
     this._supabaseReceptionistApiService,
-  ) : super(ProfileInitial.empty()) {
+  ) : super(DoctorProfileInitial.empty()) {
     on<InitialEvent>(_onInitialEvent);
     on<FullNameInputEvent>(_onFullNameInputEvent);
     on<EmailInputEvent>(_onEmailInputEvent);
@@ -52,10 +50,12 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileInitial> {
     InitialEvent event,
     Emitter<ProfileState> emit,
   ) async {
+    print('First initial event');
     try {
       if (getIDType(ID) == 'DOCTOR') {
+        print('Initial event');
         emit(DoctorProfileInitial.empty());
-        await _supabaseDoctorApiService?.getUser(ID).then(
+        await _supabaseDoctorApiService.getUser(ID).then(
               (value) => emit(
                 DoctorProfileInitial.input(
                   fullName: value.fullname,
@@ -70,7 +70,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileInitial> {
             );
       } else if (getIDType(ID) == 'CUSTOMER') {
         emit(ProfileInitial.empty());
-        await _supabasePatientApiService?.getUser(ID).then(
+        await _supabasePatientApiService.getUser(ID).then(
               (value) => emit(
                 ProfileInitial.input(
                   fullName: value.fullname,
