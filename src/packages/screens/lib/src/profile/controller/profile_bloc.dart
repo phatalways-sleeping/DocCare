@@ -257,7 +257,6 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       }
       //print('Update in process');
       if (getIDType(ID) == 'DOCTOR') {
-        print(state);
         await Future.wait([
           _supabaseDoctorApiService.updateFullName(
             ID,
@@ -344,8 +343,12 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
           ),
         )
         .then(
-          (value) =>
-              emit((state as DoctorProfileLoading).toggleBackToInitial()),
+          (value) => {
+            if (getIDType(ID) == 'DOCTOR')
+              emit((state as DoctorProfileLoading).toggleBackToInitial())
+            else
+              emit((state as ProfileLoading).toggleBackToInitial()),
+          },
         );
   }
 
@@ -435,8 +438,12 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
             ),
           )
           .then(
-            (value) =>
-                emit((state as DoctorProfileOnChange).toggleBackToInitial()),
+            (value) => {
+              if (getIDType(ID) == 'DOCTOR')
+                emit((state as DoctorProfileOnChange).toggleBackToInitial())
+              else
+                emit((state as ProfileOnChange).toggleBackToInitial()),
+            },
           );
       return;
     }
