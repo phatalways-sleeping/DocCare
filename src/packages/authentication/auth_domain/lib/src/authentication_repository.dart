@@ -1,9 +1,3 @@
-import 'package:models/models.dart'
-    show
-        AuthenticationUserService,
-        ChangePasswordUserService,
-        RegistrationAuthenticationUserService;
-
 /// {@template auth_domain}
 /// Package for authentication repository
 /// {@endtemplate}
@@ -12,16 +6,19 @@ abstract interface class AuthenticationRepositoryService {
   const AuthenticationRepositoryService();
 
   /// [login] is the method for login
-  Future<void> login(AuthenticationUserService user);
+  Future<void> login(String email, String password);
 
   /// [signUp] is the method for sign up
-  Future<void> signUp(RegistrationAuthenticationUserService user);
+  Future<void> signUp(
+    String email,
+    String password,
+  );
 
   /// [sendCode] is the method for send code
-  Future<void> sendCode(AuthenticationUserService user);
+  Future<void> sendCode(String email);
 
   /// [changePassword] is the method for change password
-  Future<void> changePassword(ChangePasswordUserService user);
+  Future<void> changePassword(String password);
 
   /// [logout] is the method for logout
   Future<void> logout();
