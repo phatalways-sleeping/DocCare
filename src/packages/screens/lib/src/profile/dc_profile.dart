@@ -56,7 +56,8 @@ class _DCProfileState extends State<DCProfile> {
                   color: Colors.black,
                 ),
                 onPressed: () {
-                  if (state is ProfileInitial) {
+                  if (state is ProfileInitial ||
+                      state is DoctorProfileInitial) {
                     Navigator.of(context).pop();
                     return;
                   }

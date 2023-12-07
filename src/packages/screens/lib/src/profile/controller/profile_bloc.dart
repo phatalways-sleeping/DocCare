@@ -50,10 +50,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     InitialEvent event,
     Emitter<ProfileState> emit,
   ) async {
-    print('First initial event');
     try {
       if (getIDType(ID) == 'DOCTOR') {
-        print('Initial event');
         emit(DoctorProfileInitial.empty());
         await _supabaseDoctorApiService.getUser(ID).then(
               (value) => emit(
@@ -83,7 +81,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
             );
       } else if (getIDType(ID) == 'RECEPTIONIST') {
         emit(ProfileInitial.empty());
-        await _supabaseReceptionistApiService?.getUser(ID).then(
+        await _supabaseReceptionistApiService.getUser(ID).then(
               (value) => emit(
                 ProfileInitial.input(
                   fullName: value.fullname,
