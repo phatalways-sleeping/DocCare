@@ -130,9 +130,15 @@ class _DCChangePasswordScreenState extends State<DCChangePasswordScreen> {
                               } else if (state is ChangePasswordInitial) {
                                 // When there is an error
                                 return DCFilledButton(
+                                  fixedSize: Size(
+                                    context.width * 0.8,
+                                    context.height * 0.05,
+                                  ),
                                   onPressed: (context) {},
                                   child: Text(
-                                    'Email is not valid',
+                                    state.email.isEmpty
+                                        ? 'Enter Email'
+                                        : 'Invalid Email',
                                     style: context.textTheme.h1RegularPoppins
                                         .copyWith(
                                       fontSize: 16,
@@ -144,7 +150,7 @@ class _DCChangePasswordScreenState extends State<DCChangePasswordScreen> {
                                 // De1ult state - button is enabled
                                 return DCFilledButton(
                                   onPressed: (context) {
-                                    if (state.email == '') {
+                                    if (state.email.isEmpty) {
                                       return;
                                     }
                                     context.read<ChangePasswordBloc>().add(
