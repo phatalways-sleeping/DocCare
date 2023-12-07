@@ -174,13 +174,8 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
       emit(SignUpLoading.from(state));
       await _authenticationRepositoryService
           .signUp(
-            SignUpUser(
-              state.email,
-              state.password,
-              state.birthday,
-              state.fullName,
-              state.phone,
-            ),
+            state.email,
+            state.password,
           )
           .then((value) => emit(SignUpSuccess.from(state)));
     } on AuthException catch (e) {
