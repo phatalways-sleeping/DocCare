@@ -118,7 +118,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
           birthday: state.birthday,
           phone: state.phone,
           specializationId: (state as DoctorProfileInitial).specializationId,
-          startWorkingFrom: (state as DoctorProfileOnChange).startWorkingFrom,
+          startWorkingFrom: (state as DoctorProfileInitial).startWorkingFrom,
         ),
       );
     } else {
@@ -147,7 +147,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
           birthday: state.birthday,
           phone: event.phone,
           specializationId: (state as DoctorProfileInitial).specializationId,
-          startWorkingFrom: (state as DoctorProfileOnChange).startWorkingFrom,
+          startWorkingFrom: (state as DoctorProfileInitial).startWorkingFrom,
         ),
       );
     } else {
@@ -176,7 +176,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
           birthday: state.birthday,
           phone: state.phone,
           specializationId: (state as DoctorProfileInitial).specializationId,
-          startWorkingFrom: (state as DoctorProfileOnChange).startWorkingFrom,
+          startWorkingFrom: (state as DoctorProfileInitial).startWorkingFrom,
         ),
       );
     } else {
@@ -257,48 +257,49 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       }
       //print('Update in process');
       if (getIDType(ID) == 'DOCTOR') {
+        print(state);
         await Future.wait([
-          _supabaseDoctorApiService?.updateFullName(
+          _supabaseDoctorApiService.updateFullName(
             ID,
             state.fullName,
           ),
-          _supabaseDoctorApiService?.updateEmail(
+          _supabaseDoctorApiService.updateEmail(
             ID,
             state.email,
           ),
-          _supabaseDoctorApiService?.updateBirthday(
+          _supabaseDoctorApiService.updateBirthday(
             ID,
             state.birthday,
           ),
-          _supabaseDoctorApiService?.updatePhone(
+          _supabaseDoctorApiService.updatePhone(
             ID,
             state.phone,
           ),
-          _supabaseDoctorApiService?.updateSpecialty(
+          _supabaseDoctorApiService.updateSpecialty(
             ID,
-            (state as DoctorProfileOnChange).specializationId,
+            (state as DoctorProfileLoading).specializationId,
           ),
-          _supabaseDoctorApiService?.updateStartWorkingFrom(
+          _supabaseDoctorApiService.updateStartWorkingFrom(
             ID,
-            (state as DoctorProfileOnChange).startWorkingFrom,
+            (state as DoctorProfileLoading).startWorkingFrom,
           ),
         ] as Iterable<Future>);
       } else if (getIDType(ID) == 'CUSTOMER') {
         await Future.wait(
           [
-            _supabasePatientApiService?.updateFullName(
+            _supabasePatientApiService.updateFullName(
               ID,
               state.fullName,
             ),
-            _supabasePatientApiService?.updateEmail(
+            _supabasePatientApiService.updateEmail(
               ID,
               state.email,
             ),
-            _supabasePatientApiService?.updateBirthday(
+            _supabasePatientApiService.updateBirthday(
               ID,
               state.birthday,
             ),
-            _supabasePatientApiService?.updatePhone(
+            _supabasePatientApiService.updatePhone(
               ID,
               state.phone,
             ),
@@ -306,26 +307,26 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         );
       } else if (getIDType(ID) == 'RECEPTIONIST') {
         await Future.wait([
-          _supabaseReceptionistApiService?.updateFullName(
+          _supabaseReceptionistApiService.updateFullName(
             ID,
             state.fullName,
           ),
-          _supabaseReceptionistApiService?.updateEmail(
+          _supabaseReceptionistApiService.updateEmail(
             ID,
             state.email,
           ),
-          _supabaseReceptionistApiService?.updateBirthday(
+          _supabaseReceptionistApiService.updateBirthday(
             ID,
             state.birthday,
           ),
-          _supabaseReceptionistApiService?.updatePhone(
+          _supabaseReceptionistApiService.updatePhone(
             ID,
             state.phone,
           ),
         ] as Iterable<Future>);
       }
     } catch (e) {
-      assert(state is ProfileLoading, 'Loading failed');
+      //assert(state is ProfileLoading, 'Loading failed');
     }
 
     await _notificationManagerService
@@ -361,7 +362,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
           birthday: state.birthday,
           phone: state.phone,
           specializationId: (state as DoctorProfileInitial).specializationId,
-          startWorkingFrom: (state as DoctorProfileOnChange).startWorkingFrom,
+          startWorkingFrom: (state as DoctorProfileInitial).startWorkingFrom,
         ),
       );
     } else {

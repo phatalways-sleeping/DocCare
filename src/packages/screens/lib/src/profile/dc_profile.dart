@@ -43,7 +43,7 @@ class _DCProfileState extends State<DCProfile> {
           const InitialEvent(),
         ),
       child: BlocConsumer<ProfileBloc, ProfileState>(
-        listener: (context, state) => {print(state)},
+        listener: (context, state) => {},
         builder: (context, state) {
           return Scaffold(
             appBar: AppBar(
@@ -55,13 +55,13 @@ class _DCProfileState extends State<DCProfile> {
                   Icons.arrow_back_ios,
                   color: Colors.black,
                 ),
-                onPressed: () {
-                  if (state is ProfileInitial ||
-                      state is DoctorProfileInitial) {
+                onPressed: () async {
+                  if (state is! DoctorProfileOnChange &&
+                      state is! ProfileOnChange) {
                     Navigator.of(context).pop();
                     return;
                   }
-                  showDialog(
+                  await showDialog<bool>(
                     context: context,
                     builder: (acontext) => DCPopupConfirmChange(
                       title: 'Confirm change',
@@ -69,18 +69,27 @@ class _DCProfileState extends State<DCProfile> {
                           'Look like you have made some changes to your profile',
                       boldMessage: 'Confirm these changes?',
                       onConfirmButtonClicked: (bcontext) {
-                        context.read<ProfileBloc>().add(
-                              const ConfirmButtonPressedEvent(),
-                            );
-                        Navigator.of(bcontext).pop();
+                        Navigator.of(bcontext).pop(true);
                       },
                       onCancelButtonClicked: (bcontext) {
-                        context.read<ProfileBloc>().add(
-                              const CancelButtonPressedEvent(),
-                            );
-                        Navigator.of(bcontext).pop();
+                        Navigator.of(bcontext).pop(false);
                       },
                     ),
+                  ).then(
+                    (value) => {
+                      if (value == false)
+                        {
+                          context.read<ProfileBloc>().add(
+                                ConfirmButtonPressedEvent(),
+                              ),
+                        }
+                      else
+                        {
+                          context.read<ProfileBloc>().add(
+                                CancelButtonPressedEvent(),
+                              ),
+                        },
+                    },
                   );
                 },
               ),
@@ -229,10 +238,12 @@ class _DCProfileState extends State<DCProfile> {
                                 horizontal: context.width * 0.03,
                                 vertical: context.height * 0.02,
                               ),
-                              onChanged: (context, controller) => context
-                                  .read<ProfileBloc>()
-                                  .add(SpecializationInputEvent(
-                                      controller.text)),
+                              onChanged: (context, controller) =>
+                                  context.read<ProfileBloc>().add(
+                                        SpecializationInputEvent(
+                                          controller.text,
+                                        ),
+                                      ),
                             ),
                           SizedBox(
                             height: context.height * 0.02,

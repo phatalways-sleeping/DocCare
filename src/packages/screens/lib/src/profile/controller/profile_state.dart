@@ -87,12 +87,23 @@ final class DoctorProfileInitial extends ProfileState {
     required super.tempBirthday,
     required super.birthday,
     required super.phone,
-    this.specializationId = '',
-    this.startWorkingFrom = 0,
+    required this.specializationId,
+    required this.startWorkingFrom,
   }) : super();
 
   final String specializationId;
   final int startWorkingFrom;
+
+  @override
+  List<Object?> get props => [
+        super.fullName,
+        super.email,
+        super.tempBirthday,
+        super.birthday,
+        super.phone,
+        specializationId,
+        startWorkingFrom,
+      ];
 
   @override
   ProfileState copyWith({
@@ -108,8 +119,8 @@ final class DoctorProfileInitial extends ProfileState {
         tempBirthday: tempBirthday ?? super.tempBirthday,
         birthday: birthday ?? super.birthday,
         phone: phone ?? super.phone,
-        specializationId: specializationId,
-        startWorkingFrom: startWorkingFrom,
+        specializationId: this.specializationId,
+        startWorkingFrom: this.startWorkingFrom,
       );
 }
 
