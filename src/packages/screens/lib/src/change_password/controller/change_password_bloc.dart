@@ -1,16 +1,13 @@
 // ignore_for_file: public_member_api_docs
 
-import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
-import 'package:meta/meta.dart';
-import 'package:models/models.dart';
-import 'package:utility/utility.dart'
-    show FormValidator, NotificationManagerService, NotificationType;
-
 import 'package:auth_api/auth_api.dart' show AuthException;
 import 'package:auth_domain/auth_domain.dart'
     show AuthenticationRepositoryService;
+import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
+import 'package:utility/utility.dart'
+    show FormValidator, NotificationManagerService, NotificationType;
 
 part 'change_password_event.dart';
 part 'change_password_state.dart';
@@ -68,11 +65,7 @@ class ChangePasswordBloc
   ) async {
     emit(ChangePasswordLoading.from(state));
     try {
-      await _authenticationRepositoryService.changePassword(
-        ChangePasswordUser(
-          state.email,
-        ),
-      );
+      await _authenticationRepositoryService.changePassword(state.email);
       emit(ChangePasswordSuccess.from(state));
     } on AuthException catch (e) {
       assert(state is ChangePasswordLoading, 'State is not loading');
@@ -90,9 +83,7 @@ class ChangePasswordBloc
             ),
           )
           .then(
-            (value) => emit(
-              ChangePasswordValid.from(state),
-            ),
+            (value) => emit(ChangePasswordValid.from(state)),
           );
     }
   }
