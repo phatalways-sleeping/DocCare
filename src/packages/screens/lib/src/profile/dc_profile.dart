@@ -77,7 +77,7 @@ class _DCProfileState extends State<DCProfile> {
                     ),
                   ).then(
                     (value) => {
-                      if (value == false)
+                      if (value == true)
                         {
                           context.read<ProfileBloc>().add(
                                 ConfirmButtonPressedEvent(),

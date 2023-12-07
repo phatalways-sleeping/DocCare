@@ -172,11 +172,11 @@ class BasePopup extends StatelessWidget {
                     borderWidth: 0,
                     borderColor: context.colorScheme.background,
                     onPressed: (context) {
-                      if (index.isOdd || onConfirmButtonClicked == null) {
-                        onCancelButtonClicked?.call(context);
-                      }
-                      if (index.isEven || onCancelButtonClicked == null) {
+                      if (index.isOdd || onCancelButtonClicked == null) {
                         onConfirmButtonClicked?.call(context);
+                      }
+                      if (index.isEven || onConfirmButtonClicked == null) {
+                        onCancelButtonClicked?.call(context);
                       }
                     },
                   ),
