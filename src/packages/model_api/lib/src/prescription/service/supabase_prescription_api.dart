@@ -2,7 +2,8 @@ import 'package:models/models.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'prescription_api_service.dart';
 
-class SupabasePrescriptionApiService implements PrescriptionApiService<Prescription> {
+class SupabasePrescriptionApiService
+    implements PrescriptionApiService<Prescription> {
   const SupabasePrescriptionApiService({
     required this.supabase,
   });
@@ -19,6 +20,7 @@ class SupabasePrescriptionApiService implements PrescriptionApiService<Prescript
             : Prescription.fromJson(value.first),
       )
       .onError((error, stackTrace) => throw Exception(error));
+
   @override
   Future<List<Prescription>> getAllPrescriptionList() => supabase
       .from('prescription')
@@ -29,6 +31,22 @@ class SupabasePrescriptionApiService implements PrescriptionApiService<Prescript
             : value.map(Prescription.fromJson).toList(),
       )
       .onError((error, stackTrace) => throw Exception(error));
+
+  @override
+  Future<List<Prescription>> getAllPrescriptionListByCustomerID(
+    String customerID,
+  ) =>
+      supabase
+          .from('prescription')
+          .select<PostgrestList>()
+          .eq('patientID', customerID)
+          .then(
+            (value) => value.isEmpty
+                ? throw Exception('No customer with id = $customerID found')
+                : value.map(Prescription.fromJson).toList(),
+          )
+          .onError((error, stackTrace) => throw Exception(error));
+
   @override
   Future<void> createPrescription(Prescription prescription) => supabase
       .from('prescription')

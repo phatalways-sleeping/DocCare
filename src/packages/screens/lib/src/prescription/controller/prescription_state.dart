@@ -1,83 +1,83 @@
-part of 'intake_bloc.dart';
+part of 'prescription_bloc.dart';
 
 @immutable
-sealed class IntakeState extends Equatable {
-  const IntakeState({
-    required this.prescriptionID,
+sealed class PrescriptionState extends Equatable {
+  const PrescriptionState({
+    required this.doctorName,
     required this.datePrescribed,
     required this.note,
     required this.done,
   });
 
-  final List<String> prescriptionID;
+  final List<String> doctorName;
   final List<DateTime> datePrescribed;
   final List<String> note;
   final List<bool> done;
 
   @override
   List<Object?> get props => [
-        prescriptionID,
+        doctorName,
         datePrescribed,
         note,
         done,
       ];
 
-  IntakeState copyWith({
-    List<String>? prescriptionID,
+  PrescriptionState copyWith({
+    List<String>? doctorName,
     List<DateTime>? datePrescribed,
     List<String>? note,
     List<bool>? done,
   });
 }
 
-final class IntakeInitial extends IntakeState {
-  IntakeInitial.empty()
+final class PrescriptionInitial extends PrescriptionState {
+  PrescriptionInitial.empty()
       : super(
-          prescriptionID: [],
+          doctorName: [],
           datePrescribed: [],
           note: [],
           done: [],
         );
 
-  const IntakeInitial.input({
-    required super.prescriptionID,
+  const PrescriptionInitial.input({
+    required super.doctorName,
     required super.datePrescribed,
     required super.note,
     required super.done,
   });
 
   @override
-  IntakeState copyWith({
-    List<String>? prescriptionID,
+  PrescriptionState copyWith({
+    List<String>? doctorName,
     List<DateTime>? datePrescribed,
     List<String>? note,
     List<bool>? done,
   }) =>
-      IntakeInitial.input(
-        prescriptionID: prescriptionID ?? super.prescriptionID,
+      PrescriptionInitial.input(
+        doctorName: doctorName ?? super.doctorName,
         datePrescribed: datePrescribed ?? super.datePrescribed,
         note: note ?? super.note,
         done: done ?? super.done,
       );
 }
 
-final class IntakeLoading extends IntakeState {
-  const IntakeLoading({
-    required super.prescriptionID,
+final class PrescriptionLoading extends PrescriptionState {
+  const PrescriptionLoading({
+    required super.doctorName,
     required super.datePrescribed,
     required super.note,
     required super.done,
   });
 
   @override
-  IntakeState copyWith({
-    List<String>? prescriptionID,
+  PrescriptionState copyWith({
+    List<String>? doctorName,
     List<DateTime>? datePrescribed,
     List<String>? note,
     List<bool>? done,
   }) =>
-      IntakeLoading(
-        prescriptionID: prescriptionID ?? super.prescriptionID,
+      PrescriptionLoading(
+        doctorName: doctorName ?? super.doctorName,
         datePrescribed: datePrescribed ?? super.datePrescribed,
         note: note ?? super.note,
         done: done ?? super.done,

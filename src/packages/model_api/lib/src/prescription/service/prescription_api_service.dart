@@ -5,6 +5,8 @@ abstract interface class PrescriptionApiService<T extends Prescription> {
 
   Future<List<T>> getAllPrescriptionList();
 
+  Future<List<T>> getAllPrescriptionListByCustomerID(String customerID);
+
   Future<void> createPrescription(Prescription prescription);
 
   Future<void> updatePrescriptionDone(String id, bool done, DateTime dateDone);
