@@ -12,6 +12,7 @@ export 'header_bar/dc_doctor_header_bar.dart';
 export 'header_bar/dc_receptionist_header_bar.dart';
 export 'navigation_bar/navigation_bar.dart';
 export 'notification/dc_notification.dart';
+export 'pop_up/dc_pop_up.dart';
 export 'text_form_field/text_form_field.dart';
 export 'toggle_button/base_toggle_button.dart';
 export 'toggle_button/dc_admin_toggle_button.dart';

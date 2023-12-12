@@ -47,10 +47,13 @@ dependencies:
     path: packages/components
   screens:
     path: packages/screens
+  storage:
+    path: packages/storage
   utility:
     path: packages/utility
   flutter_svg: ^2.0.9
   uuid: ^4.2.1
+  flutter_bloc: ^8.1.3
 
 dev_dependencies:
   flutter_test:

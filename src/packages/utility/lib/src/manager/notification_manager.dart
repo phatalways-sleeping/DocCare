@@ -32,6 +32,8 @@ class NotificationManager implements NotificationManagerService {
     // Register lazing singletons
     GetIt.instance.registerLazySingleton(DismissedNotificationBuilder.new);
     GetIt.instance.registerLazySingleton(LoginNotificationBuilder.new);
+    GetIt.instance.registerLazySingleton(ErrorNotificationBuilder.new);
+    GetIt.instance.registerLazySingleton(SignUpNotificationBuilder.new);
   }
 
   @override
@@ -48,6 +50,8 @@ class NotificationManager implements NotificationManagerService {
     NotificationType type,
   ) {
     switch (type) {
+      case NotificationType.signUp:
+        return GetIt.instance<SignUpNotificationBuilder>();
       case NotificationType.login:
         return GetIt.instance<LoginNotificationBuilder>();
       case NotificationType.dismissed:
@@ -56,6 +60,8 @@ class NotificationManager implements NotificationManagerService {
         return GetIt.instance<AdminCreateStaffNotificationBuilder>();
       case NotificationType.adminDeleteStaff:
         return GetIt.instance<AdminDeleteStaffNotificationBuilder>();
+      case NotificationType.error:
+        return GetIt.instance<ErrorNotificationBuilder>();
     }
   }
 

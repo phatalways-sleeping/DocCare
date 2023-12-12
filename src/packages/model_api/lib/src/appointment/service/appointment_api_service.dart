@@ -1,8 +1,6 @@
 // ignore_for_file: public_member_api_docs
 
-import 'package:models/models.dart';
-
-abstract interface class AppointmentApiService<T extends Appointment> {
+abstract interface class AppointmentApiService<Appointment> {
   const AppointmentApiService();
 
   Future<void> createAppointment(Appointment appointment);

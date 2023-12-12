@@ -38,6 +38,7 @@ base class BaseTextFormField extends StatefulWidget {
     this.onPrefixIconPressed,
     this.onSuffixIconPressed,
     this.onFocus,
+    this.onFocusChange,
     this.prefixIconTooltip,
     this.suffixIconTooltip,
     this.onlyShowIconOnFocus = false,
@@ -79,6 +80,7 @@ base class BaseTextFormField extends StatefulWidget {
   final void Function(BuildContext context, TextEditingController controller)?
       onSuffixIconPressed;
   final void Function(BuildContext context, FocusNode focusNode)? onFocus;
+  final void Function(BuildContext context, FocusNode focusNode)? onFocusChange;
   final String? prefixIconTooltip;
   final String? suffixIconTooltip;
   final bool onlyShowIconOnFocus;
@@ -101,7 +103,10 @@ class _BaseTextFormFieldState extends State<BaseTextFormField> {
       TextEditingController(
         text: widget.initialText,
       );
-  late FocusNode focusNode = FocusNode();
+  late FocusNode focusNode = FocusNode()
+    ..addListener(() {
+      widget.onFocusChange?.call(context, focusNode);
+    });
 
   late final prefixPadding = widget.prefixIcon == null
       ? EdgeInsets.only(
@@ -130,7 +135,7 @@ class _BaseTextFormFieldState extends State<BaseTextFormField> {
 
   @override
   void dispose() {
-    controller.dispose();
+    if (widget.controller == null) controller.dispose();
     focusNode.dispose();
     super.dispose();
   }
