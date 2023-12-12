@@ -1,10 +1,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
 import 'package:intl/intl.dart';
-import 'package:utility/utility.dart';
+import 'package:meta/meta.dart';
 import 'package:model_api/src/intake/service/supabase_intake_api_service.dart';
 import 'package:models/models.dart';
+import 'package:utility/utility.dart';
 
 part 'intake_event.dart';
 part 'intake_state.dart';

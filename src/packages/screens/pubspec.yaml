@@ -24,6 +24,8 @@ dependencies:
   meta: ^1.9.1
   models:
     path: ../models
+  model_api:
+    path: ../model_api
   utility:
     path: ../utility
 

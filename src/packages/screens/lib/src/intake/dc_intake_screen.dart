@@ -49,10 +49,10 @@ class _DCIntakeScreenState extends State<DCIntakeScreen> {
               child: const Text('Current Intake'),
             ),
             Flexible(
+              //Padding between the two boxes
               child: Padding(
-                padding: EdgeInsets.only(left: 10, right: 10),
+                padding: const EdgeInsets.only(left: 20, right: 20),
                 child: FractionallySizedBox(
-                  alignment: Alignment.center,
                   widthFactor: 1,
                   heightFactor: 0.2,
                   child: DecoratedBox(
@@ -62,69 +62,83 @@ class _DCIntakeScreenState extends State<DCIntakeScreen> {
                         color: context.colorScheme.onSurface,
                       ),
                     ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    child: Row(
                       children: [
-                        DefaultTextStyle.merge(
-                          style: context.textTheme.h4BoldPoppins.copyWith(
-                            fontSize: 18,
-                            fontWeight: FontWeight.normal,
-                            color: context.colorScheme.onBackground,
-                          ),
-                          textAlign: TextAlign.start,
-                          child: const Padding(
-                            padding: EdgeInsets.only(left: 10),
-                            child: Text('Doctor name'),
+                        //Thick vertical line
+                        Container(
+                          width: 10,
+                          decoration: BoxDecoration(
+                            color: context.colorScheme.secondary,
+                            borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(30),
+                              bottomLeft: Radius.circular(30),
+                            ),
                           ),
                         ),
                         Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Row(
+                            DefaultTextStyle.merge(
+                              style: context.textTheme.h4BoldPoppins.copyWith(
+                                fontSize: 18,
+                                fontWeight: FontWeight.normal,
+                                color: context.colorScheme.onBackground,
+                              ),
+                              textAlign: TextAlign.start,
+                              child: const Padding(
+                                padding: EdgeInsets.only(left: 10),
+                                child: Text('Doctor name'),
+                              ),
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
                               children: [
-                                Padding(
-                                  padding: EdgeInsets.only(left: 10),
-                                  child: SvgPicture.string(
-                                    DCSVGIcons.clock,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                                DefaultTextStyle(
-                                  style: context.textTheme.h4RegularPoppins
-                                      .copyWith(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.normal,
-                                    color: context.colorScheme.onBackground,
-                                  ),
-                                  child: const Padding(
-                                    padding: EdgeInsets.only(left: 10),
-                                    child: Text('10:00 AM'),
-                                  ),
-                                ),
-                                //Text at the end of the row
-                                Expanded(
-                                  child: Align(
-                                    alignment: Alignment.centerRight,
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(right: 10),
-                                      child: DefaultTextStyle(
-                                        style: context
-                                            .textTheme.h4RegularPoppins
-                                            .copyWith(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.normal,
-                                          color:
-                                              context.colorScheme.onBackground,
-                                        ),
-                                        child: const Text('Flu'),
+                                Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 10),
+                                      child: SvgPicture.string(
+                                        DCSVGIcons.clock,
+                                        fit: BoxFit.cover,
                                       ),
                                     ),
-                                  ),
+                                    DefaultTextStyle(
+                                      style: context.textTheme.h4RegularPoppins
+                                          .copyWith(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.normal,
+                                        color: context.colorScheme.onBackground,
+                                      ),
+                                      child: const Padding(
+                                        padding: EdgeInsets.only(left: 10),
+                                        child: Text('10:00 AM'),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
                           ],
+                        ),
+                        //Text at the end
+                        Expanded(
+                          child: Align(
+                            alignment: Alignment.centerRight,
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 10),
+                              child: DefaultTextStyle.merge(
+                                style:
+                                    context.textTheme.h4RegularPoppins.copyWith(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.normal,
+                                  color: context.colorScheme.onBackground,
+                                ),
+                                textAlign: TextAlign.start,
+                                child: const Text('Flu'),
+                              ),
+                            ),
+                          ),
                         ),
                       ],
                     ),

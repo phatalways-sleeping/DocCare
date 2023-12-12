@@ -10,7 +10,8 @@ void main() {
           home: Scaffold(
             body: DCButton(
               key: Key('myButton'),
-              onPressed: () {}, // Provide a simple empty callback for testing
+              onPressed:
+                  (context) {}, // Provide a simple empty callback for testing
               text: 'Press Me',
             ),
           ),
@@ -22,8 +23,6 @@ void main() {
 
       // Verify that the text is rendered.
       expect(find.text('Press Me'), findsOneWidget);
-       
     });
-
   });
 }
