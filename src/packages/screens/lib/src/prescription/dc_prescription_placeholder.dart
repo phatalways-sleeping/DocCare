@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:screens/src/prescription/controller/prescription_bloc.dart';
 import 'package:screens/src/prescription/dc_medical_stat_screen.dart';
+import 'package:screens/src/prescription/dc_prescription_screen.dart';
 import 'package:utility/utility.dart';
 
 class DCPrescriptionPlaceholder extends StatefulWidget {
@@ -36,9 +37,11 @@ class _DCPrescriptionPlaceholderState extends State<DCPrescriptionPlaceholder> {
           builder: (context, state) {
             if (state is PrescriptionMedicalInitial) {
               return GestureDetector(
-                onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+                onTap: () => FocusScope.of(context).unfocus(),
                 child: DCMedicalStatScreen(customerName: widget.customerName),
               );
+            } else if (state is PrescriptionMedicalSuccess) {
+              return DCPrescriptionScreen(customerName: widget.customerName);
             }
             return Container();
           },

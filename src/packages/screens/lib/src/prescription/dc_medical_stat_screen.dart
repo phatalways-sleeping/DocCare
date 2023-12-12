@@ -42,7 +42,7 @@ class _DCMedicalStatScreenState extends State<DCMedicalStatScreen> {
                         ),
                       ),
                       Card(
-                        color: Colors.white,
+                        color: context.colorScheme.onPrimary,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                           side: BorderSide(
@@ -121,7 +121,7 @@ class _DCMedicalStatScreenState extends State<DCMedicalStatScreen> {
                       ),
                       const SizedBox(height: 8),
                       Card(
-                        color: Colors.white,
+                        color: context.colorScheme.onPrimary,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                           side: BorderSide(
@@ -199,7 +199,7 @@ class _DCMedicalStatScreenState extends State<DCMedicalStatScreen> {
                       ),
                       const SizedBox(height: 8),
                       Card(
-                        color: Colors.white,
+                        color: context.colorScheme.onPrimary,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                           side: BorderSide(
@@ -277,7 +277,7 @@ class _DCMedicalStatScreenState extends State<DCMedicalStatScreen> {
                       ),
                       const SizedBox(height: 8),
                       Card(
-                        color: Colors.white,
+                        color: context.colorScheme.onPrimary,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                           side: BorderSide(
@@ -366,7 +366,7 @@ class _DCMedicalStatScreenState extends State<DCMedicalStatScreen> {
                       Container(
                         padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: context.colorScheme.onPrimary,
                           borderRadius: BorderRadius.circular(
                             12,
                           ),
@@ -387,6 +387,7 @@ class _DCMedicalStatScreenState extends State<DCMedicalStatScreen> {
                       ),
                       const SizedBox(height: 16),
                       DCFilledButton(
+                        backgroundColor: context.colorScheme.surface,
                         fixedSize: Size(
                           context.width * 0.3,
                           context.height * 0.06,

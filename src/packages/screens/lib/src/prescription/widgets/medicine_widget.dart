@@ -64,12 +64,14 @@ class DCMedicine extends StatelessWidget {
                   ),
                   Row(
                     children: [
-                      Text(
-                        details,
-                        style: context.textTheme.h6RegularPoppins.copyWith(
-                          fontSize: 14,
-                          color:
-                              context.colorScheme.onSecondary.withOpacity(0.5),
+                      Expanded(
+                        child: Text(
+                          details,
+                          style: context.textTheme.h6RegularPoppins.copyWith(
+                            fontSize: 14,
+                            color: context.colorScheme.onSecondary
+                                .withOpacity(0.5),
+                          ),
                         ),
                       ),
                       Text(
