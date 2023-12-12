@@ -28,10 +28,10 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
     Emitter<PrescriptionState> emit,
   ) async {
     try {
+      print('ID: $ID');
       emit(PrescriptionInitial.empty());
-      final prescription = await _prescriptionAPIService
-          .getAllPrescriptionListByCustomerID(ID)
-          .then((value) {
+      final prescription =
+          await _prescriptionAPIService.getAllPrescriptionList().then((value) {
         final doctorName = <String>[];
         final datePrescribed = <DateTime>[];
         final note = <String>[];
@@ -42,7 +42,7 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
           note.add(element.note);
           done.add(element.done);
         }
-        emit(
+        return emit(
           PrescriptionInitial.input(
             doctorName: doctorName,
             datePrescribed: datePrescribed,

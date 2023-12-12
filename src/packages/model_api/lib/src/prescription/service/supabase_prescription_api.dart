@@ -39,7 +39,7 @@ class SupabasePrescriptionApiService
       supabase
           .from('prescription')
           .select<PostgrestList>()
-          .eq('patientID', customerID)
+          .eq('customerID', customerID)
           .then(
             (value) => value.isEmpty
                 ? throw Exception('No customer with id = $customerID found')
