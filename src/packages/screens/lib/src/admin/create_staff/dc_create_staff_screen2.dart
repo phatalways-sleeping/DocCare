@@ -75,63 +75,61 @@ class _DCCreateStaffScreen2State extends State<DCCreateStaffScreen2> {
 
   @override
   Widget build(BuildContext context) {
-    Widget result = Flexible(
-      flex: 1,
-      child: Card(
+    Widget result = Column(children: [
+      Card(
         child: ListView.builder(
           itemCount: data.length,
+          shrinkWrap: true,
           itemBuilder: (_, index) {
             return Padding(
-              padding: EdgeInsets.all(10.0),
+              padding: EdgeInsets.all(0.0),
               child: BlocBuilder<CreateStaffBloc, CreateStaffState>(
                   builder: (context, state) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Container(
-                      margin: EdgeInsets.only(left: 10.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          if (index == 0)
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text("Full name: ${state.fullName}"),
-                                Text("Email: ${state.email}"),
-                                Text("Password: ${state.password}"),
-                                Text(
-                                    "Birthday: ${state.birthday?.toString() ?? ''}"),
-                                Text("Phone Number: ${state.phone}"),
-                                Text("Role: ${state.role}"),
-                                if (state.role == 'Doctor')
+                return SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Container(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            if (index == 0)
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("Full name: ${state.fullName}"),
+                                  Text("Email: ${state.email}"),
+                                  Text("Password: ${state.password}"),
                                   Text(
-                                      "Specialization: ${state.specializationId}"),
-                              ],
-                            ),
-                          Text("${index + 1} : ${data[index]}"),
-                        ],
+                                      "Birthday: ${state.birthday?.toString() ?? ''}"),
+                                  Text("Phone Number: ${state.phone}"),
+                                  Text("Role: ${state.role}"),
+                                  if (state.role == 'Doctor')
+                                    Text("Specialization: ${state.role}"),
+                                ],
+                              ),
+                            Text("${index + 1} : ${data[index]}"),
+                          ],
+                        ),
                       ),
-                    ),
-                    Divider()
-                  ],
+                      Divider()
+                    ],
+                  ),
                 );
               }),
             );
           },
         ),
       ),
+    ]);
+
+    final Widget dynamicTextField = ListView.builder(
+      shrinkWrap: true,
+      itemCount: listDynamic.length,
+      itemBuilder: (_, index) => listDynamic[index],
     );
 
-    Widget dynamicTextField = Flexible(
-      flex: 2,
-      child: ListView.builder(
-        itemCount: listDynamic.length,
-        itemBuilder: (_, index) => listDynamic[index],
-      ),
-    );
-
-    Widget nextButton = Container(
+    final nextButton = Container(
       child: ElevatedButton(
         onPressed: submitData,
         child: const Padding(
@@ -155,32 +153,22 @@ class _DCCreateStaffScreen2State extends State<DCCreateStaffScreen2> {
       ),
     );
 
-    return MaterialApp(
-      home: BlocProvider(
-        create: (_) => CreateStaffBloc(
-          NotificationManager.instance,
-          SupabaseAdminControlStaffApiService.instance,
-        ),
-        child: Scaffold(
-          appBar: const DCAdminHeaderBar(
-            headerBarTitle: ('Add working shift'),
-            allowNavigationBack: true,
-          ),
-          body: Container(
-            margin: EdgeInsets.all(10.0),
-            child: Column(
-              children: <Widget>[
-                if (data.isEmpty) dynamicTextField else result,
-                if (data.isEmpty) nextButton else submitButton,
-              ],
-            ),
-          ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: addDynamic,
-            child: floatingIcon,
+    return Column(
+      children: [
+        Container(
+          margin: EdgeInsets.all(10.0),
+          child: Column(
+            children: <Widget>[
+              if (data.isEmpty) dynamicTextField else result,
+              if (data.isEmpty) nextButton else submitButton,
+            ],
           ),
         ),
-      ),
+        FloatingActionButton(
+          onPressed: addDynamic,
+          child: floatingIcon,
+        ),
+      ],
     );
   }
 }

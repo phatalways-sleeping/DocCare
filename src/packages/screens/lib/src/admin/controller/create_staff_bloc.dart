@@ -150,6 +150,20 @@ class CreateStaffBloc extends Bloc<CreateStaffEvent, CreateStaffState> {
     Emitter<CreateStaffState> emit,
   ) {
     // Emit loading state
+    // emit(CreateStaffLater.input(
+    //   fullName: state.fullName,
+    //   email: state.email,
+    //   password: state.password,
+    //   birthday: state.birthday,
+    //   role: state.role,
+    //   phone: state.phone,
+    //   startWorkingFrom: state.startWorkingFrom,
+    //   specializationId: state.specializationId,
+    //   rating: state.rating,
+    //   numberOfRates: state.numberOfRates,
+    //   dayOfWeek: state.dayOfWeek,
+    //   roleSelected: state.roleSelected,
+    // ),);
     emit(CreateStaffLoading.from(state));
 
     // Login with Google

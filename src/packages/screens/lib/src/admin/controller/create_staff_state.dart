@@ -139,6 +139,70 @@ final class CreateStaffInitial extends CreateStaffState {
       );
 }
 
+final class CreateStaffLater extends CreateStaffState {
+  CreateStaffLater.empty()
+      : super(
+          fullName: '',
+          email: '',
+          password: '',
+          birthday: DateTime(1970),
+          role: '',
+          phone: '',
+          specializationId: '',
+          startWorkingFrom: 1,
+          rating: 0.0,
+          numberOfRates: 0,
+          dayOfWeek: {
+            'first': [1, 2]
+          },
+        );
+
+  const CreateStaffLater.input({
+    required super.fullName,
+    required super.email,
+    required super.password,
+    required super.birthday,
+    required super.role,
+    required super.phone,
+    required super.startWorkingFrom,
+    required super.specializationId,
+    required super.rating,
+    required super.numberOfRates,
+    required super.dayOfWeek,
+    required super.roleSelected,
+  });
+
+  @override
+  CreateStaffState copyWith({
+    String? fullName,
+    String? email,
+    String? password,
+    DateTime? birthday,
+    String? role,
+    String? phone,
+    String? specializationId,
+    int? startWorkingFrom,
+    double? rating,
+    int? numberOfRates,
+    Map<String, List<int>>? dayOfWeek,
+    String? roleSelected,
+  }) =>
+      CreateStaffLater.input(
+        fullName: fullName ?? super.fullName,
+        email: email ?? super.email,
+        password: password ?? super.password,
+        birthday: birthday ?? super.birthday,
+        role: role ?? super.role,
+        phone: phone ?? super.phone,
+        specializationId: specializationId ?? super.specializationId,
+        startWorkingFrom: startWorkingFrom ?? super.startWorkingFrom,
+        rating: rating ?? super.rating,
+        numberOfRates: numberOfRates ?? super.numberOfRates,
+        dayOfWeek: dayOfWeek ?? super.dayOfWeek,
+        roleSelected: roleSelected ?? super.roleSelected,
+      );
+}
+
 final class CreateStaffLoading extends CreateStaffState {
   const CreateStaffLoading({
     required super.fullName,
