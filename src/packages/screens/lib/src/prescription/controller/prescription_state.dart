@@ -40,8 +40,8 @@ sealed class PrescriptionState extends Equatable {
   });
 }
 
-final class PrescriptionInitial extends PrescriptionState {
-  const PrescriptionInitial.empty()
+final class PrescriptionMedicalInitial extends PrescriptionState {
+  const PrescriptionMedicalInitial.empty()
       : super(
           name: '',
           heartRate: '',
@@ -60,6 +60,66 @@ final class PrescriptionInitial extends PrescriptionState {
     String? bloodSugar,
     String? doctorNote,
   }) {
-    return PrescriptionInitial.empty();
+    return const PrescriptionMedicalInitial.empty();
+  }
+}
+
+final class PrescriptionMedicalLoading extends PrescriptionState {
+  const PrescriptionMedicalLoading({
+    required super.name,
+    required super.heartRate,
+    required super.bloodPressure,
+    required super.choresterol,
+    required super.bloodSugar,
+    required super.doctorNote,
+  });
+
+  @override
+  PrescriptionState copyWith({
+    String? name,
+    String? heartRate,
+    String? bloodPressure,
+    String? choresterol,
+    String? bloodSugar,
+    String? doctorNote,
+  }) {
+    return PrescriptionMedicalLoading(
+      name: name ?? this.name,
+      heartRate: heartRate ?? this.heartRate,
+      bloodPressure: bloodPressure ?? this.bloodPressure,
+      choresterol: choresterol ?? this.choresterol,
+      bloodSugar: bloodSugar ?? this.bloodSugar,
+      doctorNote: doctorNote ?? this.doctorNote,
+    );
+  }
+}
+
+final class PrescriptionMedicalSuccess extends PrescriptionState {
+  const PrescriptionMedicalSuccess({
+    required super.name,
+    required super.heartRate,
+    required super.bloodPressure,
+    required super.choresterol,
+    required super.bloodSugar,
+    required super.doctorNote,
+  });
+
+  @override
+  PrescriptionState copyWith({
+    String? name,
+    String? heartRate,
+    String? bloodPressure,
+    String? choresterol,
+    String? bloodSugar,
+    String? doctorNote,
+  }) {
+    return PrescriptionMedicalSuccess(
+      name: name ?? this.name,
+      heartRate: heartRate ?? this.heartRate,
+      bloodPressure: bloodPressure ?? this.bloodPressure,
+      choresterol: choresterol ?? this.choresterol,
+      bloodSugar: bloodSugar ?? this.bloodSugar,
+      doctorNote: doctorNote ?? this.doctorNote,
+    );
   }
 }

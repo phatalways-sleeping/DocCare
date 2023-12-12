@@ -7,7 +7,12 @@ import 'package:screens/src/prescription/dc_medical_stat_screen.dart';
 import 'package:utility/utility.dart';
 
 class DCPrescriptionPlaceholder extends StatefulWidget {
-  const DCPrescriptionPlaceholder({super.key});
+  const DCPrescriptionPlaceholder({
+    required this.customerName,
+    super.key,
+  });
+
+  final String customerName;
 
   @override
   State<DCPrescriptionPlaceholder> createState() =>
@@ -29,10 +34,10 @@ class _DCPrescriptionPlaceholderState extends State<DCPrescriptionPlaceholder> {
         ),
         child: BlocBuilder<PrescriptionBloc, PrescriptionState>(
           builder: (context, state) {
-            if (state is PrescriptionInitial) {
+            if (state is PrescriptionMedicalInitial) {
               return GestureDetector(
                 onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
-                child: const DCMedicalStatScreen(),
+                child: DCMedicalStatScreen(customerName: widget.customerName),
               );
             }
             return Container();

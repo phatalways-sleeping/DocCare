@@ -6,7 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class DCMedicalStatScreen extends StatefulWidget {
-  const DCMedicalStatScreen({super.key});
+  const DCMedicalStatScreen({
+    required this.customerName,
+    super.key,
+  });
+
+  final String customerName;
 
   @override
   State<DCMedicalStatScreen> createState() => _DCMedicalStatScreenState();
@@ -28,7 +33,7 @@ class _DCMedicalStatScreenState extends State<DCMedicalStatScreen> {
                       Container(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          'John Gaylord',
+                          widget.customerName,
                           style: context.textTheme.h6BoldPoppins.copyWith(
                             fontSize: 20,
                           ),

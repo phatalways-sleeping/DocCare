@@ -12,12 +12,13 @@ part 'prescription_state.dart';
 class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
   PrescriptionBloc(
     this._notificationManagerService,
-  ) : super(PrescriptionInitial.empty()) {
+  ) : super(const PrescriptionMedicalInitial.empty()) {
     on<HeartRateInputEvent>(_onHeartRateInputEvent);
     on<BloodPressureInputEvent>(_onBloodPressureInputEvent);
     on<ChoresterolInputEvent>(_onCholesterolInputEvent);
     on<BloodSugarInputEvent>(_onBloodSugarInputEvent);
     on<DoctorNoteInputEvent>(_onDoctorNoteInputEvent);
+    on<NextButtonPressedEvent>(_onNextButtonPressedEvent);
   }
 
   final NotificationManagerService _notificationManagerService;
@@ -56,4 +57,9 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
   ) {
     emit(state.copyWith(doctorNote: event.doctorNote));
   }
+
+  void _onNextButtonPressedEvent(
+    NextButtonPressedEvent event,
+    Emitter<PrescriptionState> emit,
+  ) {}
 }

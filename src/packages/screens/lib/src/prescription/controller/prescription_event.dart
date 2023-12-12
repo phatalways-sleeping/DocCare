@@ -54,3 +54,7 @@ final class DoctorNoteInputEvent extends PrescriptionEvent {
   @override
   List<Object> get props => [doctorNote];
 }
+
+final class NextButtonPressedEvent extends PrescriptionEvent {
+  const NextButtonPressedEvent();
+}
