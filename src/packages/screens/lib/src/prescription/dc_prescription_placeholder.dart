@@ -30,7 +30,10 @@ class _DCPrescriptionPlaceholderState extends State<DCPrescriptionPlaceholder> {
         child: BlocBuilder<PrescriptionBloc, PrescriptionState>(
           builder: (context, state) {
             if (state is PrescriptionInitial) {
-              return const DCMedicalStatScreen();
+              return GestureDetector(
+                onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+                child: const DCMedicalStatScreen(),
+              );
             }
             return Container();
           },
