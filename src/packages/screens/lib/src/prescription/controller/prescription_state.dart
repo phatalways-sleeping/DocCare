@@ -5,7 +5,6 @@ part of 'prescription_bloc.dart';
 @immutable
 sealed class PrescriptionState extends Equatable {
   const PrescriptionState({
-    required this.name,
     required this.heartRate,
     required this.bloodPressure,
     required this.choresterol,
@@ -13,7 +12,6 @@ sealed class PrescriptionState extends Equatable {
     required this.doctorNote,
   });
 
-  final String name;
   final String heartRate;
   final String bloodPressure;
   final String choresterol;
@@ -22,7 +20,6 @@ sealed class PrescriptionState extends Equatable {
 
   @override
   List<Object> get props => [
-        name,
         heartRate,
         bloodPressure,
         choresterol,
@@ -31,7 +28,6 @@ sealed class PrescriptionState extends Equatable {
       ];
 
   PrescriptionState copyWith({
-    String? name,
     String? heartRate,
     String? bloodPressure,
     String? choresterol,
@@ -41,9 +37,8 @@ sealed class PrescriptionState extends Equatable {
 }
 
 final class PrescriptionMedicalInitial extends PrescriptionState {
-  const PrescriptionMedicalInitial.empty()
+  PrescriptionMedicalInitial.empty()
       : super(
-          name: '',
           heartRate: '',
           bloodPressure: '',
           choresterol: '',
@@ -51,22 +46,7 @@ final class PrescriptionMedicalInitial extends PrescriptionState {
           doctorNote: '',
         );
 
-  @override
-  PrescriptionState copyWith({
-    String? name,
-    String? heartRate,
-    String? bloodPressure,
-    String? choresterol,
-    String? bloodSugar,
-    String? doctorNote,
-  }) {
-    return const PrescriptionMedicalInitial.empty();
-  }
-}
-
-final class PrescriptionMedicalLoading extends PrescriptionState {
-  const PrescriptionMedicalLoading({
-    required super.name,
+  const PrescriptionMedicalInitial.input({
     required super.heartRate,
     required super.bloodPressure,
     required super.choresterol,
@@ -83,8 +63,7 @@ final class PrescriptionMedicalLoading extends PrescriptionState {
     String? bloodSugar,
     String? doctorNote,
   }) {
-    return PrescriptionMedicalLoading(
-      name: name ?? this.name,
+    return PrescriptionMedicalInitial.input(
       heartRate: heartRate ?? this.heartRate,
       bloodPressure: bloodPressure ?? this.bloodPressure,
       choresterol: choresterol ?? this.choresterol,
@@ -94,15 +73,67 @@ final class PrescriptionMedicalLoading extends PrescriptionState {
   }
 }
 
-final class PrescriptionMedicalSuccess extends PrescriptionState {
-  const PrescriptionMedicalSuccess({
-    required super.name,
+final class PrescriptionMedicalLoading extends PrescriptionState {
+  const PrescriptionMedicalLoading({
     required super.heartRate,
     required super.bloodPressure,
     required super.choresterol,
     required super.bloodSugar,
     required super.doctorNote,
   });
+
+  factory PrescriptionMedicalLoading.from(PrescriptionState state) =>
+      PrescriptionMedicalLoading(
+        heartRate: state.heartRate,
+        bloodPressure: state.bloodPressure,
+        choresterol: state.choresterol,
+        bloodSugar: state.bloodSugar,
+        doctorNote: state.doctorNote,
+      );
+
+  PrescriptionState toggleBackToInitial() => PrescriptionMedicalInitial.input(
+        heartRate: heartRate,
+        bloodPressure: bloodPressure,
+        choresterol: choresterol,
+        bloodSugar: bloodSugar,
+        doctorNote: doctorNote,
+      );
+
+  @override
+  PrescriptionState copyWith({
+    String? heartRate,
+    String? bloodPressure,
+    String? choresterol,
+    String? bloodSugar,
+    String? doctorNote,
+  }) {
+    return PrescriptionMedicalLoading(
+      heartRate: heartRate ?? super.heartRate,
+      bloodPressure: bloodPressure ?? super.bloodPressure,
+      choresterol: choresterol ?? super.choresterol,
+      bloodSugar: bloodSugar ?? super.bloodSugar,
+      doctorNote: doctorNote ?? super.doctorNote,
+    );
+  }
+}
+
+final class PrescriptionMedicalSuccess extends PrescriptionState {
+  const PrescriptionMedicalSuccess({
+    required super.heartRate,
+    required super.bloodPressure,
+    required super.choresterol,
+    required super.bloodSugar,
+    required super.doctorNote,
+  });
+
+  factory PrescriptionMedicalSuccess.from(PrescriptionState state) =>
+      PrescriptionMedicalSuccess(
+        heartRate: state.heartRate,
+        bloodPressure: state.bloodPressure,
+        choresterol: state.choresterol,
+        bloodSugar: state.bloodSugar,
+        doctorNote: state.doctorNote,
+      );
 
   @override
   PrescriptionState copyWith({
@@ -114,12 +145,11 @@ final class PrescriptionMedicalSuccess extends PrescriptionState {
     String? doctorNote,
   }) {
     return PrescriptionMedicalSuccess(
-      name: name ?? this.name,
-      heartRate: heartRate ?? this.heartRate,
-      bloodPressure: bloodPressure ?? this.bloodPressure,
-      choresterol: choresterol ?? this.choresterol,
-      bloodSugar: bloodSugar ?? this.bloodSugar,
-      doctorNote: doctorNote ?? this.doctorNote,
+      heartRate: heartRate ?? super.heartRate,
+      bloodPressure: bloodPressure ?? super.bloodPressure,
+      choresterol: choresterol ?? super.choresterol,
+      bloodSugar: bloodSugar ?? super.bloodSugar,
+      doctorNote: doctorNote ?? super.doctorNote,
     );
   }
 }

@@ -2,7 +2,7 @@
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter/widgets.dart';
 import 'package:utility/utility.dart'
     show FormValidator, NotificationManagerService, NotificationType;
 
@@ -12,7 +12,7 @@ part 'prescription_state.dart';
 class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
   PrescriptionBloc(
     this._notificationManagerService,
-  ) : super(const PrescriptionMedicalInitial.empty()) {
+  ) : super(PrescriptionMedicalInitial.empty()) {
     on<HeartRateInputEvent>(_onHeartRateInputEvent);
     on<BloodPressureInputEvent>(_onBloodPressureInputEvent);
     on<ChoresterolInputEvent>(_onCholesterolInputEvent);
@@ -58,8 +58,112 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
     emit(state.copyWith(doctorNote: event.doctorNote));
   }
 
-  void _onNextButtonPressedEvent(
+  Future<void> _onNextButtonPressedEvent(
     NextButtonPressedEvent event,
     Emitter<PrescriptionState> emit,
-  ) {}
+  ) async {
+    if (state.bloodPressure.isEmpty ||
+        state.bloodSugar.isEmpty ||
+        state.heartRate.isEmpty ||
+        state.choresterol.isEmpty) {
+      await _notificationManagerService.show<void>(
+        NotificationType.error,
+        title: const Text(
+          'Something went wrong',
+          style: TextStyle(
+            fontSize: 16,
+          ),
+        ),
+        message: const Text(
+          'Please fill all the fields',
+          style: TextStyle(
+            fontSize: 16,
+          ),
+        ),
+      );
+      return;
+    }
+
+    if (!FormValidator.validateBloodPressure(state.bloodPressure).isValid) {
+      await _notificationManagerService.show<void>(
+        NotificationType.error,
+        title: const Text(
+          'Something went wrong',
+          style: TextStyle(
+            fontSize: 16,
+          ),
+        ),
+        message: const Text(
+          'Blood pressure is invalid',
+          style: TextStyle(
+            fontSize: 16,
+          ),
+        ),
+      );
+      return;
+    }
+
+    if (!FormValidator.validateNumber(state.heartRate).isValid) {
+      await _notificationManagerService.show<void>(
+        NotificationType.error,
+        title: const Text(
+          'Something went wrong',
+          style: TextStyle(
+            fontSize: 16,
+          ),
+        ),
+        message: const Text(
+          'Heart rate is invalid',
+          style: TextStyle(
+            fontSize: 16,
+          ),
+        ),
+      );
+      return;
+    }
+
+    if (!FormValidator.validateNumber(state.choresterol).isValid) {
+      await _notificationManagerService.show<void>(
+        NotificationType.error,
+        title: const Text(
+          'Something went wrong',
+          style: TextStyle(
+            fontSize: 16,
+          ),
+        ),
+        message: const Text(
+          'Cholesterol is invalid',
+          style: TextStyle(
+            fontSize: 16,
+          ),
+        ),
+      );
+      return;
+    }
+
+    if (!FormValidator.validateNumber(state.bloodSugar).isValid) {
+      await _notificationManagerService.show<void>(
+        NotificationType.error,
+        title: const Text(
+          'Something went wrong',
+          style: TextStyle(
+            fontSize: 16,
+          ),
+        ),
+        message: const Text(
+          'Blood sugar is invalid',
+          style: TextStyle(
+            fontSize: 16,
+          ),
+        ),
+      );
+      return;
+    }
+
+    emit(PrescriptionMedicalLoading.from(state));
+
+    // TODO(phucchuhoang): add the medical stats to the database
+
+    emit(PrescriptionMedicalSuccess.from(state));
+  }
 }

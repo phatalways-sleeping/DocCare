@@ -3,7 +3,9 @@
 import 'package:components/components.dart';
 import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:screens/src/prescription/controller/prescription_bloc.dart';
 
 class DCMedicalStatScreen extends StatefulWidget {
   const DCMedicalStatScreen({
@@ -50,7 +52,9 @@ class _DCMedicalStatScreenState extends State<DCMedicalStatScreen> {
                         elevation: 2,
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 8),
+                            horizontal: 16,
+                            vertical: 8,
+                          ),
                           child: Row(
                             children: <Widget>[
                               SvgPicture.string(
@@ -64,7 +68,7 @@ class _DCMedicalStatScreenState extends State<DCMedicalStatScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'Blood Pressure',
+                                      'Blood Pressure (mmHg)',
                                       style: context.textTheme.h6RegularPoppins
                                           .copyWith(
                                         fontSize: 20,
@@ -75,7 +79,8 @@ class _DCMedicalStatScreenState extends State<DCMedicalStatScreen> {
                                     Container(
                                       decoration: const BoxDecoration(
                                         border: Border(
-                                            bottom: BorderSide(width: 2)),
+                                          bottom: BorderSide(width: 2),
+                                        ),
                                       ),
                                       child: TextField(
                                         style: context.textTheme.h6BoldPoppins
@@ -86,7 +91,7 @@ class _DCMedicalStatScreenState extends State<DCMedicalStatScreen> {
                                         ),
                                         decoration: InputDecoration(
                                           border: InputBorder.none,
-                                          hintText: '120/80 mmHg',
+                                          hintText: '120/80',
                                           hintStyle: context
                                               .textTheme.h6RegularPoppins
                                               .copyWith(
@@ -96,6 +101,15 @@ class _DCMedicalStatScreenState extends State<DCMedicalStatScreen> {
                                                 .withOpacity(0.5),
                                           ),
                                         ),
+                                        onChanged: (value) {
+                                          BlocProvider.of<PrescriptionBloc>(
+                                            context,
+                                          ).add(
+                                            BloodPressureInputEvent(
+                                              value,
+                                            ),
+                                          );
+                                        },
                                       ),
                                     ),
                                   ],
@@ -117,7 +131,9 @@ class _DCMedicalStatScreenState extends State<DCMedicalStatScreen> {
                         elevation: 2,
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 8),
+                            horizontal: 16,
+                            vertical: 8,
+                          ),
                           child: Row(
                             children: <Widget>[
                               SvgPicture.string(
@@ -131,7 +147,7 @@ class _DCMedicalStatScreenState extends State<DCMedicalStatScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'Heart Rate',
+                                      'Heart Rate (beats/minute)',
                                       style: context.textTheme.h6RegularPoppins
                                           .copyWith(
                                         fontSize: 20,
@@ -153,7 +169,7 @@ class _DCMedicalStatScreenState extends State<DCMedicalStatScreen> {
                                         ),
                                         decoration: InputDecoration(
                                           border: InputBorder.none,
-                                          hintText: '69 beats/minute',
+                                          hintText: '69',
                                           hintStyle: context
                                               .textTheme.h6RegularPoppins
                                               .copyWith(
@@ -163,6 +179,15 @@ class _DCMedicalStatScreenState extends State<DCMedicalStatScreen> {
                                                 .withOpacity(0.5),
                                           ),
                                         ),
+                                        onChanged: (value) {
+                                          BlocProvider.of<PrescriptionBloc>(
+                                            context,
+                                          ).add(
+                                            HeartRateInputEvent(
+                                              value,
+                                            ),
+                                          );
+                                        },
                                       ),
                                     ),
                                   ],
@@ -184,7 +209,9 @@ class _DCMedicalStatScreenState extends State<DCMedicalStatScreen> {
                         elevation: 2,
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 8),
+                            horizontal: 16,
+                            vertical: 8,
+                          ),
                           child: Row(
                             children: <Widget>[
                               SvgPicture.string(
@@ -198,7 +225,7 @@ class _DCMedicalStatScreenState extends State<DCMedicalStatScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'Choresterol',
+                                      'Choresterol (mg/dl)',
                                       style: context.textTheme.h6RegularPoppins
                                           .copyWith(
                                         fontSize: 20,
@@ -220,7 +247,7 @@ class _DCMedicalStatScreenState extends State<DCMedicalStatScreen> {
                                         ),
                                         decoration: InputDecoration(
                                           border: InputBorder.none,
-                                          hintText: '100mg/dl',
+                                          hintText: '100',
                                           hintStyle: context
                                               .textTheme.h6RegularPoppins
                                               .copyWith(
@@ -230,6 +257,15 @@ class _DCMedicalStatScreenState extends State<DCMedicalStatScreen> {
                                                 .withOpacity(0.5),
                                           ),
                                         ),
+                                        onChanged: (value) {
+                                          BlocProvider.of<PrescriptionBloc>(
+                                            context,
+                                          ).add(
+                                            ChoresterolInputEvent(
+                                              value,
+                                            ),
+                                          );
+                                        },
                                       ),
                                     ),
                                   ],
@@ -251,7 +287,9 @@ class _DCMedicalStatScreenState extends State<DCMedicalStatScreen> {
                         elevation: 2,
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 8),
+                            horizontal: 16,
+                            vertical: 8,
+                          ),
                           child: Row(
                             children: <Widget>[
                               SvgPicture.string(
@@ -265,7 +303,7 @@ class _DCMedicalStatScreenState extends State<DCMedicalStatScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'Glucose',
+                                      'Glucose (mg/dl)',
                                       style: context.textTheme.h6RegularPoppins
                                           .copyWith(
                                         fontSize: 20,
@@ -287,7 +325,7 @@ class _DCMedicalStatScreenState extends State<DCMedicalStatScreen> {
                                         ),
                                         decoration: InputDecoration(
                                           border: InputBorder.none,
-                                          hintText: '80mg/dl',
+                                          hintText: '80',
                                           hintStyle: context
                                               .textTheme.h6RegularPoppins
                                               .copyWith(
@@ -297,6 +335,15 @@ class _DCMedicalStatScreenState extends State<DCMedicalStatScreen> {
                                                 .withOpacity(0.5),
                                           ),
                                         ),
+                                        onChanged: (value) {
+                                          BlocProvider.of<PrescriptionBloc>(
+                                            context,
+                                          ).add(
+                                            BloodSugarInputEvent(
+                                              value,
+                                            ),
+                                          );
+                                        },
                                       ),
                                     ),
                                   ],
@@ -344,7 +391,13 @@ class _DCMedicalStatScreenState extends State<DCMedicalStatScreen> {
                           context.width * 0.3,
                           context.height * 0.06,
                         ),
-                        onPressed: (context) {},
+                        onPressed: (context) {
+                          BlocProvider.of<PrescriptionBloc>(
+                            context,
+                          ).add(
+                            const NextButtonPressedEvent(),
+                          );
+                        },
                         child: Text(
                           'Next',
                           style: context.textTheme.h6RegularPoppins.copyWith(
