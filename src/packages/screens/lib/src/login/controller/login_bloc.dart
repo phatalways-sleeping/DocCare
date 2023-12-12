@@ -63,7 +63,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     try {
       await _authenticationRepositoryService
           .login(
-            LoginUser(state.email, state.password),
+            state.email,
+            state.password,
           )
           .then((value) => emit(LoginSuccess.from(state)));
     } on AuthException catch (e) {
