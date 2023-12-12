@@ -10,6 +10,9 @@ enum NotificationType {
 
   /// [dismissed] is the enum for dismissed notification type.
   dismissed,
+
+  /// [error] is the enum for error notification type.
+  error,
 }
 
 /// [NotificationBuilder] is the abstract class for all notification states.
@@ -74,6 +77,41 @@ class LoginNotificationBuilder extends NotificationBuilder {
   }
 }
 
+class ErrorNotificationBuilder extends NotificationBuilder {
+  /// Constructor for [ErrorNotificationBuilder].
+  ErrorNotificationBuilder();
+
+  /// [title] is the title of the notification.
+  late Widget title;
+
+  /// [message] is the message of the notification.
+  late Widget message;
+
+  @override
+  void wrapWith({required Widget title, required Widget message}) {
+    this.title = title;
+    this.message = message;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Align(
+        alignment: Alignment.topCenter,
+        child: Padding(
+          padding: const EdgeInsets.only(top: 8),
+          child: DCNotification(
+            title: title,
+            message: message,
+            backgroundColor: context.colorScheme.error,
+            textColor: context.colorScheme.onError,
+            onPressed: (context) {},
+          ),
+        ),
+      ),
+    );
+  }
+}
 /// [SignUpNotificationBuilder] is the class for
 /// sign up notification state.
 class SignUpNotificationBuilder extends NotificationBuilder {
