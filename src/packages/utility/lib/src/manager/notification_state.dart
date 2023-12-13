@@ -157,6 +157,8 @@ class SignUpNotificationBuilder extends NotificationBuilder {
   }
 }
 
+/// [AdminCreateStaffNotificationBuilder] is the class for
+/// create staff notification state.
 class AdminCreateStaffNotificationBuilder extends NotificationBuilder {
   /// Constructor for [AdminCreateStaffNotificationBuilder].
   AdminCreateStaffNotificationBuilder();
@@ -193,6 +195,8 @@ class AdminCreateStaffNotificationBuilder extends NotificationBuilder {
   }
 }
 
+/// [AdminDeleteStaffNotificationBuilder] is the class for
+/// delete staff notification state.
 class AdminDeleteStaffNotificationBuilder extends NotificationBuilder {
   /// Constructor for [AdminDeleteStaffNotificationBuilder].
   AdminDeleteStaffNotificationBuilder();
