@@ -28,6 +28,7 @@ class _DCPrescriptionScreenState extends State<DCPrescriptionScreen> {
       create: (context) => PrescriptionBloc(
         widget.customerID,
         SupabasePrescriptionApiService(supabase: Supabase.instance.client),
+        SupabaseDoctorApiService(supabase: Supabase.instance.client),
       )..add(
           const PrescriptionInitialEvent(),
         ),
