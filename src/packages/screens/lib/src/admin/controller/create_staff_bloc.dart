@@ -1,14 +1,15 @@
 // ignore_for_file: public_member_api_docs, inference_failure_on_function_invocation
+import 'dart:async';
+
 import 'package:administrator/administrator.dart';
 import 'package:auth_api/auth_api.dart' show AuthException;
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'dart:async';
+import 'package:intl/intl.dart';
 // ignore: depend_on_referenced_packages
 import 'package:utility/utility.dart'
-    show NotificationManagerService, NotificationType;
+    show FormValidator, NotificationManagerService, NotificationType;
 
 part 'create_staff_event.dart';
 part 'create_staff_state.dart';
@@ -33,6 +34,7 @@ class CreateStaffBloc extends Bloc<CreateStaffEvent, CreateStaffState> {
     on<NextButton1PressedEvent>(_onNextButton1PressedEvent);
     on<AddMoreButtonPressedEvent>(_onAddMoreButtonPressedEvent);
     on<CreateStaffButtonPressedEvent>(_onCreateStaffButtonPressedEvent);
+    on<ValidateBirthdayInputEvent>(_validateBirthdayInputEvent);
   }
 
   final NotificationManagerService _notificationManagerService;
@@ -70,8 +72,42 @@ class CreateStaffBloc extends Bloc<CreateStaffEvent, CreateStaffState> {
     BirthdayInputEvent event,
     Emitter<CreateStaffState> emit,
   ) {
-// Adjust the duration as needed
-    // Cancel the previous timer, if any
+    emit(state.copyWith(tempBirthday: event.tempBirthday));
+  }
+
+  void _validateBirthdayInputEvent(
+    ValidateBirthdayInputEvent event,
+    Emitter<CreateStaffState> emit,
+  ) {
+    final check = FormValidator.validateDate(event.tempBirthday).isValid;
+    if (!check) {
+      _notificationManagerService
+          .show<void>(
+            NotificationType.adminCreateStaff,
+            title: const Text(
+              'Something went wrong',
+              style: TextStyle(
+                fontSize: 16,
+              ),
+            ),
+            message: const Text(
+              'Please enter a valid date with valid format (dd/mm/yyyy)',
+              style: TextStyle(
+                fontSize: 13,
+              ),
+            ),
+          )
+          .then(
+            (value) =>
+                emit((state as CreateStaffLoading).toggleBackToInitial()),
+          );
+      return;
+    }
+    final formatter = DateFormat('dd/MM/yyyy');
+    final birthday = formatter.parseStrict(
+      event.tempBirthday,
+    );
+    emit(state.copyWith(birthday: birthday));
   }
 
   void _showErrorDialog() {
@@ -149,23 +185,7 @@ class CreateStaffBloc extends Bloc<CreateStaffEvent, CreateStaffState> {
     NextButtonPressedEvent event,
     Emitter<CreateStaffState> emit,
   ) {
-    // Emit loading state
-    // emit(CreateStaffLater.input(
-    //   fullName: state.fullName,
-    //   email: state.email,
-    //   password: state.password,
-    //   birthday: state.birthday,
-    //   role: state.role,
-    //   phone: state.phone,
-    //   startWorkingFrom: state.startWorkingFrom,
-    //   specializationId: state.specializationId,
-    //   rating: state.rating,
-    //   numberOfRates: state.numberOfRates,
-    //   dayOfWeek: state.dayOfWeek,
-    //   roleSelected: state.roleSelected,
-    // ),);
-    emit(CreateStaffLoading.from(state));
-
+    emit(CreateStaffLater.from(state));
     // Login with Google
     try {} on AuthException catch (_) {}
   }
@@ -221,7 +241,6 @@ class CreateStaffBloc extends Bloc<CreateStaffEvent, CreateStaffState> {
           state.dayOfWeek,
         );
       }
-
       emit(CreateStaffSuccess.from(state));
     } on AuthException catch (e) {
       assert(state is CreateStaffLoading, 'State is not loading');

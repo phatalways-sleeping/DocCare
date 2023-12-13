@@ -38,12 +38,12 @@ final class PasswordInputEvent extends CreateStaffEvent {
 }
 
 final class BirthdayInputEvent extends CreateStaffEvent {
-  const BirthdayInputEvent(this.birthday);
+  const BirthdayInputEvent(this.tempBirthday);
 
-  final String birthday;
+  final String tempBirthday;
 
   @override
-  List<Object> get props => [birthday];
+  List<Object> get props => [tempBirthday];
 }
 
 final class RoleInputEvent extends CreateStaffEvent {
@@ -123,4 +123,22 @@ final class NextButton1PressedEvent extends CreateStaffEvent {
 
 final class AddMoreButtonPressedEvent extends CreateStaffEvent {
   const AddMoreButtonPressedEvent();
+}
+
+final class ValidateBirthdayInputEvent extends CreateStaffEvent {
+  const ValidateBirthdayInputEvent(this.tempBirthday);
+
+  final String tempBirthday;
+
+  @override
+  List<Object> get props => [tempBirthday];
+}
+
+final class WorkingShiftInputEvent extends CreateStaffEvent {
+  const WorkingShiftInputEvent(this.dayOfWeek, int size);
+
+  final Map<String, List<int>> dayOfWeek;
+
+  @override
+  List<Object> get props => [dayOfWeek];
 }
