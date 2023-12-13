@@ -17,6 +17,7 @@ class _DCCreateStaffScreen2State extends State<DCCreateStaffScreen2> {
   String selectedDayOfWeek = '';
   List<DynamicWidget> listDynamic = [];
   List<String> data = [];
+  Map<String, List<int>> dayOfWeek = {};
   Icon floatingIcon = Icon(Icons.add);
 
   List<String> daysOfWeek = [
@@ -47,14 +48,26 @@ class _DCCreateStaffScreen2State extends State<DCCreateStaffScreen2> {
         setState(() {
           listDynamic.removeLast();
         });
+        // Remove the corresponding dayOfWeek entry
+        dayOfWeek.remove(selectedDayOfWeek);
+        print('REMOVE: ${dayOfWeek.length}');
       },
       daysOfWeek: daysOfWeek,
       startPeriod: startPeriod,
       endPeriod: startPeriod,
       onDayOfWeekSelected: (selectedDay) {
         setState(() {
-          selectedDayOfWeek += selectedDay ?? '';
+          selectedDayOfWeek = selectedDay ?? '';
         });
+        // Initialize with dummy values if not present
+        dayOfWeek.putIfAbsent(selectedDay!, () => [0, 0]);
+      },
+      onValuesSelected: () {
+        // Update the startPeriod and endPeriod in the dayOfWeek map
+        dayOfWeek[selectedDayOfWeek!]![0] =
+            listDynamic.last.selectedStartPeriod!;
+        dayOfWeek[selectedDayOfWeek!]![1] = listDynamic.last.selectedEndPeriod!;
+        print('ADD: ${dayOfWeek.length}');
       },
     ));
     setState(() {});
@@ -69,8 +82,10 @@ class _DCCreateStaffScreen2State extends State<DCCreateStaffScreen2> {
           "${widget.selectedDayOfWeek}: ${widget.selectedStartPeriod} to ${widget.selectedEndPeriod}");
     });
 
-    setState(() {});
-    print(data.length);
+    setState(() {
+      // Trigger a rebuild of the widget tree
+      print(data.length);
+    });
   }
 
   @override
@@ -105,7 +120,8 @@ class _DCCreateStaffScreen2State extends State<DCCreateStaffScreen2> {
                                   Text("Phone Number: ${state.phone}"),
                                   Text("Role: ${state.role}"),
                                   if (state.role == 'Doctor')
-                                    Text("Specialization: ${state.role}"),
+                                    Text(
+                                        "Specialization: ${state.specializationId}"),
                                 ],
                               ),
                             Text("${index + 1} : ${data[index]}"),
@@ -129,12 +145,15 @@ class _DCCreateStaffScreen2State extends State<DCCreateStaffScreen2> {
       itemBuilder: (_, index) => listDynamic[index],
     );
 
-    final nextButton = Container(
+    Widget nextButton = Container(
       child: ElevatedButton(
-        onPressed: submitData,
+        onPressed: listDynamic.isNotEmpty ? submitData : null,
         child: const Padding(
           padding: EdgeInsets.all(16.0),
-          child: Text('Next'),
+          child: Text(
+            'Next',
+            selectionColor: Colors.black,
+          ),
         ),
       ),
     );
@@ -182,6 +201,8 @@ class DynamicWidget extends StatelessWidget {
   final List<int> startPeriod;
   final List<int> endPeriod;
   final Function(String?) onDayOfWeekSelected;
+  final Function()?
+      onValuesSelected; // Callback for when all values are selected
 
   // Add fields to store the selected values
   String? selectedDayOfWeek;
@@ -194,6 +215,7 @@ class DynamicWidget extends StatelessWidget {
     required this.startPeriod,
     required this.endPeriod,
     required this.onDayOfWeekSelected,
+    this.onValuesSelected,
   });
 
   @override
@@ -212,6 +234,7 @@ class DynamicWidget extends StatelessWidget {
               // Handle selection
               onDayOfWeekSelected(selectedValue);
               selectedDayOfWeek = selectedValue;
+              checkValuesSelected();
             },
           ),
           const SizedBox(height: 16),
@@ -224,6 +247,7 @@ class DynamicWidget extends StatelessWidget {
             onItemSelected: (context, controller, selectedValue) {
               // Handle selection
               selectedStartPeriod = selectedValue;
+              checkValuesSelected();
             },
           ),
           const SizedBox(height: 16),
@@ -236,6 +260,7 @@ class DynamicWidget extends StatelessWidget {
             onItemSelected: (context, controller, selectedValue) {
               // Handle selection
               selectedEndPeriod = selectedValue;
+              checkValuesSelected();
             },
           ),
           const SizedBox(height: 16),
@@ -251,5 +276,14 @@ class DynamicWidget extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void checkValuesSelected() {
+    if (selectedDayOfWeek != null &&
+        selectedStartPeriod != null &&
+        selectedEndPeriod != null) {
+      onValuesSelected?.call();
+      print("YESS"); // Call the callback when all values are selected
+    }
   }
 }
