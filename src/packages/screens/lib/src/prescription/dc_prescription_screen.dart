@@ -40,6 +40,7 @@ class _DCPrescriptionScreenState extends State<DCPrescriptionScreen> {
             appBar: const DCCustomerHeaderBar(
               title: 'DocCare',
             ),
+            //TODO(nmvinhdl1215): Change to FractionallySizedBox after the bug is fixed
             body: CustomScrollView(
               slivers: <Widget>[
                 SliverList(
@@ -77,127 +78,152 @@ class _DCPrescriptionScreenState extends State<DCPrescriptionScreen> {
                         Column(
                           children: List.generate(
                             state.doctorName.length,
-                            (index) => Padding(
-                              padding: const EdgeInsets.only(
-                                top: 20,
-                                left: 10,
-                                right: 10,
-                              ),
-                              child: DecoratedBox(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  border: Border.all(
-                                    color: context.colorScheme.onSurface,
-                                  ),
-                                ),
-                                child: Row(
-                                  children: [
-                                    //Thick vertical line
-                                    Container(
-                                      width: 12,
+                            (index) => (state.done[index])
+                                ? Padding(
+                                    padding: const EdgeInsets.only(
+                                      top: 20,
+                                      left: 10,
+                                      right: 10,
+                                    ),
+                                    child: DecoratedBox(
                                       decoration: BoxDecoration(
-                                        color: context.colorScheme.secondary,
-                                        borderRadius: const BorderRadius.only(
-                                          topLeft: Radius.circular(30),
-                                          bottomLeft: Radius.circular(30),
+                                        borderRadius: BorderRadius.circular(20),
+                                        border: Border.all(
+                                          color: context.colorScheme.onSurface,
                                         ),
                                       ),
-                                    ),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        DefaultTextStyle.merge(
-                                          style: context.textTheme.h4BoldPoppins
-                                              .copyWith(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.normal,
-                                            color: context
-                                                .colorScheme.onBackground,
+                                      child: Row(
+                                        children: [
+                                          //Thick vertical line
+                                          const SizedBox(
+                                            width: 0.2,
                                           ),
-                                          textAlign: TextAlign.start,
-                                          child: Padding(
-                                            padding: EdgeInsets.only(left: 10),
-                                            child:
-                                                Text(state.doctorName[index]),
+                                          Container(
+                                            height: 55,
+                                            width: 12,
+                                            decoration: BoxDecoration(
+                                              color:
+                                                  context.colorScheme.surface,
+                                              borderRadius:
+                                                  const BorderRadius.only(
+                                                topLeft: Radius.circular(30),
+                                                bottomLeft: Radius.circular(30),
+                                              ),
+                                            ),
                                           ),
-                                        ),
-                                        Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
-                                          children: [
-                                            Row(
-                                              children: [
-                                                Padding(
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              DefaultTextStyle.merge(
+                                                style: context
+                                                    .textTheme.h4BoldPoppins
+                                                    .copyWith(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.normal,
+                                                  color: context
+                                                      .colorScheme.onBackground,
+                                                ),
+                                                textAlign: TextAlign.start,
+                                                child: Padding(
                                                   padding:
                                                       const EdgeInsets.only(
                                                     left: 10,
                                                   ),
-                                                  child: SvgPicture.string(
-                                                    DCSVGIcons.clock,
-                                                    fit: BoxFit.cover,
+                                                  child: Text(
+                                                    state.doctorName[index],
                                                   ),
                                                 ),
-                                                DefaultTextStyle(
+                                              ),
+                                              Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.end,
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .only(
+                                                          left: 10,
+                                                        ),
+                                                        child:
+                                                            SvgPicture.string(
+                                                          DCSVGIcons.clock,
+                                                          fit: BoxFit.cover,
+                                                        ),
+                                                      ),
+                                                      DefaultTextStyle(
+                                                        style: context.textTheme
+                                                            .h4RegularPoppins
+                                                            .copyWith(
+                                                          fontSize: 16,
+                                                          fontWeight:
+                                                              FontWeight.normal,
+                                                          color: context
+                                                              .colorScheme
+                                                              .onBackground,
+                                                        ),
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .only(
+                                                            left: 10,
+                                                          ),
+                                                          child: Text(
+                                                            state
+                                                                .datePrescribed[
+                                                                    index]
+                                                                .toString()
+                                                                .substring(
+                                                                  0,
+                                                                  10,
+                                                                ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                          //Text at the end
+                                          Expanded(
+                                            child: Align(
+                                              alignment: Alignment.centerRight,
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(
+                                                  right: 10,
+                                                ),
+                                                child: DefaultTextStyle.merge(
                                                   style: context.textTheme
                                                       .h4RegularPoppins
                                                       .copyWith(
-                                                    fontSize: 16,
+                                                    fontSize: 18,
                                                     fontWeight:
                                                         FontWeight.normal,
                                                     color: context.colorScheme
                                                         .onBackground,
                                                   ),
-                                                  child: Padding(
-                                                    padding: EdgeInsets.only(
-                                                        left: 10),
-                                                    child: Text(
-                                                      state
-                                                          .datePrescribed[index]
-                                                          .toString()
-                                                          .substring(0, 10),
-                                                    ),
+                                                  textAlign: TextAlign.start,
+                                                  child: Text(
+                                                    state.note[index]
+                                                        .substring(3),
                                                   ),
                                                 ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                    //Text at the end
-                                    Expanded(
-                                      child: Align(
-                                        alignment: Alignment.centerRight,
-                                        child: Padding(
-                                          padding:
-                                              const EdgeInsets.only(right: 10),
-                                          child: DefaultTextStyle.merge(
-                                            style: context
-                                                .textTheme.h4RegularPoppins
-                                                .copyWith(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.normal,
-                                              color: context
-                                                  .colorScheme.onBackground,
-                                            ),
-                                            textAlign: TextAlign.start,
-                                            child: Text(
-                                              state.note[index].substring(3),
+                                              ),
                                             ),
                                           ),
-                                        ),
+                                        ],
                                       ),
                                     ),
-                                  ],
-                                ),
-                              ),
-                            ),
+                                  )
+                                : const SizedBox(),
                           ),
                         ),
-
                         const SizedBox(
                           height: 20,
                         ),
@@ -209,6 +235,157 @@ class _DCPrescriptionScreenState extends State<DCPrescriptionScreen> {
                           ),
                           textAlign: TextAlign.left,
                           child: const Text('Past Prescription'),
+                        ),
+                        Column(
+                          children: List.generate(
+                            state.doctorName.length,
+                            (index) => (state.done[index] == false)
+                                ? Padding(
+                                    padding: const EdgeInsets.only(
+                                      top: 20,
+                                      left: 10,
+                                      right: 10,
+                                    ),
+                                    child: DecoratedBox(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(20),
+                                        border: Border.all(
+                                          color: context.colorScheme.onSurface,
+                                        ),
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          //Thick vertical line
+                                          const SizedBox(
+                                            width: 0.2,
+                                          ),
+                                          Container(
+                                            height: 55,
+                                            width: 12,
+                                            decoration: BoxDecoration(
+                                              color:
+                                                  context.colorScheme.surface,
+                                              borderRadius:
+                                                  const BorderRadius.only(
+                                                topLeft: Radius.circular(30),
+                                                bottomLeft: Radius.circular(30),
+                                              ),
+                                            ),
+                                          ),
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              DefaultTextStyle.merge(
+                                                style: context
+                                                    .textTheme.h4BoldPoppins
+                                                    .copyWith(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.normal,
+                                                  color: context
+                                                      .colorScheme.onBackground,
+                                                ),
+                                                textAlign: TextAlign.start,
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                    left: 10,
+                                                  ),
+                                                  child: Text(
+                                                      state.doctorName[index]),
+                                                ),
+                                              ),
+                                              Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.end,
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .only(
+                                                          left: 10,
+                                                        ),
+                                                        child:
+                                                            SvgPicture.string(
+                                                          DCSVGIcons.clock,
+                                                          fit: BoxFit.cover,
+                                                        ),
+                                                      ),
+                                                      DefaultTextStyle(
+                                                        style: context.textTheme
+                                                            .h4RegularPoppins
+                                                            .copyWith(
+                                                          fontSize: 16,
+                                                          fontWeight:
+                                                              FontWeight.normal,
+                                                          color: context
+                                                              .colorScheme
+                                                              .onBackground,
+                                                        ),
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .only(
+                                                            left: 10,
+                                                          ),
+                                                          child: Text(
+                                                            state
+                                                                .datePrescribed[
+                                                                    index]
+                                                                .toString()
+                                                                .substring(
+                                                                  0,
+                                                                  10,
+                                                                ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                          //Text at the end
+                                          Expanded(
+                                            child: Align(
+                                              alignment: Alignment.centerRight,
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(
+                                                  right: 10,
+                                                ),
+                                                child: DefaultTextStyle.merge(
+                                                  style: context.textTheme
+                                                      .h4RegularPoppins
+                                                      .copyWith(
+                                                    fontSize: 18,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                    color: context.colorScheme
+                                                        .onBackground,
+                                                  ),
+                                                  textAlign: TextAlign.start,
+                                                  child: Text(
+                                                    state.note[index]
+                                                        .substring(3),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  )
+                                : const SizedBox(),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 20,
                         ),
                         DCCustomerNavigationBar(
                           onItemSelected: (context, index) {

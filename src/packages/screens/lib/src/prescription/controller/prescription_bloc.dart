@@ -30,8 +30,9 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
     try {
       print('ID: $ID');
       emit(PrescriptionInitial.empty());
-      final prescription =
-          await _prescriptionAPIService.getAllPrescriptionList().then((value) {
+      final prescription = await _prescriptionAPIService
+          .getAllPrescriptionListByCustomerID(ID)
+          .then((value) {
         final doctorName = <String>[];
         final datePrescribed = <DateTime>[];
         final note = <String>[];
