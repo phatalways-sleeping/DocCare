@@ -21,20 +21,33 @@ class DCCreateStaffScreen1 extends StatefulWidget {
 class _DCCreateStaffScreen1State extends State<DCCreateStaffScreen1> {
   @override
   Widget build(BuildContext context) {
+    return buildScaffold();
+  }
+
+  Scaffold buildScaffold() {
     return Scaffold(
-      appBar: const DCAdminHeaderBar(
-        headerBarTitle: ('Create staff'),
-        allowNavigationBack: true,
-      ),
+      appBar: buildAppBar(),
       body: BlocProvider(
-        create: (_) => CreateStaffBloc(NotificationManager.instance,
-            SupabaseAdminControlStaffApiService.instance),
+        create: (_) => CreateStaffBloc(
+          NotificationManager.instance,
+          SupabaseAdminControlStaffApiService.instance,
+        ),
         child: const CustomScrollView(
           slivers: [
             SliverToBoxAdapter(child: BodyWidget()),
           ],
         ),
       ),
+    );
+  }
+
+  DCAdminHeaderBar buildAppBar() {
+    return DCAdminHeaderBar(
+      headerBarTitle: 'Create staff',
+      allowNavigationBack: true,
+      onLeadingIconPressed: () {
+        Navigator.pop(context);
+      },
     );
   }
 }
@@ -49,18 +62,20 @@ class BodyWidget extends StatelessWidget {
     return BlocBuilder<CreateStaffBloc, CreateStaffState>(
       builder: (context, state) {
         if (state is CreateStaffInitial) {
-          return BodyScreen1();
-        } else if (state is CreateStaffLoading) {
+          return BodyScreen1(state: state);
+        } else if (state is CreateStaffLater) {
           return DCCreateStaffScreen2();
         } // Add a default case or handle other states if needed
-        return Container(child: Text('Adasdadwas'));
+        return Container(child: Text('Create role successful'));
       },
     );
   }
 }
 
 class BodyScreen1 extends StatelessWidget {
-  BodyScreen1({super.key});
+  final CreateStaffState state;
+  BodyScreen1({Key? key, required this.state}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -110,17 +125,28 @@ class BodyScreen1 extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             DCOutlinedWithHeadingTextFormField(
-              heading: const Text('Birthday'),
-              hintText: 'dd/mm/yyyy',
-              headingColor: context.colorScheme.onSurface,
-              borderColor: context.colorScheme.onBackground,
-              color: context.colorScheme.onBackground,
-              borderRadius: 16,
-              keyboardType: TextInputType.datetime,
-              onChanged: (context, controller) => context
-                  .read<CreateStaffBloc>()
-                  .add(BirthdayInputEvent(controller.text)),
-            ),
+                heading: const Text('Birthday'),
+                hintText: 'dd/mm/yyyy',
+                headingColor: context.colorScheme.onSurface,
+                borderColor: context.colorScheme.onBackground,
+                color: context.colorScheme.onBackground,
+                borderRadius: 16,
+                keyboardType: TextInputType.datetime,
+                onChanged: (context, controller) => context
+                    .read<CreateStaffBloc>()
+                    .add(BirthdayInputEvent(controller.text)),
+                onFocusChange: (context, focusNode) {
+                  if (state.tempBirthday == '') {
+                    return;
+                  }
+                  if (!focusNode.hasFocus) {
+                    context.read<CreateStaffBloc>().add(
+                          ValidateBirthdayInputEvent(
+                            state.tempBirthday,
+                          ),
+                        );
+                  }
+                }),
             const SizedBox(height: 16),
             DCOutlinedWithHeadingTextFormField(
               heading: const Text('Phone number'),
@@ -181,8 +207,7 @@ class BodyScreen1 extends StatelessWidget {
                   )
                 ],
               )
-            else if (context.read<CreateStaffBloc>().state.role ==
-                'Receptionist')
+            else
               Column(
                 children: [
                   const SizedBox(height: 16),
