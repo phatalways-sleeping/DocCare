@@ -7,7 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class DCAdminHeaderBar extends StatefulWidget implements PreferredSizeWidget {
   const DCAdminHeaderBar({
-    super.key,
+    Key? key,
     this.headerBarTitle,
     this.onLeadingIconPressed,
     this.onActionsIconPressed,
@@ -16,18 +16,20 @@ class DCAdminHeaderBar extends StatefulWidget implements PreferredSizeWidget {
     this.allowNavigationBack = false,
     this.haveLogout = false,
     this.haveNotification = false,
-  });
+  }) : super(key: key);
+
   final String? headerBarTitle;
   final bool haveLogout;
   final bool allowNavigationBack;
   final bool haveNotification;
   final double cornerRadius;
-  final void Function(BuildContext context)? onLeadingIconPressed;
-  final void Function(BuildContext context)? onActionsIconPressed;
+  final void Function()? onLeadingIconPressed;
+  final void Function()? onActionsIconPressed;
   final Color? backgroundColor;
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+
   @override
   State<DCAdminHeaderBar> createState() => _DCAdminHeaderBarState();
 }
@@ -54,7 +56,7 @@ class _DCAdminHeaderBarState extends State<DCAdminHeaderBar> {
                 ),
               ),
               onPressed: () {
-                widget.onLeadingIconPressed?.call(context);
+                Navigator.pop(context);
               },
             )
           : widget.haveLogout
@@ -69,7 +71,7 @@ class _DCAdminHeaderBarState extends State<DCAdminHeaderBar> {
                     ),
                   ),
                   onPressed: () {
-                    widget.onLeadingIconPressed?.call(context);
+                    widget.onLeadingIconPressed?.call();
                   },
                 )
               : null,
@@ -86,7 +88,7 @@ class _DCAdminHeaderBarState extends State<DCAdminHeaderBar> {
               ),
             ),
             onPressed: () {
-              widget.onActionsIconPressed?.call(context);
+              widget.onActionsIconPressed?.call();
             },
           ),
       ],
