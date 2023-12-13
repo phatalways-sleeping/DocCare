@@ -5,9 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:components/src/theme/color_scheme/light_color_scheme.dart';
 
 class PieChartSample2 extends StatefulWidget {
-  
   const PieChartSample2({super.key});
-  
+
   @override
   State<StatefulWidget> createState() => PieChart2State();
 }
