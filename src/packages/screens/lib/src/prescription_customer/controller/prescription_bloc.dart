@@ -17,6 +17,7 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
     this.ID,
     this._prescriptionAPIService,
     this._doctorAPIService,
+    this._intakeAPIService,
   ) : super(PrescriptionInitial.empty()) {
     on<PrescriptionInitialEvent>(_onPrescriptionInitialEvent);
     on<PrescriptionTapEvent>(_onPrescriptionTapEvent);
@@ -25,6 +26,7 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
   final String ID;
   final SupabasePrescriptionApiService _prescriptionAPIService;
   final SupabaseDoctorApiService _doctorAPIService;
+  final SupabaseIntakeAPIService _intakeAPIService;
 
   void _onPrescriptionInitialEvent(
     PrescriptionInitialEvent event,
