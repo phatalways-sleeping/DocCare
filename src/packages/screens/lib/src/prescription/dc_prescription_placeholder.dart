@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:screens/src/prescription/controller/prescription_bloc.dart';
+import 'package:screens/src/prescription/dc_add_medicine_screen.dart';
 import 'package:screens/src/prescription/dc_medical_stat_screen.dart';
 import 'package:screens/src/prescription/dc_prescription_screen.dart';
 import 'package:utility/utility.dart';
@@ -42,6 +43,11 @@ class _DCPrescriptionPlaceholderState extends State<DCPrescriptionPlaceholder> {
               );
             } else if (state is PrescriptionMedicalSuccess) {
               return DCPrescriptionScreen(customerName: widget.customerName);
+            } else if (state is PrescriptionAddMedicine) {
+              return GestureDetector(
+                onTap: () => FocusScope.of(context).unfocus(),
+                child: const DCAddMedicineScreen(),
+              );
             }
             return Container();
           },

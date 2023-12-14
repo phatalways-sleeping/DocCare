@@ -358,31 +358,29 @@ class _DCMedicalStatScreenState extends State<DCMedicalStatScreen> {
                         alignment: Alignment.centerLeft,
                         child: Text(
                           "Doctor's Notes",
-                          style: context.textTheme.h6BoldPoppins.copyWith(
-                            fontSize: 20,
-                          ),
+                          style: context.textTheme.h6BoldPoppins
+                              .copyWith(fontSize: 20),
                         ),
                       ),
                       Container(
                         padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(
                           color: context.colorScheme.onPrimary,
-                          borderRadius: BorderRadius.circular(
-                            12,
-                          ),
+                          borderRadius: BorderRadius.circular(12),
                           border:
                               Border.all(color: context.colorScheme.secondary),
                         ),
-                        child: const TextField(
+                        child: TextField(
                           maxLines: null, // Makes it expandable
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             hintText: 'Write some note for the patient...',
                             border: InputBorder.none,
                             contentPadding: EdgeInsets.all(12),
                           ),
-                          style: TextStyle(
-                            fontSize: 16,
-                          ),
+                          style: const TextStyle(fontSize: 16),
+                          onChanged: (value) =>
+                              BlocProvider.of<PrescriptionBloc>(context)
+                                  .add(DoctorNoteInputEvent(value)),
                         ),
                       ),
                       const SizedBox(height: 16),

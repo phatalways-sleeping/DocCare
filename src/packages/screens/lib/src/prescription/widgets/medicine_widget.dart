@@ -10,84 +10,107 @@ class DCMedicine extends StatelessWidget {
     required this.medicineName,
     required this.details,
     required this.amount,
+    this.onPressed,
+    this.isAddMedicine = false,
     super.key,
   });
 
   final String medicineName;
   final String details;
   final String amount;
+  final bool isAddMedicine;
+  final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      color: Colors.white,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
-        side: const BorderSide(
-          color: Colors.green,
+    return InkWell(
+      onTap: isAddMedicine ? onPressed : null,
+      child: Card(
+        color: isAddMedicine
+            ? context.colorScheme.surface
+            : context.colorScheme.onPrimary,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+          side: const BorderSide(
+            color: Colors.green,
+          ),
         ),
-      ),
-      elevation: 0,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        child: Row(
-          children: [
-            SvgPicture.string(
-              DCSVGIcons.pill,
-              width: 30,
-              height: 30,
-            ),
-            const SizedBox(width: 8),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          medicineName,
-                          style: context.textTheme.h6RegularPoppins.copyWith(
-                            fontSize: 20,
-                          ),
-                        ),
-                      ),
-                      IconButton(
-                        onPressed: () {},
-                        icon: SvgPicture.string(
-                          DCSVGIcons.deleteMedicine,
-                          width: 25,
-                          height: 25,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          details,
-                          style: context.textTheme.h6RegularPoppins.copyWith(
-                            fontSize: 14,
-                            color: context.colorScheme.onSecondary
-                                .withOpacity(0.5),
-                          ),
-                        ),
-                      ),
-                      Text(
-                        amount,
-                        style: context.textTheme.h6RegularPoppins.copyWith(
-                          fontSize: 14,
-                          color:
-                              context.colorScheme.onSecondary.withOpacity(0.5),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+        elevation: 0,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          child: Row(
+            children: [
+              SvgPicture.string(
+                DCSVGIcons.pill,
+                width: 30,
+                height: 30,
               ),
-            ),
-          ],
+              const SizedBox(width: 8),
+              if (!isAddMedicine)
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              medicineName,
+                              style:
+                                  context.textTheme.h6RegularPoppins.copyWith(
+                                fontSize: 20,
+                              ),
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: () {},
+                            icon: SvgPicture.string(
+                              DCSVGIcons.deleteMedicine,
+                              width: 25,
+                              height: 25,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              details,
+                              style:
+                                  context.textTheme.h6RegularPoppins.copyWith(
+                                fontSize: 14,
+                                color: context.colorScheme.onSecondary
+                                    .withOpacity(0.5),
+                              ),
+                            ),
+                          ),
+                          Text(
+                            amount,
+                            style: context.textTheme.h6RegularPoppins.copyWith(
+                              fontSize: 14,
+                              color: context.colorScheme.onSecondary
+                                  .withOpacity(0.5),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                )
+              else
+                Expanded(
+                  child: Center(
+                    child: Text(
+                      'Add new medicine',
+                      style: context.textTheme.h6RegularPoppins.copyWith(
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
+                ),
+            ],
+          ),
         ),
       ),
     );
