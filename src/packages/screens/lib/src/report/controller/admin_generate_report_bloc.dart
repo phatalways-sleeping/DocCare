@@ -5,7 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/widgets.dart';
 import 'package:screens/src/report/generate_pdf_service.dart';
 import 'package:auth_api/auth_api.dart' show AuthException;
-
+import 'package:administrator/src/admin_generate_report_service.dart';
 import 'package:utility/utility.dart'
     show NotificationManagerService, NotificationType;
 
@@ -16,6 +16,7 @@ part 'admin_generate_report_state.dart';
 class GenerateReportBloc
     extends Bloc<GenerateReportEvent, GenerateReportState> {
   GenerateReportBloc(
+    this._adminGenerateReportService,
     this._pdfInvoiceService,
     this._notificationManagerService,
   ) : super(GenerateReportInitial.empty()) {
@@ -25,8 +26,8 @@ class GenerateReportBloc
     on<GenerateReportButtonPressedEvent>(_onGenerateReportButtonPressedEvent);
   }
 
+  final AdminGenerateReportService _adminGenerateReportService;
   final PdfInvoiceService _pdfInvoiceService;
-
   final NotificationManagerService _notificationManagerService;
 
   void _onFromMonthInputEvent(
@@ -81,6 +82,7 @@ class GenerateReportBloc
             state.fromMonth,
             state.toMonth,
             state.year,
+            _adminGenerateReportService,
           )
           .then((value) => emit(GenerateReportSuccess.from(state)));
     } on AuthException catch (e) {
