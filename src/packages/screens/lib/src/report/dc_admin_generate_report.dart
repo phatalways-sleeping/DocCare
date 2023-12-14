@@ -8,6 +8,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:screens/src/report/controller/admin_generate_report_bloc.dart';
 import 'package:utility/utility.dart';
 import 'package:screens/src/report/generate_pdf_service.dart';
+import 'package:administrator/src/supabase_admin_generate_report_service.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class DCAdminGenerateReportScreen extends StatefulWidget {
   const DCAdminGenerateReportScreen({super.key});
@@ -33,6 +35,7 @@ class _DCAdminGenerateReportScreenState
       ),
       body: BlocProvider(
         create: (_) => GenerateReportBloc(
+          SupabaseAdminGenerateReportService.instance,
           PdfInvoiceService(),
           NotificationManager.instance,
         ),
