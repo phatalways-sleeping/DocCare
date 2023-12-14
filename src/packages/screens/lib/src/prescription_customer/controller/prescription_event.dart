@@ -16,7 +16,9 @@ final class PrescriptionInitialEvent extends PrescriptionEvent {
 }
 
 final class PrescriptionTapEvent extends PrescriptionEvent {
-  const PrescriptionTapEvent();
+  const PrescriptionTapEvent(this.prescriptionID);
+
+  final String prescriptionID;
 
   @override
   List<Object?> get props => [];

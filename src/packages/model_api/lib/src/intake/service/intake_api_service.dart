@@ -16,6 +16,8 @@ abstract interface class IntakeApiService<T extends Intake> {
 
   Future<List<T>> getIntakeList(List<Tuple2<String, String>> intakeInfo);
 
+  Future<List<T>> getIntakeListByPrescriptionID(String prescriptionID);
+
   Future<void> updateIntakeDuration(
       String prescriptionID, String medicineName, Int duration);
 

@@ -3,8 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:screens/src/prescription_customer/controller/prescription_bloc.dart';
-import 'package:screens/src/prescription_customer/widget/dc_medicines_screen.dart';
-import 'package:screens/src/prescription_customer/widget/dc_prescription_screen.dart';
+import 'package:screens/src/prescription_customer/dc_medicines_screen.dart';
+import 'package:screens/src/prescription_customer/dc_prescription_screen.dart';
 import 'package:utility/utility.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:model_api/model_api.dart';
@@ -38,7 +38,19 @@ class _DCPrescriptionGeneralState extends State<DCPrescriptionGeneral> {
           print(state.doctorName.length);
         },
         builder: (context, state) {
-          return DCPrescriptionScreen(customerID: widget.customerID);
+          if (state is PrescriptionInitial) {
+            return DCPrescriptionScreen(
+              customerID: widget.customerID,
+            );
+          } else if (state is MedicineInitial) {
+            return DCMedicineScreen(
+              prescriptionID: state.currentPrescriptionID,
+            );
+          } else {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
         },
       ),
     );

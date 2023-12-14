@@ -83,3 +83,43 @@ final class PrescriptionLoading extends PrescriptionState {
         done: done ?? super.done,
       );
 }
+
+final class MedicineInitial extends PrescriptionState {
+  const MedicineInitial({
+    required super.doctorName,
+    required super.datePrescribed,
+    required super.note,
+    required super.done,
+    required this.medicineName,
+    required this.quantity,
+    required this.toBeTaken,
+    required this.timeOfTheDay,
+    required this.currentPrescriptionID,
+  });
+
+  final List<String> medicineName;
+  final List<int?> quantity;
+  final List<int?> toBeTaken;
+  final List<String?> timeOfTheDay;
+  final String currentPrescriptionID;
+
+  @override
+  PrescriptionState copyWith({
+    List<String>? doctorName,
+    List<DateTime>? datePrescribed,
+    List<String>? note,
+    List<bool>? done,
+  }) {
+    return MedicineInitial(
+      doctorName: doctorName ?? super.doctorName,
+      datePrescribed: datePrescribed ?? super.datePrescribed,
+      note: note ?? super.note,
+      done: done ?? super.done,
+      medicineName: medicineName,
+      quantity: quantity,
+      toBeTaken: toBeTaken,
+      timeOfTheDay: timeOfTheDay,
+      currentPrescriptionID: currentPrescriptionID,
+    );
+  }
+}

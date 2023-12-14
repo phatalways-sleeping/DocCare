@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:meta/meta.dart';
 import 'package:model_api/model_api.dart';
-import 'package:model_api/src/prescription/service/prescription_api_service.dart';
+import 'package:model_api/src/prescription/service/supabase_prescription_api.dart';
 import 'package:model_api/src/users/service/supabase_doctor_api_service.dart';
+import 'package:model_api/src/intake/service/supabase_intake_api_service.dart';
 import 'package:models/models.dart';
 import 'package:utility/utility.dart';
 
@@ -74,7 +75,44 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
     Emitter<PrescriptionState> emit,
   ) async {
     try {
-      emit(PrescriptionInitial.empty());
+      final medicineName = <String>[];
+      final quantity = <int?>[];
+      final toBeTaken = <int?>[];
+      final timeOfTheDay = <String?>[];
+
+      emit(
+        PrescriptionLoading(
+          doctorName: state.doctorName,
+          datePrescribed: state.datePrescribed,
+          note: state.note,
+          done: state.done,
+        ),
+      );
+
+      final intake = await _intakeAPIService
+          .getIntakeListByPrescriptionID(event.prescriptionID)
+          .then((value) {
+        for (final element in value) {
+          medicineName.add(element.medicineName);
+          quantity.add(element.quantity);
+          toBeTaken.add(element.toBeTaken);
+          timeOfTheDay.add(element.timeOfTheDay);
+        }
+      });
+
+      emit(
+        MedicineInitial(
+          doctorName: state.doctorName,
+          datePrescribed: state.datePrescribed,
+          note: state.note,
+          done: state.done,
+          medicineName: medicineName,
+          quantity: quantity,
+          toBeTaken: toBeTaken,
+          timeOfTheDay: timeOfTheDay,
+          currentPrescriptionID: event.prescriptionID,
+        ),
+      );
     } catch (e) {
       return;
     }

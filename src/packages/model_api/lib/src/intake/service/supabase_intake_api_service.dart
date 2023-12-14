@@ -37,6 +37,20 @@ class SupabaseIntakeAPIService implements IntakeApiService<Intake> {
       )
       .onError((error, stackTrace) => throw Exception(error));
 
+  //get intake list, has argument is a list of prescriptionID
+  @override
+  Future<List<Intake>> getIntakeListByPrescriptionID(String prescriptionID) =>
+      supabase
+          .from('intake')
+          .select<PostgrestList>()
+          .eq('prescriptionID', prescriptionID)
+          .then(
+            (value) => value.isEmpty
+                ? throw Exception('No intake found')
+                : value.map(Intake.fromJson).toList(),
+          )
+          .onError((error, stackTrace) => throw Exception(error));
+
   //get intake list, has argument is a list of prescriptionID and medicineName
   @override
   Future<List<Intake>> getIntakeList(List<Tuple2<String, String>> intakeInfo) =>
