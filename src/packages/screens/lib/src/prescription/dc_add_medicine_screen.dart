@@ -3,6 +3,8 @@
 import 'package:components/components.dart';
 import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:screens/src/prescription/controller/prescription_bloc.dart';
 import 'package:screens/src/prescription/widgets/time_of_day_selector.dart';
 import 'package:screens/src/prescription/widgets/to_be_taken_selector.dart';
 
@@ -50,7 +52,13 @@ class _DCAddMedicineScreenState extends State<DCAddMedicineScreen> {
                       const SizedBox(height: 8),
                       DCOutlinedTextFormField(
                         hintText: 'Enter medicine name',
-                        onChanged: (context, controller) {},
+                        onChanged: (context, controller) {
+                          context.read<PrescriptionBloc>().add(
+                                MedicineNameInputEvent(
+                                  controller.text,
+                                ),
+                              );
+                        },
                       ),
                       const SizedBox(height: 8),
                       Container(
@@ -65,7 +73,13 @@ class _DCAddMedicineScreenState extends State<DCAddMedicineScreen> {
                       const SizedBox(height: 8),
                       DCOutlinedTextFormField(
                         hintText: 'Number of days',
-                        onChanged: (context, controller) {},
+                        onChanged: (context, controller) {
+                          context.read<PrescriptionBloc>().add(
+                                MedicineDurationInputEvent(
+                                  controller.text,
+                                ),
+                              );
+                        },
                       ),
                       const SizedBox(height: 8),
                       Container(
@@ -80,7 +94,13 @@ class _DCAddMedicineScreenState extends State<DCAddMedicineScreen> {
                       const SizedBox(height: 8),
                       DCOutlinedTextFormField(
                         hintText: 'Number of pills per time',
-                        onChanged: (context, controller) {},
+                        onChanged: (context, controller) {
+                          context.read<PrescriptionBloc>().add(
+                                MedicineDoseInputEvent(
+                                  controller.text,
+                                ),
+                              );
+                        },
                       ),
                       const SizedBox(height: 8),
                       Container(
@@ -93,7 +113,7 @@ class _DCAddMedicineScreenState extends State<DCAddMedicineScreen> {
                         ),
                       ),
                       const SizedBox(height: 8),
-                      TimeOfDaySelector(onSelectionChanged: (times) {}),
+                      const TimeOfDaySelector(),
                       const SizedBox(height: 8),
                       Container(
                         alignment: Alignment.centerLeft,
@@ -105,7 +125,7 @@ class _DCAddMedicineScreenState extends State<DCAddMedicineScreen> {
                         ),
                       ),
                       const SizedBox(height: 8),
-                      ToBeTakenSelector(onSelectionChanged: (times) {}),
+                      const ToBeTakenSelector(),
                       const SizedBox(height: 20),
                       DCFilledButton(
                         backgroundColor: context.colorScheme.surface,
@@ -113,7 +133,10 @@ class _DCAddMedicineScreenState extends State<DCAddMedicineScreen> {
                           context.width * 0.8,
                           context.height * 0.07,
                         ),
-                        onPressed: (context) {},
+                        onPressed: (context) {
+                          BlocProvider.of<PrescriptionBloc>(context)
+                              .add(const AddIntakeButtonPressedEvent());
+                        },
                         child: Text(
                           'Add this to intake',
                           style: context.textTheme.h6RegularPoppins.copyWith(

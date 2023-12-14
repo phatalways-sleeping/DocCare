@@ -49,6 +49,10 @@ class _DCPrescriptionPlaceholderState extends State<DCPrescriptionPlaceholder> {
                 child: const DCAddMedicineScreen(),
               );
             }
+            // TODO(phucchuhoang): Navigate back to home screen
+            else if (state is PrescriptionSuccess) {
+              return Container();
+            }
             return Container();
           },
         ),

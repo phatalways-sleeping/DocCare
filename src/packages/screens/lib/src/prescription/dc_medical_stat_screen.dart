@@ -158,7 +158,8 @@ class _DCMedicalStatScreenState extends State<DCMedicalStatScreen> {
                                     Container(
                                       decoration: const BoxDecoration(
                                         border: Border(
-                                            bottom: BorderSide(width: 2)),
+                                          bottom: BorderSide(width: 2),
+                                        ),
                                       ),
                                       child: TextField(
                                         style: context.textTheme.h6BoldPoppins
@@ -236,7 +237,8 @@ class _DCMedicalStatScreenState extends State<DCMedicalStatScreen> {
                                     Container(
                                       decoration: const BoxDecoration(
                                         border: Border(
-                                            bottom: BorderSide(width: 2)),
+                                          bottom: BorderSide(width: 2),
+                                        ),
                                       ),
                                       child: TextField(
                                         style: context.textTheme.h6BoldPoppins
@@ -314,7 +316,8 @@ class _DCMedicalStatScreenState extends State<DCMedicalStatScreen> {
                                     Container(
                                       decoration: const BoxDecoration(
                                         border: Border(
-                                            bottom: BorderSide(width: 2)),
+                                          bottom: BorderSide(width: 2),
+                                        ),
                                       ),
                                       child: TextField(
                                         style: context.textTheme.h6BoldPoppins

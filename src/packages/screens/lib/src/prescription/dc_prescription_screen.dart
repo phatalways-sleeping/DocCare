@@ -19,16 +19,31 @@ class DCPrescriptionScreen extends StatefulWidget {
   State<DCPrescriptionScreen> createState() => _DCPrescriptionScreenState();
 }
 
+List<String> seperateMedicineTimeTaken(String timeTaken) {
+  final parts = timeTaken.split('/'); // Split the string by '/'
+
+  // Filter out any empty strings resulting from trailing slashes
+  final filteredParts = parts.where((part) => part.isNotEmpty).toList();
+
+  return filteredParts;
+}
+
 class _DCPrescriptionScreenState extends State<DCPrescriptionScreen> {
   @override
   Widget build(BuildContext context) {
     final listMedicines = context.watch<PrescriptionBloc>().state.medicines;
 
     final List<Widget> medicineWidgets = listMedicines.entries.map((entry) {
+      final timesTaken = seperateMedicineTimeTaken(entry.value[2]);
+      var details = '${entry.value[0]} day(s), ';
+      for (final time in timesTaken) {
+        details += '$time, ';
+      }
+      details += '${entry.value[1]} pill(s) per time, ';
+      details += entry.value[3];
       return DCMedicine(
         medicineName: entry.key,
-        details: entry.value[0],
-        amount: entry.value[1],
+        details: details,
       );
     }).toList();
 
@@ -61,7 +76,6 @@ class _DCPrescriptionScreenState extends State<DCPrescriptionScreen> {
                   DCMedicine(
                     medicineName: 'Add Medicine',
                     details: 'Add Medicine',
-                    amount: 'Add Medicine',
                     isAddMedicine: true,
                     onPressed: () =>
                         BlocProvider.of<PrescriptionBloc>(context).add(

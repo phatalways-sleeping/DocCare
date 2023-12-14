@@ -3,13 +3,14 @@
 import 'package:components/components.dart';
 import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:screens/src/prescription/controller/prescription_bloc.dart';
 
 class DCMedicine extends StatelessWidget {
   const DCMedicine({
     required this.medicineName,
     required this.details,
-    required this.amount,
     this.onPressed,
     this.isAddMedicine = false,
     super.key,
@@ -17,7 +18,6 @@ class DCMedicine extends StatelessWidget {
 
   final String medicineName;
   final String details;
-  final String amount;
   final bool isAddMedicine;
   final VoidCallback? onPressed;
 
@@ -63,7 +63,11 @@ class DCMedicine extends StatelessWidget {
                             ),
                           ),
                           IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              BlocProvider.of<PrescriptionBloc>(context).add(
+                                RemoveMedicineButtonPressedEvent(medicineName),
+                              );
+                            },
                             icon: SvgPicture.string(
                               DCSVGIcons.deleteMedicine,
                               width: 25,
@@ -83,14 +87,6 @@ class DCMedicine extends StatelessWidget {
                                 color: context.colorScheme.onSecondary
                                     .withOpacity(0.5),
                               ),
-                            ),
-                          ),
-                          Text(
-                            amount,
-                            style: context.textTheme.h6RegularPoppins.copyWith(
-                              fontSize: 14,
-                              color: context.colorScheme.onSecondary
-                                  .withOpacity(0.5),
                             ),
                           ),
                         ],

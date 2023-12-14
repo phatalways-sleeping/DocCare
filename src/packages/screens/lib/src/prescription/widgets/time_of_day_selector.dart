@@ -3,14 +3,13 @@
 import 'package:components/components.dart';
 import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../controller/prescription_bloc.dart';
 
 class TimeOfDaySelector extends StatefulWidget {
   const TimeOfDaySelector({
-    required this.onSelectionChanged,
     super.key,
   });
-
-  final void Function(List<String>) onSelectionChanged;
 
   @override
   State<TimeOfDaySelector> createState() => _TimeOfDaySelectorState();
@@ -49,13 +48,9 @@ class _TimeOfDaySelectorState extends State<TimeOfDaySelector> {
             onTap: () {
               setState(() {
                 _selectedTimes[i] = !_selectedTimes[i];
-                widget.onSelectionChanged(
-                  _timesOfDay
-                      .where((element) =>
-                          _selectedTimes[_timesOfDay.indexOf(element)])
-                      .toList(),
-                );
               });
+              BlocProvider.of<PrescriptionBloc>(context)
+                  .add(MedicineTimeTakenInputEvent(i));
             },
             borderRadius: BorderRadius.circular(30),
             child: Center(

@@ -6,11 +6,8 @@ import 'package:flutter/material.dart';
 
 class ToBeTakenSelector extends StatefulWidget {
   const ToBeTakenSelector({
-    required this.onSelectionChanged,
     super.key,
   });
-
-  final void Function(List<String>) onSelectionChanged;
 
   @override
   State<ToBeTakenSelector> createState() => _ToBeTakenSelectorState();
@@ -48,12 +45,7 @@ class _ToBeTakenSelectorState extends State<ToBeTakenSelector> {
             onTap: () {
               setState(() {
                 _selectedTimes[i] = !_selectedTimes[i];
-                widget.onSelectionChanged(
-                  _timesToTake
-                      .where((element) =>
-                          _selectedTimes[_timesToTake.indexOf(element)])
-                      .toList(),
-                );
+                _selectedTimes[1 - i] = false;
               });
             },
             borderRadius: BorderRadius.circular(30),

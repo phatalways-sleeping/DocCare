@@ -58,3 +58,78 @@ final class DoctorNoteInputEvent extends PrescriptionEvent {
 final class NextButtonPressedEvent extends PrescriptionEvent {
   const NextButtonPressedEvent();
 }
+
+final class DoctorNoteMedicineInputEvent extends PrescriptionEvent {
+  const DoctorNoteMedicineInputEvent(this.doctorNote);
+
+  final String doctorNote;
+
+  @override
+  List<Object> get props => [doctorNote];
+}
+
+final class AddMedicineButtonPressedEvent extends PrescriptionEvent {
+  const AddMedicineButtonPressedEvent();
+}
+
+final class MedicineNameInputEvent extends PrescriptionEvent {
+  const MedicineNameInputEvent(this.currentMedicineName);
+
+  final String currentMedicineName;
+
+  @override
+  List<Object> get props => [currentMedicineName];
+}
+
+final class MedicineDurationInputEvent extends PrescriptionEvent {
+  const MedicineDurationInputEvent(this.currentDuration);
+
+  final String currentDuration;
+
+  @override
+  List<Object> get props => [currentDuration];
+}
+
+final class MedicineDoseInputEvent extends PrescriptionEvent {
+  const MedicineDoseInputEvent(this.currentDose);
+
+  final String currentDose;
+
+  @override
+  List<Object> get props => [currentDose];
+}
+
+final class MedicineTimeTakenInputEvent extends PrescriptionEvent {
+  const MedicineTimeTakenInputEvent(this.currentTimeTaken);
+
+  final int currentTimeTaken;
+
+  @override
+  List<Object> get props => [currentTimeTaken];
+}
+
+final class MedicineMealTimeInputEvent extends PrescriptionEvent {
+  const MedicineMealTimeInputEvent(this.currentMealTime);
+
+  final int currentMealTime;
+
+  @override
+  List<Object> get props => [currentMealTime];
+}
+
+final class AddIntakeButtonPressedEvent extends PrescriptionEvent {
+  const AddIntakeButtonPressedEvent();
+}
+
+final class RemoveMedicineButtonPressedEvent extends PrescriptionEvent {
+  const RemoveMedicineButtonPressedEvent(this.medicineName);
+
+  final String medicineName;
+
+  @override
+  List<Object> get props => [medicineName];
+}
+
+final class AddPrescriptionButtonPressedEvent extends PrescriptionEvent {
+  const AddPrescriptionButtonPressedEvent();
+}
