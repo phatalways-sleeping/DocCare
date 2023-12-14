@@ -5,17 +5,33 @@ import 'package:flutter/material.dart';
 import 'package:components/src/theme/color_scheme/light_color_scheme.dart';
 
 class PieChartSample2 extends StatefulWidget {
-  const PieChartSample2({super.key});
+  final int one_star;
+  final int two_star;
+  final int three_star;
+  final int four_star;
+  final int five_star;
+  final int sum_star;
+
+  const PieChartSample2({
+    Key? key,
+    required this.one_star,
+    required this.two_star,
+    required this.three_star,
+    required this.four_star,
+    required this.five_star,
+    required this.sum_star,
+  }) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => PieChart2State();
 }
 
-class PieChart2State extends State {
+class PieChart2State extends State<PieChartSample2> {
   int touchedIndex = -1;
 
   @override
   Widget build(BuildContext context) {
+
     final DocCareLightColorScheme colorScheme = DocCareLightColorScheme();
     return AspectRatio(
       aspectRatio: 1.3,
@@ -48,7 +64,13 @@ class PieChart2State extends State {
                   ),
                   sectionsSpace: 0,
                   centerSpaceRadius: 40,
-                  sections: showingSections(),
+                  sections: showingSections(
+                      widget.one_star.toDouble() / widget.sum_star.toDouble() * 100,
+                      widget.two_star.toDouble() / widget.sum_star.toDouble() * 100,
+                      widget.three_star.toDouble() / widget.sum_star.toDouble() * 100,
+                      widget.four_star.toDouble() / widget.sum_star.toDouble() * 100,
+                      widget.five_star.toDouble() / widget.sum_star.toDouble() * 100,
+                      ),
                 ),
               ),
             ),
@@ -59,7 +81,8 @@ class PieChart2State extends State {
             children: <Widget>[
               Indicator(
                 color: colorScheme.primary,
-                text: 'First',
+                text: 'One Star',
+                textColor: colorScheme.onBackground,
                 isSquare: true,
               ),
               SizedBox(
@@ -67,7 +90,8 @@ class PieChart2State extends State {
               ),
               Indicator(
                 color: colorScheme.secondary,
-                text: 'Second',
+                text: 'Two Star',
+                textColor: colorScheme.onBackground,
                 isSquare: true,
               ),
               SizedBox(
@@ -75,7 +99,8 @@ class PieChart2State extends State {
               ),
               Indicator(
                 color: colorScheme.error,
-                text: 'Third',
+                text: 'Three Star',
+                textColor: colorScheme.onBackground,
                 isSquare: true,
               ),
               SizedBox(
@@ -83,7 +108,17 @@ class PieChart2State extends State {
               ),
               Indicator(
                 color: colorScheme.tertiary,
-                text: 'Fourth',
+                text: 'Four Star',
+                textColor: colorScheme.onBackground,
+                isSquare: true,
+              ),
+              SizedBox(
+                height: 4,
+              ),
+              Indicator(
+                color: colorScheme.quartenary,
+                text: 'Five Star',
+                textColor: colorScheme.onBackground,
                 isSquare: true,
               ),
               SizedBox(
@@ -99,9 +134,15 @@ class PieChart2State extends State {
     );
   }
 
-  List<PieChartSectionData> showingSections() {
+  List<PieChartSectionData> showingSections(
+    double one_star,
+    double two_star,
+    double three_star,
+    double four_star,
+    double five_star,
+  ) {
     final DocCareLightColorScheme colorScheme = DocCareLightColorScheme();
-    return List.generate(4, (i) {
+    return List.generate(5, (i) {
       final isTouched = i == touchedIndex;
       final fontSize = isTouched ? 25.0 : 16.0;
       final radius = isTouched ? 60.0 : 50.0;
@@ -110,8 +151,8 @@ class PieChart2State extends State {
         case 0:
           return PieChartSectionData(
             color: colorScheme.primary,
-            value: 40,
-            title: '40%',
+            value: one_star,
+            title: one_star.toInt().toString() + " %",
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,
@@ -123,8 +164,8 @@ class PieChart2State extends State {
         case 1:
           return PieChartSectionData(
             color: colorScheme.secondary,
-            value: 30,
-            title: '30%',
+            value: two_star,
+            title: two_star.toInt().toString() + " %",
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,
@@ -136,8 +177,8 @@ class PieChart2State extends State {
         case 2:
           return PieChartSectionData(
             color: colorScheme.error,
-            value: 15,
-            title: '15%',
+            value: three_star,
+            title: one_star.toInt().toString() + " %",
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,
@@ -149,8 +190,21 @@ class PieChart2State extends State {
         case 3:
           return PieChartSectionData(
             color: colorScheme.tertiary,
-            value: 15,
-            title: '15%',
+            value: four_star,
+            title: four_star.toInt().toString() + " %",
+            radius: radius,
+            titleStyle: TextStyle(
+              fontSize: fontSize,
+              fontWeight: FontWeight.bold,
+              color: colorScheme.onSecondary,
+              shadows: shadows,
+            ),
+          );
+          case 4:
+          return PieChartSectionData(
+            color: colorScheme.quartenary,
+            value: five_star,
+            title: five_star.toInt().toString() + " %",
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,
