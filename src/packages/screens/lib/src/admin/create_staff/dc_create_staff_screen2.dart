@@ -1,24 +1,25 @@
 // ignore_for_file: public_member_api_docs, inference_failure_on_function_return_type
 
-import 'package:administrator/administrator.dart';
 import 'package:components/components.dart';
 import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:screens/src/admin/controller/create_staff_bloc.dart';
-import 'package:utility/utility.dart';
 
 class DCCreateStaffScreen2 extends StatefulWidget {
+  const DCCreateStaffScreen2({super.key});
+
   @override
   _DCCreateStaffScreen2State createState() => _DCCreateStaffScreen2State();
 }
 
 class _DCCreateStaffScreen2State extends State<DCCreateStaffScreen2> {
   String selectedDayOfWeek = '';
-  List<DynamicWidget> listDynamic = [];
+  final List<DynamicWidget> listDynamic = [];
   List<String> data = [];
-  Map<String, List<int>> dayOfWeek = {};
+  final Map<String, List<int>> dayOfWeek = {};
   Icon floatingIcon = Icon(Icons.add);
+  bool atFirstPage = true;
 
   List<String> daysOfWeek = [
     'Monday',
@@ -33,53 +34,101 @@ class _DCCreateStaffScreen2State extends State<DCCreateStaffScreen2> {
 
   addDynamic() {
     if (data.isNotEmpty) {
-      floatingIcon = Icon(Icons.add);
       data = [];
-      listDynamic = [];
+      atFirstPage = !atFirstPage;
+      floatingIcon = Icon(Icons.add);
     }
 
     if (listDynamic.length >= 7) {
       return;
     }
 
-    listDynamic.add(DynamicWidget(
-      onDelete: () {
-        // Remove the corresponding DynamicWidget
-        setState(() {
-          listDynamic.removeLast();
-        });
-        // Remove the corresponding dayOfWeek entry
-        dayOfWeek.remove(selectedDayOfWeek);
-        print('REMOVE: ${dayOfWeek.length}');
-      },
-      daysOfWeek: daysOfWeek,
-      startPeriod: startPeriod,
-      endPeriod: startPeriod,
-      onDayOfWeekSelected: (selectedDay) {
-        setState(() {
-          selectedDayOfWeek = selectedDay ?? '';
-        });
-        // Initialize with dummy values if not present
-        dayOfWeek.putIfAbsent(selectedDay!, () => [0, 0]);
-      },
-      onValuesSelected: () {
-        // Update the startPeriod and endPeriod in the dayOfWeek map
-        dayOfWeek[selectedDayOfWeek!]![0] =
-            listDynamic.last.selectedStartPeriod!;
-        dayOfWeek[selectedDayOfWeek!]![1] = listDynamic.last.selectedEndPeriod!;
-        print('ADD: ${dayOfWeek.length}');
-      },
-    ));
+    if (atFirstPage) {
+      listDynamic.add(DynamicWidget(
+        index: listDynamic.length,
+        onDelete: (index) {
+          // Remove the corresponding DynamicWidget and its dayOfWeek entry by index
+          setState(() {
+            print('index removed: ${index}');
+            listDynamic.removeAt(index);
+            for (int i = 0; i < listDynamic.length; i++) {
+              print(i);
+              print(listDynamic[i].selectedDayOfWeek);
+              listDynamic[i].index = i;
+            }
+
+            // Get the selected day at the given index
+            String? removedDay = listDynamic[index].selectedDayOfWeek;
+
+            if (removedDay != null) {
+              dayOfWeek.remove(removedDay);
+            }
+          });
+          print('REMOVE: ${dayOfWeek.length}');
+          print(dayOfWeek);
+          for (int i = 0; i < listDynamic.length; i++) {
+            print(i);
+            print(listDynamic[i].selectedDayOfWeek);
+          }
+        },
+        daysOfWeek:
+            daysOfWeek.where((day) => !dayOfWeek.containsKey(day)).toList(),
+        startPeriod: startPeriod,
+        endPeriod: startPeriod,
+        onDayOfWeekSelected: (selectedDay) {
+          setState(() {
+            selectedDayOfWeek = selectedDay ?? '';
+          });
+          // Initialize with null values instead of dummy values
+          dayOfWeek.putIfAbsent(selectedDay!, () => [-1, -1]);
+          print(dayOfWeek);
+        },
+        onValuesSelected: () {
+          // Update the startPeriod and endPeriod in the dayOfWeek map
+          dayOfWeek[selectedDayOfWeek!]![0] =
+              listDynamic.last.selectedStartPeriod!;
+          dayOfWeek[selectedDayOfWeek!]![1] =
+              listDynamic.last.selectedEndPeriod!;
+          print('ADD: ${dayOfWeek.length}');
+          print(dayOfWeek);
+        },
+      ));
+
+      print('index: ${listDynamic.length - 1}');
+    }
     setState(() {});
   }
 
   submitData() {
+    atFirstPage = !atFirstPage;
     floatingIcon = Icon(Icons.arrow_back);
 
-    listDynamic.forEach((widget) {
-      // Concatenate the selected day and periods and add to the data list
-      data.add(
-          "${widget.selectedDayOfWeek}: ${widget.selectedStartPeriod} to ${widget.selectedEndPeriod}");
+    // Create a list to store indices of widgets to be removed
+    List<int> indicesToRemove = [];
+
+    listDynamic.asMap().forEach((index, widget) {
+      // Check if all values are not null and selectedStartPeriod and selectedEndPeriod are not dummy values
+      if (widget.selectedDayOfWeek != null &&
+          widget.selectedStartPeriod != null &&
+          widget.selectedEndPeriod != null &&
+          widget.selectedStartPeriod !=
+              -1 && // Replace -1 with your dummy value for startPeriod
+          widget.selectedEndPeriod != -1) {
+        // Replace -1 with your dummy value for endPeriod
+        // Concatenate the selected day and periods and add to the data list
+        data.add(
+            "${widget.selectedDayOfWeek}: ${widget.selectedStartPeriod} to ${widget.selectedEndPeriod}");
+      } else {
+        // Add the index of widgets to be removed
+        indicesToRemove.add(index);
+      }
+    });
+
+    // Remove widgets from listDynamic based on indicesToRemove
+    indicesToRemove.forEach((index) {
+      setState(() {
+        listDynamic.removeAt(index);
+      });
     });
 
     setState(() {
@@ -140,14 +189,28 @@ class _DCCreateStaffScreen2State extends State<DCCreateStaffScreen2> {
     ]);
 
     final Widget dynamicTextField = ListView.builder(
-      shrinkWrap: true,
-      itemCount: listDynamic.length,
-      itemBuilder: (_, index) => listDynamic[index],
-    );
+        shrinkWrap: true,
+        itemCount: listDynamic.length,
+        itemBuilder: (_, index) {
+          for (int i = 0; i < listDynamic.length; i++) {
+            print("Ngay ${i}");
+            print("Selected day ${listDynamic[i].selectedDayOfWeek}");
+            print("index ${listDynamic[i].index}");
+            print("${listDynamic[i].daysOfWeek}");
+          }
+          return listDynamic[index];
+        });
 
     Widget nextButton = Container(
       child: ElevatedButton(
-        onPressed: listDynamic.isNotEmpty ? submitData : null,
+        onPressed: (listDynamic.isNotEmpty)
+            ? () {
+                submitData();
+                context.read<CreateStaffBloc>().add(
+                      WorkingShiftInputEvent(dayOfWeek),
+                    );
+              }
+            : null,
         child: const Padding(
           padding: EdgeInsets.all(16.0),
           child: Text(
@@ -178,38 +241,42 @@ class _DCCreateStaffScreen2State extends State<DCCreateStaffScreen2> {
           margin: EdgeInsets.all(10.0),
           child: Column(
             children: <Widget>[
-              if (data.isEmpty) dynamicTextField else result,
-              if (data.isEmpty) nextButton else submitButton,
+              if (atFirstPage) dynamicTextField else result,
+              if (atFirstPage) nextButton else submitButton,
             ],
           ),
         ),
         FloatingActionButton(
-          onPressed: addDynamic,
-          child: floatingIcon,
+          onPressed: () {
+            if (atFirstPage) {
+              addDynamic();
+            } else {
+              setState(() {
+                atFirstPage = true;
+              });
+            }
+          },
+          child: atFirstPage ? Icon(Icons.add) : Icon(Icons.arrow_back),
         ),
       ],
     );
   }
 }
 
-class DynamicWidget extends StatelessWidget {
-  final TextEditingController controller = TextEditingController();
-  final VoidCallback onDelete;
-
-  // Add three lists for dropdown items
+class DynamicWidget extends StatefulWidget {
+  final Function(int) onDelete;
   final List<String> daysOfWeek;
   final List<int> startPeriod;
   final List<int> endPeriod;
   final Function(String?) onDayOfWeekSelected;
-  final Function()?
-      onValuesSelected; // Callback for when all values are selected
+  final Function()? onValuesSelected;
+  int index;
 
-  // Add fields to store the selected values
   String? selectedDayOfWeek;
-  int? selectedStartPeriod;
-  int? selectedEndPeriod;
-
+  int? selectedStartPeriod = 1;
+  int? selectedEndPeriod = 1;
   DynamicWidget({
+    required this.index,
     required this.onDelete,
     required this.daysOfWeek,
     required this.startPeriod,
@@ -219,21 +286,32 @@ class DynamicWidget extends StatelessWidget {
   });
 
   @override
+  _DynamicWidgetState createState() => _DynamicWidgetState();
+}
+
+class _DynamicWidgetState extends State<DynamicWidget> {
+  @override
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.all(8.0),
       child: Column(
         children: [
+          Text(widget.selectedDayOfWeek ?? ''),
           // Dropdown for Day of Week
           DCDropdownButton<String>(
             borderRadius: 16,
-            dropdownWidth: context.width,
+            dropdownWidth: context
+                .width, // You may need to provide the context.width implementation
             hintText: 'Day of Week',
-            items: daysOfWeek,
-            onItemSelected: (context, controller, selectedValue) {
+            items: widget.daysOfWeek,
+            dropdownValue: widget.selectedDayOfWeek,
+            onItemSelected: (context, controller, selectedValue) async {
               // Handle selection
-              onDayOfWeekSelected(selectedValue);
-              selectedDayOfWeek = selectedValue;
+              widget.onDayOfWeekSelected(selectedValue);
+              setState(() {
+                widget.selectedDayOfWeek = selectedValue;
+                print("Select ${selectedValue}");
+              });
               checkValuesSelected();
             },
           ),
@@ -241,12 +319,19 @@ class DynamicWidget extends StatelessWidget {
           // Dropdown for Start Hour
           DCDropdownButton<int>(
             borderRadius: 16,
-            dropdownWidth: context.width,
+            dropdownWidth: context
+                .width, // You may need to provide the context.width implementation
             hintText: 'Start Period',
-            items: startPeriod,
-            onItemSelected: (context, controller, selectedValue) {
+            items: widget.startPeriod
+                .where((value) =>
+                    value < (widget.selectedEndPeriod ?? double.infinity))
+                .toList(),
+            onItemSelected: (context, controller, selectedValue) async {
               // Handle selection
-              selectedStartPeriod = selectedValue;
+              setState(() {
+                widget.selectedStartPeriod = selectedValue;
+                print("Select Start Period ${widget.selectedStartPeriod}");
+              });
               checkValuesSelected();
             },
           ),
@@ -254,12 +339,17 @@ class DynamicWidget extends StatelessWidget {
           // Dropdown for End Hour
           DCDropdownButton<int>(
             borderRadius: 16,
-            dropdownWidth: context.width,
+            dropdownWidth: context
+                .width, // You may need to provide the context.width implementation
             hintText: 'End Period',
-            items: endPeriod,
-            onItemSelected: (context, controller, selectedValue) {
+            items: widget.endPeriod
+                .where((value) => value > (widget.selectedStartPeriod ?? 0))
+                .toList(),
+            onItemSelected: (context, controller, selectedValue) async {
               // Handle selection
-              selectedEndPeriod = selectedValue;
+              setState(() {
+                widget.selectedEndPeriod = selectedValue;
+              });
               checkValuesSelected();
             },
           ),
@@ -271,7 +361,11 @@ class DynamicWidget extends StatelessWidget {
           // Delete button
           IconButton(
             icon: Icon(Icons.delete),
-            onPressed: onDelete,
+            onPressed: () {
+              // Pass the index to onDelete
+              print("this index ${widget.index}");
+              widget.onDelete(widget.index);
+            },
           ),
         ],
       ),
@@ -279,10 +373,10 @@ class DynamicWidget extends StatelessWidget {
   }
 
   void checkValuesSelected() {
-    if (selectedDayOfWeek != null &&
-        selectedStartPeriod != null &&
-        selectedEndPeriod != null) {
-      onValuesSelected?.call();
+    if (widget.selectedDayOfWeek != null &&
+        widget.selectedStartPeriod != null &&
+        widget.selectedEndPeriod != null) {
+      widget.onValuesSelected?.call();
       print("YESS"); // Call the callback when all values are selected
     }
   }
