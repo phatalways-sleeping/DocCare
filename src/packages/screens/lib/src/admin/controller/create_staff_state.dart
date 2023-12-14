@@ -10,17 +10,14 @@ sealed class CreateStaffState extends Equatable {
     required this.password,
     required this.birthday,
     required this.tempBirthday,
-    required this.role,
+    this.role = 'Doctor',
     required this.phone,
     required this.specializationId,
     required this.startWorkingFrom,
     required this.rating,
     required this.numberOfRates,
     required this.dayOfWeek,
-    this.roleSelected = 'Doctor',
   });
-
-  final String roleSelected;
 
   final String fullName;
 
@@ -60,7 +57,6 @@ sealed class CreateStaffState extends Equatable {
         rating,
         numberOfRates,
         dayOfWeek,
-        roleSelected,
       ];
 
   CreateStaffState copyWith({
@@ -76,7 +72,6 @@ sealed class CreateStaffState extends Equatable {
     double? rating,
     int? numberOfRates,
     Map<String, List<int>>? dayOfWeek,
-    String? roleSelected,
   });
 }
 
@@ -112,7 +107,6 @@ final class CreateStaffInitial extends CreateStaffState {
     required super.rating,
     required super.numberOfRates,
     required super.dayOfWeek,
-    required super.roleSelected,
   });
 
   @override
@@ -129,7 +123,6 @@ final class CreateStaffInitial extends CreateStaffState {
     double? rating,
     int? numberOfRates,
     Map<String, List<int>>? dayOfWeek,
-    String? roleSelected,
   }) =>
       CreateStaffInitial.input(
         fullName: fullName ?? super.fullName,
@@ -144,7 +137,6 @@ final class CreateStaffInitial extends CreateStaffState {
         rating: rating ?? super.rating,
         numberOfRates: numberOfRates ?? super.numberOfRates,
         dayOfWeek: dayOfWeek ?? super.dayOfWeek,
-        roleSelected: roleSelected ?? super.roleSelected,
       );
 }
 
@@ -162,7 +154,6 @@ final class CreateStaffLater extends CreateStaffState {
     required super.rating,
     required super.numberOfRates,
     required super.dayOfWeek,
-    required super.roleSelected,
   });
   CreateStaffLater.empty()
       : super(
@@ -195,7 +186,6 @@ final class CreateStaffLater extends CreateStaffState {
     required super.rating,
     required super.numberOfRates,
     required super.dayOfWeek,
-    required super.roleSelected,
   });
   factory CreateStaffLater.from(CreateStaffState state) => CreateStaffLater(
         fullName: state.fullName,
@@ -210,7 +200,6 @@ final class CreateStaffLater extends CreateStaffState {
         rating: state.rating,
         numberOfRates: state.numberOfRates,
         dayOfWeek: state.dayOfWeek,
-        roleSelected: state.roleSelected,
       );
 
   @override
@@ -227,7 +216,6 @@ final class CreateStaffLater extends CreateStaffState {
     double? rating,
     int? numberOfRates,
     Map<String, List<int>>? dayOfWeek,
-    String? roleSelected,
   }) =>
       CreateStaffLater.input(
         fullName: fullName ?? super.fullName,
@@ -242,7 +230,6 @@ final class CreateStaffLater extends CreateStaffState {
         rating: rating ?? super.rating,
         numberOfRates: numberOfRates ?? super.numberOfRates,
         dayOfWeek: dayOfWeek ?? super.dayOfWeek,
-        roleSelected: roleSelected ?? super.roleSelected,
       );
 }
 
@@ -260,7 +247,6 @@ final class CreateStaffLoading extends CreateStaffState {
     required super.rating,
     required super.numberOfRates,
     required super.dayOfWeek,
-    required super.roleSelected,
   });
 
   factory CreateStaffLoading.from(CreateStaffState state) => CreateStaffLoading(
@@ -276,7 +262,6 @@ final class CreateStaffLoading extends CreateStaffState {
         rating: state.rating,
         numberOfRates: state.numberOfRates,
         dayOfWeek: state.dayOfWeek,
-        roleSelected: state.roleSelected,
       );
 
   CreateStaffState toggleBackToInitial() => CreateStaffInitial.input(
@@ -292,7 +277,6 @@ final class CreateStaffLoading extends CreateStaffState {
         rating: rating,
         numberOfRates: numberOfRates,
         dayOfWeek: dayOfWeek,
-        roleSelected: roleSelected,
       );
 
   @override
@@ -309,7 +293,6 @@ final class CreateStaffLoading extends CreateStaffState {
     double? rating,
     int? numberOfRates,
     Map<String, List<int>>? dayOfWeek,
-    String? roleSelected,
   }) =>
       CreateStaffLoading(
         fullName: fullName ?? super.fullName,
@@ -324,7 +307,6 @@ final class CreateStaffLoading extends CreateStaffState {
         rating: rating ?? super.rating,
         numberOfRates: numberOfRates ?? super.numberOfRates,
         dayOfWeek: dayOfWeek ?? super.dayOfWeek,
-        roleSelected: roleSelected ?? super.roleSelected,
       );
 }
 
@@ -342,7 +324,6 @@ final class CreateStaffSuccess extends CreateStaffState {
     required super.rating,
     required super.numberOfRates,
     required super.dayOfWeek,
-    required super.roleSelected,
   });
 
   factory CreateStaffSuccess.from(CreateStaffState state) => CreateStaffSuccess(
@@ -358,7 +339,6 @@ final class CreateStaffSuccess extends CreateStaffState {
         rating: state.rating,
         numberOfRates: state.numberOfRates,
         dayOfWeek: state.dayOfWeek,
-        roleSelected: state.roleSelected,
       );
 
   @override
@@ -375,7 +355,6 @@ final class CreateStaffSuccess extends CreateStaffState {
     double? rating,
     int? numberOfRates,
     Map<String, List<int>>? dayOfWeek,
-    String? roleSelected,
   }) =>
       CreateStaffSuccess(
         fullName: fullName ?? super.fullName,
@@ -390,7 +369,6 @@ final class CreateStaffSuccess extends CreateStaffState {
         rating: rating ?? super.rating,
         numberOfRates: numberOfRates ?? super.numberOfRates,
         dayOfWeek: dayOfWeek ?? super.dayOfWeek,
-        roleSelected: roleSelected ?? super.roleSelected,
       );
 }
 
@@ -409,7 +387,6 @@ final class CreateStaffFailure extends CreateStaffState {
     required super.numberOfRates,
     required super.dayOfWeek,
     required this.message,
-    required super.roleSelected,
   });
 
   factory CreateStaffFailure.from(CreateStaffState state, String message) =>
@@ -427,7 +404,6 @@ final class CreateStaffFailure extends CreateStaffState {
         numberOfRates: state.numberOfRates,
         dayOfWeek: state.dayOfWeek,
         message: message,
-        roleSelected: state.roleSelected,
       );
 
   CreateStaffState toggleBackToInitial() => CreateStaffInitial.input(
@@ -443,7 +419,6 @@ final class CreateStaffFailure extends CreateStaffState {
         rating: rating,
         numberOfRates: numberOfRates,
         dayOfWeek: dayOfWeek,
-        roleSelected: roleSelected,
       );
 
   final String message;
@@ -462,7 +437,6 @@ final class CreateStaffFailure extends CreateStaffState {
     double? rating,
     int? numberOfRates,
     Map<String, List<int>>? dayOfWeek,
-    String? roleSelected,
   }) =>
       CreateStaffFailure(
         fullName: fullName ?? super.fullName,
@@ -478,6 +452,5 @@ final class CreateStaffFailure extends CreateStaffState {
         numberOfRates: numberOfRates ?? super.numberOfRates,
         dayOfWeek: dayOfWeek ?? super.dayOfWeek,
         message: message,
-        roleSelected: roleSelected ?? super.roleSelected,
       );
 }

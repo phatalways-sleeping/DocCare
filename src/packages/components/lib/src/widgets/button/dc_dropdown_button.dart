@@ -21,8 +21,13 @@ class DCDropdownButton<T> extends StatefulWidget {
   final String? label;
   final void Function(BuildContext context, TextEditingController controller,
       T? selectedValue)? onItemSelected;
+  T? dropdownValue;
 
-  const DCDropdownButton({
+  void printDropDownValue() {
+    print("DropDValue ${dropdownValue}");
+  }
+
+  DCDropdownButton({
     required this.items,
     this.dropdownWidth,
     this.menuHeight,
@@ -40,68 +45,65 @@ class DCDropdownButton<T> extends StatefulWidget {
     this.textColor,
     this.onItemSelected,
     this.label,
+    this.dropdownValue,
     Key? key,
-  }) : super(key: key);
+  }) : super(key: key) {
+    printDropDownValue();
+  }
 
   @override
   State<DCDropdownButton<T>> createState() => _DropdownButtonState<T>();
 }
 
 class _DropdownButtonState<T> extends State<DCDropdownButton<T>> {
-  T? dropdownValue;
   final TextEditingController _controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    dropdownValue = widget.items.first;
-    return DropdownMenu<T>(
-      label: Text(widget.label ?? ""),
-      width: widget.dropdownWidth ?? 200.0,
-      enabled: widget.enabled ?? true,
-      menuHeight: widget.menuHeight,
-      leadingIcon: widget.leadingIcon ??
-          Icon(
-            Icons.search,
-            color: Colors.black.withOpacity(0.25),
-          ),
-      trailingIcon: widget.trailingIcon ?? const Icon(Icons.arrow_drop_down),
-      hintText: widget.hintText,
-      errorText: widget.errorText,
-      enableSearch: widget.enableSearch ?? true,
-      enableFilter: widget.enableFilter ?? true,
-      textStyle: widget.textStyle ??
-          context.textTheme.h6RegularPoppins.copyWith(
-            color: widget.textColor ?? Colors.black,
-            fontSize: widget.textSize ?? 14,
-          ),
-      requestFocusOnTap: widget.requestFocusOnTap ?? true,
-      inputDecorationTheme: InputDecorationTheme(
-          border: OutlineInputBorder(
-        borderRadius:
-            BorderRadius.all(Radius.circular(widget.borderRadius ?? 30)),
-      )),
-      onSelected: (T? value) {
-        setState(() {
-          dropdownValue = value!;
-        });
-
+    return DropdownButton<T>(
+      value: widget.dropdownValue,
+      onChanged: (T? value) async {
         if (widget.onItemSelected != null) {
           widget.onItemSelected!(context, _controller, value);
         }
+        setState(() {
+          widget.dropdownValue = value!;
+        });
       },
-      dropdownMenuEntries: widget.items.map<DropdownMenuEntry<T>>((T value) {
-        return DropdownMenuEntry<T>(
-            value: value,
-            style: ButtonStyle(
-              textStyle: MaterialStateProperty.resolveWith<TextStyle>(
-                  (Set<MaterialState> states) {
-                return TextStyle(
-                  fontSize: widget.textSize ?? 14,
-                );
-              }),
+      items: widget.items.map<DropdownMenuItem<T>>((T value) {
+        return DropdownMenuItem<T>(
+          value: value,
+          child: Text(
+            value.toString(),
+            style: TextStyle(
+              fontSize: widget.textSize ?? 14,
             ),
-            label: value.toString());
+          ),
+        );
       }).toList(),
+      style: widget.textStyle,
+      hint: widget.hintText != null
+          ? Text(
+              widget.hintText!,
+              style: widget.textStyle,
+            )
+          : null,
+      disabledHint: widget.hintText != null
+          ? Text(
+              widget.hintText!,
+              style: TextStyle(
+                color: widget.textColor?.withOpacity(0.5) ?? Colors.black,
+                fontSize: widget.textSize ?? 14,
+              ),
+            )
+          : null,
+      isExpanded: true,
+      icon: widget.trailingIcon,
+      underline: Container(), // To remove the underline
+      focusColor: widget.textColor,
+      autofocus: widget.requestFocusOnTap ?? true,
+      itemHeight: widget.menuHeight,
+      elevation: 8,
     );
   }
 }

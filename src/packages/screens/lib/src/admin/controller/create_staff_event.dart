@@ -135,7 +135,7 @@ final class ValidateBirthdayInputEvent extends CreateStaffEvent {
 }
 
 final class WorkingShiftInputEvent extends CreateStaffEvent {
-  const WorkingShiftInputEvent(this.dayOfWeek, int size);
+  const WorkingShiftInputEvent(this.dayOfWeek);
 
   final Map<String, List<int>> dayOfWeek;
 

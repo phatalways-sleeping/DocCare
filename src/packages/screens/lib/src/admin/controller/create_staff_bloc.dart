@@ -35,6 +35,7 @@ class CreateStaffBloc extends Bloc<CreateStaffEvent, CreateStaffState> {
     on<AddMoreButtonPressedEvent>(_onAddMoreButtonPressedEvent);
     on<CreateStaffButtonPressedEvent>(_onCreateStaffButtonPressedEvent);
     on<ValidateBirthdayInputEvent>(_validateBirthdayInputEvent);
+    on<WorkingShiftInputEvent>(_onWorkingShiftInputEvent);
   }
 
   final NotificationManagerService _notificationManagerService;
@@ -143,7 +144,7 @@ class CreateStaffBloc extends Bloc<CreateStaffEvent, CreateStaffState> {
     RoleInputEvent event,
     Emitter<CreateStaffState> emit,
   ) {
-    emit(state.copyWith(roleSelected: event.role));
+    emit(state.copyWith(role: event.role));
   }
 
   void _onSpecializationIdInputEvent(
@@ -266,6 +267,14 @@ class CreateStaffBloc extends Bloc<CreateStaffEvent, CreateStaffState> {
                 emit((state as CreateStaffLoading).toggleBackToInitial()),
           );
     }
+  }
+
+  void _onWorkingShiftInputEvent(
+    WorkingShiftInputEvent event,
+    Emitter<CreateStaffState> emit,
+  ) {
+    // Emit loading state
+    emit(state.copyWith(dayOfWeek: event.dayOfWeek));
   }
 
   @override
