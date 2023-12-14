@@ -220,7 +220,8 @@ class CreateStaffBloc extends Bloc<CreateStaffEvent, CreateStaffState> {
     emit(CreateStaffLoading.from(state));
 
     try {
-      if (state.role == "receptionist") {
+      if (state.role == "Receptionist") {
+        print('create receptionist');
         await _supabaseAdminService.signUpReceptionist(
           state.fullName,
           state.email,
@@ -228,7 +229,7 @@ class CreateStaffBloc extends Bloc<CreateStaffEvent, CreateStaffState> {
           state.birthday,
           state.phone,
         );
-      } else if (state.role == "doctor") {
+      } else if (state.role == "Doctor") {
         await _supabaseAdminService.signUpDoctor(
           state.fullName,
           state.email,

@@ -37,7 +37,7 @@ class SupabaseAdminControlStaffApiService
     try {
       var doctorID = uuid.v1();
       await supabase.rpc('sp_add_doctor_record', params: {
-        'birthday': birthday,
+        'birthday': birthday.toIso8601String(),
         'email': email,
         'fullname': fullName,
         'id': doctorID,
@@ -73,13 +73,16 @@ class SupabaseAdminControlStaffApiService
   ) async {
     try {
       var receptionistID = uuid.v1();
+      print('Create Receptionist before');
       await supabase.rpc('sp_add_receptionist_record', params: {
-        'birthday': birthday,
+        'id': receptionistID,
         'email': email,
         'fullname': fullName,
-        'id': receptionistID,
         'phone': phone,
+        'birthday': birthday.toIso8601String(),
       });
+
+      print('Create Receptionist later');
     } on AuthException catch (e) {
       throw Exception(e);
     }
