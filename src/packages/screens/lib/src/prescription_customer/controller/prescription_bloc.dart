@@ -93,16 +93,24 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
         ),
       );
 
-      final intake = await _intakeAPIService
-          .getIntakeListByPrescriptionID(event.prescriptionID)
-          .then((value) {
-        for (final element in value) {
-          medicineName.add(element.medicineName);
-          quantity.add(element.quantity);
-          toBeTaken.add(element.toBeTaken);
-          timeOfTheDay.add(element.timeOfTheDay);
-        }
-      });
+      print('prescriptionID: ${event.prescriptionID}');
+      try {
+        final intake = await _intakeAPIService
+            .getIntakeListByPrescriptionID(event.prescriptionID)
+            .then((value) {
+          for (final element in value) {
+            medicineName.add(element.medicineName);
+            quantity.add(element.quantity);
+            toBeTaken.add(element.toBeTaken);
+            timeOfTheDay.add(element.timeOfTheDay);
+          }
+        });
+      } catch (e) {
+        emit(
+          (state as PrescriptionLoading).toggleBackToInitial(),
+        );
+        return;
+      }
 
       emit(
         MedicineInitial(

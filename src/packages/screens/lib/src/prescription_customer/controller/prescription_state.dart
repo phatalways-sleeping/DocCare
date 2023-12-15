@@ -93,6 +93,14 @@ final class PrescriptionLoading extends PrescriptionState {
         note: note ?? super.note,
         done: done ?? super.done,
       );
+
+  PrescriptionInitial toggleBackToInitial() => PrescriptionInitial.input(
+        prescriptionID: prescriptionID,
+        doctorName: doctorName,
+        datePrescribed: datePrescribed,
+        note: note,
+        done: done,
+      );
 }
 
 final class MedicineInitial extends PrescriptionState {

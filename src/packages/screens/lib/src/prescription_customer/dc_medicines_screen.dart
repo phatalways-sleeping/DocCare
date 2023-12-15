@@ -79,7 +79,7 @@ class _DCMedicineScreenState extends State<DCMedicineScreen> {
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(20),
                               border: Border.all(
-                                color: context.colorScheme.onSurface,
+                                color: context.colorScheme.secondary,
                               ),
                             ),
                             child: Row(
