@@ -107,7 +107,7 @@ class PieChart2State extends State<PieChartSample2> {
                 height: 4,
               ),
               Indicator(
-                color: colorScheme.tertiary,
+                color: colorScheme.quinary,
                 text: 'Four Star',
                 textColor: colorScheme.onBackground,
                 isSquare: true,
@@ -189,7 +189,7 @@ class PieChart2State extends State<PieChartSample2> {
           );
         case 3:
           return PieChartSectionData(
-            color: colorScheme.tertiary,
+            color: colorScheme.quinary,
             value: four_star,
             title: four_star.toInt().toString() + " %",
             radius: radius,
