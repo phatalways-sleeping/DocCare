@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:components/components.dart';
 import 'package:extensions/extensions.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:components/src/widgets/pop_up/dc_pop_up_intake_rating.dart';
 
 class DCMedicineScreen extends StatefulWidget {
   const DCMedicineScreen({required this.prescriptionID, super.key});
@@ -75,7 +76,25 @@ class _DCMedicineScreenState extends State<DCMedicineScreen> {
                           .medicineName
                           .length,
                       (index) => InkWell(
-                        onTap: () => print('kkk'),
+                        //On tap called pop-up intake rating screen
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            builder: (acontext) => DCPopupIntakeRating(
+                              title: 'Intake',
+                              //TODO(nmvinhdl1215): Change to the diagnosis message
+                              diagnosisMessage:
+                                  'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry'
+                                  's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not onl',
+                              medicinesMessage: '',
+                              noteMessage: '',
+                              doctorName: (context
+                                      .read<PrescriptionBloc>()
+                                      .state as MedicineInitial)
+                                  .doctorName[index],
+                            ),
+                          );
+                        },
                         child: Padding(
                           padding: const EdgeInsets.only(
                             top: 20,
