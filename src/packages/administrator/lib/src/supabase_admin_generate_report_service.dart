@@ -54,7 +54,7 @@ class SupabaseAdminGenerateReportService implements AdminGenerateReportService {
     try {
       final response = await supabase.rpc('busiest_day_per_month',
           params: {'p_month': month, 'p_year': year});
-
+      if (response == null) return 0;
       return response as int;
     } catch (e) {
       throw Exception('Error in finding the busiest day per month: $e');
@@ -66,7 +66,7 @@ class SupabaseAdminGenerateReportService implements AdminGenerateReportService {
     try {
       final response = await supabase.rpc('most_booked_specialization_in_month',
           params: {'p_month': month, 'p_year': year});
-
+      if (response == null) return "No data";
       return response as String;
     } catch (e) {
       throw Exception('Error in finding most booked specialization: $e');
@@ -128,4 +128,14 @@ class SupabaseAdminGenerateReportService implements AdminGenerateReportService {
       throw Exception('Error in counting one-star appointments: $e');
     }
   }
+  Future<int> countCustomer() async {
+    try {
+      final response = await supabase.rpc('count_user');
+
+      return response as int;
+    } catch (e) {
+      throw Exception('Error in counting total user: $e');
+    }
+  }
+
 }

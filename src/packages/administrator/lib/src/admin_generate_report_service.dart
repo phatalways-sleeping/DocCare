@@ -21,4 +21,6 @@ abstract interface class AdminGenerateReportService {
   Future<int> countTwoStarInMonth(int month, int year);
   
   Future<int> countOneStarInMonth(int month, int year);
+
+  Future<int> countCustomer();
 }
