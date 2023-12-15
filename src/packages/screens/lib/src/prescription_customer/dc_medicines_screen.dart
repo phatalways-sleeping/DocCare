@@ -22,7 +22,14 @@ class _DCMedicineScreenState extends State<DCMedicineScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const DCCustomerHeaderBar(
+      appBar: DCCustomerHeaderBar(
+        allowNavigateBack: true,
+        //Call the event to go back to the previous screen
+        onLeadingIconPressed: (context) {
+          context.read<PrescriptionBloc>().add(
+                const MedicineBackEvent(),
+              );
+        },
         title: 'DocCare',
       ),
       //TODO(nmvinhdl1215): Change to FractionallySizedBox after the bug is fixed
@@ -79,7 +86,7 @@ class _DCMedicineScreenState extends State<DCMedicineScreen> {
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(20),
                               border: Border.all(
-                                color: context.colorScheme.secondary,
+                                color: context.colorScheme.onSurface,
                               ),
                             ),
                             child: Row(
@@ -92,7 +99,7 @@ class _DCMedicineScreenState extends State<DCMedicineScreen> {
                                   height: 55,
                                   width: 12,
                                   decoration: BoxDecoration(
-                                    color: context.colorScheme.onSurface,
+                                    color: context.colorScheme.secondary,
                                     borderRadius: const BorderRadius.only(
                                       topLeft: Radius.circular(30),
                                       bottomLeft: Radius.circular(30),

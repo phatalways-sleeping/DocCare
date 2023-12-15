@@ -22,6 +22,7 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
   ) : super(PrescriptionInitial.empty()) {
     on<PrescriptionInitialEvent>(_onPrescriptionInitialEvent);
     on<PrescriptionTapEvent>(_onPrescriptionTapEvent);
+    on<MedicineBackEvent>(_onMedicineBackEvent);
   }
 
   final String ID;
@@ -129,5 +130,19 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
     } catch (e) {
       return;
     }
+  }
+
+  void _onMedicineBackEvent(
+    MedicineBackEvent event,
+    Emitter<PrescriptionState> emit,
+  ) async {
+    emit(
+      PrescriptionInitial.input(
+          prescriptionID: state.prescriptionID,
+          doctorName: state.doctorName,
+          datePrescribed: state.datePrescribed,
+          note: state.note,
+          done: state.done),
+    );
   }
 }

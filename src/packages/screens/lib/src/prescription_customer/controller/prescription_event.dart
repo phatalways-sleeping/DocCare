@@ -23,3 +23,10 @@ final class PrescriptionTapEvent extends PrescriptionEvent {
   @override
   List<Object?> get props => [prescriptionID];
 }
+
+final class MedicineBackEvent extends PrescriptionEvent {
+  const MedicineBackEvent();
+
+  @override
+  List<Object?> get props => [];
+}
