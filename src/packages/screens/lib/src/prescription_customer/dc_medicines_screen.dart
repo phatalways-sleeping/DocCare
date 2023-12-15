@@ -60,166 +60,148 @@ class _DCMedicineScreenState extends State<DCMedicineScreen> {
 
                   //Display the list of current prescription
 
-                  InkWell(
-                    onTap: () => print('current prescription'),
-                    child: Column(
-                      children: List.generate(
-                        context
-                            .watch<PrescriptionBloc>()
-                            .state
-                            .doctorName
-                            .length,
-                        (index) => (context
-                                .watch<PrescriptionBloc>()
-                                .state
-                                .done[index])
-                            ? Padding(
-                                padding: const EdgeInsets.only(
-                                  top: 20,
-                                  left: 10,
-                                  right: 10,
+                  //On tap return the index of the list in child
+                  Column(
+                    children: List.generate(
+                      (context.watch<PrescriptionBloc>().state
+                              as MedicineInitial)
+                          .medicineName
+                          .length,
+                      (index) => InkWell(
+                        onTap: () => print('kkk'),
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                            top: 20,
+                            left: 10,
+                            right: 10,
+                          ),
+                          child: DecoratedBox(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              border: Border.all(
+                                color: context.colorScheme.onSurface,
+                              ),
+                            ),
+                            child: Row(
+                              children: [
+                                //Thick vertical line
+                                const SizedBox(
+                                  width: 0.2,
                                 ),
-                                child: DecoratedBox(
+                                Container(
+                                  height: 55,
+                                  width: 12,
                                   decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                    border: Border.all(
-                                      color: context.colorScheme.onSurface,
+                                    color: context.colorScheme.onSurface,
+                                    borderRadius: const BorderRadius.only(
+                                      topLeft: Radius.circular(30),
+                                      bottomLeft: Radius.circular(30),
                                     ),
                                   ),
-                                  child: Row(
-                                    children: [
-                                      //Thick vertical line
-                                      const SizedBox(
-                                        width: 0.2,
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    DefaultTextStyle.merge(
+                                      style: context.textTheme.h4BoldPoppins
+                                          .copyWith(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.normal,
+                                        color: context.colorScheme.onBackground,
                                       ),
-                                      Container(
-                                        height: 55,
-                                        width: 12,
-                                        decoration: BoxDecoration(
-                                          color: context.colorScheme.surface,
-                                          borderRadius: const BorderRadius.only(
-                                            topLeft: Radius.circular(30),
-                                            bottomLeft: Radius.circular(30),
-                                          ),
+                                      textAlign: TextAlign.start,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                          left: 10,
+                                        ),
+                                        child: Text(
+                                          (context
+                                                  .watch<PrescriptionBloc>()
+                                                  .state as MedicineInitial)
+                                              .medicineName[index],
                                         ),
                                       ),
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          DefaultTextStyle.merge(
-                                            style: context
-                                                .textTheme.h4BoldPoppins
-                                                .copyWith(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.normal,
-                                              color: context
-                                                  .colorScheme.onBackground,
-                                            ),
-                                            textAlign: TextAlign.start,
-                                            child: Padding(
+                                    ),
+                                    Column(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Padding(
                                               padding: const EdgeInsets.only(
                                                 left: 10,
                                               ),
-                                              child: Text(
-                                                context
-                                                    .watch<PrescriptionBloc>()
-                                                    .state
-                                                    .doctorName[index],
+                                              child: SvgPicture.string(
+                                                DCSVGIcons.clock,
+                                                fit: BoxFit.cover,
                                               ),
                                             ),
-                                          ),
-                                          Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.end,
-                                            children: [
-                                              Row(
-                                                children: [
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                      left: 10,
-                                                    ),
-                                                    child: SvgPicture.string(
-                                                      DCSVGIcons.clock,
-                                                      fit: BoxFit.cover,
-                                                    ),
-                                                  ),
-                                                  DefaultTextStyle(
-                                                    style: context.textTheme
-                                                        .h4RegularPoppins
-                                                        .copyWith(
-                                                      fontSize: 16,
-                                                      fontWeight:
-                                                          FontWeight.normal,
-                                                      color: context.colorScheme
-                                                          .onBackground,
-                                                    ),
-                                                    child: Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                        left: 10,
-                                                      ),
-                                                      child: Text(
-                                                        context
-                                                            .watch<
-                                                                PrescriptionBloc>()
-                                                            .state
-                                                            .datePrescribed[
-                                                                index]
-                                                            .toString()
-                                                            .substring(
-                                                              0,
-                                                              10,
-                                                            ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                      //Text at the end
-                                      Expanded(
-                                        child: Align(
-                                          alignment: Alignment.centerRight,
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(
-                                              right: 10,
-                                            ),
-                                            child: DefaultTextStyle.merge(
+                                            DefaultTextStyle(
                                               style: context
                                                   .textTheme.h4RegularPoppins
                                                   .copyWith(
-                                                fontSize: 18,
+                                                fontSize: 16,
                                                 fontWeight: FontWeight.normal,
                                                 color: context
                                                     .colorScheme.onBackground,
                                               ),
-                                              textAlign: TextAlign.start,
-                                              child: Text(
-                                                context
-                                                    .watch<PrescriptionBloc>()
-                                                    .state
-                                                    .note[index]
-                                                    .substring(3),
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(
+                                                  left: 10,
+                                                ),
+                                                child: Text(
+                                                  (context
+                                                          .watch<
+                                                              PrescriptionBloc>()
+                                                          .state as MedicineInitial)
+                                                      .timeOfTheDay[index]!,
+                                                ),
                                               ),
                                             ),
-                                          ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                //Text at the end
+                                Expanded(
+                                  child: Align(
+                                    alignment: Alignment.centerRight,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                        right: 10,
+                                      ),
+                                      child: DefaultTextStyle.merge(
+                                        style: context
+                                            .textTheme.h4RegularPoppins
+                                            .copyWith(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.normal,
+                                          color:
+                                              context.colorScheme.onBackground,
+                                        ),
+                                        textAlign: TextAlign.start,
+                                        child: Text(
+                                          '${(context.watch<PrescriptionBloc>().state as MedicineInitial).quantity[index]} pills - ${(context.watch<PrescriptionBloc>().state as MedicineInitial).toBeTaken[index]}' ==
+                                                  '0'
+                                              ? 'Before eating'
+                                              : 'After eating',
                                         ),
                                       ),
-                                    ],
+                                    ),
                                   ),
                                 ),
-                              )
-                            : const SizedBox(),
+                              ],
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   ),
+
                   const SizedBox(
                     height: 20,
                   ),
@@ -232,174 +214,8 @@ class _DCMedicineScreenState extends State<DCMedicineScreen> {
                     textAlign: TextAlign.left,
                     child: const Text('Past Medicines'),
                   ),
-                  InkWell(
-                    onTap: () => print('Past Medicines'),
-                    child: Column(
-                      children: List.generate(
-                        context
-                            .watch<PrescriptionBloc>()
-                            .state
-                            .doctorName
-                            .length,
-                        (index) => (context
-                                    .watch<PrescriptionBloc>()
-                                    .state
-                                    .done[index] ==
-                                false)
-                            ? Padding(
-                                padding: const EdgeInsets.only(
-                                  top: 20,
-                                  left: 10,
-                                  right: 10,
-                                ),
-                                child: DecoratedBox(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                    border: Border.all(
-                                      color: context.colorScheme.onSurface,
-                                    ),
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      //Thick vertical line
-                                      const SizedBox(
-                                        width: 0.2,
-                                      ),
-                                      Container(
-                                        height: 55,
-                                        width: 12,
-                                        decoration: BoxDecoration(
-                                          color: context.colorScheme.surface,
-                                          borderRadius: const BorderRadius.only(
-                                            topLeft: Radius.circular(30),
-                                            bottomLeft: Radius.circular(30),
-                                          ),
-                                        ),
-                                      ),
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          DefaultTextStyle.merge(
-                                            style: context
-                                                .textTheme.h4BoldPoppins
-                                                .copyWith(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.normal,
-                                              color: context
-                                                  .colorScheme.onBackground,
-                                            ),
-                                            textAlign: TextAlign.start,
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                left: 10,
-                                              ),
-                                              child: Text(
-                                                context
-                                                    .watch<PrescriptionBloc>()
-                                                    .state
-                                                    .doctorName[index],
-                                              ),
-                                            ),
-                                          ),
-                                          Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.end,
-                                            children: [
-                                              Row(
-                                                children: [
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                      left: 10,
-                                                    ),
-                                                    child: SvgPicture.string(
-                                                      DCSVGIcons.clock,
-                                                      fit: BoxFit.cover,
-                                                    ),
-                                                  ),
-                                                  DefaultTextStyle(
-                                                    style: context.textTheme
-                                                        .h4RegularPoppins
-                                                        .copyWith(
-                                                      fontSize: 16,
-                                                      fontWeight:
-                                                          FontWeight.normal,
-                                                      color: context.colorScheme
-                                                          .onBackground,
-                                                    ),
-                                                    child: Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                        left: 10,
-                                                      ),
-                                                      child: Text(
-                                                        context
-                                                            .watch<
-                                                                PrescriptionBloc>()
-                                                            .state
-                                                            .datePrescribed[
-                                                                index]
-                                                            .toString()
-                                                            .substring(
-                                                              0,
-                                                              10,
-                                                            ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                      //Text at the end
-                                      Expanded(
-                                        child: Align(
-                                          alignment: Alignment.centerRight,
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(
-                                              right: 10,
-                                            ),
-                                            child: DefaultTextStyle.merge(
-                                              style: context
-                                                  .textTheme.h4RegularPoppins
-                                                  .copyWith(
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.normal,
-                                                color: context
-                                                    .colorScheme.onBackground,
-                                              ),
-                                              textAlign: TextAlign.start,
-                                              child: Text(
-                                                context
-                                                    .watch<PrescriptionBloc>()
-                                                    .state
-                                                    .note[index]
-                                                    .substring(3),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              )
-                            : const SizedBox(),
-                      ),
-                    ),
-                  ),
                   const SizedBox(
                     height: 20,
-                  ),
-                  DCCustomerNavigationBar(
-                    onItemSelected: (context, index) {
-                      print('index: $index');
-                    },
                   ),
                 ],
               ),

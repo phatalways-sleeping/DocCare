@@ -35,6 +35,7 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
   ) async {
     try {
       print('ID: $ID');
+      final prescriptionID = <String>[];
       final doctorName = <String>[];
       final datePrescribed = <DateTime>[];
       final note = <String>[];
@@ -44,6 +45,7 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
           .getAllPrescriptionListByCustomerID(ID)
           .then((value) {
         for (final element in value) {
+          prescriptionID.add(element.id);
           doctorName.add(element.doctorID);
           datePrescribed.add(element.datePrescribed);
           note.add(element.note);
@@ -59,6 +61,7 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
 
       emit(
         PrescriptionInitial.input(
+          prescriptionID: prescriptionID,
           doctorName: doctorName,
           datePrescribed: datePrescribed,
           note: note,
@@ -82,6 +85,7 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
 
       emit(
         PrescriptionLoading(
+          prescriptionID: state.prescriptionID,
           doctorName: state.doctorName,
           datePrescribed: state.datePrescribed,
           note: state.note,
@@ -102,6 +106,7 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
 
       emit(
         MedicineInitial(
+          prescriptionID: state.prescriptionID,
           doctorName: state.doctorName,
           datePrescribed: state.datePrescribed,
           note: state.note,

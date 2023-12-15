@@ -63,20 +63,23 @@ class _DCPrescriptionScreenState extends State<DCPrescriptionScreen> {
 
                   //Display the list of current prescription
 
-                  InkWell(
-                    onTap: () => print('current prescription'),
-                    child: Column(
-                      children: List.generate(
-                        context
-                            .watch<PrescriptionBloc>()
-                            .state
-                            .doctorName
-                            .length,
-                        (index) => (context
-                                .watch<PrescriptionBloc>()
-                                .state
-                                .done[index])
-                            ? Padding(
+                  Column(
+                    children: List.generate(
+                      context.watch<PrescriptionBloc>().state.doctorName.length,
+                      (index) => (context
+                              .watch<PrescriptionBloc>()
+                              .state
+                              .done[index])
+                          ? InkWell(
+                              onTap: () => context.read<PrescriptionBloc>().add(
+                                    PrescriptionTapEvent(
+                                      context
+                                          .read<PrescriptionBloc>()
+                                          .state
+                                          .prescriptionID[index],
+                                    ),
+                                  ),
+                              child: Padding(
                                 padding: const EdgeInsets.only(
                                   top: 20,
                                   left: 10,
@@ -206,10 +209,19 @@ class _DCPrescriptionScreenState extends State<DCPrescriptionScreen> {
                                               textAlign: TextAlign.start,
                                               child: Text(
                                                 context
-                                                    .watch<PrescriptionBloc>()
-                                                    .state
-                                                    .note[index]
-                                                    .substring(3),
+                                                            .watch<
+                                                                PrescriptionBloc>()
+                                                            .state
+                                                            .note[index]
+                                                            .length >
+                                                        3
+                                                    ? context
+                                                        .watch<
+                                                            PrescriptionBloc>()
+                                                        .state
+                                                        .note[index]
+                                                        .substring(3)
+                                                    : 'empty',
                                               ),
                                             ),
                                           ),
@@ -218,11 +230,12 @@ class _DCPrescriptionScreenState extends State<DCPrescriptionScreen> {
                                     ],
                                   ),
                                 ),
-                              )
-                            : const SizedBox(),
-                      ),
+                              ),
+                            )
+                          : const SizedBox(),
                     ),
                   ),
+
                   const SizedBox(
                     height: 20,
                   ),
@@ -235,21 +248,24 @@ class _DCPrescriptionScreenState extends State<DCPrescriptionScreen> {
                     textAlign: TextAlign.left,
                     child: const Text('Past Prescription'),
                   ),
-                  InkWell(
-                    onTap: () => print('past prescription'),
-                    child: Column(
-                      children: List.generate(
-                        context
-                            .watch<PrescriptionBloc>()
-                            .state
-                            .doctorName
-                            .length,
-                        (index) => (context
-                                    .watch<PrescriptionBloc>()
-                                    .state
-                                    .done[index] ==
-                                false)
-                            ? Padding(
+                  Column(
+                    children: List.generate(
+                      context.watch<PrescriptionBloc>().state.doctorName.length,
+                      (index) => (context
+                                  .watch<PrescriptionBloc>()
+                                  .state
+                                  .done[index] ==
+                              false)
+                          ? InkWell(
+                              onTap: () => context.read<PrescriptionBloc>().add(
+                                    PrescriptionTapEvent(
+                                      context
+                                          .read<PrescriptionBloc>()
+                                          .state
+                                          .prescriptionID[index],
+                                    ),
+                                  ),
+                              child: Padding(
                                 padding: const EdgeInsets.only(
                                   top: 20,
                                   left: 10,
@@ -391,11 +407,12 @@ class _DCPrescriptionScreenState extends State<DCPrescriptionScreen> {
                                     ],
                                   ),
                                 ),
-                              )
-                            : const SizedBox(),
-                      ),
+                              ),
+                            )
+                          : const SizedBox(),
                     ),
                   ),
+
                   const SizedBox(
                     height: 20,
                   ),

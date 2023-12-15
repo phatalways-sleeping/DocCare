@@ -3,12 +3,14 @@ part of 'prescription_bloc.dart';
 @immutable
 sealed class PrescriptionState extends Equatable {
   const PrescriptionState({
+    required this.prescriptionID,
     required this.doctorName,
     required this.datePrescribed,
     required this.note,
     required this.done,
   });
 
+  final List<String> prescriptionID;
   final List<String> doctorName;
   final List<DateTime> datePrescribed;
   final List<String> note;
@@ -16,6 +18,7 @@ sealed class PrescriptionState extends Equatable {
 
   @override
   List<Object?> get props => [
+        prescriptionID,
         doctorName,
         datePrescribed,
         note,
@@ -23,6 +26,7 @@ sealed class PrescriptionState extends Equatable {
       ];
 
   PrescriptionState copyWith({
+    List<String>? prescriptionID,
     List<String>? doctorName,
     List<DateTime>? datePrescribed,
     List<String>? note,
@@ -33,6 +37,7 @@ sealed class PrescriptionState extends Equatable {
 final class PrescriptionInitial extends PrescriptionState {
   PrescriptionInitial.empty()
       : super(
+          prescriptionID: [],
           doctorName: [],
           datePrescribed: [],
           note: [],
@@ -40,6 +45,7 @@ final class PrescriptionInitial extends PrescriptionState {
         );
 
   const PrescriptionInitial.input({
+    required super.prescriptionID,
     required super.doctorName,
     required super.datePrescribed,
     required super.note,
@@ -48,12 +54,14 @@ final class PrescriptionInitial extends PrescriptionState {
 
   @override
   PrescriptionState copyWith({
+    List<String>? prescriptionID,
     List<String>? doctorName,
     List<DateTime>? datePrescribed,
     List<String>? note,
     List<bool>? done,
   }) =>
       PrescriptionInitial.input(
+        prescriptionID: prescriptionID ?? super.prescriptionID,
         doctorName: doctorName ?? super.doctorName,
         datePrescribed: datePrescribed ?? super.datePrescribed,
         note: note ?? super.note,
@@ -63,6 +71,7 @@ final class PrescriptionInitial extends PrescriptionState {
 
 final class PrescriptionLoading extends PrescriptionState {
   const PrescriptionLoading({
+    required super.prescriptionID,
     required super.doctorName,
     required super.datePrescribed,
     required super.note,
@@ -71,12 +80,14 @@ final class PrescriptionLoading extends PrescriptionState {
 
   @override
   PrescriptionState copyWith({
+    List<String>? prescriptionID,
     List<String>? doctorName,
     List<DateTime>? datePrescribed,
     List<String>? note,
     List<bool>? done,
   }) =>
       PrescriptionLoading(
+        prescriptionID: prescriptionID ?? super.prescriptionID,
         doctorName: doctorName ?? super.doctorName,
         datePrescribed: datePrescribed ?? super.datePrescribed,
         note: note ?? super.note,
@@ -86,6 +97,7 @@ final class PrescriptionLoading extends PrescriptionState {
 
 final class MedicineInitial extends PrescriptionState {
   const MedicineInitial({
+    required super.prescriptionID,
     required super.doctorName,
     required super.datePrescribed,
     required super.note,
@@ -105,12 +117,14 @@ final class MedicineInitial extends PrescriptionState {
 
   @override
   PrescriptionState copyWith({
+    List<String>? prescriptionID,
     List<String>? doctorName,
     List<DateTime>? datePrescribed,
     List<String>? note,
     List<bool>? done,
   }) {
     return MedicineInitial(
+      prescriptionID: prescriptionID ?? super.prescriptionID,
       doctorName: doctorName ?? super.doctorName,
       datePrescribed: datePrescribed ?? super.datePrescribed,
       note: note ?? super.note,
