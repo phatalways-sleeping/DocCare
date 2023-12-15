@@ -15,7 +15,8 @@ Prescription _$PrescriptionFromJson(Map<String, dynamic> json) {
       'customerID',
       'dateDone',
       'datePrescribed',
-      'done'
+      'done',
+      'diagnosis',
     ],
   );
   return Prescription(
@@ -26,6 +27,7 @@ Prescription _$PrescriptionFromJson(Map<String, dynamic> json) {
     datePrescribed: DateTime.parse(json['datePrescribed'] as String),
     done: json['done'] as bool? ?? false,
     note: json['note'] as String? ?? '',
+    diagnosis: json['diagnosis'] as String? ?? '',
   );
 }
 
@@ -38,4 +40,5 @@ Map<String, dynamic> _$PrescriptionToJson(Prescription instance) =>
       'datePrescribed': instance.datePrescribed.toIso8601String(),
       'done': instance.done,
       'note': instance.note,
+      'diagnosis': instance.diagnosis,
     };
