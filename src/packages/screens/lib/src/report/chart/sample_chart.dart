@@ -4,7 +4,7 @@ import 'package:screens/src/report/chart/indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:components/src/theme/color_scheme/light_color_scheme.dart';
 
-class PieChartSample2 extends StatefulWidget {
+class DCPieChart extends StatefulWidget {
   final int one_star;
   final int two_star;
   final int three_star;
@@ -12,7 +12,7 @@ class PieChartSample2 extends StatefulWidget {
   final int five_star;
   final int sum_star;
 
-  const PieChartSample2({
+  const DCPieChart({
     Key? key,
     required this.one_star,
     required this.two_star,
@@ -23,10 +23,10 @@ class PieChartSample2 extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => PieChart2State();
+  State<StatefulWidget> createState() => DCPieChartState();
 }
 
-class PieChart2State extends State<PieChartSample2> {
+class DCPieChartState extends State<DCPieChart> {
   int touchedIndex = -1;
 
   @override
@@ -135,11 +135,11 @@ class PieChart2State extends State<PieChartSample2> {
   }
 
   List<PieChartSectionData> showingSections(
-    double one_star,
-    double two_star,
-    double three_star,
-    double four_star,
-    double five_star,
+    double one_star_percent,
+    double two_star_percent,
+    double three_star_percent,
+    double four_star_percent,
+    double five_star_percent,
   ) {
     final DocCareLightColorScheme colorScheme = DocCareLightColorScheme();
     return List.generate(5, (i) {
@@ -151,8 +151,8 @@ class PieChart2State extends State<PieChartSample2> {
         case 0:
           return PieChartSectionData(
             color: colorScheme.primary,
-            value: one_star,
-            title: one_star.toInt().toString() + " %",
+            value: one_star_percent,
+            title: one_star_percent.toInt().toString() + " %",
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,
@@ -164,8 +164,8 @@ class PieChart2State extends State<PieChartSample2> {
         case 1:
           return PieChartSectionData(
             color: colorScheme.secondary,
-            value: two_star,
-            title: two_star.toInt().toString() + " %",
+            value: two_star_percent,
+            title: two_star_percent.toInt().toString() + " %",
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,
@@ -177,8 +177,8 @@ class PieChart2State extends State<PieChartSample2> {
         case 2:
           return PieChartSectionData(
             color: colorScheme.error,
-            value: three_star,
-            title: one_star.toInt().toString() + " %",
+            value: three_star_percent,
+            title: three_star_percent.toInt().toString() + " %",
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,
@@ -190,8 +190,8 @@ class PieChart2State extends State<PieChartSample2> {
         case 3:
           return PieChartSectionData(
             color: colorScheme.quinary,
-            value: four_star,
-            title: four_star.toInt().toString() + " %",
+            value: four_star_percent,
+            title: four_star_percent.toInt().toString() + " %",
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,
@@ -203,8 +203,8 @@ class PieChart2State extends State<PieChartSample2> {
           case 4:
           return PieChartSectionData(
             color: colorScheme.quartenary,
-            value: five_star,
-            title: five_star.toInt().toString() + " %",
+            value: five_star_percent,
+            title: five_star_percent.toInt().toString() + " %",
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,

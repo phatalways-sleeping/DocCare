@@ -7,9 +7,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:screens/src/report/controller/admin_generate_report_bloc.dart';
 import 'package:utility/utility.dart';
-import 'package:screens/src/report/generate_pdf_service.dart';
+import 'package:screens/src/report/pdf_service/generate_pdf_service.dart';
 import 'package:administrator/src/supabase_admin_generate_report_service.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 class DCAdminGenerateReportScreen extends StatefulWidget {
   const DCAdminGenerateReportScreen({super.key});
@@ -159,42 +158,3 @@ class _DCAdminGenerateReportScreenState
     );
   }
 }
-
-
-
-
-
-
-
-
-// import 'package:flutter/material.dart';
-// import 'package:screens/src/report/invoice_service.dart';
-
-// class DCAdminGenerateReportScreen extends StatelessWidget {
-//   final PdfInvoiceService service = PdfInvoiceService();
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: const Text("Invoice Generator"),
-//       ),
-//       body: Padding(
-//         padding: const EdgeInsets.all(8.0),
-//         child: Column(
-//           crossAxisAlignment: CrossAxisAlignment.center,
-//           children: [
-//             ElevatedButton(
-//               onPressed: () async {
-//                 final data = await service.createInvoice(11,11,2023);
-//                 service.savePdfFile("invoice", data);
-//               },
-//               child: const Text("Create Invoice"),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-
-// }

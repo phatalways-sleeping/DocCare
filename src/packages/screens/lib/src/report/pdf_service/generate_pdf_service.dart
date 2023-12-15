@@ -41,12 +41,12 @@ class PdfInvoiceService {
 
     for (int month = startMonth; month <= endMonth; month++) {
       String currentMonthName = "";
-      if (month > 0)
+      if (month > 0 && month <= 12)
         currentMonthName = monthName[month - 1];
       else
         currentMonthName = monthName[0];
 
-      // // Fetch data from Supabase using service functions
+      // // prepare data from Supabase using service functions
 
       final totalAppointments =
           await reportService.countAppointmentsInMonth(month, year);
@@ -71,13 +71,15 @@ class PdfInvoiceService {
           await reportService.mostBookedSpecializationInMonth(month, year);
 
       //print('mostBookedSpecialty: $mostBookedSpecialty');
+
       String busiestDayName = "";
-      if ((busiestDay % 10) <= 4 && (busiestDay % 10) > 0)
+      if ((busiestDay % 10) <= 4 && busiestDay > 0)
         busiestDayName = busiestDay.toString() + dayName[(busiestDay % 10) - 1];
       else if (busiestDay > 0)
         busiestDayName = busiestDay.toString() + dayName[3];
       else
         busiestDayName = "No data";
+
       final one_star = await reportService.countOneStarInMonth(month, year);
       final two_star = await reportService.countTwoStarInMonth(month, year);
       final three_star = await reportService.countThreeStarInMonth(month, year);
@@ -86,11 +88,12 @@ class PdfInvoiceService {
       final totalStar =
           one_star + two_star + three_star + four_star + five_star;
       //print('totalStar: $totalStar');
+
       Uint8List bytes = Uint8List(0);
       if (totalStar != 0)
         bytes = await screenshotController.captureFromWidget(MediaQuery(
             data: const MediaQueryData(),
-            child: PieChartSample2(
+            child: DCPieChart(
               one_star: one_star,
               two_star: two_star,
               three_star: three_star,
@@ -98,8 +101,8 @@ class PdfInvoiceService {
               five_star: five_star,
               sum_star: totalStar,
             )));
-//PieChartSample2(one_star,two_star,three_star,four_star,five_star);
 
+  // design pdf
       widgets.addAll([
         pw.Row(
           children: [

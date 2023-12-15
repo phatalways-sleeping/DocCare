@@ -3,7 +3,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/widgets.dart';
-import 'package:screens/src/report/generate_pdf_service.dart';
+import 'package:screens/src/report/pdf_service/generate_pdf_service.dart';
 import 'package:auth_api/auth_api.dart' show AuthException;
 import 'package:administrator/src/admin_generate_report_service.dart';
 import 'package:utility/utility.dart'
