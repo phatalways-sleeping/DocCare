@@ -1,12 +1,15 @@
-// ignore_for_file: public_member_api_docs, inference_failure_on_function_invocation
+// ignore_for_file: public_member_api_docs, inference_failure_on_function_invocation, implementation_imports
 import 'dart:async';
 
 import 'package:administrator/administrator.dart';
-import 'package:auth_api/auth_api.dart' show AuthException;
+import 'package:auth_domain/auth_domain.dart'
+    show AuthenticationRepositoryService;
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:model_api/src/specialization/service/supabase_specialization_api_service.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 // ignore: depend_on_referenced_packages
 import 'package:utility/utility.dart'
     show FormValidator, NotificationManagerService, NotificationType;
@@ -16,9 +19,10 @@ part 'create_staff_state.dart';
 
 class CreateStaffBloc extends Bloc<CreateStaffEvent, CreateStaffState> {
   CreateStaffBloc(
+    this._authenticationRepositoryService,
     this._notificationManagerService,
     this._supabaseAdminService,
-  ) : super(CreateStaffInitial.empty()) {
+  ) : super(CreateStaffLoading.empty()) {
     on<FullNameInputEvent>(_onFullNameInputEvent);
     on<EmailInputEvent>(_onEmailInputEvent);
     on<PasswordInputEvent>(_onPasswordInputEvent);
@@ -36,11 +40,14 @@ class CreateStaffBloc extends Bloc<CreateStaffEvent, CreateStaffState> {
     on<CreateStaffButtonPressedEvent>(_onCreateStaffButtonPressedEvent);
     on<ValidateBirthdayInputEvent>(_validateBirthdayInputEvent);
     on<WorkingShiftInputEvent>(_onWorkingShiftInputEvent);
+    on<LoadingInitialStuffEvent>(_onLoadingInitialStuffEvent);
   }
 
   final NotificationManagerService _notificationManagerService;
 
   final AdminControlStaffApiService _supabaseAdminService;
+
+  final AuthenticationRepositoryService _authenticationRepositoryService;
 
   BuildContext? _context;
 
@@ -74,6 +81,20 @@ class CreateStaffBloc extends Bloc<CreateStaffEvent, CreateStaffState> {
     Emitter<CreateStaffState> emit,
   ) {
     emit(state.copyWith(tempBirthday: event.tempBirthday));
+  }
+
+  Future<void> _onLoadingInitialStuffEvent(
+    LoadingInitialStuffEvent event,
+    Emitter<CreateStaffState> emit,
+  ) async {
+    final specializationList = await SupabaseSpecializationApiService(
+      supabase: Supabase.instance.client,
+    ).getAllSpecialization();
+    emit(
+      CreateStaffInitial.from(
+        state.copyWith(specializationList: specializationList),
+      ),
+    );
   }
 
   void _validateBirthdayInputEvent(
@@ -221,7 +242,36 @@ class CreateStaffBloc extends Bloc<CreateStaffEvent, CreateStaffState> {
 
     try {
       if (state.role == "Receptionist") {
-        print('create receptionist');
+        if (state.fullName.isEmpty ||
+            state.password.isEmpty ||
+            state.email.isEmpty ||
+            state.phone.isEmpty) {
+          await _notificationManagerService.show<void>(
+            NotificationType.signUp,
+            title: const Text(
+              'Something went wrong',
+              style: TextStyle(
+                fontSize: 16,
+              ),
+            ),
+            message: const Text(
+              'Please fill all the fields',
+              style: TextStyle(
+                fontSize: 16,
+              ),
+            ),
+          );
+
+          return;
+        }
+
+        //Create account for receptionist
+        await _authenticationRepositoryService.signUp(
+          state.email,
+          state.password,
+        );
+
+        //Create information for receptionist
         await _supabaseAdminService.signUpReceptionist(
           state.fullName,
           state.email,
@@ -230,6 +280,38 @@ class CreateStaffBloc extends Bloc<CreateStaffEvent, CreateStaffState> {
           state.phone,
         );
       } else if (state.role == "Doctor") {
+        if (state.fullName.isEmpty ||
+            state.password.isEmpty ||
+            state.email.isEmpty ||
+            state.phone.isEmpty ||
+            state.dayOfWeek.isEmpty ||
+            state.specializationId.isEmpty) {
+          await _notificationManagerService.show<void>(
+            NotificationType.signUp,
+            title: const Text(
+              'Something went wrong',
+              style: TextStyle(
+                fontSize: 16,
+              ),
+            ),
+            message: const Text(
+              'Please fill all the fields',
+              style: TextStyle(
+                fontSize: 16,
+              ),
+            ),
+          );
+
+          return;
+        }
+
+        //Create account for Doctor
+        await _authenticationRepositoryService.signUp(
+          state.email,
+          state.password,
+        );
+
+        //Create information for Doctor
         await _supabaseAdminService.signUpDoctor(
           state.fullName,
           state.email,

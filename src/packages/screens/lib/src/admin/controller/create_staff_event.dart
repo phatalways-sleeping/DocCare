@@ -142,3 +142,10 @@ final class WorkingShiftInputEvent extends CreateStaffEvent {
   @override
   List<Object> get props => [dayOfWeek];
 }
+
+final class LoadingInitialStuffEvent extends CreateStaffEvent {
+  const LoadingInitialStuffEvent();
+
+  @override
+  List<Object> get props => [];
+}
