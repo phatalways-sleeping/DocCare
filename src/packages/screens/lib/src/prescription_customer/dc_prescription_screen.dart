@@ -21,6 +21,14 @@ class DCPrescriptionScreen extends StatefulWidget {
 class _DCPrescriptionScreenState extends State<DCPrescriptionScreen> {
   @override
   Widget build(BuildContext context) {
+    //List of color for the prescription
+    final List<Color> colorList = <Color>[
+      context.colorScheme.surface,
+      context.colorScheme.secondary,
+      context.colorScheme.error,
+      context.colorScheme.onBackground,
+    ];
+
     return Scaffold(
       appBar: const DCCustomerHeaderBar(
         title: 'DocCare',
@@ -36,26 +44,36 @@ class _DCPrescriptionScreenState extends State<DCPrescriptionScreen> {
                   const SizedBox(
                     height: 20,
                   ),
-                  DefaultTextStyle.merge(
-                    style: context.textTheme.h4BoldPoppins.copyWith(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                      color: context.colorScheme.onBackground,
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      left: 10,
                     ),
-                    textAlign: TextAlign.left,
-                    child: const Text('Your history'),
+                    child: DefaultTextStyle.merge(
+                      style: context.textTheme.h2BoldPoppins.copyWith(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                        color: context.colorScheme.onBackground,
+                      ),
+                      textAlign: TextAlign.left,
+                      child: const Text('Your history'),
+                    ),
                   ),
                   const SizedBox(
                     height: 20,
                   ),
-                  DefaultTextStyle.merge(
-                    style: context.textTheme.h4BoldPoppins.copyWith(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: context.colorScheme.onBackground,
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      left: 10,
                     ),
-                    textAlign: TextAlign.left,
-                    child: const Text('Current Prescription'),
+                    child: DefaultTextStyle.merge(
+                      style: context.textTheme.h4BoldPoppins.copyWith(
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                        color: context.colorScheme.onBackground,
+                      ),
+                      textAlign: TextAlign.left,
+                      child: const Text('Current Prescription'),
+                    ),
                   ),
 
                   //Display the list of current prescription
@@ -83,12 +101,14 @@ class _DCPrescriptionScreenState extends State<DCPrescriptionScreen> {
                                   right: 10,
                                 ),
                                 child: DecoratedBox(
+                                  //Decorate the box with shadow in the bottom border
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(20),
                                     border: Border.all(
                                       color: context.colorScheme.onSurface,
                                     ),
                                   ),
+
                                   child: Row(
                                     children: [
                                       //Thick vertical line
@@ -96,10 +116,11 @@ class _DCPrescriptionScreenState extends State<DCPrescriptionScreen> {
                                         width: 0.2,
                                       ),
                                       Container(
-                                        height: 55,
-                                        width: 12,
+                                        height: 80,
+                                        width: 15,
                                         decoration: BoxDecoration(
-                                          color: context.colorScheme.surface,
+                                          color: colorList[
+                                              index % colorList.length],
                                           borderRadius: const BorderRadius.only(
                                             topLeft: Radius.circular(30),
                                             bottomLeft: Radius.circular(30),
@@ -116,7 +137,7 @@ class _DCPrescriptionScreenState extends State<DCPrescriptionScreen> {
                                             style: context
                                                 .textTheme.h4BoldPoppins
                                                 .copyWith(
-                                              fontSize: 18,
+                                              fontSize: 20,
                                               fontWeight: FontWeight.normal,
                                               color: context
                                                   .colorScheme.onBackground,
@@ -134,6 +155,9 @@ class _DCPrescriptionScreenState extends State<DCPrescriptionScreen> {
                                               ),
                                             ),
                                           ),
+                                          const SizedBox(
+                                            height: 20,
+                                          ),
                                           Column(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.end,
@@ -145,16 +169,19 @@ class _DCPrescriptionScreenState extends State<DCPrescriptionScreen> {
                                                         const EdgeInsets.only(
                                                       left: 10,
                                                     ),
-                                                    child: SvgPicture.string(
-                                                      DCSVGIcons.clock,
-                                                      fit: BoxFit.cover,
+                                                    child: Transform.scale(
+                                                      scale: 0.8,
+                                                      child: SvgPicture.string(
+                                                        DCSVGIcons.clock,
+                                                        fit: BoxFit.cover,
+                                                      ),
                                                     ),
                                                   ),
                                                   DefaultTextStyle(
                                                     style: context.textTheme
                                                         .h4RegularPoppins
                                                         .copyWith(
-                                                      fontSize: 16,
+                                                      fontSize: 18,
                                                       fontWeight:
                                                           FontWeight.normal,
                                                       color: context.colorScheme
@@ -163,7 +190,7 @@ class _DCPrescriptionScreenState extends State<DCPrescriptionScreen> {
                                                     child: Padding(
                                                       padding:
                                                           const EdgeInsets.only(
-                                                        left: 10,
+                                                        left: 5,
                                                       ),
                                                       child: Text(
                                                         context
@@ -194,32 +221,37 @@ class _DCPrescriptionScreenState extends State<DCPrescriptionScreen> {
                                             padding: const EdgeInsets.only(
                                               right: 10,
                                             ),
-                                            child: DefaultTextStyle.merge(
-                                              style: context
-                                                  .textTheme.h4RegularPoppins
-                                                  .copyWith(
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.normal,
-                                                color: context
-                                                    .colorScheme.onBackground,
-                                              ),
-                                              textAlign: TextAlign.start,
-                                              child: Text(
-                                                context
+                                            child: Column(
+                                              children: <Widget>[
+                                                DefaultTextStyle.merge(
+                                                  style: context.textTheme
+                                                      .h4RegularPoppins
+                                                      .copyWith(
+                                                    fontSize: 18,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                    color: context.colorScheme
+                                                        .onBackground,
+                                                  ),
+                                                  textAlign: TextAlign.start,
+                                                  child: Text(
+                                                    context
+                                                                .watch<
+                                                                    PrescriptionBloc>()
+                                                                .state
+                                                                .note[index]
+                                                                .length >
+                                                            3
+                                                        ? context
                                                             .watch<
                                                                 PrescriptionBloc>()
                                                             .state
                                                             .note[index]
-                                                            .length >
-                                                        3
-                                                    ? context
-                                                        .watch<
-                                                            PrescriptionBloc>()
-                                                        .state
-                                                        .note[index]
-                                                        .substring(3)
-                                                    : 'empty',
-                                              ),
+                                                            .substring(3)
+                                                        : 'empty',
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                           ),
                                         ),
@@ -236,14 +268,19 @@ class _DCPrescriptionScreenState extends State<DCPrescriptionScreen> {
                   const SizedBox(
                     height: 20,
                   ),
-                  DefaultTextStyle.merge(
-                    style: context.textTheme.h4BoldPoppins.copyWith(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: context.colorScheme.onBackground,
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      left: 10,
                     ),
-                    textAlign: TextAlign.left,
-                    child: const Text('Past Prescription'),
+                    child: DefaultTextStyle.merge(
+                      style: context.textTheme.h4BoldPoppins.copyWith(
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                        color: context.colorScheme.onBackground,
+                      ),
+                      textAlign: TextAlign.left,
+                      child: const Text('Past Prescription'),
+                    ),
                   ),
                   Column(
                     children: List.generate(
@@ -282,10 +319,11 @@ class _DCPrescriptionScreenState extends State<DCPrescriptionScreen> {
                                         width: 0.2,
                                       ),
                                       Container(
-                                        height: 55,
-                                        width: 12,
+                                        height: 80,
+                                        width: 15,
                                         decoration: BoxDecoration(
-                                          color: context.colorScheme.surface,
+                                          color: colorList[
+                                              index % colorList.length],
                                           borderRadius: const BorderRadius.only(
                                             topLeft: Radius.circular(30),
                                             bottomLeft: Radius.circular(30),
@@ -302,7 +340,7 @@ class _DCPrescriptionScreenState extends State<DCPrescriptionScreen> {
                                             style: context
                                                 .textTheme.h4BoldPoppins
                                                 .copyWith(
-                                              fontSize: 18,
+                                              fontSize: 20,
                                               fontWeight: FontWeight.normal,
                                               color: context
                                                   .colorScheme.onBackground,
@@ -320,6 +358,9 @@ class _DCPrescriptionScreenState extends State<DCPrescriptionScreen> {
                                               ),
                                             ),
                                           ),
+                                          const SizedBox(
+                                            height: 20,
+                                          ),
                                           Column(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.end,
@@ -331,16 +372,19 @@ class _DCPrescriptionScreenState extends State<DCPrescriptionScreen> {
                                                         const EdgeInsets.only(
                                                       left: 10,
                                                     ),
-                                                    child: SvgPicture.string(
-                                                      DCSVGIcons.clock,
-                                                      fit: BoxFit.cover,
+                                                    child: Transform.scale(
+                                                      scale: 0.8,
+                                                      child: SvgPicture.string(
+                                                        DCSVGIcons.clock,
+                                                        fit: BoxFit.cover,
+                                                      ),
                                                     ),
                                                   ),
                                                   DefaultTextStyle(
                                                     style: context.textTheme
                                                         .h4RegularPoppins
                                                         .copyWith(
-                                                      fontSize: 16,
+                                                      fontSize: 18,
                                                       fontWeight:
                                                           FontWeight.normal,
                                                       color: context.colorScheme
@@ -349,7 +393,7 @@ class _DCPrescriptionScreenState extends State<DCPrescriptionScreen> {
                                                     child: Padding(
                                                       padding:
                                                           const EdgeInsets.only(
-                                                        left: 10,
+                                                        left: 5,
                                                       ),
                                                       child: Text(
                                                         context
@@ -380,23 +424,37 @@ class _DCPrescriptionScreenState extends State<DCPrescriptionScreen> {
                                             padding: const EdgeInsets.only(
                                               right: 10,
                                             ),
-                                            child: DefaultTextStyle.merge(
-                                              style: context
-                                                  .textTheme.h4RegularPoppins
-                                                  .copyWith(
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.normal,
-                                                color: context
-                                                    .colorScheme.onBackground,
-                                              ),
-                                              textAlign: TextAlign.start,
-                                              child: Text(
-                                                context
-                                                    .watch<PrescriptionBloc>()
-                                                    .state
-                                                    .note[index]
-                                                    .substring(3),
-                                              ),
+                                            child: Column(
+                                              children: <Widget>[
+                                                DefaultTextStyle.merge(
+                                                  style: context.textTheme
+                                                      .h4RegularPoppins
+                                                      .copyWith(
+                                                    fontSize: 18,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                    color: context.colorScheme
+                                                        .onBackground,
+                                                  ),
+                                                  textAlign: TextAlign.start,
+                                                  child: Text(
+                                                    context
+                                                                .watch<
+                                                                    PrescriptionBloc>()
+                                                                .state
+                                                                .note[index]
+                                                                .length >
+                                                            3
+                                                        ? context
+                                                            .watch<
+                                                                PrescriptionBloc>()
+                                                            .state
+                                                            .note[index]
+                                                            .substring(3)
+                                                        : 'empty',
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                           ),
                                         ),
@@ -419,11 +477,11 @@ class _DCPrescriptionScreenState extends State<DCPrescriptionScreen> {
           ),
         ],
       ),
-      bottomNavigationBar: DCCustomerNavigationBar(
-        onItemSelected: (context, index) {
-          print('index: $index');
-        },
-      ),
+      // bottomNavigationBar: DCCustomerNavigationBar(
+      //   onItemSelected: (context, index) {
+      //     print('index: $index');
+      //   },
+      // ),
     );
   }
 }
