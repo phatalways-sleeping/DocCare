@@ -18,6 +18,40 @@ class DCAddMedicineScreen extends StatefulWidget {
 }
 
 class _DCAddMedicineScreenState extends State<DCAddMedicineScreen> {
+  List<String> _availableMedicines = [];
+  late TextEditingController _medicineNameController;
+
+  @override
+  void initState() {
+    super.initState();
+    _medicineNameController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _medicineNameController.dispose();
+    super.dispose();
+  }
+
+  void filterMedicines(String value) {
+    var res = <String>[];
+    if (value.isEmpty) {
+      res = BlocProvider.of<PrescriptionBloc>(context).state.availableMedicines;
+    } else {
+      res = BlocProvider.of<PrescriptionBloc>(context)
+          .state
+          .availableMedicines
+          .where(
+            (element) => element.toLowerCase().startsWith(value.toLowerCase()),
+          )
+          .toList();
+    }
+
+    setState(() {
+      _availableMedicines = res;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -51,6 +85,7 @@ class _DCAddMedicineScreenState extends State<DCAddMedicineScreen> {
                       ),
                       const SizedBox(height: 8),
                       DCOutlinedTextFormField(
+                        controller: _medicineNameController,
                         hintText: 'Enter medicine name',
                         onChanged: (context, controller) {
                           context.read<PrescriptionBloc>().add(
@@ -58,7 +93,43 @@ class _DCAddMedicineScreenState extends State<DCAddMedicineScreen> {
                                   controller.text,
                                 ),
                               );
+                          filterMedicines(controller.text);
                         },
+                      ),
+                      Container(
+                        alignment: Alignment.centerLeft,
+                        height: _availableMedicines.isEmpty ? 0 : 200,
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: _availableMedicines.length,
+                          itemBuilder: (context, index) {
+                            return Container(
+                              decoration: const BoxDecoration(
+                                border: Border(
+                                  bottom: BorderSide(
+                                    color: Colors.grey,
+                                  ),
+                                ), // Add a border here
+                              ),
+                              child: ListTile(
+                                title: Text(_availableMedicines[index]),
+                                onTap: () {
+                                  context.read<PrescriptionBloc>().add(
+                                        MedicineNameInputEvent(
+                                          _availableMedicines[index],
+                                        ),
+                                      );
+                                  _medicineNameController.text =
+                                      _availableMedicines[index];
+                                  FocusScope.of(context).unfocus();
+                                  setState(() {
+                                    _availableMedicines = [];
+                                  });
+                                },
+                              ),
+                            );
+                          },
+                        ),
                       ),
                       const SizedBox(height: 8),
                       Container(

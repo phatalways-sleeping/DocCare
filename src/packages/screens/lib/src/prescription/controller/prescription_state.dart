@@ -16,6 +16,7 @@ sealed class PrescriptionState extends Equatable {
     required this.currentDose,
     required this.currentTimeToTake,
     required this.currentMealTime,
+    required this.availableMedicines,
   });
 
   final String heartRate;
@@ -41,6 +42,7 @@ sealed class PrescriptionState extends Equatable {
   final String currentDose;
   final List<bool> currentTimeToTake;
   final List<bool> currentMealTime;
+  final List<String> availableMedicines;
 
   @override
   List<Object> get props => [
@@ -55,6 +57,7 @@ sealed class PrescriptionState extends Equatable {
         currentDose,
         currentTimeToTake,
         currentMealTime,
+        availableMedicines,
       ];
 
   PrescriptionState copyWith({
@@ -69,6 +72,7 @@ sealed class PrescriptionState extends Equatable {
     String? currentDose,
     List<bool>? currentTimeToTake,
     List<bool>? currentMealTime,
+    List<String>? availableMedicines,
   });
 }
 
@@ -85,6 +89,7 @@ final class PrescriptionMedicalInitial extends PrescriptionState {
     required super.currentDose,
     required super.currentTimeToTake,
     required super.currentMealTime,
+    required super.availableMedicines,
   });
 
   const PrescriptionMedicalInitial.empty()
@@ -100,6 +105,7 @@ final class PrescriptionMedicalInitial extends PrescriptionState {
           currentDose: '',
           currentTimeToTake: const [false, false, false, false],
           currentMealTime: const [false, false],
+          availableMedicines: const [],
         );
 
   factory PrescriptionMedicalInitial.from(PrescriptionState state) =>
@@ -115,6 +121,7 @@ final class PrescriptionMedicalInitial extends PrescriptionState {
         currentDose: state.currentDose,
         currentTimeToTake: state.currentTimeToTake,
         currentMealTime: state.currentMealTime,
+        availableMedicines: state.availableMedicines,
       );
 
   const PrescriptionMedicalInitial.input({
@@ -129,6 +136,7 @@ final class PrescriptionMedicalInitial extends PrescriptionState {
     required super.currentDose,
     required super.currentTimeToTake,
     required super.currentMealTime,
+    required super.availableMedicines,
   });
 
   @override
@@ -145,6 +153,7 @@ final class PrescriptionMedicalInitial extends PrescriptionState {
     String? currentDose,
     List<bool>? currentTimeToTake,
     List<bool>? currentMealTime,
+    List<String>? availableMedicines,
   }) {
     return PrescriptionMedicalInitial.input(
       heartRate: heartRate ?? super.heartRate,
@@ -158,6 +167,7 @@ final class PrescriptionMedicalInitial extends PrescriptionState {
       currentDose: currentDose ?? super.currentDose,
       currentTimeToTake: currentTimeToTake ?? super.currentTimeToTake,
       currentMealTime: currentMealTime ?? super.currentMealTime,
+      availableMedicines: availableMedicines ?? super.availableMedicines,
     );
   }
 }
@@ -175,6 +185,7 @@ final class PrescriptionMedicalLoading extends PrescriptionState {
     required super.currentDose,
     required super.currentTimeToTake,
     required super.currentMealTime,
+    required super.availableMedicines,
   });
 
   factory PrescriptionMedicalLoading.from(PrescriptionState state) =>
@@ -190,6 +201,7 @@ final class PrescriptionMedicalLoading extends PrescriptionState {
         currentDose: state.currentDose,
         currentTimeToTake: state.currentTimeToTake,
         currentMealTime: state.currentMealTime,
+        availableMedicines: state.availableMedicines,
       );
 
   PrescriptionState toggleBackToInitial() => PrescriptionMedicalInitial.input(
@@ -204,6 +216,7 @@ final class PrescriptionMedicalLoading extends PrescriptionState {
         currentDose: currentDose,
         currentTimeToTake: currentTimeToTake,
         currentMealTime: currentMealTime,
+        availableMedicines: availableMedicines,
       );
 
   @override
@@ -219,6 +232,7 @@ final class PrescriptionMedicalLoading extends PrescriptionState {
     String? currentDose,
     List<bool>? currentTimeToTake,
     List<bool>? currentMealTime,
+    List<String>? availableMedicines,
   }) {
     return PrescriptionMedicalLoading(
       heartRate: heartRate ?? super.heartRate,
@@ -232,6 +246,7 @@ final class PrescriptionMedicalLoading extends PrescriptionState {
       currentDose: currentDose ?? super.currentDose,
       currentTimeToTake: currentTimeToTake ?? super.currentTimeToTake,
       currentMealTime: currentMealTime ?? super.currentMealTime,
+      availableMedicines: availableMedicines ?? super.availableMedicines,
     );
   }
 }
@@ -249,6 +264,7 @@ final class PrescriptionMedicalSuccess extends PrescriptionState {
     required super.currentDose,
     required super.currentTimeToTake,
     required super.currentMealTime,
+    required super.availableMedicines,
   });
 
   factory PrescriptionMedicalSuccess.from(PrescriptionState state) =>
@@ -264,6 +280,7 @@ final class PrescriptionMedicalSuccess extends PrescriptionState {
         currentDose: state.currentDose,
         currentTimeToTake: state.currentTimeToTake,
         currentMealTime: state.currentMealTime,
+        availableMedicines: state.availableMedicines,
       );
 
   @override
@@ -280,6 +297,7 @@ final class PrescriptionMedicalSuccess extends PrescriptionState {
     String? currentDose,
     List<bool>? currentTimeToTake,
     List<bool>? currentMealTime,
+    List<String>? availableMedicines,
   }) {
     return PrescriptionMedicalSuccess(
       heartRate: heartRate ?? super.heartRate,
@@ -293,6 +311,7 @@ final class PrescriptionMedicalSuccess extends PrescriptionState {
       currentDose: currentDose ?? super.currentDose,
       currentTimeToTake: currentTimeToTake ?? super.currentTimeToTake,
       currentMealTime: currentMealTime ?? super.currentMealTime,
+      availableMedicines: availableMedicines ?? super.availableMedicines,
     );
   }
 }
@@ -310,6 +329,7 @@ final class PrescriptionAddMedicine extends PrescriptionState {
     required super.currentDose,
     required super.currentTimeToTake,
     required super.currentMealTime,
+    required super.availableMedicines,
   });
 
   factory PrescriptionAddMedicine.from(PrescriptionState state) =>
@@ -325,6 +345,7 @@ final class PrescriptionAddMedicine extends PrescriptionState {
         currentDose: state.currentDose,
         currentTimeToTake: state.currentTimeToTake,
         currentMealTime: state.currentMealTime,
+        availableMedicines: state.availableMedicines,
       );
 
   @override
@@ -341,6 +362,7 @@ final class PrescriptionAddMedicine extends PrescriptionState {
     String? currentDose,
     List<bool>? currentTimeToTake,
     List<bool>? currentMealTime,
+    List<String>? availableMedicines,
   }) {
     return PrescriptionAddMedicine(
       heartRate: heartRate ?? super.heartRate,
@@ -354,6 +376,7 @@ final class PrescriptionAddMedicine extends PrescriptionState {
       currentDose: currentDose ?? super.currentDose,
       currentTimeToTake: currentTimeToTake ?? super.currentTimeToTake,
       currentMealTime: currentMealTime ?? super.currentMealTime,
+      availableMedicines: availableMedicines ?? super.availableMedicines,
     );
   }
 }
@@ -371,6 +394,7 @@ final class PrescriptionSuccess extends PrescriptionState {
     required super.currentDose,
     required super.currentTimeToTake,
     required super.currentMealTime,
+    required super.availableMedicines,
   });
 
   factory PrescriptionSuccess.from(PrescriptionState state) =>
@@ -386,6 +410,7 @@ final class PrescriptionSuccess extends PrescriptionState {
         currentDose: state.currentDose,
         currentTimeToTake: state.currentTimeToTake,
         currentMealTime: state.currentMealTime,
+        availableMedicines: state.availableMedicines,
       );
 
   @override
@@ -402,6 +427,7 @@ final class PrescriptionSuccess extends PrescriptionState {
     String? currentDose,
     List<bool>? currentTimeToTake,
     List<bool>? currentMealTime,
+    List<String>? availableMedicines,
   }) {
     return PrescriptionSuccess(
       heartRate: heartRate ?? super.heartRate,
@@ -415,6 +441,7 @@ final class PrescriptionSuccess extends PrescriptionState {
       currentDose: currentDose ?? super.currentDose,
       currentTimeToTake: currentTimeToTake ?? super.currentTimeToTake,
       currentMealTime: currentMealTime ?? super.currentMealTime,
+      availableMedicines: availableMedicines ?? super.availableMedicines,
     );
   }
 }

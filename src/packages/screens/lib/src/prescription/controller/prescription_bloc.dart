@@ -3,6 +3,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/widgets.dart';
+import 'package:model_api/model_api.dart';
+import 'package:supabase/supabase.dart';
 import 'package:utility/utility.dart'
     show FormValidator, NotificationManagerService, NotificationType;
 
@@ -12,6 +14,7 @@ part 'prescription_state.dart';
 class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
   PrescriptionBloc(
     this._notificationManagerService,
+    this._supabaseClient,
   ) : super(PrescriptionMedicalInitial.empty()) {
     on<HeartRateInputEvent>(_onHeartRateInputEvent);
     on<BloodPressureInputEvent>(_onBloodPressureInputEvent);
@@ -30,9 +33,12 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
     on<RemoveMedicineButtonPressedEvent>(_onRemoveMedicineButtonPressedEvent);
     on<AddPrescriptionButtonPressedEvent>(_onAddPrescriptionButtonPressedEvent);
     on<PrescriptionBackEvent>(_onPrescriptionBackEvent);
+    on<RetrieveMedicineEvent>(_onRetrieveMedicineEvent);
   }
 
   final NotificationManagerService _notificationManagerService;
+
+  final SupabaseClient _supabaseClient;
 
   void _onHeartRateInputEvent(
     HeartRateInputEvent event,
@@ -376,5 +382,21 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
     } else if (state is PrescriptionMedicalSuccess) {
       emit(PrescriptionMedicalInitial.from(state));
     }
+  }
+
+  Future<void> _onRetrieveMedicineEvent(
+    RetrieveMedicineEvent event,
+    Emitter<PrescriptionState> emit,
+  ) async {
+    if (state.availableMedicines.isNotEmpty) {
+      return;
+    }
+    final instance = SupabaseMedicineApiService(supabase: _supabaseClient);
+    final availableMed = await instance.getAllMedicineList();
+    final allMed = List<String>.from(state.availableMedicines);
+    for (final med in availableMed) {
+      allMed.add(med.name);
+    }
+    emit(state.copyWith(availableMedicines: allMed));
   }
 }

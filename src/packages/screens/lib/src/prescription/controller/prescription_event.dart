@@ -137,3 +137,7 @@ final class AddPrescriptionButtonPressedEvent extends PrescriptionEvent {
 final class PrescriptionBackEvent extends PrescriptionEvent {
   const PrescriptionBackEvent();
 }
+
+final class RetrieveMedicineEvent extends PrescriptionEvent {
+  const RetrieveMedicineEvent();
+}

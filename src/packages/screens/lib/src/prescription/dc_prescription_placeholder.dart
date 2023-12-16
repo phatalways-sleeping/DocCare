@@ -7,6 +7,7 @@ import 'package:screens/src/prescription/controller/prescription_bloc.dart';
 import 'package:screens/src/prescription/dc_add_medicine_screen.dart';
 import 'package:screens/src/prescription/dc_medical_stat_screen.dart';
 import 'package:screens/src/prescription/dc_prescription_screen.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:utility/utility.dart';
 
 class DCPrescriptionPlaceholder extends StatefulWidget {
@@ -28,10 +29,10 @@ class _DCPrescriptionPlaceholderState extends State<DCPrescriptionPlaceholder> {
     return BlocProvider(
       create: (_) => PrescriptionBloc(
         NotificationManager.instance,
+        Supabase.instance.client,
       ),
       child: Scaffold(
         resizeToAvoidBottomInset: true,
-        // TODO: Change to custom AppBar
         appBar: DCCustomerHeaderBar(
           title: '',
           allowNavigateBack: true,
@@ -44,6 +45,9 @@ class _DCPrescriptionPlaceholderState extends State<DCPrescriptionPlaceholder> {
         body: BlocBuilder<PrescriptionBloc, PrescriptionState>(
           builder: (context, state) {
             if (state is PrescriptionMedicalInitial) {
+              BlocProvider.of<PrescriptionBloc>(context).add(
+                const RetrieveMedicineEvent(),
+              );
               return GestureDetector(
                 onTap: () => FocusScope.of(context).unfocus(),
                 child: DCMedicalStatScreen(customerName: widget.customerName),
