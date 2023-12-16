@@ -12,9 +12,17 @@ dependencies:
     path: ../authentication/auth_api
   auth_domain:
     path: ../authentication/auth_domain
+  administrator:
+    path: ../administrator
   model_api:
     path: ../model_api
   bloc: ^8.1.2
+  pdf: ^3.8.2
+  path_provider: ^2.0.5
+  open_file: ^3.1.0
+  fl_chart: ^0.64.0
+  screenshot: ^2.1.0
+  permission_handler: ^9.2.0
   components:
     path: ../components
   equatable: ^2.0.5
