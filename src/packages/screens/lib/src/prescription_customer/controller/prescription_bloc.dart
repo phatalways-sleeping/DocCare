@@ -34,6 +34,7 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
       final datePrescribed = <DateTime>[];
       final note = <String>[];
       final done = <bool>[];
+      final diagnosis = <String>[];
       emit(PrescriptionInitial.empty());
       final prescription = await _prescriptionAPIService
           .getAllPrescriptionListByCustomerID(ID)
@@ -44,6 +45,7 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
           datePrescribed.add(element.datePrescribed);
           note.add(element.note);
           done.add(element.done);
+          diagnosis.add(element.diagnosis);
         }
       });
 
@@ -60,6 +62,7 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
           datePrescribed: datePrescribed,
           note: note,
           done: done,
+          diagnosis: diagnosis,
         ),
       );
     } catch (e) {
@@ -84,6 +87,7 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
           datePrescribed: state.datePrescribed,
           note: state.note,
           done: state.done,
+          diagnosis: state.diagnosis,
         ),
       );
 
@@ -113,6 +117,7 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
           datePrescribed: state.datePrescribed,
           note: state.note,
           done: state.done,
+          diagnosis: state.diagnosis,
           medicineName: medicineName,
           quantity: quantity,
           toBeTaken: toBeTaken,
@@ -136,6 +141,7 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
         datePrescribed: state.datePrescribed,
         note: state.note,
         done: state.done,
+        diagnosis: state.diagnosis,
       ),
     );
   }

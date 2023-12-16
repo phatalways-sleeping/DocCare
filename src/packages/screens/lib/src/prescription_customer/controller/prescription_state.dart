@@ -8,6 +8,7 @@ sealed class PrescriptionState extends Equatable {
     required this.datePrescribed,
     required this.note,
     required this.done,
+    required this.diagnosis,
   });
 
   final List<String> prescriptionID;
@@ -15,6 +16,7 @@ sealed class PrescriptionState extends Equatable {
   final List<DateTime> datePrescribed;
   final List<String> note;
   final List<bool> done;
+  final List<String?> diagnosis;
 
   @override
   List<Object?> get props => [
@@ -23,6 +25,7 @@ sealed class PrescriptionState extends Equatable {
         datePrescribed,
         note,
         done,
+        diagnosis,
       ];
 
   PrescriptionState copyWith({
@@ -31,6 +34,7 @@ sealed class PrescriptionState extends Equatable {
     List<DateTime>? datePrescribed,
     List<String>? note,
     List<bool>? done,
+    List<String?>? diagnosis,
   });
 }
 
@@ -42,6 +46,7 @@ final class PrescriptionInitial extends PrescriptionState {
           datePrescribed: [],
           note: [],
           done: [],
+          diagnosis: [],
         );
 
   const PrescriptionInitial.input({
@@ -50,6 +55,7 @@ final class PrescriptionInitial extends PrescriptionState {
     required super.datePrescribed,
     required super.note,
     required super.done,
+    required super.diagnosis,
   });
 
   @override
@@ -59,6 +65,7 @@ final class PrescriptionInitial extends PrescriptionState {
     List<DateTime>? datePrescribed,
     List<String>? note,
     List<bool>? done,
+    List<String?>? diagnosis,
   }) =>
       PrescriptionInitial.input(
         prescriptionID: prescriptionID ?? super.prescriptionID,
@@ -66,6 +73,7 @@ final class PrescriptionInitial extends PrescriptionState {
         datePrescribed: datePrescribed ?? super.datePrescribed,
         note: note ?? super.note,
         done: done ?? super.done,
+        diagnosis: diagnosis ?? super.diagnosis,
       );
 }
 
@@ -76,6 +84,7 @@ final class PrescriptionLoading extends PrescriptionState {
     required super.datePrescribed,
     required super.note,
     required super.done,
+    required super.diagnosis,
   });
 
   @override
@@ -85,6 +94,7 @@ final class PrescriptionLoading extends PrescriptionState {
     List<DateTime>? datePrescribed,
     List<String>? note,
     List<bool>? done,
+    List<String?>? diagnosis,
   }) =>
       PrescriptionLoading(
         prescriptionID: prescriptionID ?? super.prescriptionID,
@@ -92,6 +102,7 @@ final class PrescriptionLoading extends PrescriptionState {
         datePrescribed: datePrescribed ?? super.datePrescribed,
         note: note ?? super.note,
         done: done ?? super.done,
+        diagnosis: diagnosis ?? super.diagnosis,
       );
 
   PrescriptionInitial toggleBackToInitial() => PrescriptionInitial.input(
@@ -100,6 +111,7 @@ final class PrescriptionLoading extends PrescriptionState {
         datePrescribed: datePrescribed,
         note: note,
         done: done,
+        diagnosis: diagnosis,
       );
 }
 
@@ -110,6 +122,7 @@ final class MedicineInitial extends PrescriptionState {
     required super.datePrescribed,
     required super.note,
     required super.done,
+    required super.diagnosis,
     required this.medicineName,
     required this.quantity,
     required this.toBeTaken,
@@ -130,6 +143,7 @@ final class MedicineInitial extends PrescriptionState {
         datePrescribed,
         note,
         done,
+        diagnosis,
         medicineName,
         quantity,
         toBeTaken,
@@ -144,6 +158,7 @@ final class MedicineInitial extends PrescriptionState {
     List<DateTime>? datePrescribed,
     List<String>? note,
     List<bool>? done,
+    List<String?>? diagnosis,
   }) {
     return MedicineInitial(
       prescriptionID: prescriptionID ?? super.prescriptionID,
@@ -151,6 +166,7 @@ final class MedicineInitial extends PrescriptionState {
       datePrescribed: datePrescribed ?? super.datePrescribed,
       note: note ?? super.note,
       done: done ?? super.done,
+      diagnosis: diagnosis ?? super.diagnosis,
       medicineName: medicineName,
       quantity: quantity,
       toBeTaken: toBeTaken,

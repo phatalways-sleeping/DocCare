@@ -170,7 +170,7 @@ class _DCPrescriptionScreenState extends State<DCPrescriptionScreen> {
                                             ),
                                           ),
                                           const SizedBox(
-                                            height: 20,
+                                            height: 10,
                                           ),
                                           Column(
                                             mainAxisAlignment:
@@ -431,7 +431,7 @@ class _DCPrescriptionScreenState extends State<DCPrescriptionScreen> {
                                             ),
                                           ),
                                           const SizedBox(
-                                            height: 20,
+                                            height: 10,
                                           ),
                                           Column(
                                             mainAxisAlignment:

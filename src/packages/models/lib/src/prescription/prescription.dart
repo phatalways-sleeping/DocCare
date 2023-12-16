@@ -13,6 +13,7 @@ class Prescription extends Equatable {
     required this.datePrescribed,
     this.done = false,
     this.note = '',
+    this.diagnosis = '',
   });
 
   factory Prescription.fromJson(Map<String, dynamic> json) =>
@@ -34,6 +35,8 @@ class Prescription extends Equatable {
   final bool done;
   @JsonKey(required: false)
   final String note;
+  @JsonKey(required: false)
+  final String diagnosis;
 
   @override
   List<Object?> get props =>
@@ -47,6 +50,7 @@ class Prescription extends Equatable {
     DateTime? datePrescribed,
     bool? done,
     String? note,
+    String? diagnosis,
   }) {
     return Prescription(
       id: id ?? this.id,
@@ -56,6 +60,7 @@ class Prescription extends Equatable {
       datePrescribed: datePrescribed ?? this.datePrescribed,
       done: done ?? this.done,
       note: note ?? this.note,
+      diagnosis: diagnosis ?? this.diagnosis,
     );
   }
 }

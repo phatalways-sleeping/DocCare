@@ -100,9 +100,10 @@ class _DCMedicineScreenState extends State<DCMedicineScreen> {
                             builder: (acontext) => DCPopupIntakeRating(
                               title: 'Intake',
                               //TODO(nmvinhdl1215): Change to the diagnosis message
-                              diagnosisMessage:
-                                  'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry'
-                                  's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not onl',
+                              diagnosisMessage: context
+                                  .read<PrescriptionBloc>()
+                                  .state
+                                  .diagnosis[index]!,
                               medicinesMessage: '',
                               noteMessage: '',
                               doctorName: (context
@@ -251,7 +252,7 @@ class _DCMedicineScreenState extends State<DCMedicineScreen> {
                                               ),
                                               Padding(
                                                 padding: const EdgeInsets.only(
-                                                  top: 10,
+                                                  top: 20,
                                                 ),
                                                 child: DefaultTextStyle.merge(
                                                   style: context.textTheme
