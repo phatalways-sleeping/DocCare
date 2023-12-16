@@ -4,7 +4,6 @@ import 'package:components/components.dart';
 import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:screens/src/prescription/controller/prescription_bloc.dart';
 import 'package:screens/src/prescription/widgets/medical_stat_widget.dart';
 
@@ -159,6 +158,7 @@ class _DCMedicalStatScreenState extends State<DCMedicalStatScreen> {
                               Border.all(color: context.colorScheme.secondary),
                         ),
                         child: TextField(
+                          controller: _controller5,
                           maxLines: 3,
                           decoration: const InputDecoration(
                             hintText: 'Write some note for the patient...',

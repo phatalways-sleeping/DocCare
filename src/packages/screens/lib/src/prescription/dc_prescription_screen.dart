@@ -8,7 +8,7 @@ import 'package:screens/src/prescription/controller/prescription_bloc.dart';
 import 'package:screens/src/prescription/widgets/medicine_widget.dart';
 
 class DCPrescriptionScreen extends StatefulWidget {
-  DCPrescriptionScreen({
+  const DCPrescriptionScreen({
     required this.customerName,
     super.key,
   });
@@ -19,7 +19,7 @@ class DCPrescriptionScreen extends StatefulWidget {
   State<DCPrescriptionScreen> createState() => _DCPrescriptionScreenState();
 }
 
-List<String> seperateMedicineTimeTaken(String timeTaken) {
+List<String> separateMedicineTimeTaken(String timeTaken) {
   final parts = timeTaken.split('/'); // Split the string by '/'
 
   // Filter out any empty strings resulting from trailing slashes
@@ -29,18 +29,39 @@ List<String> seperateMedicineTimeTaken(String timeTaken) {
 }
 
 class _DCPrescriptionScreenState extends State<DCPrescriptionScreen> {
+  late TextEditingController _noteController;
+
+  @override
+  void initState() {
+    super.initState();
+    _noteController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _noteController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final listMedicines = context.watch<PrescriptionBloc>().state.medicines;
+    _noteController.text =
+        context.watch<PrescriptionBloc>().state.doctorNote[1];
 
     final List<Widget> medicineWidgets = listMedicines.entries.map((entry) {
-      final timesTaken = seperateMedicineTimeTaken(entry.value[2]);
-      var details = '${entry.value[0]} day(s), ';
+      final timesTaken = separateMedicineTimeTaken(entry.value[2]);
+
+      final buffer = StringBuffer('${entry.value[0]} day(s), ');
       for (final time in timesTaken) {
-        details += '$time, ';
+        buffer.write('$time, ');
       }
-      details += '${entry.value[1]} pill(s) per time, ';
-      details += entry.value[3];
+      buffer
+        ..write('${entry.value[1]} pill(s) per time, ')
+        ..write(entry.value[3]);
+
+      final details = buffer.toString();
+
       return DCMedicine(
         medicineName: entry.key,
         details: details,
@@ -100,7 +121,8 @@ class _DCPrescriptionScreenState extends State<DCPrescriptionScreen> {
                       border: Border.all(color: context.colorScheme.secondary),
                     ),
                     child: TextField(
-                      maxLines: null, // Makes it expandable
+                      controller: _noteController,
+                      maxLines: 5,
                       decoration: const InputDecoration(
                         hintText: 'Write some note for the patient...',
                         border: InputBorder.none,
