@@ -29,7 +29,6 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
     Emitter<PrescriptionState> emit,
   ) async {
     try {
-      print('ID: $ID');
       final prescriptionID = <String>[];
       final doctorName = <String>[];
       final datePrescribed = <DateTime>[];

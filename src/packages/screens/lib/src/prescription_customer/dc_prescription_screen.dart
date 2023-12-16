@@ -115,8 +115,10 @@ class _DCPrescriptionScreenState extends State<DCPrescriptionScreen> {
                                             .withOpacity(0.5),
                                         spreadRadius: 1,
                                         blurRadius: 4,
-                                        offset: Offset(
-                                            0, 6), // changes position of shadow
+                                        offset: const Offset(
+                                          0,
+                                          6,
+                                        ), // changes position of shadow
                                       ),
                                     ],
                                   ),
@@ -445,17 +447,18 @@ class _DCPrescriptionScreenState extends State<DCPrescriptionScreen> {
                                                     child: Transform.scale(
                                                       scale: 0.8,
                                                       child: SvgPicture.string(
-                                                          DCSVGIcons.clock,
-                                                          fit: BoxFit.cover,
-                                                          colorFilter:
-                                                              ColorFilter.mode(
-                                                            context.colorScheme
-                                                                .onBackground
-                                                                .withOpacity(
-                                                              0.3,
-                                                            ),
-                                                            BlendMode.srcIn,
-                                                          )),
+                                                        DCSVGIcons.clock,
+                                                        fit: BoxFit.cover,
+                                                        colorFilter:
+                                                            ColorFilter.mode(
+                                                          context.colorScheme
+                                                              .onBackground
+                                                              .withOpacity(
+                                                            0.3,
+                                                          ),
+                                                          BlendMode.srcIn,
+                                                        ),
+                                                      ),
                                                     ),
                                                   ),
                                                   DefaultTextStyle(

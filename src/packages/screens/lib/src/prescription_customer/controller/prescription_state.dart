@@ -124,6 +124,20 @@ final class MedicineInitial extends PrescriptionState {
   final String currentPrescriptionID;
 
   @override
+  List<Object?> get props => [
+        prescriptionID,
+        doctorName,
+        datePrescribed,
+        note,
+        done,
+        medicineName,
+        quantity,
+        toBeTaken,
+        timeOfTheDay,
+        currentPrescriptionID,
+      ];
+
+  @override
   PrescriptionState copyWith({
     List<String>? prescriptionID,
     List<String>? doctorName,

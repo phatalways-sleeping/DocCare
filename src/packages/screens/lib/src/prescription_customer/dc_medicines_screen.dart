@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:roundcheckbox/roundcheckbox.dart';
 import 'package:screens/src/prescription_customer/controller/prescription_bloc.dart';
 
 class DCMedicineScreen extends StatefulWidget {
@@ -18,6 +19,13 @@ class DCMedicineScreen extends StatefulWidget {
 class _DCMedicineScreenState extends State<DCMedicineScreen> {
   @override
   Widget build(BuildContext context) {
+    final List<Color> colorList = <Color>[
+      context.colorScheme.surface,
+      context.colorScheme.secondary,
+      context.colorScheme.error,
+      context.colorScheme.onBackground,
+    ];
+
     return Scaffold(
       appBar: DCCustomerHeaderBar(
         allowNavigateBack: true,
@@ -40,26 +48,36 @@ class _DCMedicineScreenState extends State<DCMedicineScreen> {
                   const SizedBox(
                     height: 20,
                   ),
-                  DefaultTextStyle.merge(
-                    style: context.textTheme.h4BoldPoppins.copyWith(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                      color: context.colorScheme.onBackground,
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      left: 10,
                     ),
-                    textAlign: TextAlign.left,
-                    child: const Text('Your medicines'),
+                    child: DefaultTextStyle.merge(
+                      style: context.textTheme.h4BoldPoppins.copyWith(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                        color: context.colorScheme.onBackground,
+                      ),
+                      textAlign: TextAlign.left,
+                      child: const Text('Your medicines'),
+                    ),
                   ),
                   const SizedBox(
                     height: 20,
                   ),
-                  DefaultTextStyle.merge(
-                    style: context.textTheme.h4BoldPoppins.copyWith(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: context.colorScheme.onBackground,
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      left: 10,
                     ),
-                    textAlign: TextAlign.left,
-                    child: const Text('Next Medicine'),
+                    child: DefaultTextStyle.merge(
+                      style: context.textTheme.h4BoldPoppins.copyWith(
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                        color: context.colorScheme.onBackground,
+                      ),
+                      textAlign: TextAlign.left,
+                      child: const Text('Next Medicines'),
+                    ),
                   ),
 
                   //Display the list of current prescription
@@ -72,6 +90,9 @@ class _DCMedicineScreenState extends State<DCMedicineScreen> {
                           .medicineName
                           .length,
                       (index) => InkWell(
+                        splashColor: Colors.transparent,
+                        highlightColor: Colors.transparent,
+                        splashFactory: NoSplash.splashFactory,
                         //On tap called pop-up intake rating screen
                         onTap: () async {
                           await showDialog<bool>(
@@ -99,10 +120,20 @@ class _DCMedicineScreenState extends State<DCMedicineScreen> {
                           ),
                           child: DecoratedBox(
                             decoration: BoxDecoration(
+                              color: context.colorScheme.background,
                               borderRadius: BorderRadius.circular(20),
-                              border: Border.all(
-                                color: context.colorScheme.onSurface,
-                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: context.colorScheme.onSurface
+                                      .withOpacity(0.5),
+                                  spreadRadius: 1,
+                                  blurRadius: 4,
+                                  offset: const Offset(
+                                    0,
+                                    6,
+                                  ), // changes position of shadow
+                                ),
+                              ],
                             ),
                             child: Row(
                               children: [
@@ -111,10 +142,10 @@ class _DCMedicineScreenState extends State<DCMedicineScreen> {
                                   width: 0.2,
                                 ),
                                 Container(
-                                  height: 55,
-                                  width: 12,
+                                  height: 80,
+                                  width: 15,
                                   decoration: BoxDecoration(
-                                    color: context.colorScheme.secondary,
+                                    color: colorList[index % colorList.length],
                                     borderRadius: const BorderRadius.only(
                                       topLeft: Radius.circular(30),
                                       bottomLeft: Radius.circular(30),
@@ -129,7 +160,7 @@ class _DCMedicineScreenState extends State<DCMedicineScreen> {
                                     DefaultTextStyle.merge(
                                       style: context.textTheme.h4BoldPoppins
                                           .copyWith(
-                                        fontSize: 18,
+                                        fontSize: 20,
                                         fontWeight: FontWeight.normal,
                                         color: context.colorScheme.onBackground,
                                       ),
@@ -146,6 +177,9 @@ class _DCMedicineScreenState extends State<DCMedicineScreen> {
                                         ),
                                       ),
                                     ),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
                                     Column(
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: [
@@ -155,23 +189,26 @@ class _DCMedicineScreenState extends State<DCMedicineScreen> {
                                               padding: const EdgeInsets.only(
                                                 left: 10,
                                               ),
-                                              child: SvgPicture.string(
-                                                DCSVGIcons.clock,
-                                                fit: BoxFit.cover,
+                                              child: Transform.scale(
+                                                scale: 0.8,
+                                                child: SvgPicture.string(
+                                                  DCSVGIcons.clock,
+                                                  fit: BoxFit.cover,
+                                                ),
                                               ),
                                             ),
                                             DefaultTextStyle(
                                               style: context
                                                   .textTheme.h4RegularPoppins
                                                   .copyWith(
-                                                fontSize: 16,
+                                                fontSize: 18,
                                                 fontWeight: FontWeight.normal,
                                                 color: context
                                                     .colorScheme.onBackground,
                                               ),
                                               child: Padding(
                                                 padding: const EdgeInsets.only(
-                                                  left: 10,
+                                                  left: 5,
                                                 ),
                                                 child: Text(
                                                   (context
@@ -188,31 +225,69 @@ class _DCMedicineScreenState extends State<DCMedicineScreen> {
                                     ),
                                   ],
                                 ),
-                                //Text at the end
                                 Expanded(
                                   child: Align(
-                                    alignment: Alignment.centerRight,
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                        right: 10,
-                                      ),
-                                      child: DefaultTextStyle.merge(
-                                        style: context
-                                            .textTheme.h4RegularPoppins
-                                            .copyWith(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.normal,
-                                          color:
-                                              context.colorScheme.onBackground,
+                                    alignment: Alignment.bottomRight,
+                                    child: Column(
+                                      children: <Widget>[
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                            right: 10,
+                                          ),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.end,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: <Widget>[
+                                              RoundCheckBox(
+                                                checkedColor: context
+                                                    .colorScheme.secondary,
+                                                animationDuration:
+                                                    // ignore: use_named_constants
+                                                    const Duration(),
+                                                size: 30,
+                                                onTap: (selected) {},
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                  top: 10,
+                                                ),
+                                                child: DefaultTextStyle.merge(
+                                                  style: context.textTheme
+                                                      .h4RegularPoppins
+                                                      .copyWith(
+                                                    fontSize: 18,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                    color: context.colorScheme
+                                                        .onBackground,
+                                                  ),
+                                                  textAlign: TextAlign.start,
+                                                  child: Text(
+                                                    '${(context.watch<PrescriptionBloc>().state as MedicineInitial).quantity[index]} pill' +
+                                                        ((context.watch<PrescriptionBloc>().state
+                                                                            as MedicineInitial)
+                                                                        .quantity[
+                                                                    index]! >
+                                                                1
+                                                            ? 's'
+                                                            : '') +
+                                                        ' - ' +
+                                                        ((context.watch<PrescriptionBloc>().state
+                                                                            as MedicineInitial)
+                                                                        .toBeTaken[
+                                                                    index] ==
+                                                                0
+                                                            ? 'Before eating'
+                                                            : 'After eating'),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ),
-                                        textAlign: TextAlign.start,
-                                        child: Text(
-                                          '${(context.watch<PrescriptionBloc>().state as MedicineInitial).quantity[index]} pills - ${(context.watch<PrescriptionBloc>().state as MedicineInitial).toBeTaken[index]}' ==
-                                                  '0'
-                                              ? 'Before eating'
-                                              : 'After eating',
-                                        ),
-                                      ),
+                                      ],
                                     ),
                                   ),
                                 ),
@@ -225,19 +300,21 @@ class _DCMedicineScreenState extends State<DCMedicineScreen> {
                   ),
 
                   const SizedBox(
-                    height: 20,
+                    height: 50,
                   ),
-                  DefaultTextStyle.merge(
-                    style: context.textTheme.h4BoldPoppins.copyWith(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: context.colorScheme.onBackground,
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      left: 10,
                     ),
-                    textAlign: TextAlign.left,
-                    child: const Text('Past Medicines'),
-                  ),
-                  const SizedBox(
-                    height: 20,
+                    child: DefaultTextStyle.merge(
+                      style: context.textTheme.h4BoldPoppins.copyWith(
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                        color: context.colorScheme.onBackground,
+                      ),
+                      textAlign: TextAlign.left,
+                      child: const Text('Past Medicines'),
+                    ),
                   ),
                 ],
               ),
