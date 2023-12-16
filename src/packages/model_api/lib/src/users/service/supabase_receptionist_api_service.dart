@@ -13,6 +13,17 @@ class SupabaseReceptionistApiService implements UserApiService<Receptionist> {
   final SupabaseClient supabase;
 
   @override
+  Future<List<String>> getAllUserEmail() => supabase
+      .from('receptionist')
+      .select<PostgrestList>()
+      .then(
+        (value) => value.isEmpty
+            ? throw Exception('No receptionist email found')
+            : value.map((item) => item['email'] as String).toList(),
+      )
+      .onError((error, stackTrace) => throw Exception(error));
+
+  @override
   Future<void> createUser(Receptionist user) => supabase
       .from('receptionist')
       .insert(

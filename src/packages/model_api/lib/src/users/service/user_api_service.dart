@@ -5,6 +5,9 @@ abstract interface class UserApiService<T extends BaseUser> {
   /// Default constructor
   const UserApiService();
 
+  ///Get all users' emails
+  Future<List<String>> getAllUserEmail();
+
   /// Create a user
   Future<void> createUser(T user);
 
