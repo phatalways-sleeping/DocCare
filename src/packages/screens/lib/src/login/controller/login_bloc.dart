@@ -6,7 +6,6 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/widgets.dart';
 import 'package:meta/meta.dart';
-import 'package:models/models.dart' show LoginUser;
 import 'package:utility/utility.dart'
     show NotificationManagerService, NotificationType;
 
@@ -63,7 +62,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     try {
       await _authenticationRepositoryService
           .login(
-            LoginUser(state.email, state.password),
+            state.email,
+            state.password,
           )
           .then((value) => emit(LoginSuccess.from(state)));
     } on AuthException catch (e) {
