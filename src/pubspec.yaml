@@ -43,6 +43,8 @@ dependencies:
     path: packages/authentication/auth_api
   auth_domain:
     path: packages/authentication/auth_domain
+  model_api:
+    path: packages/model_api
   components:
     path: packages/components
   screens:
