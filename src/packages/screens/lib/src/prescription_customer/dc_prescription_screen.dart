@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:roundcheckbox/roundcheckbox.dart';
 import 'package:screens/src/prescription_customer/controller/prescription_bloc.dart';
 
 class DCPrescriptionScreen extends StatefulWidget {
@@ -86,6 +87,9 @@ class _DCPrescriptionScreenState extends State<DCPrescriptionScreen> {
                               .state
                               .done[index])
                           ? InkWell(
+                              splashColor: Colors.transparent,
+                              highlightColor: Colors.transparent,
+                              splashFactory: NoSplash.splashFactory,
                               onTap: () => context.read<PrescriptionBloc>().add(
                                     PrescriptionTapEvent(
                                       context
@@ -103,10 +107,18 @@ class _DCPrescriptionScreenState extends State<DCPrescriptionScreen> {
                                 child: DecoratedBox(
                                   //Decorate the box with shadow in the bottom border
                                   decoration: BoxDecoration(
+                                    color: context.colorScheme.background,
                                     borderRadius: BorderRadius.circular(20),
-                                    border: Border.all(
-                                      color: context.colorScheme.onSurface,
-                                    ),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: context.colorScheme.onSurface
+                                            .withOpacity(0.5),
+                                        spreadRadius: 1,
+                                        blurRadius: 4,
+                                        offset: Offset(
+                                            0, 6), // changes position of shadow
+                                      ),
+                                    ],
                                   ),
 
                                   child: Row(
@@ -216,43 +228,72 @@ class _DCPrescriptionScreenState extends State<DCPrescriptionScreen> {
                                       //Text at the end
                                       Expanded(
                                         child: Align(
-                                          alignment: Alignment.centerRight,
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(
-                                              right: 10,
-                                            ),
-                                            child: Column(
-                                              children: <Widget>[
-                                                DefaultTextStyle.merge(
-                                                  style: context.textTheme
-                                                      .h4RegularPoppins
-                                                      .copyWith(
-                                                    fontSize: 18,
-                                                    fontWeight:
-                                                        FontWeight.normal,
-                                                    color: context.colorScheme
-                                                        .onBackground,
-                                                  ),
-                                                  textAlign: TextAlign.start,
-                                                  child: Text(
-                                                    context
-                                                                .watch<
-                                                                    PrescriptionBloc>()
-                                                                .state
-                                                                .note[index]
-                                                                .length >
-                                                            3
-                                                        ? context
-                                                            .watch<
-                                                                PrescriptionBloc>()
-                                                            .state
-                                                            .note[index]
-                                                            .substring(3)
-                                                        : 'empty',
-                                                  ),
+                                          alignment: Alignment.bottomRight,
+                                          child: Column(
+                                            children: <Widget>[
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                  right: 10,
                                                 ),
-                                              ],
-                                            ),
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.end,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceEvenly,
+                                                  children: <Widget>[
+                                                    RoundCheckBox(
+                                                      checkedColor: context
+                                                          .colorScheme
+                                                          .secondary,
+                                                      animationDuration:
+                                                          // ignore: use_named_constants
+                                                          const Duration(),
+                                                      size: 30,
+                                                      onTap: (selected) {},
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                        top: 10,
+                                                      ),
+                                                      child: DefaultTextStyle
+                                                          .merge(
+                                                        style: context.textTheme
+                                                            .h4RegularPoppins
+                                                            .copyWith(
+                                                          fontSize: 18,
+                                                          fontWeight:
+                                                              FontWeight.normal,
+                                                          color: context
+                                                              .colorScheme
+                                                              .onBackground,
+                                                        ),
+                                                        textAlign:
+                                                            TextAlign.start,
+                                                        child: Text(
+                                                          context
+                                                                      .watch<
+                                                                          PrescriptionBloc>()
+                                                                      .state
+                                                                      .note[
+                                                                          index]
+                                                                      .length >
+                                                                  3
+                                                              ? context
+                                                                  .watch<
+                                                                      PrescriptionBloc>()
+                                                                  .state
+                                                                  .note[index]
+                                                                  .substring(3)
+                                                              : 'empty',
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ),
                                       ),
@@ -266,7 +307,7 @@ class _DCPrescriptionScreenState extends State<DCPrescriptionScreen> {
                   ),
 
                   const SizedBox(
-                    height: 20,
+                    height: 50,
                   ),
                   Padding(
                     padding: const EdgeInsets.only(
@@ -291,6 +332,10 @@ class _DCPrescriptionScreenState extends State<DCPrescriptionScreen> {
                                   .done[index] ==
                               false)
                           ? InkWell(
+                              //No splash effect
+                              splashColor: Colors.transparent,
+                              highlightColor: Colors.transparent,
+                              splashFactory: NoSplash.splashFactory,
                               onTap: () => context.read<PrescriptionBloc>().add(
                                     PrescriptionTapEvent(
                                       context
@@ -299,6 +344,7 @@ class _DCPrescriptionScreenState extends State<DCPrescriptionScreen> {
                                           .prescriptionID[index],
                                     ),
                                   ),
+
                               child: Padding(
                                 padding: const EdgeInsets.only(
                                   top: 20,
@@ -307,10 +353,20 @@ class _DCPrescriptionScreenState extends State<DCPrescriptionScreen> {
                                 ),
                                 child: DecoratedBox(
                                   decoration: BoxDecoration(
+                                    color: context.colorScheme.background
+                                        .withOpacity(0.5),
                                     borderRadius: BorderRadius.circular(20),
-                                    border: Border.all(
-                                      color: context.colorScheme.onSurface,
-                                    ),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: context.colorScheme.onSurface
+                                            .withOpacity(0.05),
+                                        spreadRadius: 1,
+                                        offset: const Offset(
+                                          0,
+                                          4,
+                                        ), // changes position of shadow
+                                      ),
+                                    ],
                                   ),
                                   child: Row(
                                     children: [
@@ -323,7 +379,8 @@ class _DCPrescriptionScreenState extends State<DCPrescriptionScreen> {
                                         width: 15,
                                         decoration: BoxDecoration(
                                           color: colorList[
-                                              index % colorList.length],
+                                                  index % colorList.length]
+                                              .withOpacity(0.5),
                                           borderRadius: const BorderRadius.only(
                                             topLeft: Radius.circular(30),
                                             bottomLeft: Radius.circular(30),
@@ -350,11 +407,24 @@ class _DCPrescriptionScreenState extends State<DCPrescriptionScreen> {
                                               padding: const EdgeInsets.only(
                                                 left: 10,
                                               ),
-                                              child: Text(
-                                                context
-                                                    .watch<PrescriptionBloc>()
-                                                    .state
-                                                    .doctorName[index],
+                                              child: DefaultTextStyle(
+                                                style: context
+                                                    .textTheme.h4BoldPoppins
+                                                    .copyWith(
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.normal,
+                                                  color: context
+                                                      .colorScheme.onBackground
+                                                      .withOpacity(0.3),
+                                                  decoration: TextDecoration
+                                                      .lineThrough,
+                                                ),
+                                                child: Text(
+                                                  context
+                                                      .watch<PrescriptionBloc>()
+                                                      .state
+                                                      .doctorName[index],
+                                                ),
                                               ),
                                             ),
                                           ),
@@ -375,9 +445,17 @@ class _DCPrescriptionScreenState extends State<DCPrescriptionScreen> {
                                                     child: Transform.scale(
                                                       scale: 0.8,
                                                       child: SvgPicture.string(
-                                                        DCSVGIcons.clock,
-                                                        fit: BoxFit.cover,
-                                                      ),
+                                                          DCSVGIcons.clock,
+                                                          fit: BoxFit.cover,
+                                                          colorFilter:
+                                                              ColorFilter.mode(
+                                                            context.colorScheme
+                                                                .onBackground
+                                                                .withOpacity(
+                                                              0.3,
+                                                            ),
+                                                            BlendMode.srcIn,
+                                                          )),
                                                     ),
                                                   ),
                                                   DefaultTextStyle(
@@ -388,7 +466,8 @@ class _DCPrescriptionScreenState extends State<DCPrescriptionScreen> {
                                                       fontWeight:
                                                           FontWeight.normal,
                                                       color: context.colorScheme
-                                                          .onBackground,
+                                                          .onBackground
+                                                          .withOpacity(0.3),
                                                     ),
                                                     child: Padding(
                                                       padding:
@@ -416,46 +495,78 @@ class _DCPrescriptionScreenState extends State<DCPrescriptionScreen> {
                                           ),
                                         ],
                                       ),
-                                      //Text at the end
                                       Expanded(
                                         child: Align(
-                                          alignment: Alignment.centerRight,
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(
-                                              right: 10,
-                                            ),
-                                            child: Column(
-                                              children: <Widget>[
-                                                DefaultTextStyle.merge(
-                                                  style: context.textTheme
-                                                      .h4RegularPoppins
-                                                      .copyWith(
-                                                    fontSize: 18,
-                                                    fontWeight:
-                                                        FontWeight.normal,
-                                                    color: context.colorScheme
-                                                        .onBackground,
-                                                  ),
-                                                  textAlign: TextAlign.start,
-                                                  child: Text(
-                                                    context
-                                                                .watch<
-                                                                    PrescriptionBloc>()
-                                                                .state
-                                                                .note[index]
-                                                                .length >
-                                                            3
-                                                        ? context
-                                                            .watch<
-                                                                PrescriptionBloc>()
-                                                            .state
-                                                            .note[index]
-                                                            .substring(3)
-                                                        : 'empty',
-                                                  ),
+                                          alignment: Alignment.bottomRight,
+                                          child: Column(
+                                            children: <Widget>[
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                  right: 10,
                                                 ),
-                                              ],
-                                            ),
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.end,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceEvenly,
+                                                  children: <Widget>[
+                                                    RoundCheckBox(
+                                                      checkedColor: context
+                                                          .colorScheme
+                                                          .secondary,
+                                                      animationDuration:
+                                                          // ignore: use_named_constants
+                                                          const Duration(),
+                                                      isChecked: true,
+                                                      size: 30,
+                                                      onTap: (selected) {},
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                        top: 10,
+                                                      ),
+                                                      child: DefaultTextStyle
+                                                          .merge(
+                                                        style: context.textTheme
+                                                            .h4RegularPoppins
+                                                            .copyWith(
+                                                          fontSize: 18,
+                                                          fontWeight:
+                                                              FontWeight.normal,
+                                                          color: context
+                                                              .colorScheme
+                                                              .onBackground
+                                                              .withOpacity(0.3),
+                                                        ),
+                                                        textAlign:
+                                                            TextAlign.start,
+                                                        child: Text(
+                                                          context
+                                                                      .watch<
+                                                                          PrescriptionBloc>()
+                                                                      .state
+                                                                      .note[
+                                                                          index]
+                                                                      .length >
+                                                                  3
+                                                              ? context
+                                                                  .watch<
+                                                                      PrescriptionBloc>()
+                                                                  .state
+                                                                  .note[index]
+                                                                  .substring(
+                                                                    3,
+                                                                  )
+                                                              : 'empty',
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ),
                                       ),

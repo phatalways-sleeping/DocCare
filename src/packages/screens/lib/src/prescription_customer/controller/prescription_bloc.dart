@@ -132,11 +132,12 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
   ) async {
     emit(
       PrescriptionInitial.input(
-          prescriptionID: state.prescriptionID,
-          doctorName: state.doctorName,
-          datePrescribed: state.datePrescribed,
-          note: state.note,
-          done: state.done),
+        prescriptionID: state.prescriptionID,
+        doctorName: state.doctorName,
+        datePrescribed: state.datePrescribed,
+        note: state.note,
+        done: state.done,
+      ),
     );
   }
 }
