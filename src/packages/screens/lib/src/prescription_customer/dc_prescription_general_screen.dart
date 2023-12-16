@@ -2,12 +2,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:model_api/model_api.dart';
 import 'package:screens/src/prescription_customer/controller/prescription_bloc.dart';
 import 'package:screens/src/prescription_customer/dc_medicines_screen.dart';
 import 'package:screens/src/prescription_customer/dc_prescription_screen.dart';
-import 'package:utility/utility.dart';
+// ignore: depend_on_referenced_packages
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:model_api/model_api.dart';
 
 class DCPrescriptionGeneral extends StatefulWidget {
   const DCPrescriptionGeneral({

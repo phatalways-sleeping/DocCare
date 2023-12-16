@@ -1,14 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:meta/meta.dart';
 import 'package:model_api/model_api.dart';
-import 'package:model_api/src/prescription/service/supabase_prescription_api.dart';
-import 'package:model_api/src/users/service/supabase_doctor_api_service.dart';
-import 'package:model_api/src/intake/service/supabase_intake_api_service.dart';
-import 'package:models/models.dart';
-import 'package:utility/utility.dart';
 
 part 'prescription_event.dart';
 part 'prescription_state.dart';

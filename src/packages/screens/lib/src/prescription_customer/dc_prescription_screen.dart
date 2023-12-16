@@ -1,13 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:components/src/widgets/header_bar/dc_customer_header_bar.dart';
-import 'package:components/src/widgets/navigation_bar/dc_customer_navigation_bar.dart';
-import 'package:model_api/model_api.dart';
-import 'package:screens/src/prescription_customer/controller/prescription_bloc.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:components/components.dart';
 import 'package:extensions/extensions.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+// ignore: depend_on_referenced_packages
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:screens/src/prescription_customer/controller/prescription_bloc.dart';
 
 class DCPrescriptionScreen extends StatefulWidget {
   const DCPrescriptionScreen({
@@ -416,16 +413,16 @@ class _DCPrescriptionScreenState extends State<DCPrescriptionScreen> {
                   const SizedBox(
                     height: 20,
                   ),
-                  DCCustomerNavigationBar(
-                    onItemSelected: (context, index) {
-                      print('index: $index');
-                    },
-                  ),
                 ],
               ),
             ]),
           ),
         ],
+      ),
+      bottomNavigationBar: DCCustomerNavigationBar(
+        onItemSelected: (context, index) {
+          print('index: $index');
+        },
       ),
     );
   }
