@@ -29,6 +29,7 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
     on<AddIntakeButtonPressedEvent>(_onAddIntakeButtonPressedEvent);
     on<RemoveMedicineButtonPressedEvent>(_onRemoveMedicineButtonPressedEvent);
     on<AddPrescriptionButtonPressedEvent>(_onAddPrescriptionButtonPressedEvent);
+    on<PrescriptionBackEvent>(_onPrescriptionBackEvent);
   }
 
   final NotificationManagerService _notificationManagerService;
@@ -364,5 +365,16 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
     emit(PrescriptionMedicalLoading.from(state));
 
     emit(PrescriptionSuccess.from(state));
+  }
+
+  void _onPrescriptionBackEvent(
+    PrescriptionBackEvent event,
+    Emitter<PrescriptionState> emit,
+  ) {
+    if (state is PrescriptionAddMedicine) {
+      emit(PrescriptionMedicalSuccess.from(state));
+    } else if (state is PrescriptionMedicalSuccess) {
+      emit(PrescriptionMedicalInitial.from(state));
+    }
   }
 }

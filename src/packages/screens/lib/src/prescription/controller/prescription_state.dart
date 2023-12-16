@@ -73,6 +73,20 @@ sealed class PrescriptionState extends Equatable {
 }
 
 final class PrescriptionMedicalInitial extends PrescriptionState {
+  const PrescriptionMedicalInitial({
+    required super.heartRate,
+    required super.bloodPressure,
+    required super.choresterol,
+    required super.bloodSugar,
+    required super.doctorNote,
+    required super.medicines,
+    required super.currentMedicineName,
+    required super.currentDuration,
+    required super.currentDose,
+    required super.currentTimeToTake,
+    required super.currentMealTime,
+  });
+
   const PrescriptionMedicalInitial.empty()
       : super(
           heartRate: '',
@@ -87,6 +101,21 @@ final class PrescriptionMedicalInitial extends PrescriptionState {
           currentTimeToTake: const [false, false, false, false],
           currentMealTime: const [false, false],
         );
+
+  factory PrescriptionMedicalInitial.from(PrescriptionState state) =>
+      PrescriptionMedicalInitial(
+        heartRate: state.heartRate,
+        bloodPressure: state.bloodPressure,
+        choresterol: state.choresterol,
+        bloodSugar: state.bloodSugar,
+        doctorNote: state.doctorNote,
+        medicines: state.medicines,
+        currentMedicineName: state.currentMedicineName,
+        currentDuration: state.currentDuration,
+        currentDose: state.currentDose,
+        currentTimeToTake: state.currentTimeToTake,
+        currentMealTime: state.currentMealTime,
+      );
 
   const PrescriptionMedicalInitial.input({
     required super.heartRate,

@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs
 
+import 'package:components/components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:screens/src/prescription/controller/prescription_bloc.dart';
@@ -24,17 +25,23 @@ class DCPrescriptionPlaceholder extends StatefulWidget {
 class _DCPrescriptionPlaceholderState extends State<DCPrescriptionPlaceholder> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: true,
-      // TODO: Change to custom AppBar
-      appBar: AppBar(
-        title: const Text('Prescription'),
+    return BlocProvider(
+      create: (_) => PrescriptionBloc(
+        NotificationManager.instance,
       ),
-      body: BlocProvider(
-        create: (_) => PrescriptionBloc(
-          NotificationManager.instance,
+      child: Scaffold(
+        resizeToAvoidBottomInset: true,
+        // TODO: Change to custom AppBar
+        appBar: DCCustomerHeaderBar(
+          title: '',
+          allowNavigateBack: true,
+          onLeadingIconPressed: (context) {
+            BlocProvider.of<PrescriptionBloc>(context).add(
+              const PrescriptionBackEvent(),
+            );
+          },
         ),
-        child: BlocBuilder<PrescriptionBloc, PrescriptionState>(
+        body: BlocBuilder<PrescriptionBloc, PrescriptionState>(
           builder: (context, state) {
             if (state is PrescriptionMedicalInitial) {
               return GestureDetector(

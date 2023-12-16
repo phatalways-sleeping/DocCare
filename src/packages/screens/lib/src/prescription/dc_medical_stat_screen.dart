@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:screens/src/prescription/controller/prescription_bloc.dart';
+import 'package:screens/src/prescription/widgets/medical_stat_widget.dart';
 
 class DCMedicalStatScreen extends StatefulWidget {
   const DCMedicalStatScreen({
@@ -20,8 +21,44 @@ class DCMedicalStatScreen extends StatefulWidget {
 }
 
 class _DCMedicalStatScreenState extends State<DCMedicalStatScreen> {
+  late TextEditingController _controller1;
+  late TextEditingController _controller2;
+  late TextEditingController _controller3;
+  late TextEditingController _controller4;
+  late TextEditingController _controller5;
+
+  void setText() {
+    final currentState = BlocProvider.of<PrescriptionBloc>(context).state;
+    _controller1.text = currentState.bloodPressure;
+    _controller2.text = currentState.heartRate;
+    _controller3.text = currentState.choresterol;
+    _controller4.text = currentState.bloodSugar;
+    _controller5.text = currentState.doctorNote[0];
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _controller1 = TextEditingController();
+    _controller2 = TextEditingController();
+    _controller3 = TextEditingController();
+    _controller4 = TextEditingController();
+    _controller5 = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _controller1.dispose();
+    _controller2.dispose();
+    _controller3.dispose();
+    _controller4.dispose();
+    _controller5.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+    setText();
     return Center(
       child: FractionallySizedBox(
         widthFactor: 0.9,
@@ -37,324 +74,72 @@ class _DCMedicalStatScreenState extends State<DCMedicalStatScreen> {
                         child: Text(
                           widget.customerName,
                           style: context.textTheme.h6BoldPoppins.copyWith(
-                            fontSize: 20,
+                            fontSize: 30,
                           ),
                         ),
                       ),
-                      Card(
-                        color: context.colorScheme.onPrimary,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          side: BorderSide(
-                            color: context.colorScheme.surface,
-                          ),
-                        ),
-                        elevation: 2,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 8,
-                          ),
-                          child: Row(
-                            children: <Widget>[
-                              SvgPicture.string(
-                                DCSVGIcons.bloodDrop,
-                                width: 30,
-                                height: 30,
-                              ),
-                              const SizedBox(width: 8),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Blood Pressure (mmHg)',
-                                      style: context.textTheme.h6RegularPoppins
-                                          .copyWith(
-                                        fontSize: 20,
-                                        color: context.colorScheme.onSecondary
-                                            .withOpacity(0.5),
-                                      ),
-                                    ),
-                                    Container(
-                                      decoration: const BoxDecoration(
-                                        border: Border(
-                                          bottom: BorderSide(width: 2),
-                                        ),
-                                      ),
-                                      child: TextField(
-                                        style: context.textTheme.h6BoldPoppins
-                                            .copyWith(
-                                          fontSize: 16,
-                                          color:
-                                              context.colorScheme.onSecondary,
-                                        ),
-                                        decoration: InputDecoration(
-                                          border: InputBorder.none,
-                                          hintText: '120/80',
-                                          hintStyle: context
-                                              .textTheme.h6RegularPoppins
-                                              .copyWith(
-                                            fontSize: 16,
-                                            color: context
-                                                .colorScheme.onSecondary
-                                                .withOpacity(0.5),
-                                          ),
-                                        ),
-                                        onChanged: (value) {
-                                          BlocProvider.of<PrescriptionBloc>(
-                                            context,
-                                          ).add(
-                                            BloodPressureInputEvent(
-                                              value,
-                                            ),
-                                          );
-                                        },
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                      DCMedicalStat(
+                        textController: _controller1,
+                        statName: 'Blood Pressure (mmHg)',
+                        hintValue: '120/80',
+                        icon: DCSVGIcons.bloodDrop,
+                        onChanged: (value) {
+                          BlocProvider.of<PrescriptionBloc>(
+                            context,
+                          ).add(
+                            BloodPressureInputEvent(
+                              value,
+                            ),
+                          );
+                        },
                       ),
                       const SizedBox(height: 8),
-                      Card(
-                        color: context.colorScheme.onPrimary,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          side: BorderSide(
-                            color: context.colorScheme.surface,
-                          ),
-                        ),
-                        elevation: 2,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 8,
-                          ),
-                          child: Row(
-                            children: <Widget>[
-                              SvgPicture.string(
-                                DCSVGIcons.heart,
-                                width: 30,
-                                height: 30,
-                              ),
-                              const SizedBox(width: 8),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Heart Rate (beats/minute)',
-                                      style: context.textTheme.h6RegularPoppins
-                                          .copyWith(
-                                        fontSize: 20,
-                                        color: context.colorScheme.onSecondary
-                                            .withOpacity(0.5),
-                                      ),
-                                    ),
-                                    Container(
-                                      decoration: const BoxDecoration(
-                                        border: Border(
-                                          bottom: BorderSide(width: 2),
-                                        ),
-                                      ),
-                                      child: TextField(
-                                        style: context.textTheme.h6BoldPoppins
-                                            .copyWith(
-                                          fontSize: 16,
-                                          color:
-                                              context.colorScheme.onSecondary,
-                                        ),
-                                        decoration: InputDecoration(
-                                          border: InputBorder.none,
-                                          hintText: '69',
-                                          hintStyle: context
-                                              .textTheme.h6RegularPoppins
-                                              .copyWith(
-                                            fontSize: 16,
-                                            color: context
-                                                .colorScheme.onSecondary
-                                                .withOpacity(0.5),
-                                          ),
-                                        ),
-                                        onChanged: (value) {
-                                          BlocProvider.of<PrescriptionBloc>(
-                                            context,
-                                          ).add(
-                                            HeartRateInputEvent(
-                                              value,
-                                            ),
-                                          );
-                                        },
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                      DCMedicalStat(
+                        textController: _controller2,
+                        statName: 'Heart Rate (bpm)',
+                        hintValue: '80',
+                        icon: DCSVGIcons.heart,
+                        onChanged: (value) {
+                          BlocProvider.of<PrescriptionBloc>(
+                            context,
+                          ).add(
+                            HeartRateInputEvent(
+                              value,
+                            ),
+                          );
+                        },
                       ),
                       const SizedBox(height: 8),
-                      Card(
-                        color: context.colorScheme.onPrimary,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          side: BorderSide(
-                            color: context.colorScheme.surface,
-                          ),
-                        ),
-                        elevation: 2,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 8,
-                          ),
-                          child: Row(
-                            children: <Widget>[
-                              SvgPicture.string(
-                                DCSVGIcons.cholesterol,
-                                width: 30,
-                                height: 30,
-                              ),
-                              const SizedBox(width: 8),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Choresterol (mg/dl)',
-                                      style: context.textTheme.h6RegularPoppins
-                                          .copyWith(
-                                        fontSize: 20,
-                                        color: context.colorScheme.onSecondary
-                                            .withOpacity(0.5),
-                                      ),
-                                    ),
-                                    Container(
-                                      decoration: const BoxDecoration(
-                                        border: Border(
-                                          bottom: BorderSide(width: 2),
-                                        ),
-                                      ),
-                                      child: TextField(
-                                        style: context.textTheme.h6BoldPoppins
-                                            .copyWith(
-                                          fontSize: 16,
-                                          color:
-                                              context.colorScheme.onSecondary,
-                                        ),
-                                        decoration: InputDecoration(
-                                          border: InputBorder.none,
-                                          hintText: '100',
-                                          hintStyle: context
-                                              .textTheme.h6RegularPoppins
-                                              .copyWith(
-                                            fontSize: 16,
-                                            color: context
-                                                .colorScheme.onSecondary
-                                                .withOpacity(0.5),
-                                          ),
-                                        ),
-                                        onChanged: (value) {
-                                          BlocProvider.of<PrescriptionBloc>(
-                                            context,
-                                          ).add(
-                                            ChoresterolInputEvent(
-                                              value,
-                                            ),
-                                          );
-                                        },
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                      DCMedicalStat(
+                        textController: _controller3,
+                        statName: 'Cholesterol (mg/dl)',
+                        hintValue: '80',
+                        icon: DCSVGIcons.cholesterol,
+                        onChanged: (value) {
+                          BlocProvider.of<PrescriptionBloc>(
+                            context,
+                          ).add(
+                            ChoresterolInputEvent(
+                              value,
+                            ),
+                          );
+                        },
                       ),
                       const SizedBox(height: 8),
-                      Card(
-                        color: context.colorScheme.onPrimary,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          side: BorderSide(
-                            color: context.colorScheme.surface,
-                          ),
-                        ),
-                        elevation: 2,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 8,
-                          ),
-                          child: Row(
-                            children: <Widget>[
-                              SvgPicture.string(
-                                DCSVGIcons.glucometer,
-                                width: 30,
-                                height: 30,
-                              ),
-                              const SizedBox(width: 8),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Glucose (mg/dl)',
-                                      style: context.textTheme.h6RegularPoppins
-                                          .copyWith(
-                                        fontSize: 20,
-                                        color: context.colorScheme.onSecondary
-                                            .withOpacity(0.5),
-                                      ),
-                                    ),
-                                    Container(
-                                      decoration: const BoxDecoration(
-                                        border: Border(
-                                          bottom: BorderSide(width: 2),
-                                        ),
-                                      ),
-                                      child: TextField(
-                                        style: context.textTheme.h6BoldPoppins
-                                            .copyWith(
-                                          fontSize: 16,
-                                          color:
-                                              context.colorScheme.onSecondary,
-                                        ),
-                                        decoration: InputDecoration(
-                                          border: InputBorder.none,
-                                          hintText: '80',
-                                          hintStyle: context
-                                              .textTheme.h6RegularPoppins
-                                              .copyWith(
-                                            fontSize: 16,
-                                            color: context
-                                                .colorScheme.onSecondary
-                                                .withOpacity(0.5),
-                                          ),
-                                        ),
-                                        onChanged: (value) {
-                                          BlocProvider.of<PrescriptionBloc>(
-                                            context,
-                                          ).add(
-                                            BloodSugarInputEvent(
-                                              value,
-                                            ),
-                                          );
-                                        },
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                      DCMedicalStat(
+                        textController: _controller4,
+                        statName: 'Glucose (mg/dl)',
+                        hintValue: '80',
+                        icon: DCSVGIcons.glucometer,
+                        onChanged: (value) {
+                          BlocProvider.of<PrescriptionBloc>(
+                            context,
+                          ).add(
+                            BloodSugarInputEvent(
+                              value,
+                            ),
+                          );
+                        },
                       ),
                       const SizedBox(height: 16),
                       Container(
@@ -374,7 +159,7 @@ class _DCMedicalStatScreenState extends State<DCMedicalStatScreen> {
                               Border.all(color: context.colorScheme.secondary),
                         ),
                         child: TextField(
-                          maxLines: null, // Makes it expandable
+                          maxLines: 3,
                           decoration: const InputDecoration(
                             hintText: 'Write some note for the patient...',
                             border: InputBorder.none,
@@ -390,7 +175,7 @@ class _DCMedicalStatScreenState extends State<DCMedicalStatScreen> {
                       DCFilledButton(
                         backgroundColor: context.colorScheme.surface,
                         fixedSize: Size(
-                          context.width * 0.3,
+                          context.width * 0.4,
                           context.height * 0.06,
                         ),
                         onPressed: (context) {
