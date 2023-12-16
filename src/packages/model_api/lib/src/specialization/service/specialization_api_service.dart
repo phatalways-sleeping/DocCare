@@ -3,6 +3,8 @@
 abstract interface class SpecializationApiService<Specialization> {
   const SpecializationApiService();
 
+  Future<List<String>> getAllSpecialization();
+
   Future<void> createSpecialization(Specialization specialization);
 
   Future<int> getTotalDoctorsBySpecialization(String specialization);
