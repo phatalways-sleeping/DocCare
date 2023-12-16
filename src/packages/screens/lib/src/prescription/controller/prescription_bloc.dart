@@ -161,6 +161,25 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
       return;
     }
 
+    if (!state.availableMedicines.contains(state.currentMedicineName)) {
+      await _notificationManagerService.show<void>(
+        NotificationType.error,
+        title: const Text(
+          'Something went wrong',
+          style: TextStyle(
+            fontSize: 16,
+          ),
+        ),
+        message: const Text(
+          'Medicine is not in available list',
+          style: TextStyle(
+            fontSize: 16,
+          ),
+        ),
+      );
+      return;
+    }
+
     if (!FormValidator.validateNumber(state.currentDose).isValid) {
       await _notificationManagerService.show<void>(
         NotificationType.error,
