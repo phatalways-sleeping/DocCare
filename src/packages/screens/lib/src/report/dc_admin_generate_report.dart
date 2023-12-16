@@ -115,7 +115,7 @@ class _DCAdminGenerateReportScreenState
                               .read<GenerateReportBloc>()
                               .add(YearInputEvent(int.parse(controller.text))),
                         ),
-                        const SizedBox(height: 8),
+                        const SizedBox(height: 24),
                         Center(
                           child: BlocBuilder<GenerateReportBloc,
                               GenerateReportState>(
@@ -134,7 +134,8 @@ class _DCAdminGenerateReportScreenState
                               } else if (state is GenerateReportSuccess) {
                                 // TODO(): handle navigate to ??? screen
                                 return const Text(
-                                    'Generating report successfully!');
+                                  'Generating report successfully!',
+                                );
                               }
                               return SizedBox(
                                 height: 30,
