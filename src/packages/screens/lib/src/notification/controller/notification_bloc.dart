@@ -9,6 +9,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
   NotificationBloc() : super(NotificationInitial.empty()) {
     on<LoadNotification>(_onLoadNotification);
     on<DisplayNotification>(_onDisplayNotification);
+    on<NotificationBackButtonPressedEvent>(_onNotificationBackButtonPressed);
   }
 
   Future<void> _onLoadNotification(
@@ -44,4 +45,11 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
     DisplayNotification event,
     Emitter<NotificationState> emit,
   ) {}
+
+  void _onNotificationBackButtonPressed(
+    NotificationBackButtonPressedEvent event,
+    Emitter<NotificationState> emit,
+  ) {
+    //TODO(phucchuhoang): Implement navigate back to previous screen
+  }
 }

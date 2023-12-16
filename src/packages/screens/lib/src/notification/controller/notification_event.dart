@@ -15,3 +15,7 @@ final class LoadNotification extends NotificationEvent {
 final class DisplayNotification extends NotificationEvent {
   const DisplayNotification();
 }
+
+final class NotificationBackButtonPressedEvent extends NotificationEvent {
+  const NotificationBackButtonPressedEvent();
+}

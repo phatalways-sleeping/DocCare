@@ -16,13 +16,18 @@ class DCNotificationScreen extends StatefulWidget {
 class _DCNotificationScreenState extends State<DCNotificationScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Notification'),
-      ),
-      body: BlocProvider(
-        create: (_) => NotificationBloc(),
-        child: BlocBuilder<NotificationBloc, NotificationState>(
+    return BlocProvider(
+      create: (_) => NotificationBloc(),
+      child: Scaffold(
+        appBar: DCCustomerHeaderBar(
+          title: 'Notification',
+          allowNavigateBack: true,
+          onLeadingIconPressed: (context) =>
+              BlocProvider.of<NotificationBloc>(context).add(
+            const NotificationBackButtonPressedEvent(),
+          ),
+        ),
+        body: BlocBuilder<NotificationBloc, NotificationState>(
           builder: (context, state) {
             if (state is NotificationInitial) {
               BlocProvider.of<NotificationBloc>(context)
