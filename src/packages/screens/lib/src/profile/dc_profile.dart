@@ -279,7 +279,7 @@ class _DCProfileState extends State<DCProfile> {
                             height: context.height * 0.05,
                           ),
                           //TODO (Vinh): Change password on pressed logic
-                          DCOutlinedButton(
+                          DCFilledButton(
                             onPressed: (context) {},
                             padding: EdgeInsets.symmetric(
                               horizontal: context.width * 0.05,
@@ -289,14 +289,11 @@ class _DCProfileState extends State<DCProfile> {
                               context.width * 0.9,
                               context.height * 0.07,
                             ),
-                            borderSide: BorderSide(
-                              color: context.colorScheme.onBackground,
-                            ),
-                            foregroundColor: context.colorScheme.background,
+                            backgroundColor: context.colorScheme.secondary,
                             child: DefaultTextStyle.merge(
                               style:
                                   context.textTheme.bodyRegularPoppins.copyWith(
-                                color: context.colorScheme.background,
+                                color: context.colorScheme.onSecondary,
                                 fontSize: 16,
                               ),
                               child: const Text('Change password'),
