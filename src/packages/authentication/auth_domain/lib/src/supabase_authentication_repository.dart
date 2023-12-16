@@ -1,9 +1,7 @@
 import 'package:auth_api/auth_api.dart';
 import 'package:auth_domain/auth_domain.dart';
-import 'package:models/models.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:utility/utility.dart'
-    show FormValidator;
+import 'package:utility/utility.dart' show FormValidator;
 
 /// [SupabaseAuthenticationRepository] is the implementation of
 /// [AuthenticationRepositoryService] for Supabase
@@ -23,17 +21,20 @@ class SupabaseAuthenticationRepository
       SupabaseAuthenticationRepository._();
 
   @override
-  Future<void> changePassword(ChangePasswordUserService user) =>
-      _authEmailApiService.changePassword(
-        user.newPassword,
-      );
+  Future<void> changePassword(String password) async {
+    final passwordValidation = FormValidator.validatePassword(password);
+
+    if (!passwordValidation.isValid) {
+      throw AuthException(passwordValidation.cause!);
+    }
+
+    await _authEmailApiService.changePassword(password);
+  }
 
   @override
-  Future<void> login(AuthenticationUserService user) async {
-    final emailValidation =
-        FormValidator.validateEmail(user.email);
-    final passwordValidation =
-        FormValidator.validatePassword(user.password);
+  Future<void> login(String email, String password) async {
+    final emailValidation = FormValidator.validateEmail(email);
+    final passwordValidation = FormValidator.validatePassword(password);
 
     if (!emailValidation.isValid) {
       throw AuthException(emailValidation.cause!);
@@ -44,8 +45,8 @@ class SupabaseAuthenticationRepository
     }
 
     await _authEmailApiService.signInWithEmailPassword(
-      user.email,
-      user.password,
+      email,
+      password,
     );
   }
 
@@ -53,13 +54,13 @@ class SupabaseAuthenticationRepository
   Future<void> logout() => _authEmailApiService.signOut();
 
   @override
-  Future<void> sendCode(AuthenticationUserService user) =>
-      _authEmailApiService.sendPasswordResetEmail(user.email);
+  Future<void> sendCode(String email) =>
+      _authEmailApiService.sendPasswordResetEmail(email);
 
   @override
-  Future<void> signUp(RegistrationAuthenticationUserService user) =>
+  Future<void> signUp(String email, String password) =>
       _authEmailApiService.signUpWithEmailPassword(
-        user.email,
-        user.password,
+        email,
+        password,
       );
 }
