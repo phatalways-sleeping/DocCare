@@ -47,6 +47,21 @@ class SupabaseAdminControlStaffApiService
         'specializationid': specializationId,
         'startworkingfrom': startWorkingFrom,
       });
+      for (final entry in dayOfWeek.entries) {
+        print('DAY LEN DATABSE');
+        print('startperiodid = ${entry.value[0]}');
+        print('dayofweek = ${entry.key}');
+        print('endperiodid = ${entry.value[1]}');
+        await supabase.rpc(
+          'sp_add_workingshift_record',
+          params: {
+            'doctorid': doctorID,
+            'startperiodid': entry.value[0],
+            'dayofweek': entry.key,
+            'endperiodid': entry.value[1],
+          },
+        );
+      }
       for (var entry in dayOfWeek.entries) {
         // entry.key is the dayofweek
         // entry.value[0] is the endperiodid
