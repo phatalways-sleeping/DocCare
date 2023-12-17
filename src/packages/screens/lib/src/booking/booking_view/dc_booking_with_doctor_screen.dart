@@ -1,4 +1,4 @@
-// ignore_for_file: public_member_api_docs
+// ignore_for_file: public_member_api_docs, lines_longer_than_80_chars
 
 import 'package:components/components.dart';
 import 'package:extensions/extensions.dart';
@@ -71,6 +71,9 @@ class _DCBookingWithDoctorScreenState extends State<DCBookingWithDoctorScreen> {
             BlocSelector<BookingBloc, BookingState, Map<String, dynamic>>(
               selector: (state) => state.doctorData,
               builder: (context, state) {
+                if (state.keys.isEmpty) {
+                  return const SizedBox.shrink();
+                }
                 return DCDoctorCard(
                   imgPath: state['imgPath'] as String,
                   name: state['name'] as String,
@@ -116,78 +119,201 @@ class _DCBookingWithDoctorScreenState extends State<DCBookingWithDoctorScreen> {
               hintText: 'Type your symptoms here',
               keyboardType: TextInputType.text,
               color: const Color(0xFF677294),
-              onChanged: (value, controller) {},
+              onChanged: (context, controller) {
+                context.read<BookingBloc>().add(
+                      BookingEnterSymptomEvent(
+                        symptom: controller.text,
+                      ),
+                    );
+              },
             ),
             const SizedBox(
               height: 10,
             ),
-            Text(
-              'Available Time',
-              style: context.textTheme.bodyBoldPoppins.copyWith(
-                fontSize: 18,
-              ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            DCAsyncView(
-              future: Future.delayed(
-                const Duration(seconds: 2),
-                () => [
-                  '10:00 AM',
-                  '10:30 AM',
-                  '11:00 AM',
-                  '11:30 AM',
-                ],
-              ),
-              type: DCAsyncViewType.availableTime,
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Text(
-              'Remind Me Before',
-              style: context.textTheme.bodyBoldPoppins.copyWith(
-                fontSize: 18,
-              ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            DCAsyncView(
-              future: Future.delayed(
-                const Duration(seconds: 2),
-                () => [
-                  '10 Mins',
-                  '20 Mins',
-                  '30 Mins',
-                  '40 Mins',
-                ],
-              ),
-              type: DCAsyncViewType.reminder,
-            ),
-            SizedBox(
-              height: context.height * 0.04,
-            ),
-            Align(
-              child: DCFilledButton(
-                onPressed: (context) {},
-                fixedSize: Size(
-                  context.width * 0.8,
-                  50,
+            if (context.watch<BookingBloc>().state.dateSelected != null) ...[
+              Text(
+                'Available Time',
+                style: context.textTheme.bodyBoldPoppins.copyWith(
+                  fontSize: 18,
                 ),
-                child: Text(
-                  'Continue',
-                  style: context.textTheme.bodyBoldPoppins.copyWith(
-                    fontSize: 18,
-                    color: context.colorScheme.onSurface,
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              DCAsyncView(
+                future: Future.delayed(
+                  const Duration(seconds: 2),
+                  () => [
+                    '10:00 AM',
+                    '10:30 AM',
+                    '11:00 AM',
+                    '11:30 AM',
+                  ],
+                ),
+                type: DCAsyncViewType.availableTime,
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Text(
+                'Remind Me Before',
+                style: context.textTheme.bodyBoldPoppins.copyWith(
+                  fontSize: 18,
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              DCAsyncView(
+                future: Future.delayed(
+                  const Duration(seconds: 2),
+                  () => [
+                    '10 Mins',
+                    '20 Mins',
+                    '30 Mins',
+                    '40 Mins',
+                  ],
+                ),
+                type: DCAsyncViewType.reminder,
+              ),
+              SizedBox(
+                height: context.height * 0.04,
+              ),
+            ],
+            if (context.watch<BookingBloc>().state.timeSelected != null) ...[
+              Align(
+                child: DCFilledButton(
+                  onPressed: (context) async {
+                    await showAppointmentConfirm(
+                      context: context,
+                      doctorName: context
+                          .read<BookingBloc>()
+                          .state
+                          .doctorData['name'] as String,
+                      time: context.read<BookingBloc>().state.timeSelected!,
+                      symptom: context.read<BookingBloc>().state.symptom,
+                      date: context.read<BookingBloc>().state.dateSelected!,
+                    ).then(
+                      (value) => value
+                          ? context.read<BookingBloc>().add(
+                                const BookingConfirmEvent(),
+                              )
+                          : null,
+                    );
+                  },
+                  fixedSize: Size(
+                    context.width * 0.8,
+                    50,
+                  ),
+                  child: Text(
+                    'Continue',
+                    style: context.textTheme.bodyBoldPoppins.copyWith(
+                      fontSize: 18,
+                      color: context.colorScheme.onSurface,
+                    ),
                   ),
                 ),
               ),
-            ),
+            ],
           ],
         ),
       ),
     );
   }
 }
+
+Future<bool> showAppointmentConfirm({
+  required BuildContext context,
+  required String doctorName,
+  required String time,
+  required String symptom,
+  required DateTime date,
+}) async =>
+    showDialog<bool>(
+      context: context,
+      builder: (context) => Container(
+        padding: EdgeInsets.symmetric(
+          horizontal: context.width * 0.05,
+          vertical: 20,
+        ),
+        margin: EdgeInsets.symmetric(
+          horizontal: context.width * 0.05,
+          vertical: context.height * 0.2,
+        ),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: context.colorScheme.background,
+        ),
+        child: SizedBox(
+          height: context.height * 0.4,
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Please check your appointment request before submitted',
+                  style: context.textTheme.h3BoldPoppins.copyWith(
+                    fontSize: 16,
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  'New Appointment',
+                  style:
+                      context.textTheme.bodyBoldPoppins.copyWith(fontSize: 18),
+                ),
+                const SizedBox(
+                  height: 6,
+                ),
+                Text(
+                  'You have book for an appointment at $time on ${date.day}/${date.month}/${date.year} with Dr.${doctorName.split('Dr.').last}.',
+                  style: context.textTheme.bodyRegularPoppins.copyWith(
+                    fontSize: 16,
+                  ),
+                  textAlign: TextAlign.justify,
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  'Symptoms',
+                  style:
+                      context.textTheme.bodyBoldPoppins.copyWith(fontSize: 18),
+                ),
+                const SizedBox(
+                  height: 6,
+                ),
+                Text(
+                  symptom.isEmpty ? 'None' : symptom,
+                  style: context.textTheme.bodyRegularPoppins.copyWith(
+                    fontSize: 16,
+                  ),
+                  textAlign: TextAlign.justify,
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  'Note',
+                  style:
+                      context.textTheme.bodyBoldPoppins.copyWith(fontSize: 18),
+                ),
+                const SizedBox(
+                  height: 6,
+                ),
+                Text(
+                  'Please if you’re pleasant with this arrangement, press ‘Confirm’ otherwise ‘Cancel’.',
+                  style: context.textTheme.bodyRegularPoppins.copyWith(
+                    fontSize: 16,
+                  ),
+                  textAlign: TextAlign.justify,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    ).then((value) => value ?? false);

@@ -3,6 +3,8 @@
 import 'package:components/components.dart';
 import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:screens/src/booking/booking_view/controller/booking_bloc.dart';
 
 class DCCalendar extends StatefulWidget {
   const DCCalendar({super.key});
@@ -142,7 +144,11 @@ class DCCalendarColumn extends StatelessWidget {
             padding: const EdgeInsets.only(bottom: 10),
             child: DCCalendarButton(
               date: date,
-              onPressed: (context) {},
+              onPressed: (context) {
+                context.read<BookingBloc>().add(
+                      BookingSelectDateEvent(date: date),
+                    );
+              },
               available: date.isAfter(
                     DateTime.now(),
                   ) ||
@@ -169,41 +175,56 @@ class DCCalendarButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => onPressed(context),
+      onTap: () {
+        if (available && !date.isBefore(DateTime.now())) {
+          onPressed(context);
+        }
+      },
       highlightColor: Colors.white,
       splashColor: Colors.white,
-      child: Container(
-        width: 50,
-        height: 50,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: date.isBefore(DateTime.now())
-              ? available
-                  ? const Color(0xFFFFD8DF).withOpacity(0.4)
-                  : null
-              : available
-                  ? context.colorScheme.secondary
+      child: BlocSelector<BookingBloc, BookingState, DateTime?>(
+        selector: (state) => state.dateSelected,
+        builder: (context, state) {
+          return Container(
+            width: 50,
+            height: 50,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: date.isBefore(DateTime.now())
+                  ? available
+                      ? const Color(0xFFFFD8DF).withOpacity(0.4)
+                      : null
+                  : available
+                      ? context.colorScheme.secondary
+                      : null,
+              border: state == date
+                  ? Border.all(
+                      color: const Color(0xFF6B4EFF),
+                      width: 2,
+                    )
                   : null,
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              date.day.toString(),
-              style: context.textTheme.bodyRegularPoppins.copyWith(
-                fontSize: 14,
-                color: date.isBefore(DateTime.now())
-                    ? available
-                        ? const Color(0xFFFF2D55).withOpacity(0.5)
-                        : context.colorScheme.onSurface.withOpacity(0.5)
-                    : date.month == DateTime.now().month
-                        ? context.colorScheme.onSurface
-                        : context.colorScheme.onSurface.withOpacity(0.5),
-                fontWeight: FontWeight.normal,
-              ),
             ),
-          ],
-        ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  date.day.toString(),
+                  style: context.textTheme.bodyRegularPoppins.copyWith(
+                    fontSize: 14,
+                    color: date.isBefore(DateTime.now())
+                        ? available
+                            ? const Color(0xFFFF2D55).withOpacity(0.5)
+                            : context.colorScheme.onSurface.withOpacity(0.5)
+                        : date.month == DateTime.now().month
+                            ? context.colorScheme.onSurface
+                            : context.colorScheme.onSurface.withOpacity(0.5),
+                    fontWeight: FontWeight.normal,
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
       ),
     );
   }

@@ -2,6 +2,8 @@
 
 import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:screens/src/booking/booking_view/controller/booking_bloc.dart';
 import 'package:screens/src/booking/booking_view/dc_circular_item.dart';
 
 enum DCAsyncViewType {
@@ -31,21 +33,36 @@ class _DCAsyncViewState extends State<DCAsyncView> {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           final data = snapshot.data!;
-          return Wrap(
-            runSpacing: 5,
-            children: data.map(
-              (e) {
-                final title = e.split(' ')[0];
-                final time = e.split(' ')[1];
-                return DCCircularItem(
-                  title: title,
-                  subtitle: time,
-                  onPressed: widget.type == DCAsyncViewType.availableTime
-                      ? (context) {}
-                      : (context) {},
-                );
-              },
-            ).toList(),
+          return BlocBuilder<BookingBloc, BookingState>(
+            builder: (context, state) {
+              final item = widget.type == DCAsyncViewType.availableTime
+                  ? state.timeSelected
+                  : state.remindMeBefore;
+              return Wrap(
+                runSpacing: 5,
+                children: data.map(
+                  (e) {
+                    final title = e.split(' ')[0];
+                    final time = e.split(' ')[1];
+                    return DCCircularItem(
+                      title: title,
+                      subtitle: time,
+                      isSelected: item == e,
+                      isAvailable: true,
+                      onPressed: widget.type == DCAsyncViewType.availableTime
+                          ? (context) => context
+                              .read<BookingBloc>()
+                              .add(BookingSelectTimeEvent(time: e))
+                          : (context) => context.read<BookingBloc>().add(
+                                BookingSelectRemindMeBeforeEvent(
+                                  remindMeBefore: e,
+                                ),
+                              ),
+                    );
+                  },
+                ).toList(),
+              );
+            },
           );
         } else if (snapshot.hasError) {
           return const Center(
