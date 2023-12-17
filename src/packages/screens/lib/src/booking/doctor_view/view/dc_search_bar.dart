@@ -21,6 +21,7 @@ class _DCSearchBarState extends State<DCSearchBar> {
   // Debounce timer
   Timer? _debounce;
   final TextEditingController _controller = TextEditingController();
+  final FocusNode _focusNode = FocusNode();
   // Debound the textfield for debounceDuration before calling the API
   void _onChanged(String value) {
     if (_debounce?.isActive ?? false) {
@@ -36,7 +37,7 @@ class _DCSearchBarState extends State<DCSearchBar> {
             );
       } else {
         context.read<DoctorViewBloc>().add(
-              const DoctorViewInitialEvent(),
+              const DoctorViewStartSearchForNameEvent(),
             );
       }
     });
@@ -46,6 +47,7 @@ class _DCSearchBarState extends State<DCSearchBar> {
   void dispose() {
     _debounce?.cancel();
     _controller.dispose();
+    _focusNode.dispose();
     super.dispose();
   }
 
@@ -53,15 +55,20 @@ class _DCSearchBarState extends State<DCSearchBar> {
   Widget build(BuildContext context) {
     return TextFormField(
       onChanged: _onChanged,
-      onTap: () => context.read<DoctorViewBloc>().add(
+      focusNode: _focusNode,
+      onTap: () {
+        context.read<DoctorViewBloc>().add(
             const DoctorViewStartSearchForNameEvent(),
-          ),
+          );
+        _focusNode.requestFocus();
+      },
       onTapOutside: (event) {
         if (_controller.text.isEmpty) {
           context.read<DoctorViewBloc>().add(
                 const DoctorViewInitialEvent(),
               );
         }
+        _focusNode.unfocus();
       },
       controller: _controller,
       style: context.textTheme.bodyRegularPoppins.copyWith(
@@ -79,7 +86,12 @@ class _DCSearchBarState extends State<DCSearchBar> {
         suffixIcon: IconButton.filled(
           splashColor: Colors.white,
           highlightColor: Colors.white,
-          onPressed: _controller.clear,
+          onPressed: () {
+            _controller.clear();
+            context.read<DoctorViewBloc>().add(
+                  const DoctorViewStartSearchForNameEvent(),
+                );
+          },
           icon: const Icon(
             Icons.clear,
             color: Colors.black,
