@@ -131,16 +131,24 @@ class DCCalendarColumn extends StatelessWidget {
           style: context.textTheme.bodyRegularPoppins.copyWith(
             fontSize: 16,
             color: context.colorScheme.onSurface,
-            fontWeight: FontWeight.w700,
+            fontWeight: FontWeight.w600,
           ),
         ),
         const SizedBox(
           height: 10,
         ),
-        for (final date in dates) Padding(
-          padding: const EdgeInsets.only(bottom: 10),
-          child: DCCalendarButton(date: date),
-        ),
+        for (final date in dates)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 10),
+            child: DCCalendarButton(
+              date: date,
+              onPressed: (context) {},
+              available: date.isAfter(
+                    DateTime.now(),
+                  ) ||
+                  (date.isBefore(DateTime.now()) && date.day.isEven),
+            ),
+          ),
       ],
     );
   }
@@ -149,21 +157,33 @@ class DCCalendarColumn extends StatelessWidget {
 class DCCalendarButton extends StatelessWidget {
   const DCCalendarButton({
     required this.date,
+    required this.onPressed,
+    required this.available,
     super.key,
   });
 
   final DateTime date;
+  final bool available;
+  final void Function(BuildContext context) onPressed;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () => onPressed(context),
+      highlightColor: Colors.white,
+      splashColor: Colors.white,
       child: Container(
         width: 50,
         height: 50,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: context.colorScheme.secondary,
+          color: date.isBefore(DateTime.now())
+              ? available
+                  ? const Color(0xFFFFD8DF).withOpacity(0.4)
+                  : null
+              : available
+                  ? context.colorScheme.secondary
+                  : null,
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -172,7 +192,13 @@ class DCCalendarButton extends StatelessWidget {
               date.day.toString(),
               style: context.textTheme.bodyRegularPoppins.copyWith(
                 fontSize: 14,
-                color: context.colorScheme.onSurface,
+                color: date.isBefore(DateTime.now())
+                    ? available
+                        ? const Color(0xFFFF2D55).withOpacity(0.5)
+                        : context.colorScheme.onSurface.withOpacity(0.5)
+                    : date.month == DateTime.now().month
+                        ? context.colorScheme.onSurface
+                        : context.colorScheme.onSurface.withOpacity(0.5),
                 fontWeight: FontWeight.normal,
               ),
             ),

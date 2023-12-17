@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:screens/src/booking/booking_view/controller/booking_bloc.dart';
+import 'package:screens/src/booking/booking_view/dc_async_view.dart';
 import 'package:screens/src/booking/booking_view/dc_calendart.dart';
 import 'package:screens/src/booking/doctor_view/controller/doctor_view_bloc.dart';
 import 'package:screens/src/booking/doctor_view/view/dc_doctor_card.dart';
@@ -17,7 +18,6 @@ class DCBookingWithDoctorScreen extends StatefulWidget {
   State<DCBookingWithDoctorScreen> createState() =>
       _DCBookingWithDoctorScreenState();
 }
-
 
 String mapMonth(int month) {
   switch (month) {
@@ -62,8 +62,7 @@ class _DCBookingWithDoctorScreenState extends State<DCBookingWithDoctorScreen> {
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(
           horizontal: context.width * 0.03,
-        ).copyWith(
-          top: 10,
+          vertical: 10,
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -107,7 +106,85 @@ class _DCBookingWithDoctorScreenState extends State<DCBookingWithDoctorScreen> {
             const SizedBox(
               height: 10,
             ),
-            const DCCalendar()
+            const DCCalendar(),
+            const SizedBox(
+              height: 10,
+            ),
+            DCOutlinedTextFormField(
+              borderRadius: 20,
+              maxLines: 3,
+              hintText: 'Type your symptoms here',
+              keyboardType: TextInputType.text,
+              color: const Color(0xFF677294),
+              onChanged: (value, controller) {},
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Text(
+              'Available Time',
+              style: context.textTheme.bodyBoldPoppins.copyWith(
+                fontSize: 18,
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            DCAsyncView(
+              future: Future.delayed(
+                const Duration(seconds: 2),
+                () => [
+                  '10:00 AM',
+                  '10:30 AM',
+                  '11:00 AM',
+                  '11:30 AM',
+                ],
+              ),
+              type: DCAsyncViewType.availableTime,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Text(
+              'Remind Me Before',
+              style: context.textTheme.bodyBoldPoppins.copyWith(
+                fontSize: 18,
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            DCAsyncView(
+              future: Future.delayed(
+                const Duration(seconds: 2),
+                () => [
+                  '10 Mins',
+                  '20 Mins',
+                  '30 Mins',
+                  '40 Mins',
+                ],
+              ),
+              type: DCAsyncViewType.reminder,
+            ),
+            SizedBox(
+              height: context.height * 0.04,
+            ),
+            Align(
+              child: DCFilledButton(
+                onPressed: (context) {},
+                fixedSize: Size(
+                  context.width * 0.8,
+                  50,
+                ),
+                child: Text(
+                  'Continue',
+                  style: context.textTheme.bodyBoldPoppins.copyWith(
+                    fontSize: 18,
+                    color: context.colorScheme.onSurface,
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),
