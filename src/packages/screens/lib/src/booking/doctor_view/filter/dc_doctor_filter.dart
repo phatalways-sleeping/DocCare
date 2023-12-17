@@ -1,6 +1,8 @@
 import 'package:components/components.dart';
 import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:screens/src/booking/doctor_view/controller/doctor_view_bloc.dart';
 import 'package:screens/src/booking/doctor_view/filter/dc_filter_button.dart';
 
 const specialty = [
@@ -39,9 +41,12 @@ class _DCDoctorFilterScreenState extends State<DCDoctorFilterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const DCCustomerHeaderBar(
+      appBar: DCCustomerHeaderBar(
         title: 'Filter',
         allowNavigateBack: true,
+        onLeadingIconPressed: (context) => context.read<DoctorViewBloc>().add(
+              const DoctorViewInitialEvent(),
+            ),
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(
@@ -62,18 +67,27 @@ class _DCDoctorFilterScreenState extends State<DCDoctorFilterScreen> {
             const SizedBox(
               height: 10,
             ),
-            Wrap(
-              spacing: 10,
-              runSpacing: 10,
-              children: specialty
-                  .map(
-                    (e) => DCSpecialtyButton(
-                      specialty: e,
-                      isSelected: false,
-                      onPressed: (context) {},
-                    ),
-                  )
-                  .toList(),
+            BlocSelector<DoctorViewBloc, DoctorViewState, List<String>>(
+              selector: (state) => state.filteredSpecialties,
+              builder: (context, state) {
+                return Wrap(
+                  spacing: 10,
+                  runSpacing: 10,
+                  children: specialty
+                      .map(
+                        (e) => DCSpecialtyButton(
+                          specialty: e,
+                          isSelected: state.contains(e),
+                          onPressed: (context) => context
+                              .read<DoctorViewBloc>()
+                              .add(
+                                DoctorViewFilterSpecialtyEvent(specialty: e),
+                              ),
+                        ),
+                      )
+                      .toList(),
+                );
+              },
             ),
             const SizedBox(
               height: 20,
@@ -87,18 +101,26 @@ class _DCDoctorFilterScreenState extends State<DCDoctorFilterScreen> {
             const SizedBox(
               height: 10,
             ),
-            Wrap(
-              spacing: 10,
-              runSpacing: 10,
-              children: rating
-                  .map(
-                    (e) => DCRatingButton(
-                      rating: e,
-                      isSelected: false,
-                      onPressed: (context) {},
-                    ),
-                  )
-                  .toList(),
+            BlocSelector<DoctorViewBloc, DoctorViewState, List<String>>(
+              selector: (state) => state.filteredRating,
+              builder: (context, state) {
+                return Wrap(
+                  spacing: 10,
+                  runSpacing: 10,
+                  children: rating
+                      .map(
+                        (e) => DCRatingButton(
+                          rating: e,
+                          isSelected: state.contains(e),
+                          onPressed: (context) =>
+                              context.read<DoctorViewBloc>().add(
+                                    DoctorViewFilterRatingEvent(rating: e),
+                                  ),
+                        ),
+                      )
+                      .toList(),
+                );
+              },
             ),
           ],
         ),
@@ -106,18 +128,19 @@ class _DCDoctorFilterScreenState extends State<DCDoctorFilterScreen> {
       extendBody: true,
       bottomSheet: Container(
         decoration: BoxDecoration(
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.1),
-                blurRadius: 10,
-                offset: const Offset(0, -2),
-              ),
-            ],
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(16),
-              topRight: Radius.circular(16),
-            )),
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              blurRadius: 10,
+              offset: const Offset(0, -2),
+            ),
+          ],
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(16),
+            topRight: Radius.circular(16),
+          ),
+        ),
         padding: EdgeInsets.symmetric(
           horizontal: context.width * 0.03,
           vertical: context.height * 0.02,
@@ -126,7 +149,9 @@ class _DCDoctorFilterScreenState extends State<DCDoctorFilterScreen> {
           children: [
             Expanded(
               child: DCSpecialtyButton(
-                onPressed: (context) {},
+                onPressed: (context) => context.read<DoctorViewBloc>().add(
+                      const DoctorViewResetFiltersEvent(),
+                    ),
                 specialty: 'Reset',
                 isSelected: false,
               ),
@@ -136,7 +161,9 @@ class _DCDoctorFilterScreenState extends State<DCDoctorFilterScreen> {
             ),
             Expanded(
               child: DCSpecialtyButton(
-                onPressed: (context) {},
+                onPressed: (context) => context.read<DoctorViewBloc>().add(
+                      const DoctorViewInitialEvent(),
+                    ),
                 specialty: 'Apply',
                 isSelected: true,
               ),

@@ -1,7 +1,11 @@
+import 'dart:math';
+
 import 'package:components/components.dart';
 import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:screens/src/booking/doctor_view/controller/doctor_view_bloc.dart';
 import 'package:screens/src/booking/doctor_view/view/dc_doctor_card.dart';
 import 'package:screens/src/booking/doctor_view/view/dc_search_bar.dart';
 
@@ -48,6 +52,7 @@ class _DCDoctorViewScreenState extends State<DCDoctorViewScreen> {
       appBar: const DCCustomerHeaderBar(
         title: 'DocCare',
       ),
+      resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(
         controller: controller,
         padding: EdgeInsets.symmetric(
@@ -65,15 +70,30 @@ class _DCDoctorViewScreenState extends State<DCDoctorViewScreen> {
                     fontSize: 18,
                   ),
                 ),
-                Text(
-                  'Dentist',
-                  style: context.textTheme.bodyBoldPoppins.copyWith(
-                    fontSize: 18,
-                  ),
+                BlocSelector<DoctorViewBloc, DoctorViewState, List<String>>(
+                  selector: (state) => state.filteredSpecialties,
+                  builder: (context, state) {
+                    final specialties = state.join(', ').substring(
+                          0,
+                          min(
+                            state.join(', ').length,
+                            23,
+                          ),
+                        );
+                    final suffix = state.join(', ').length > 23 ? '...' : '';
+                    return Text(
+                      '$specialties' '$suffix',
+                      style: context.textTheme.bodyBoldPoppins.copyWith(
+                        fontSize: 18,
+                      ),
+                    );
+                  },
                 ),
                 const Spacer(),
                 IconButton.filled(
-                  onPressed: () {},
+                  onPressed: () => context.read<DoctorViewBloc>().add(
+                        const DoctorViewFilterEvent(),
+                      ),
                   padding: EdgeInsets.zero,
                   splashColor: Colors.white,
                   highlightColor: Colors.white,

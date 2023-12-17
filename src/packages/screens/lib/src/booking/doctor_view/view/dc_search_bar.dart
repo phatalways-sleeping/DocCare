@@ -1,8 +1,12 @@
+// ignore_for_file: public_member_api_docs
+
 import 'dart:async';
 
 import 'package:components/components.dart';
 import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:screens/src/booking/doctor_view/controller/doctor_view_bloc.dart';
 
 const debounceDuration = Duration(milliseconds: 1000);
 
@@ -23,12 +27,18 @@ class _DCSearchBarState extends State<DCSearchBar> {
       _debounce?.cancel();
     }
 
-    if (value.isEmpty) {
-      return;
-    }
-
     _debounce = Timer(debounceDuration, () {
-      print('Calling API with $value');
+      if (value.isNotEmpty) {
+        context.read<DoctorViewBloc>().add(
+              DoctorViewSearchForNameEvent(
+                searchedName: value,
+              ),
+            );
+      } else {
+        context.read<DoctorViewBloc>().add(
+              const DoctorViewInitialEvent(),
+            );
+      }
     });
   }
 
@@ -43,6 +53,16 @@ class _DCSearchBarState extends State<DCSearchBar> {
   Widget build(BuildContext context) {
     return TextFormField(
       onChanged: _onChanged,
+      onTap: () => context.read<DoctorViewBloc>().add(
+            const DoctorViewStartSearchForNameEvent(),
+          ),
+      onTapOutside: (event) {
+        if (_controller.text.isEmpty) {
+          context.read<DoctorViewBloc>().add(
+                const DoctorViewInitialEvent(),
+              );
+        }
+      },
       controller: _controller,
       style: context.textTheme.bodyRegularPoppins.copyWith(
         fontSize: 16,
