@@ -1,7 +1,7 @@
 /// Package for screens in this application
 library screens;
 
-export 'src/booking/doctor_view/dc_doctor_view_main_screen.dart';
+export 'src/booking/flows/dc_doctor_view_main_screen.dart';
 export 'src/change_password/dc_change_password_screen.dart';
 export 'src/profile/dc_profile.dart';
 export 'src/report/dc_admin_generate_report.dart';

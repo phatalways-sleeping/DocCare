@@ -54,6 +54,30 @@ final class DoctorViewInitial extends DoctorViewState {
   }
 }
 
+final class DoctorViewChooseDoctor extends DoctorViewState {
+  const DoctorViewChooseDoctor({
+    required this.doctor,
+  }) : super(filteredRating: const ['All'], filteredSpecialties: const ['All']);
+
+  final Map<String, dynamic> doctor;
+
+  @override
+  List<Object?> get props => [
+        ...super.props,
+      ];
+
+  @override
+  DoctorViewChooseDoctor copyWith({
+    List<String>? filteredSpecialties,
+    List<String>? filteredRating,
+    Map<String, dynamic>? doctor,
+  }) {
+    return DoctorViewChooseDoctor(
+      doctor: doctor ?? this.doctor,
+    );
+  }
+}
+
 final class DoctorViewFilter extends DoctorViewState {
   const DoctorViewFilter({
     super.filteredSpecialties = const ['All'],

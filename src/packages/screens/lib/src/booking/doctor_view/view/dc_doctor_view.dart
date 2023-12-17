@@ -142,6 +142,7 @@ class _DCDoctorViewScreenState extends State<DCDoctorViewScreen> {
                     () => List.generate(
                       10,
                       (index) => {
+                        'doctorId': index,
                         'name': 'Dr. John Doe',
                         'speciality': 'Dentist',
                         'rating': 4.5,
@@ -169,6 +170,12 @@ class _DCDoctorViewScreenState extends State<DCDoctorViewScreen> {
                               rating: data['rating'] as double,
                               ratingCount: data['ratingCount'] as int,
                               imgPath: data['imgPath'] as String,
+                              onPressed: (context) =>
+                                  context.read<DoctorViewBloc>().add(
+                                        DoctorViewChooseDoctorEvent(
+                                          doctor: data,
+                                        ),
+                                      ),
                             ),
                           );
                         },

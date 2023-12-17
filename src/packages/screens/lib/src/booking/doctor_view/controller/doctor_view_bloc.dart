@@ -17,6 +17,16 @@ class DoctorViewBloc extends Bloc<DoctorViewEvent, DoctorViewState> {
     on<DoctorViewFilterRatingEvent>(_onDoctorViewFilterRatingEvent);
     on<DoctorViewResetFiltersEvent>(_onDoctorViewResetFiltersEvent);
     on<DoctorViewApplyFiltersEvent>(_onDoctorViewApplyFiltersEvent);
+    on<DoctorViewChooseDoctorEvent>(_onDoctorViewChooseDoctorEvent);
+  }
+
+  void _onDoctorViewChooseDoctorEvent(
+    DoctorViewChooseDoctorEvent event,
+    Emitter<DoctorViewState> emit,
+  ) {
+    emit(
+      DoctorViewChooseDoctor(doctor: event.doctor),
+    );
   }
 
   void _onDoctorViewStartSearchForNameEvent(

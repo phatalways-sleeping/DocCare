@@ -1,3 +1,5 @@
+// ignore_for_file: public_member_api_docs
+
 import 'package:components/components.dart';
 import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
@@ -5,12 +7,13 @@ import 'package:screens/src/booking/doctor_view/view/dc_storage_image.dart';
 
 class DCDoctorCard extends StatelessWidget {
   const DCDoctorCard({
-    super.key,
     required this.imgPath,
     required this.name,
     required this.speciality,
     required this.rating,
     required this.ratingCount,
+    required this.onPressed,
+    super.key,
   });
 
   final String imgPath;
@@ -19,10 +22,12 @@ class DCDoctorCard extends StatelessWidget {
   final double rating;
   final int ratingCount;
 
+  final void Function(BuildContext context) onPressed;
+
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: () => onPressed(context),
       style: ButtonStyle(
         elevation: MaterialStateProperty.all<double>(2),
         fixedSize: MaterialStateProperty.all<Size>(

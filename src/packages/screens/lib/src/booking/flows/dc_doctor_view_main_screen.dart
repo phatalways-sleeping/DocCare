@@ -3,6 +3,8 @@
 import 'package:flow_builder/flow_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:screens/src/booking/booking_view/controller/booking_bloc.dart';
+import 'package:screens/src/booking/booking_view/dc_booking_with_doctor_screen.dart';
 import 'package:screens/src/booking/doctor_view/controller/doctor_view_bloc.dart';
 
 import 'package:screens/src/booking/doctor_view/filter/dc_doctor_filter.dart';
@@ -34,6 +36,15 @@ class _DCDoctorViewMainScreenState extends State<DCDoctorViewMainScreen> {
                 if (state is DoctorViewFilter)
                   const MaterialPage(
                     child: DCDoctorFilterScreen(),
+                  ),
+                if (state is DoctorViewChooseDoctor)
+                  MaterialPage(
+                    child: BlocProvider(
+                      create: (context) => BookingBloc(
+                        doctorData: state.doctor,
+                      ),
+                      child: const DCBookingWithDoctorScreen(),
+                    ),
                   ),
               ];
             },

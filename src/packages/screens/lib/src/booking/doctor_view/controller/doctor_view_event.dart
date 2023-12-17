@@ -68,3 +68,16 @@ final class DoctorViewResetFiltersEvent extends DoctorViewEvent {
 final class DoctorViewApplyFiltersEvent extends DoctorViewEvent {
   const DoctorViewApplyFiltersEvent();
 }
+
+final class DoctorViewChooseDoctorEvent extends DoctorViewEvent {
+  const DoctorViewChooseDoctorEvent({
+    required this.doctor,
+  });
+
+  final Map<String, dynamic> doctor;
+
+  @override
+  List<Object?> get props => [
+        doctor,
+      ];
+}
