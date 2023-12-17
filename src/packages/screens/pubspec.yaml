@@ -37,6 +37,7 @@ dependencies:
   utility:
     path: ../utility
   flutter_svg: ^2.0.9
+  flow_builder: ^0.0.10
 
 dev_dependencies:
   flutter_test:
