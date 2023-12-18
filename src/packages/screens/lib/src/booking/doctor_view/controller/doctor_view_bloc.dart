@@ -110,29 +110,17 @@ class DoctorViewBloc extends Bloc<DoctorViewEvent, DoctorViewState> {
     DoctorViewFilterRatingEvent event,
     Emitter<DoctorViewState> emit,
   ) {
-    if (event.rating == 'All') {
+    if (event.rating == state.filteredRating) {
       emit(
         state.copyWith(
-          filteredRating: const ['All'],
+          filteredRating: 'All',
         ),
       );
       return;
     }
-    final currentRating = [...state.filteredRating];
-    if (currentRating.contains('All')) {
-      currentRating.remove('All');
-    }
-    if (currentRating.contains(event.rating)) {
-      currentRating.remove(event.rating);
-      if (currentRating.isEmpty) {
-        currentRating.add('All');
-      }
-    } else {
-      currentRating.add(event.rating);
-    }
     emit(
       state.copyWith(
-        filteredRating: currentRating,
+        filteredRating: event.rating,
       ),
     );
   }
@@ -144,7 +132,7 @@ class DoctorViewBloc extends Bloc<DoctorViewEvent, DoctorViewState> {
     emit(
       state.copyWith(
         filteredSpecialties: const ['All'],
-        filteredRating: const ['All'],
+        filteredRating: 'All',
       ),
     );
   }

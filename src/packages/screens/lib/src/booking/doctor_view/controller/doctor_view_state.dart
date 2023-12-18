@@ -10,7 +10,7 @@ sealed class DoctorViewState extends Equatable {
   });
 
   final List<String> filteredSpecialties;
-  final List<String> filteredRating;
+  final String filteredRating;
 
   @override
   List<Object?> get props => [
@@ -20,14 +20,14 @@ sealed class DoctorViewState extends Equatable {
 
   DoctorViewState copyWith({
     List<String>? filteredSpecialties,
-    List<String>? filteredRating,
+    String? filteredRating,
   });
 }
 
 final class DoctorViewInitial extends DoctorViewState {
   const DoctorViewInitial({
     super.filteredSpecialties = const ['All'],
-    super.filteredRating = const ['All'],
+    super.filteredRating = 'All',
   });
 
   factory DoctorViewInitial.fromState({
@@ -37,15 +37,14 @@ final class DoctorViewInitial extends DoctorViewState {
       filteredSpecialties: state.filteredSpecialties.isEmpty
           ? const ['All']
           : state.filteredSpecialties,
-      filteredRating:
-          state.filteredRating.isEmpty ? const ['All'] : state.filteredRating,
+      filteredRating: state.filteredRating,
     );
   }
 
   @override
   DoctorViewInitial copyWith({
     List<String>? filteredSpecialties,
-    List<String>? filteredRating,
+    String? filteredRating,
   }) {
     return DoctorViewInitial(
       filteredSpecialties: filteredSpecialties ?? this.filteredSpecialties,
@@ -57,7 +56,10 @@ final class DoctorViewInitial extends DoctorViewState {
 final class DoctorViewChooseDoctor extends DoctorViewState {
   const DoctorViewChooseDoctor({
     required this.doctor,
-  }) : super(filteredRating: const ['All'], filteredSpecialties: const ['All']);
+  }) : super(
+          filteredRating: 'All',
+          filteredSpecialties: const ['All'],
+        );
 
   final Map<String, dynamic> doctor;
 
@@ -69,7 +71,7 @@ final class DoctorViewChooseDoctor extends DoctorViewState {
   @override
   DoctorViewChooseDoctor copyWith({
     List<String>? filteredSpecialties,
-    List<String>? filteredRating,
+    String? filteredRating,
     Map<String, dynamic>? doctor,
   }) {
     return DoctorViewChooseDoctor(
@@ -81,7 +83,7 @@ final class DoctorViewChooseDoctor extends DoctorViewState {
 final class DoctorViewFilter extends DoctorViewState {
   const DoctorViewFilter({
     super.filteredSpecialties = const ['All'],
-    super.filteredRating = const ['All'],
+    super.filteredRating = 'All',
   });
 
   factory DoctorViewFilter.fromState({
@@ -96,7 +98,7 @@ final class DoctorViewFilter extends DoctorViewState {
   @override
   DoctorViewFilter copyWith({
     List<String>? filteredSpecialties,
-    List<String>? filteredRating,
+    String? filteredRating,
   }) {
     return DoctorViewFilter(
       filteredSpecialties: filteredSpecialties ?? this.filteredSpecialties,
@@ -133,7 +135,7 @@ final class DoctorViewSearchForName extends DoctorViewState {
   @override
   DoctorViewSearchForName copyWith({
     List<String>? filteredSpecialties,
-    List<String>? filteredRating,
+    String? filteredRating,
     String? searchedName,
   }) {
     return DoctorViewSearchForName(
@@ -148,7 +150,7 @@ final class DoctorViewLoading extends DoctorViewState {
   const DoctorViewLoading({
     required this.searchedName,
     super.filteredSpecialties = const [],
-    super.filteredRating = const [],
+    super.filteredRating = 'All',
   });
 
   factory DoctorViewLoading.fromState({
@@ -167,7 +169,7 @@ final class DoctorViewLoading extends DoctorViewState {
   @override
   DoctorViewLoading copyWith({
     List<String>? filteredSpecialties,
-    List<String>? filteredRating,
+    String? filteredRating,
     String? searchedName,
   }) {
     return DoctorViewLoading(
@@ -183,7 +185,7 @@ final class DoctorViewError extends DoctorViewState {
     required this.searchedName,
     required this.error,
     super.filteredSpecialties = const [],
-    super.filteredRating = const [],
+    super.filteredRating = 'All',
   });
 
   final String searchedName;
@@ -199,7 +201,7 @@ final class DoctorViewError extends DoctorViewState {
   @override
   DoctorViewError copyWith({
     List<String>? filteredSpecialties,
-    List<String>? filteredRating,
+    String? filteredRating,
     String? searchedName,
     String? error,
   }) {

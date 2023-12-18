@@ -101,7 +101,7 @@ class _DCDoctorFilterScreenState extends State<DCDoctorFilterScreen> {
             const SizedBox(
               height: 10,
             ),
-            BlocSelector<DoctorViewBloc, DoctorViewState, List<String>>(
+            BlocSelector<DoctorViewBloc, DoctorViewState, String>(
               selector: (state) => state.filteredRating,
               builder: (context, state) {
                 return Wrap(
@@ -111,7 +111,7 @@ class _DCDoctorFilterScreenState extends State<DCDoctorFilterScreen> {
                       .map(
                         (e) => DCRatingButton(
                           rating: e,
-                          isSelected: state.contains(e),
+                          isSelected: state == e,
                           onPressed: (context) =>
                               context.read<DoctorViewBloc>().add(
                                     DoctorViewFilterRatingEvent(rating: e),
