@@ -11,7 +11,12 @@ import 'package:screens/src/booking/doctor_view/filter/dc_doctor_filter.dart';
 import 'package:screens/src/booking/doctor_view/view/dc_doctor_view.dart';
 
 class DCDoctorViewMainScreen extends StatefulWidget {
-  const DCDoctorViewMainScreen({super.key});
+  const DCDoctorViewMainScreen({
+    super.key,
+    this.inCustomerView = true,
+  });
+
+  final bool inCustomerView;
 
   @override
   State<DCDoctorViewMainScreen> createState() => _DCDoctorViewMainScreenState();
@@ -43,7 +48,9 @@ class _DCDoctorViewMainScreenState extends State<DCDoctorViewMainScreen> {
                       create: (context) => BookingBloc(
                         doctorData: state.doctor,
                       ),
-                      child: const DCBookingWithDoctorScreen(),
+                      child: DCBookingWithDoctorScreen(
+                        inCustomerView: widget.inCustomerView,
+                      ),
                     ),
                   ),
               ];

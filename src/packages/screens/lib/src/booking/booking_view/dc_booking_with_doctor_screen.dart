@@ -15,7 +15,14 @@ import 'package:screens/src/booking/doctor_view/controller/doctor_view_bloc.dart
 import 'package:screens/src/booking/doctor_view/view/dc_doctor_card.dart';
 
 class DCBookingWithDoctorScreen extends StatefulWidget {
-  const DCBookingWithDoctorScreen({super.key});
+  const DCBookingWithDoctorScreen({
+    super.key,
+    this.inCustomerView = true,
+  });
+
+  /// If [inCustomerView] is true, the screen will be shown in the customer view
+  /// else it will be shown in the receptionist view
+  final bool inCustomerView;
 
   @override
   State<DCBookingWithDoctorScreen> createState() =>
@@ -230,30 +237,32 @@ class _DCBookingWithDoctorScreenState extends State<DCBookingWithDoctorScreen> {
                         ),
                         type: DCAsyncViewType.availableTime,
                       ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        'Remind Me Before',
-                        style: context.textTheme.bodyBoldPoppins.copyWith(
-                          fontSize: 18,
+                      if (widget.inCustomerView) ...[
+                        const SizedBox(
+                          height: 10,
                         ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      DCAsyncView(
-                        future: Future.delayed(
-                          const Duration(seconds: 2),
-                          () => [
-                            '10 Mins',
-                            '20 Mins',
-                            '30 Mins',
-                            '40 Mins',
-                          ],
+                        Text(
+                          'Remind Me Before',
+                          style: context.textTheme.bodyBoldPoppins.copyWith(
+                            fontSize: 18,
+                          ),
                         ),
-                        type: DCAsyncViewType.reminder,
-                      ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        DCAsyncView(
+                          future: Future.delayed(
+                            const Duration(seconds: 2),
+                            () => [
+                              '10 Mins',
+                              '20 Mins',
+                              '30 Mins',
+                              '40 Mins',
+                            ],
+                          ),
+                          type: DCAsyncViewType.reminder,
+                        ),
+                      ],
                       SizedBox(
                         height: context.height * 0.04,
                       ),
