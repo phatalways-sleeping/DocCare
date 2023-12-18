@@ -9,6 +9,7 @@ final class SlideAnimatedBox extends AnimatedBox {
     required this.begin,
     required this.end,
     super.duration = const Duration(milliseconds: 1000),
+    this.repeat = false,
     super.curve = Curves.decelerate,
     this.textDirection,
     super.key,
@@ -22,6 +23,9 @@ final class SlideAnimatedBox extends AnimatedBox {
 
   /// {@macro textDirection}
   final TextDirection? textDirection;
+
+  /// {@macro repeat}
+  final bool repeat;
 
   @override
   State<SlideAnimatedBox> createState() => _SlideAnimatedBoxState();
@@ -46,7 +50,13 @@ class _SlideAnimatedBoxState extends State<SlideAnimatedBox>
 
   @override
   void initState() {
-    parentController.forward();
+    if (widget.repeat) {
+      parentController.repeat(
+        reverse: true,
+      );
+    } else {
+      parentController.forward();
+    }
     super.initState();
   }
 
