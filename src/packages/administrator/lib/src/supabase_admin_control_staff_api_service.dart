@@ -17,6 +17,15 @@ class SupabaseAdminControlStaffApiService
   /// [supabase] is the instance of [SupabaseClient]
   final SupabaseClient supabase;
   var uuid = Uuid();
+  List<String> daysOfWeek = [
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+    'Sunday',
+  ];
 
   /// [errorHandler] is the concrete implementation
   /// of [AuthEmailApiErrorHandler]
@@ -63,15 +72,19 @@ class SupabaseAdminControlStaffApiService
         );
       }
       for (var entry in dayOfWeek.entries) {
-        // entry.key is the dayofweek
-        // entry.value[0] is the endperiodid
-        // entry.value[1] is the startperiodid
-        await supabase.rpc('sp_add_working_shift', params: {
-          'dayofweek': entry.key,
-          'doctorid': doctorID,
-          'endperiodid': entry.value[0],
-          'startperiodid': entry.value[1],
-        });
+        if (daysOfWeek.contains(entry.key) &&
+            entry.value[0] > 0 &&
+            entry.value[1] > 1) {
+          // entry.key is the dayofweek
+          // entry.value[0] is the endperiodid
+          // entry.value[1] is the startperiodid
+          await supabase.rpc('sp_add_working_shift', params: {
+            'dayofweek': entry.key,
+            'doctorid': doctorID,
+            'endperiodid': entry.value[0],
+            'startperiodid': entry.value[1],
+          });
+        }
       }
     } on AuthException catch (e) {
       throw Exception(e);
