@@ -67,45 +67,43 @@ class DCDoctorCard extends StatelessWidget {
           const SizedBox(
             width: 10,
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Text(
-                'Dr. John Doe',
-                style: context.textTheme.bodyBoldPoppins.copyWith(
-                  fontSize: 18,
-                  color: Colors.black,
-                ),
-              ),
-              Text(
-                'Dentist',
-                style: context.textTheme.bodyRegularPoppins.copyWith(
-                  fontSize: 16,
-                  color: Colors.black,
-                ),
-              ),
-              Row(
-                children: [
-                  for (int i = 1; i <= 5; i++)
-                    if (i < rating)
-                      Icon(
-                        Icons.star,
-                        size: context.width * 0.04,
-                        color: Colors.yellow,
-                      )
-                    else
-                      Icon(
-                        Icons.star,
-                        size: context.width * 0.04,
-                        color: Colors.grey,
-                      ),
-                  const SizedBox(
-                    width: 10,
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Text(
+                  'Dr. John Doe',
+                  style: context.textTheme.bodyBoldPoppins.copyWith(
+                    fontSize: 18,
+                    color: Colors.black,
                   ),
-                  Align(
-                    alignment: Alignment.bottomRight,
-                    child: Text(
+                ),
+                Text(
+                  'Dentist',
+                  style: context.textTheme.bodyRegularPoppins.copyWith(
+                    fontSize: 16,
+                    color: Colors.black,
+                  ),
+                ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    for (int i = 1; i <= 5; i++)
+                      if (i < rating)
+                        Icon(
+                          Icons.star,
+                          size: context.width * 0.04,
+                          color: Colors.yellow,
+                        )
+                      else
+                        Icon(
+                          Icons.star,
+                          size: context.width * 0.04,
+                          color: Colors.grey,
+                        ),
+                    const Spacer(),
+                    Text(
                       '$rating',
                       style: context.textTheme.bodyRegularPoppins.copyWith(
                         fontSize: 16,
@@ -113,24 +111,21 @@ class DCDoctorCard extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                  ),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  Align(
-                    alignment: Alignment.bottomRight,
-                    child: Text(
-                      '($ratingCount ratings)',
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    Text(
+                      '($ratingCount reviews)',
                       style: context.textTheme.bodyRegularPoppins.copyWith(
                         fontSize: 14,
                         color: Colors.black,
                         fontWeight: FontWeight.w300,
                       ),
                     ),
-                  ),
-                ],
-              )
-            ],
+                  ],
+                )
+              ],
+            ),
           ),
         ],
       ),

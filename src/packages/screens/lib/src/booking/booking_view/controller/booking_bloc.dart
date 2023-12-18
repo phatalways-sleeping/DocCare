@@ -21,6 +21,18 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     on<BookingSelectRemindMeBeforeEvent>(_onBookingSelectRemindMeBeforeEvent);
     on<BookingEnterSymptomEvent>(_onBookingEnterSymptomEvent);
     on<BookingConfirmEvent>(_onBookingConfirmEvent);
+    on<BookingResetEvent>(_onBookingResetEvent);
+  }
+
+  void _onBookingResetEvent(
+    BookingResetEvent event,
+    Emitter<BookingState> emit,
+  ) {
+    emit(
+      BookingInitial.fromState(
+        state: state,
+      ),
+    );
   }
 
   Future<void> _onBookingConfirmEvent(
@@ -52,7 +64,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
               'rating': 4.5,
               'ratingCount': 100,
             }
-          : oldDoctorData;
+          : <String, dynamic>{};
       emit(
         BookingSuccess(
           doctorData: doctorData,

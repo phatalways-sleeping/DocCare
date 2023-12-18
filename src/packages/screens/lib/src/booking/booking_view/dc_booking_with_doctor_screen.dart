@@ -10,6 +10,7 @@ import 'package:screens/src/booking/booking_view/dc_calendart.dart';
 import 'package:screens/src/booking/booking_view/dc_loading_view.dart';
 import 'package:screens/src/booking/booking_view/dc_speciality_button.dart';
 import 'package:screens/src/booking/booking_view/show_appointment_confirm.dart';
+import 'package:screens/src/booking/booking_view/show_result_dialog.dart';
 import 'package:screens/src/booking/doctor_view/controller/doctor_view_bloc.dart';
 import 'package:screens/src/booking/doctor_view/view/dc_doctor_card.dart';
 
@@ -71,108 +72,40 @@ class _DCBookingWithDoctorScreenState extends State<DCBookingWithDoctorScreen> {
                           ),
                 ),
       body: BlocConsumer<BookingBloc, BookingState>(
-        listener: (context, state) {
-          if (state is BookingLoadingRequest) {}
+        listener: (context, state) async {
+          if (state is BookingFailure) {
+            await showFailedDialog(context: context).then(
+              (value) =>
+                  context.read<BookingBloc>().add(const BookingResetEvent()),
+            );
+          } else if (state is BookingSuccess) {
+            if (state.doctorData.isNotEmpty) {
+              await showSuccessfulWithDoctorDialog(
+                context: context,
+                doctorData: state.doctorData,
+                dateSelected: state.dateSelected!,
+                timeSelected: state.timeSelected!,
+              ).then(
+                (value) => context.read<DoctorViewBloc>().add(
+                      const DoctorViewInitialEvent(),
+                    ),
+              );
+            } else {
+              await showSuccessfulDialog(
+                context: context,
+                dateSelected: state.dateSelected!,
+                timeSelected: state.timeSelected!,
+              ).then(
+                (value) => context.read<DoctorViewBloc>().add(
+                      const DoctorViewInitialEvent(),
+                    ),
+              );
+            }
+          }
         },
         builder: (context, state) {
           if (state is BookingSuccess) {
-            final doctorData = state.doctorData;
-            return SafeArea(
-              child: SingleChildScrollView(
-                padding: EdgeInsets.symmetric(
-                  horizontal: context.width * 0.03,
-                  vertical: 10,
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    if (doctorData.isNotEmpty)
-                      DCDoctorCard(
-                        imgPath: doctorData['imgPath'] as String,
-                        name: doctorData['name'] as String,
-                        speciality: doctorData['speciality'] as String,
-                        rating: doctorData['rating'] as double,
-                        ratingCount: doctorData['ratingCount'] as int,
-                        onPressed: (context) {},
-                      ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      'Booking successful!',
-                      style: context.textTheme.h3BoldPoppins.copyWith(
-                        fontSize: 18,
-                        color: context.colorScheme.tertiary,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      'Your appointment has been booked successfully.',
-                      style: context.textTheme.bodyRegularPoppins.copyWith(
-                        fontSize: 16,
-                      ),
-                      textAlign: TextAlign.justify,
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      'Your section shall start at ${state.timeSelected} on ${state.dateSelected!.year}/${state.dateSelected!.month}/${state.dateSelected!.day}.',
-                      style: context.textTheme.bodyRegularPoppins.copyWith(
-                        fontSize: 16,
-                      ),
-                      textAlign: TextAlign.justify,
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      'Please come to the clinic on time. If you have any questions, please contact us at +84 123 456 789.',
-                      style: context.textTheme.bodyRegularPoppins.copyWith(
-                        fontSize: 16,
-                      ),
-                      textAlign: TextAlign.justify,
-                    ),
-                    SizedBox(
-                      height: context.height * 0.04,
-                    ),
-                    DCFilledButton(
-                      onPressed: (context) {
-                        if (context
-                            .read<BookingBloc>()
-                            .state
-                            .doctorData
-                            .keys
-                            .isEmpty) {
-                          // Later, this will be changed to navigate to home screen
-                          context.read<DoctorViewBloc>().add(
-                                const DoctorViewInitialEvent(),
-                              );
-                        } else {
-                          context.read<DoctorViewBloc>().add(
-                                const DoctorViewInitialEvent(),
-                              );
-                        }
-                      },
-                      backgroundColor: context.colorScheme.primary,
-                      fixedSize: Size(
-                        context.width * 0.8,
-                        50,
-                      ),
-                      child: Text(
-                        'Come back to home',
-                        style: context.textTheme.bodyBoldPoppins.copyWith(
-                          fontSize: 18,
-                          color: context.colorScheme.tertiary,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            );
+            return const SizedBox.shrink();
           }
           return Stack(
             children: [

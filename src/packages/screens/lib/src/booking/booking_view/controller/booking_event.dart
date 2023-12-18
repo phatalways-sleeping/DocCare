@@ -78,3 +78,7 @@ final class BookingEnterSymptomEvent extends BookingEvent {
 final class BookingConfirmEvent extends BookingEvent {
   const BookingConfirmEvent();
 }
+
+final class BookingResetEvent extends BookingEvent {
+  const BookingResetEvent();
+}
