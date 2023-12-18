@@ -23,8 +23,8 @@ class DCAdminHeaderBar extends StatefulWidget implements PreferredSizeWidget {
   final bool allowNavigationBack;
   final bool haveNotification;
   final double cornerRadius;
-  final void Function()? onLeadingIconPressed;
-  final void Function()? onActionsIconPressed;
+  final void Function(BuildContext context)? onLeadingIconPressed;
+  final void Function(BuildContext context)? onActionsIconPressed;
   final Color? backgroundColor;
 
   @override
@@ -71,7 +71,7 @@ class _DCAdminHeaderBarState extends State<DCAdminHeaderBar> {
                     ),
                   ),
                   onPressed: () {
-                    widget.onLeadingIconPressed?.call();
+                    widget.onLeadingIconPressed?.call(context);
                   },
                 )
               : null,
@@ -88,7 +88,7 @@ class _DCAdminHeaderBarState extends State<DCAdminHeaderBar> {
               ),
             ),
             onPressed: () {
-              widget.onActionsIconPressed?.call();
+              widget.onActionsIconPressed?.call(context);
             },
           ),
       ],
