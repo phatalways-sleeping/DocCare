@@ -109,9 +109,7 @@ final class CreateStaffInitial extends CreateStaffState {
           startWorkingFrom: 1,
           rating: 0.0,
           numberOfRates: 0,
-          dayOfWeek: {
-            'first': [1, 2]
-          },
+          dayOfWeek: {},
           specializationList: [],
         );
 
@@ -208,9 +206,7 @@ final class CreateStaffLater extends CreateStaffState {
           startWorkingFrom: 1,
           rating: 0.0,
           numberOfRates: 0,
-          dayOfWeek: {
-            'first': [1, 2]
-          },
+          dayOfWeek: {},
           specializationList: [],
         );
 
@@ -292,9 +288,7 @@ final class CreateStaffLoading extends CreateStaffState {
           startWorkingFrom: 1,
           rating: 0.0,
           numberOfRates: 0,
-          dayOfWeek: {
-            'first': [1, 2]
-          },
+          dayOfWeek: {},
           specializationList: [],
         );
   const CreateStaffLoading({

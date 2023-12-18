@@ -117,8 +117,8 @@ final class NextButtonPressedEvent extends CreateStaffEvent {
   const NextButtonPressedEvent();
 }
 
-final class NextButton1PressedEvent extends CreateStaffEvent {
-  const NextButton1PressedEvent();
+final class BackButtonPressedEvent extends CreateStaffEvent {
+  const BackButtonPressedEvent();
 }
 
 final class AddMoreButtonPressedEvent extends CreateStaffEvent {

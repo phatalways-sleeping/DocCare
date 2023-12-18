@@ -35,12 +35,12 @@ class CreateStaffBloc extends Bloc<CreateStaffEvent, CreateStaffState> {
     on<NumberOfRatesInputEvent>(_onNumberOfRatesInputEvent);
     on<DayOfWeekInputEvent>(_onDayOfWeekInputEvent);
     on<NextButtonPressedEvent>(_onNextButtonPressedEvent);
-    on<NextButton1PressedEvent>(_onNextButton1PressedEvent);
     on<AddMoreButtonPressedEvent>(_onAddMoreButtonPressedEvent);
     on<CreateStaffButtonPressedEvent>(_onCreateStaffButtonPressedEvent);
     on<ValidateBirthdayInputEvent>(_validateBirthdayInputEvent);
     on<WorkingShiftInputEvent>(_onWorkingShiftInputEvent);
     on<LoadingInitialStuffEvent>(_onLoadingInitialStuffEvent);
+    on<BackButtonPressedEvent>(_onBackButtonPressedEvent);
   }
 
   final NotificationManagerService _notificationManagerService;
@@ -95,6 +95,13 @@ class CreateStaffBloc extends Bloc<CreateStaffEvent, CreateStaffState> {
         state.copyWith(specializationList: specializationList),
       ),
     );
+  }
+
+  void _onBackButtonPressedEvent(
+    BackButtonPressedEvent event,
+    Emitter<CreateStaffState> emit,
+  ) {
+    emit(CreateStaffInitial.from(state));
   }
 
   void _validateBirthdayInputEvent(
@@ -206,20 +213,55 @@ class CreateStaffBloc extends Bloc<CreateStaffEvent, CreateStaffState> {
   void _onNextButtonPressedEvent(
     NextButtonPressedEvent event,
     Emitter<CreateStaffState> emit,
-  ) {
+  ) async {
+    // final check = FormValidator.validateDate(state.tempBirthday).isValid;
+    // if (state.fullName.isEmpty ||
+    //     state.password.isEmpty ||
+    //     state.email.isEmpty ||
+    //     state.phone.isEmpty) {
+    //   await _notificationManagerService.show<void>(
+    //     NotificationType.adminCreateStaff,
+    //     title: const Text(
+    //       'Something went wrong',
+    //       style: TextStyle(
+    //         fontSize: 16,
+    //       ),
+    //     ),
+    //     message: const Text(
+    //       'Please fill all the fields',
+    //       style: TextStyle(
+    //         fontSize: 16,
+    //       ),
+    //     ),
+    //   );
+
+    //   return;
+    // }
+    // if (!check) {
+    //   await _notificationManagerService
+    //       .show<void>(
+    //         NotificationType.adminCreateStaff,
+    //         title: const Text(
+    //           'Something went wrong',
+    //           style: TextStyle(
+    //             fontSize: 16,
+    //           ),
+    //         ),
+    //         message: const Text(
+    //           'Please enter a valid date with valid format (dd/mm/yyyy)',
+    //           style: TextStyle(
+    //             fontSize: 13,
+    //           ),
+    //         ),
+    //       )
+    //       .then(
+    //         (value) =>
+    //             emit((state as CreateStaffLoading).toggleBackToInitial()),
+    //       );
+    //   return;
+    // }
     emit(CreateStaffLater.from(state));
     // Login with Google
-    try {} on AuthException catch (_) {}
-  }
-
-  void _onNextButton1PressedEvent(
-    NextButton1PressedEvent event,
-    Emitter<CreateStaffState> emit,
-  ) {
-    // Emit loading state
-    emit(CreateStaffLoading.from(state));
-
-    // Navigate to Sum-up Screen
     try {} on AuthException catch (_) {}
   }
 
@@ -247,7 +289,7 @@ class CreateStaffBloc extends Bloc<CreateStaffEvent, CreateStaffState> {
             state.email.isEmpty ||
             state.phone.isEmpty) {
           await _notificationManagerService.show<void>(
-            NotificationType.signUp,
+            NotificationType.adminCreateStaff,
             title: const Text(
               'Something went wrong',
               style: TextStyle(
@@ -262,6 +304,7 @@ class CreateStaffBloc extends Bloc<CreateStaffEvent, CreateStaffState> {
             ),
           );
 
+          emit(CreateStaffInitial.from(state));
           return;
         }
 
@@ -287,7 +330,7 @@ class CreateStaffBloc extends Bloc<CreateStaffEvent, CreateStaffState> {
             state.dayOfWeek.isEmpty ||
             state.specializationId.isEmpty) {
           await _notificationManagerService.show<void>(
-            NotificationType.signUp,
+            NotificationType.adminCreateStaff,
             title: const Text(
               'Something went wrong',
               style: TextStyle(
@@ -302,6 +345,7 @@ class CreateStaffBloc extends Bloc<CreateStaffEvent, CreateStaffState> {
             ),
           );
 
+          emit(CreateStaffInitial.from(state));
           return;
         }
 
