@@ -1,4 +1,6 @@
-// ignore_for_file: public_member_api_docs
+// ignore_for_file: public_member_api_docs, lines_longer_than_80_chars
+
+import 'dart:ffi';
 
 import 'package:administrator/administrator.dart';
 import 'package:components/components.dart';
@@ -42,7 +44,7 @@ class _DCRemoveStaffScreenState extends State<DCRemoveStaffScreen> {
     return DCAdminHeaderBar(
       headerBarTitle: 'Remove staff',
       allowNavigationBack: true,
-      onLeadingIconPressed: () {
+      onLeadingIconPressed: (context) {
         Navigator.pop(context);
       },
     );
@@ -58,9 +60,11 @@ class Body extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<RemoveStaffBloc, RemoveStaffState>(
       builder: (context, state) {
-        if (state is RemoveStaffInitial) {
-          return BodyScreen(state: state);
+        if (state is RemoveStaffLoading) {
+          BlocProvider.of<RemoveStaffBloc>(context)
+              .add(const RemoveStaffLoadingEvent());
         }
+        if (state is RemoveStaffInitial) return BodyScreen(state: state);
         return const Text('Delete role successful');
       },
     );
@@ -73,53 +77,119 @@ class BodyScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<String> emails = (state.role == 'Doctor')
+        ? state.allDoctorEmail
+        : state.allReceptionistEmail;
     return Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        // child: BlocBuilder<CreateStaffBloc, CreateStaffState>(
-        //   builder: (context, state) {
-        child: Column(
-          children: [
-            const Text(
-              'Delete Account',
-              textScaler: TextScaler.linear(2.0),
-            ),
-            const SizedBox(height: 16),
-            DCAdminToggleButton(
-              elements: ['Doctor', 'Receptionist'],
-              selectedElements: [true, false].toList(),
-              title: 'Role',
-              onChanged: (context, controller) => {
-                context
-                    .read<RemoveStaffBloc>()
-                    .add(RoleInputEvent(controller.text)),
-              },
-            ),
-            const SizedBox(height: 16),
-            DCOutlinedWithHeadingTextFormField(
-              heading: const Text('Email'),
-              headingColor: context.colorScheme.onSurface,
-              borderColor: context.colorScheme.onBackground,
-              color: context.colorScheme.onBackground,
-              borderRadius: 16,
-              keyboardType: TextInputType.emailAddress,
-              onChanged: (context, controller) => context
-                  .read<RemoveStaffBloc>()
-                  .add(EmailInputEvent(controller.text)),
-            ),
-            const SizedBox(height: 16),
-            InkWell(
-              child: Center(
-                child: DCButton(
-                  text: 'Submit',
-                  onPressed: (context) => context.read<RemoveStaffBloc>().add(
-                        const RemoveStaffButtonPressedEvent(),
-                      ),
-                ),
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      // child: BlocBuilder<CreateStaffBloc, CreateStaffState>(
+      //   builder: (context, state) {
+      child: Column(
+        children: [
+          const Text(
+            'Select role',
+            textScaler: TextScaler.linear(1.5),
+          ),
+          DropdownMenu<String>(
+            onSelected: (value) {
+              context.read<RemoveStaffBloc>().add(RoleInputEvent(value!));
+            },
+            initialSelection: state.role,
+            dropdownMenuEntries: const [
+              DropdownMenuEntry<String>(value: 'Doctor', label: 'Doctor'),
+              DropdownMenuEntry<String>(
+                value: 'Receptionist',
+                label: 'Receptionist',
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          DCOutlinedWithHeadingTextFormField(
+            heading: const Text('Email'),
+            headingColor: context.colorScheme.onSurface,
+            borderColor: context.colorScheme.onBackground,
+            color: context.colorScheme.onBackground,
+            borderRadius: 16,
+            keyboardType: TextInputType.emailAddress,
+            onChanged: (context, controller) => context
+                .read<RemoveStaffBloc>()
+                .add(EmailInputEvent(controller.text)),
+          ),
+
+          //Create a list of email here
+          Column(
+            children: emails
+                .where((email) => email.contains(state.email))
+                .take(10)
+                .map(
+                  (email) => DCSelectableButton(
+                    text: email,
+                    onClick: () => {
+                      context
+                          .read<RemoveStaffBloc>()
+                          .add(SelectEmailEvent(email)),
+                    },
+                  ),
+                )
+                .toList(),
+          ),
+
+          const SizedBox(height: 16),
+          InkWell(
+            child: Center(
+              child: DCButton(
+                backgroundColor: Colors.red[500],
+                widthFactor: 0.9,
+                text: 'Delete',
+                onPressed: (context) => context.read<RemoveStaffBloc>().add(
+                      const RemoveStaffButtonPressedEvent(),
+                    ),
               ),
             ),
-          ],
-        )
-        // ),
+          ),
+        ],
+      ),
+      // ),
+    );
+  }
+}
+
+class DCSelectableButton extends StatelessWidget {
+  final String text;
+  final Function() onClick;
+
+  DCSelectableButton({
+    required this.text,
+    required this.onClick,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<RemoveStaffBloc, RemoveStaffState>(
+      builder: (context, state) {
+        var isSelected = state.selectedEmails.contains(text);
+
+        return InkWell(
+          onTap: onClick,
+          child: Container(
+            width: 300,
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            decoration: BoxDecoration(
+              color: isSelected ? Colors.blue : null,
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(
+                color: Colors.blue,
+              ),
+            ),
+            child: Text(
+              text,
+              style: TextStyle(
+                color: isSelected ? Colors.white : Colors.blue,
+              ),
+            ),
+          ),
         );
+      },
+    );
   }
 }
