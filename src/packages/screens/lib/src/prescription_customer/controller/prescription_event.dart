@@ -42,10 +42,10 @@ final class MedicineBackEvent extends PrescriptionEvent {
 }
 
 final class PrescriptionOnTickEvent extends PrescriptionEvent {
-  const PrescriptionOnTickEvent(this.prescriptionID);
+  const PrescriptionOnTickEvent(this.index);
 
-  final String prescriptionID;
+  final int index;
 
   @override
-  List<Object?> get props => [prescriptionID];
+  List<Object?> get props => [index];
 }

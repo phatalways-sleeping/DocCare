@@ -171,11 +171,13 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
           diagnosis: state.diagnosis,
         ),
       );
+
       await _prescriptionAPIService.updatePrescriptionDone(
-        event.prescriptionID,
-        true,
+        state.prescriptionID[event.index],
+        state.done[event.index] ? false : true,
         DateTime.now(),
       );
+
       final done = <bool>[];
       final prescription = await _prescriptionAPIService
           .getAllPrescriptionListByCustomerID(ID)
@@ -195,6 +197,7 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
         ),
       );
     } catch (e) {
+      print(e);
       return;
     }
   }

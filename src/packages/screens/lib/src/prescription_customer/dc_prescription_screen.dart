@@ -253,7 +253,16 @@ class _DCPrescriptionScreenState extends State<DCPrescriptionScreen> {
                                                           // ignore: use_named_constants
                                                           const Duration(),
                                                       size: 30,
-                                                      onTap: (selected) {},
+                                                      onTap: (selected) {
+                                                        context
+                                                            .read<
+                                                                PrescriptionBloc>()
+                                                            .add(
+                                                              PrescriptionOnTickEvent(
+                                                                index,
+                                                              ),
+                                                            );
+                                                      },
                                                     ),
                                                     Padding(
                                                       padding:
@@ -525,7 +534,16 @@ class _DCPrescriptionScreenState extends State<DCPrescriptionScreen> {
                                                           const Duration(),
                                                       isChecked: true,
                                                       size: 30,
-                                                      onTap: (selected) {},
+                                                      onTap: (selected) {
+                                                        context
+                                                            .read<
+                                                                PrescriptionBloc>()
+                                                            .add(
+                                                              PrescriptionOnTickEvent(
+                                                                index,
+                                                              ),
+                                                            );
+                                                      },
                                                     ),
                                                     Padding(
                                                       padding:

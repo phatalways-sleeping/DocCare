@@ -56,12 +56,15 @@ class SupabasePrescriptionApiService
       .onError((error, stackTrace) => throw Exception(error));
   @override
   Future<void> updatePrescriptionDone(
-          String id, bool done, DateTime dateDone) =>
+    String id,
+    bool done,
+    DateTime dateDone,
+  ) =>
       supabase
           .from('prescription')
           .update({
             'done': done,
-            'dateDone': dateDone,
+            'dateDone': dateDone.toString(),
           })
           .eq('id', id)
           .onError((error, stackTrace) => throw Exception(error));
