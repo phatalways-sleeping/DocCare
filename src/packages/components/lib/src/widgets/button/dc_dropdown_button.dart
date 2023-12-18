@@ -57,17 +57,17 @@ class DCDropdownButton<T> extends StatefulWidget {
 
 class _DropdownButtonState<T> extends State<DCDropdownButton<T>> {
   final TextEditingController _controller = TextEditingController();
+  bool isNull = true;
 
   @override
   Widget build(BuildContext context) {
     return DropdownButton<T>(
-      value: widget.dropdownValue,
-      onChanged: (T? value) async {
-        if (widget.onItemSelected != null) {
-          widget.onItemSelected!(context, _controller, value);
-        }
+      value: isNull ? null : widget.dropdownValue,
+      onChanged: (T? value) {
+        widget.onItemSelected?.call(context, _controller, value);
         setState(() {
-          widget.dropdownValue = value!;
+          widget.dropdownValue = value;
+          isNull = false;
         });
       },
       items: widget.items.map<DropdownMenuItem<T>>((T value) {
