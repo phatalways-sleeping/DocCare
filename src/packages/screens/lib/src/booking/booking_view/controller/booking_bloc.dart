@@ -10,20 +10,77 @@ part 'booking_state.dart';
 class BookingBloc extends Bloc<BookingEvent, BookingState> {
   BookingBloc({
     Map<String, dynamic> doctorData = const {},
-  }) : super(BookingInitial(
-          doctorData: doctorData,
-        )) {
+  }) : super(
+          BookingInitial(
+            doctorData: doctorData,
+          ),
+        ) {
     on<BookingSelectDateEvent>(_onBookingSelectDateEvent);
     on<BookingSelectTimeEvent>(_onBookingSelectTimeEvent);
+    on<BookingSelectSpecialityEvent>(_onBookingSelectSpecialityEvent);
     on<BookingSelectRemindMeBeforeEvent>(_onBookingSelectRemindMeBeforeEvent);
     on<BookingEnterSymptomEvent>(_onBookingEnterSymptomEvent);
     on<BookingConfirmEvent>(_onBookingConfirmEvent);
   }
 
-  void _onBookingConfirmEvent(
+  Future<void> _onBookingConfirmEvent(
     BookingConfirmEvent event,
     Emitter<BookingState> emit,
-  ) {}
+  ) async {
+    // Emit the loading state
+    emit(
+      BookingLoadingRequest.fromState(state: state),
+    );
+
+    final oldDoctorData = state.doctorData;
+
+    try {
+      // Calling the domain layer
+      // Mocking the API call
+      await Future.delayed(const Duration(seconds: 5), () {});
+      // Mocking error
+      // throw Exception();
+
+      // Emit the success state
+      // If user books without selecting a doctor, the doctorData will be passed
+      // from the response of the booking API
+      final doctorData = oldDoctorData.isEmpty
+          ? {
+              'name': 'Dr. John Doe',
+              'speciality': 'Dentist',
+              'imgPath': 'https://picsum.photos/200',
+              'rating': 4.5,
+              'ratingCount': 100,
+            }
+          : oldDoctorData;
+      emit(
+        BookingSuccess(
+          doctorData: doctorData,
+          timeSelected: state.timeSelected,
+          dateSelected: state.dateSelected,
+        ),
+      );
+    } catch (err) {
+      emit(
+        BookingFailure(
+          doctorData: oldDoctorData,
+          error:
+              'An error occurred while booking the appointment.\nPlease try again later.',
+        ),
+      );
+    }
+  }
+
+  void _onBookingSelectSpecialityEvent(
+    BookingSelectSpecialityEvent event,
+    Emitter<BookingState> emit,
+  ) {
+    emit(
+      state.copyWith(
+        speciality: event.speciality,
+      ),
+    );
+  }
 
   void _onBookingEnterSymptomEvent(
     BookingEnterSymptomEvent event,

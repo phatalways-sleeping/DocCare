@@ -182,22 +182,27 @@ class DCCalendarButton extends StatelessWidget {
       },
       highlightColor: Colors.white,
       splashColor: Colors.white,
-      child: BlocSelector<BookingBloc, BookingState, DateTime?>(
-        selector: (state) => state.dateSelected,
+      child: BlocBuilder<BookingBloc, BookingState>(
+        buildWhen: (previous, current) =>
+            previous.dateSelected != current.dateSelected,
         builder: (context, state) {
+          final dateSelected = state.dateSelected;
+          final withoutDoctor = state.doctorData.isEmpty;
           return Container(
             width: 50,
             height: 50,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: date.isBefore(DateTime.now())
-                  ? available
-                      ? const Color(0xFFFFD8DF).withOpacity(0.4)
-                      : null
-                  : available
-                      ? context.colorScheme.secondary
-                      : null,
-              border: state == date
+              color: withoutDoctor
+                  ? null
+                  : date.isBefore(DateTime.now())
+                      ? available
+                          ? const Color(0xFFFFD8DF).withOpacity(0.4)
+                          : null
+                      : available
+                          ? context.colorScheme.secondary
+                          : null,
+              border: dateSelected == date
                   ? Border.all(
                       color: const Color(0xFF6B4EFF),
                       width: 2,
@@ -211,13 +216,18 @@ class DCCalendarButton extends StatelessWidget {
                   date.day.toString(),
                   style: context.textTheme.bodyRegularPoppins.copyWith(
                     fontSize: 14,
-                    color: date.isBefore(DateTime.now())
-                        ? available
-                            ? const Color(0xFFFF2D55).withOpacity(0.5)
-                            : context.colorScheme.onSurface.withOpacity(0.5)
-                        : date.month == DateTime.now().month
+                    color: withoutDoctor
+                        ? !date.isBefore(DateTime.now())
                             ? context.colorScheme.onSurface
-                            : context.colorScheme.onSurface.withOpacity(0.5),
+                            : context.colorScheme.onSurface.withOpacity(0.5)
+                        : date.isBefore(DateTime.now())
+                            ? available
+                                ? const Color(0xFFFF2D55).withOpacity(0.5)
+                                : context.colorScheme.onSurface.withOpacity(0.5)
+                            : date.month == DateTime.now().month
+                                ? context.colorScheme.onSurface
+                                : context.colorScheme.onSurface
+                                    .withOpacity(0.5),
                     fontWeight: FontWeight.normal,
                   ),
                 ),

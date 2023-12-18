@@ -49,6 +49,19 @@ final class BookingSelectRemindMeBeforeEvent extends BookingEvent {
       ];
 }
 
+final class BookingSelectSpecialityEvent extends BookingEvent {
+  const BookingSelectSpecialityEvent({
+    required this.speciality,
+  });
+
+  final String speciality;
+
+  @override
+  List<Object?> get props => [
+        speciality,
+      ];
+}
+
 final class BookingEnterSymptomEvent extends BookingEvent {
   const BookingEnterSymptomEvent({
     required this.symptom,
