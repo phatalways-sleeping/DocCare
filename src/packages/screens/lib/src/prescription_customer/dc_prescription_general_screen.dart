@@ -34,7 +34,9 @@ class _DCPrescriptionGeneralState extends State<DCPrescriptionGeneral> {
           const PrescriptionInitialEvent(),
         ),
       child: BlocConsumer<PrescriptionBloc, PrescriptionState>(
-        listener: (context, state) {},
+        listener: (context, state) {
+          print(state);
+        },
         builder: (context, state) {
           if (state is PrescriptionInitial) {
             return DCPrescriptionScreen(

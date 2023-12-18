@@ -96,6 +96,7 @@ class _DCPrescriptionScreenState extends State<DCPrescriptionScreen> {
                                           .read<PrescriptionBloc>()
                                           .state
                                           .prescriptionID[index],
+                                      index,
                                     ),
                                   ),
                               child: Padding(
@@ -344,6 +345,7 @@ class _DCPrescriptionScreenState extends State<DCPrescriptionScreen> {
                                           .read<PrescriptionBloc>()
                                           .state
                                           .prescriptionID[index],
+                                      index,
                                     ),
                                   ),
 

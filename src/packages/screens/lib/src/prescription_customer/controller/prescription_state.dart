@@ -128,6 +128,7 @@ final class MedicineInitial extends PrescriptionState {
     required this.toBeTaken,
     required this.timeOfTheDay,
     required this.currentPrescriptionID,
+    required this.clickedIndex,
   });
 
   final List<String> medicineName;
@@ -135,6 +136,7 @@ final class MedicineInitial extends PrescriptionState {
   final List<int?> toBeTaken;
   final List<String?> timeOfTheDay;
   final String currentPrescriptionID;
+  final int clickedIndex;
 
   @override
   List<Object?> get props => [
@@ -149,6 +151,7 @@ final class MedicineInitial extends PrescriptionState {
         toBeTaken,
         timeOfTheDay,
         currentPrescriptionID,
+        clickedIndex,
       ];
 
   @override
@@ -172,6 +175,7 @@ final class MedicineInitial extends PrescriptionState {
       toBeTaken: toBeTaken,
       timeOfTheDay: timeOfTheDay,
       currentPrescriptionID: currentPrescriptionID,
+      clickedIndex: clickedIndex,
     );
   }
 }

@@ -123,6 +123,7 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
           toBeTaken: toBeTaken,
           timeOfTheDay: timeOfTheDay,
           currentPrescriptionID: event.prescriptionID,
+          clickedIndex: event.index,
         ),
       );
     } catch (e) {

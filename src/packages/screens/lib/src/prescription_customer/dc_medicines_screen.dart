@@ -26,6 +26,45 @@ class _DCMedicineScreenState extends State<DCMedicineScreen> {
       context.colorScheme.onBackground,
     ];
 
+    //Medicine message string
+    var medicineMessage = '';
+
+    List<String> medicineName = [];
+    List<int?> quantity = [];
+    List<int?> toBeTaken = [];
+
+    //Get the list of medicine name, quantity and toBeTaken
+    for (var i = 0;
+        i <
+            (context.watch<PrescriptionBloc>().state as MedicineInitial)
+                .medicineName
+                .length;
+        i++) {
+      medicineName.add(
+        (context.watch<PrescriptionBloc>().state as MedicineInitial)
+            .medicineName[i],
+      );
+      quantity.add(
+        (context.watch<PrescriptionBloc>().state as MedicineInitial)
+            .quantity[i],
+      );
+      toBeTaken.add(
+        (context.watch<PrescriptionBloc>().state as MedicineInitial)
+            .toBeTaken[i],
+      );
+    }
+
+    for (int i = 0; i < medicineName.length; i++) {
+      medicineMessage += medicineName[i] +
+          ': ' +
+          quantity[i].toString() +
+          ' pill' +
+          (quantity[i]! > 1 ? 's' : '') +
+          ',' +
+          (toBeTaken[i] == 0 ? 'before eating' : 'after eating') +
+          ((i < medicineName.length - 1) ? '\n' : '');
+    }
+
     return Scaffold(
       appBar: DCCustomerHeaderBar(
         allowNavigateBack: true,
@@ -101,15 +140,28 @@ class _DCMedicineScreenState extends State<DCMedicineScreen> {
                               title: 'Intake',
                               //TODO(nmvinhdl1215): Change to the diagnosis message
                               diagnosisMessage: context
-                                  .read<PrescriptionBloc>()
-                                  .state
-                                  .diagnosis[index]!,
-                              medicinesMessage: '',
-                              noteMessage: '',
+                                      .read<PrescriptionBloc>()
+                                      .state
+                                      .diagnosis[(context
+                                          .read<PrescriptionBloc>()
+                                          .state as MedicineInitial)
+                                      .clickedIndex] ??
+                                  'Empty diagnosis for the current prescription',
+                              //medicine message is all medicine name + quantity
+                              medicinesMessage: medicineMessage,
+                              noteMessage: (context
+                                      .read<PrescriptionBloc>()
+                                      .state as MedicineInitial)
+                                  .note[(context.read<PrescriptionBloc>().state
+                                      as MedicineInitial)
+                                  .clickedIndex],
                               doctorName: (context
                                       .read<PrescriptionBloc>()
                                       .state as MedicineInitial)
-                                  .doctorName[index],
+                                  .doctorName[(context
+                                      .read<PrescriptionBloc>()
+                                      .state as MedicineInitial)
+                                  .clickedIndex],
                             ),
                           );
                         },
