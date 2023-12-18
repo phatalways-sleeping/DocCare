@@ -15,6 +15,15 @@ final class PrescriptionInitialEvent extends PrescriptionEvent {
   List<Object?> get props => [];
 }
 
+final class PrescriptionReviewEvent extends PrescriptionEvent {
+  const PrescriptionReviewEvent(this.rating);
+
+  final int rating;
+
+  @override
+  List<Object?> get props => [rating];
+}
+
 final class PrescriptionTapEvent extends PrescriptionEvent {
   const PrescriptionTapEvent(this.prescriptionID, this.index);
 
@@ -30,4 +39,13 @@ final class MedicineBackEvent extends PrescriptionEvent {
 
   @override
   List<Object?> get props => [];
+}
+
+final class PrescriptionOnTickEvent extends PrescriptionEvent {
+  const PrescriptionOnTickEvent(this.prescriptionID);
+
+  final String prescriptionID;
+
+  @override
+  List<Object?> get props => [prescriptionID];
 }

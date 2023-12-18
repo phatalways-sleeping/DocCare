@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +19,8 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
     on<PrescriptionInitialEvent>(_onPrescriptionInitialEvent);
     on<PrescriptionTapEvent>(_onPrescriptionTapEvent);
     on<MedicineBackEvent>(_onMedicineBackEvent);
+    on<PrescriptionOnTickEvent>(_onPrescriptionOnTickEvent);
+    on<PrescriptionReviewEvent>(_onPrescriptionReviewEvent);
   }
 
   final String ID;
@@ -145,5 +149,53 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
         diagnosis: state.diagnosis,
       ),
     );
+  }
+
+  FutureOr<void> _onPrescriptionReviewEvent(
+    PrescriptionReviewEvent event,
+    Emitter<PrescriptionState> emit,
+  ) async {}
+
+  FutureOr<void> _onPrescriptionOnTickEvent(
+    PrescriptionOnTickEvent event,
+    Emitter<PrescriptionState> emit,
+  ) async {
+    try {
+      emit(
+        PrescriptionLoading(
+          prescriptionID: state.prescriptionID,
+          doctorName: state.doctorName,
+          datePrescribed: state.datePrescribed,
+          note: state.note,
+          done: state.done,
+          diagnosis: state.diagnosis,
+        ),
+      );
+      await _prescriptionAPIService.updatePrescriptionDone(
+        event.prescriptionID,
+        true,
+        DateTime.now(),
+      );
+      final done = <bool>[];
+      final prescription = await _prescriptionAPIService
+          .getAllPrescriptionListByCustomerID(ID)
+          .then((value) {
+        for (final element in value) {
+          done.add(element.done);
+        }
+      });
+      emit(
+        PrescriptionInitial.input(
+          prescriptionID: state.prescriptionID,
+          doctorName: state.doctorName,
+          datePrescribed: state.datePrescribed,
+          note: state.note,
+          done: done,
+          diagnosis: state.diagnosis,
+        ),
+      );
+    } catch (e) {
+      return;
+    }
   }
 }

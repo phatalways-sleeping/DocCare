@@ -134,11 +134,10 @@ class _DCMedicineScreenState extends State<DCMedicineScreen> {
                         splashFactory: NoSplash.splashFactory,
                         //On tap called pop-up intake rating screen
                         onTap: () async {
-                          await showDialog<bool>(
+                          final results = await showDialog<int>(
                             context: context,
                             builder: (acontext) => DCPopupIntakeRating(
                               title: 'Intake',
-                              //TODO(nmvinhdl1215): Change to the diagnosis message
                               diagnosisMessage: context
                                       .read<PrescriptionBloc>()
                                       .state
@@ -162,6 +161,10 @@ class _DCMedicineScreenState extends State<DCMedicineScreen> {
                                       .read<PrescriptionBloc>()
                                       .state as MedicineInitial)
                                   .clickedIndex],
+                              //On review button clicked, return the attribute total rating in pop-up
+
+                              onConfirmButtonClicked: (context) =>
+                                  {Navigator.pop(context)},
                             ),
                           );
                         },
