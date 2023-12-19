@@ -59,78 +59,81 @@ class _DialogTemplate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(
-        horizontal: context.width * 0.1,
-        vertical: context.height * 0.20,
-      ),
-      padding: EdgeInsets.symmetric(
-        horizontal: context.width * 0.03,
-        vertical: context.height * 0.03,
-      ),
-      decoration: BoxDecoration(
-        color: context.colorScheme.background,
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: svgBgColor,
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: Container(
+        margin: EdgeInsets.symmetric(
+          horizontal: context.width * 0.1,
+          vertical: context.height * 0.20,
+        ),
+        padding: EdgeInsets.symmetric(
+          horizontal: context.width * 0.03,
+          vertical: context.height * 0.03,
+        ),
+        decoration: BoxDecoration(
+          color: context.colorScheme.background,
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: svgBgColor,
+              ),
+              padding: const EdgeInsets.all(
+                40,
+              ),
+              alignment: Alignment.center,
+              child: SvgPicture.string(
+                svgAsset,
+                height: 60,
+                width: 60,
+                fit: BoxFit.cover,
+              ),
             ),
-            padding: const EdgeInsets.all(
-              40,
+            SizedBox(
+              height: context.height * 0.01,
             ),
-            alignment: Alignment.center,
-            child: SvgPicture.string(
-              svgAsset,
-              height: 60,
-              width: 60,
-              fit: BoxFit.cover,
-            ),
-          ),
-          SizedBox(
-            height: context.height * 0.01,
-          ),
-          Text(
-            title,
-            style: context.textTheme.h1BoldPoppins.copyWith(
-              fontSize: 20,
-              color: context.colorScheme.tertiary,
-            ),
-          ),
-          SizedBox(
-            height: context.height * 0.01,
-          ),
-          Text(
-            description,
-            style: context.textTheme.bodyRegularPoppins.copyWith(
-              fontSize: 16,
-              color: const Color(0xFF677294),
-            ),
-          ),
-          SizedBox(
-            height: context.height * 0.03,
-          ),
-          DCFilledButton(
-            onPressed: onPressed,
-            backgroundColor: buttonColor,
-            fixedSize: Size(
-              context.width * 0.75,
-              context.height * 0.06,
-            ),
-            child: Text(
-              buttonText,
-              style: context.textTheme.bodyRegularPoppins.copyWith(
-                fontSize: 18,
+            Text(
+              title,
+              style: context.textTheme.h1BoldPoppins.copyWith(
+                fontSize: 20,
                 color: context.colorScheme.tertiary,
               ),
             ),
-          ),
-        ],
+            SizedBox(
+              height: context.height * 0.01,
+            ),
+            Text(
+              description,
+              style: context.textTheme.bodyRegularPoppins.copyWith(
+                fontSize: 16,
+                color: const Color(0xFF677294),
+              ),
+            ),
+            SizedBox(
+              height: context.height * 0.03,
+            ),
+            DCFilledButton(
+              onPressed: onPressed,
+              backgroundColor: buttonColor,
+              fixedSize: Size(
+                context.width * 0.75,
+                context.height * 0.06,
+              ),
+              child: Text(
+                buttonText,
+                style: context.textTheme.bodyRegularPoppins.copyWith(
+                  fontSize: 18,
+                  color: context.colorScheme.tertiary,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
