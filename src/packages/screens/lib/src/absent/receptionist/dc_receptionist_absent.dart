@@ -1,10 +1,12 @@
+// ignore_for_file: public_member_api_docs
+
 import 'package:components/components.dart';
 import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:screens/src/receptionist_absent/controller/receptionist_absent_bloc.dart';
-import 'package:screens/src/receptionist_absent/doctor_card.dart';
+import 'package:screens/src/absent/receptionist/controller/receptionist_absent_bloc.dart';
+import 'package:screens/src/absent/receptionist/doctor_card.dart';
 
 class DCReceptionistAbsentScreen extends StatefulWidget {
   const DCReceptionistAbsentScreen({super.key});

@@ -2,8 +2,8 @@ import 'package:components/components.dart';
 import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:screens/src/doctor_absent/controller/doctor_absent_bloc.dart';
-import 'package:screens/src/doctor_absent/doctor_card.dart';
+import 'package:screens/src/absent/doctor/controller/doctor_absent_bloc.dart';
+import 'package:screens/src/absent/doctor/doctor_card.dart';
 
 class DCDoctorAbsentScreen extends StatefulWidget {
   const DCDoctorAbsentScreen({super.key});
