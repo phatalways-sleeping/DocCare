@@ -76,38 +76,48 @@ class _DCAddMedicineScreenState extends State<DCAddMedicineScreen> {
                         ) {
                           return Align(
                             alignment: Alignment.topLeft,
-                            child: Material(
-                              child: SizedBox(
-                                width: context.width * 0.94,
-                                height: context.height * 0.3,
-                                child: ListView.builder(
-                                  padding: EdgeInsets.zero,
-                                  itemCount: options.length,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    final option = options.elementAt(index);
-                                    return Container(
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                          color: context.colorScheme.quinary,
-                                        ),
-                                      ),
-                                      child: ListTile(
-                                        title: Text(
-                                          option,
-                                          style: const TextStyle(
-                                            fontSize: 16,
-                                            color: Colors.black,
-                                          ),
-                                        ),
-                                        onTap: () {
-                                          onSelected(option);
-                                        },
-                                      ),
-                                    );
-                                  },
+                            child: Column(
+                              children: [
+                                const SizedBox(
+                                  height: 8,
                                 ),
-                              ),
+                                Material(
+                                  child: SizedBox(
+                                    width: context.width * 0.94,
+                                    height: context.height * 0.3,
+                                    child: ListView.builder(
+                                      padding: EdgeInsets.zero,
+                                      itemCount: options.length,
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        final option = options.elementAt(index);
+                                        return Container(
+                                          decoration: BoxDecoration(
+                                            border: Border(
+                                              bottom: BorderSide(
+                                                color: context.theme.colorScheme
+                                                    .secondary,
+                                              ),
+                                            ),
+                                          ),
+                                          child: ListTile(
+                                            title: Text(
+                                              option,
+                                              style: const TextStyle(
+                                                fontSize: 16,
+                                                color: Colors.black,
+                                              ),
+                                            ),
+                                            onTap: () {
+                                              onSelected(option);
+                                            },
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           );
                         },
