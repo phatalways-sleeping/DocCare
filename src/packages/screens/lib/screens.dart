@@ -10,3 +10,4 @@ export 'src/profile/dc_profile.dart';
 export 'src/report/dc_admin_generate_report.dart';
 export 'src/sign_up/dc_sign_up_screen.dart';
 export 'src/splash/dc_splash_screen.dart';
+export 'src/notification/dc_notification_screen.dart';
