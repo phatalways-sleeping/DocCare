@@ -42,30 +42,30 @@ class _DCPrescriptionPlaceholderState extends State<DCPrescriptionPlaceholder> {
             );
           },
         ),
-        body: BlocBuilder<PrescriptionBloc, PrescriptionState>(
-          builder: (context, state) {
-            if (state is PrescriptionMedicalInitial) {
-              BlocProvider.of<PrescriptionBloc>(context).add(
-                const RetrieveMedicineEvent(),
-              );
-              return GestureDetector(
-                onTap: () => FocusScope.of(context).unfocus(),
-                child: DCMedicalStatScreen(customerName: widget.customerName),
-              );
-            } else if (state is PrescriptionMedicalSuccess) {
-              return DCPrescriptionScreen(customerName: widget.customerName);
-            } else if (state is PrescriptionAddMedicine) {
-              return GestureDetector(
-                onTap: () => FocusScope.of(context).unfocus(),
-                child: const DCAddMedicineScreen(),
-              );
-            }
-            // TODO(phucchuhoang): Navigate back to home screen
-            else if (state is PrescriptionSuccess) {
+        body: GestureDetector(
+          onTap: FocusScope.of(context).unfocus,
+          child: BlocBuilder<PrescriptionBloc, PrescriptionState>(
+            builder: (context, state) {
+              if (state is PrescriptionMedicalInitial) {
+                BlocProvider.of<PrescriptionBloc>(context).add(
+                  const RetrieveMedicineEvent(),
+                );
+                return DCMedicalStatScreen(customerName: widget.customerName);
+              } else if (state is PrescriptionMedicalSuccess) {
+                return DCPrescriptionScreen(customerName: widget.customerName);
+              } else if (state is PrescriptionAddMedicine) {
+                return GestureDetector(
+                  onTap: () => FocusScope.of(context).unfocus(),
+                  child: const DCAddMedicineScreen(),
+                );
+              }
+              // TODO(phucchuhoang): Navigate back to home screen
+              else if (state is PrescriptionSuccess) {
+                return Container();
+              }
               return Container();
-            }
-            return Container();
-          },
+            },
+          ),
         ),
       ),
     );
