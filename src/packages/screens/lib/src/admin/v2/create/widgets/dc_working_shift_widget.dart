@@ -11,12 +11,22 @@ class DCWorkingShiftWidget extends StatelessWidget {
     required this.onChangedWeekDay,
     required this.onChangedStartPeriod,
     required this.onChangedEndPeriod,
+    required this.onRemove,
+    this.initialWeekDay,
+    this.initialStartPeriod,
+    this.initialEndPeriod,
     super.key,
   });
 
-  final void Function(BuildContext context) onChangedWeekDay;
-  final void Function(BuildContext context) onChangedStartPeriod;
-  final void Function(BuildContext context) onChangedEndPeriod;
+  final String? initialWeekDay;
+  final String? initialStartPeriod;
+  final String? initialEndPeriod;
+
+  final void Function(BuildContext context, String value) onChangedWeekDay;
+  final void Function(BuildContext context, String value) onChangedStartPeriod;
+  final void Function(BuildContext context, String value) onChangedEndPeriod;
+
+  final void Function(BuildContext context) onRemove;
 
   @override
   Widget build(BuildContext context) {
@@ -25,13 +35,44 @@ class DCWorkingShiftWidget extends StatelessWidget {
       children: [
         Align(
           alignment: Alignment.centerLeft,
-          child: Text(
-            'Day of the week',
-            style: context.textTheme.bodyRegularPoppins.copyWith(
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-              color: context.colorScheme.tertiary,
-            ),
+          child: Row(
+            children: [
+              Text(
+                'Day of the week',
+                style: context.textTheme.bodyRegularPoppins.copyWith(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  color: context.colorScheme.tertiary,
+                ),
+              ),
+              const SizedBox(
+                width: 10,
+              ),
+              Expanded(
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: InkWell(
+                    onTap: () => onRemove(context),
+                    highlightColor: Colors.white,
+                    splashColor: Colors.white,
+                    child: Container(
+                      padding: const EdgeInsets.all(3),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: context.colorScheme.secondary,
+                          width: 2,
+                        ),
+                      ),
+                      child: Icon(
+                        Icons.close,
+                        color: context.colorScheme.secondary,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
         const SizedBox(
@@ -41,6 +82,7 @@ class DCWorkingShiftWidget extends StatelessWidget {
           onPressed: onChangedWeekDay,
           hintText: 'Select week day',
           borderColor: context.colorScheme.secondary,
+          initialValue: initialWeekDay,
           future: Future.value(
             dayOfWeek,
           ),
@@ -67,6 +109,7 @@ class DCWorkingShiftWidget extends StatelessWidget {
                   DCSpecialityButton(
                     onPressed: onChangedStartPeriod,
                     hintText: 'Start period',
+                    initialValue: initialStartPeriod,
                     borderColor: context.colorScheme.secondary,
                     future: Future.value(
                       periodData,
@@ -97,6 +140,7 @@ class DCWorkingShiftWidget extends StatelessWidget {
                   DCSpecialityButton(
                     onPressed: onChangedEndPeriod,
                     hintText: 'End period',
+                    initialValue: initialEndPeriod,
                     borderColor: context.colorScheme.secondary,
                     future: Future.value(
                       periodData,

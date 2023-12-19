@@ -3,6 +3,9 @@
 import 'package:components/components.dart';
 import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:screens/src/admin/v2/create/controllers/create_staff/create_staff_bloc.dart';
+import 'package:screens/src/admin/v2/create/controllers/screen/screen_bloc.dart';
 import 'package:screens/src/admin/v2/create/widgets/config.dart';
 import 'package:screens/src/admin/v2/create/widgets/dc_working_shift_widget.dart';
 
@@ -19,7 +22,9 @@ class _DCCreateStaffSecondState extends State<DCCreateStaffSecond> {
     return Scaffold(
       appBar: DCAdminHeaderBar(
         allowNavigationBack: true,
-        onLeadingIconPressed: (context) {},
+        onLeadingIconPressed: (context) => context.read<ScreenBloc>().add(
+              const NavigateToFirstScreen(),
+            ),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -45,22 +50,54 @@ class _DCCreateStaffSecondState extends State<DCCreateStaffSecond> {
               const SizedBox(
                 height: 10,
               ),
-              DCWorkingShiftWidget(
-                onChangedWeekDay: (context) {},
-                onChangedStartPeriod: (context) {},
-                onChangedEndPeriod: (context) {},
+              BlocSelector<StaffCreationBloc, CreateStaffState,
+                  List<Map<String, dynamic>>>(
+                selector: (state) => state.workingShifts,
+                builder: (context, state) {
+                  if (state.isEmpty) {
+                    return const SizedBox.shrink();
+                  }
+                  final children = state.map((shift) {
+                    final weekDay = shift['weekDay'] as String?;
+                    final startPeriod = shift['startPeriod'] as String?;
+                    final endPeriod = shift['endPeriod'] as String?;
+                    final index = state.indexOf(shift);
+                    return DCWorkingShiftWidget(
+                      initialWeekDay: weekDay,
+                      initialStartPeriod: startPeriod,
+                      initialEndPeriod: endPeriod,
+                      onChangedWeekDay: (context, value) => context
+                          .read<StaffCreationBloc>()
+                          .add(CreateStaffChangeWeekdayEvent(index, value)),
+                      onChangedStartPeriod: (context, value) => context
+                          .read<StaffCreationBloc>()
+                          .add(CreateStaffChangeStartPeriodEvent(index, value)),
+                      onChangedEndPeriod: (context, value) => context
+                          .read<StaffCreationBloc>()
+                          .add(CreateStaffChangeEndPeriodEvent(index, value)),
+                      onRemove: (context) => context
+                          .read<StaffCreationBloc>()
+                          .add(CreateStaffRemoveWorkingShiftEvent(index)),
+                    );
+                  }).toList();
+                  return ListView.separated(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) => children[index],
+                    separatorBuilder: (context, index) => gap,
+                    itemCount: children.length,
+                  );
+                },
               ),
-              gap,
-              DCWorkingShiftWidget(
-                onChangedWeekDay: (context) {},
-                onChangedStartPeriod: (context) {},
-                onChangedEndPeriod: (context) {},
+              const SizedBox(
+                height: 10,
               ),
-              gap,
               DCFilledButton(
-                onPressed: (context) {},
+                onPressed: (context) => context.read<StaffCreationBloc>().add(
+                      const CreateStaffAddNewWorkingShiftEvent(),
+                    ),
                 fixedSize: Size(
-                  context.width * 0.8,
+                  context.width * 0.9,
                   50,
                 ),
                 borderRadius: BorderRadius.circular(20),
@@ -74,15 +111,17 @@ class _DCCreateStaffSecondState extends State<DCCreateStaffSecond> {
                   ),
                 ),
               ),
-              SizedBox(
-                height: context.height * 0.1,
+              const SizedBox(
+                height: 20,
               ),
               Material(
                 color: context.colorScheme.background,
                 elevation: 4,
                 borderRadius: BorderRadius.circular(20),
                 child: DCFilledButton(
-                  onPressed: (context) {},
+                  onPressed: (context) => context.read<ScreenBloc>().add(
+                        const NavigateToThirdScreen(),
+                      ),
                   fixedSize: Size(
                     context.width * 0.9,
                     50,

@@ -10,15 +10,17 @@ class DCSpecialityButton extends StatefulWidget {
     required this.onPressed,
     required this.width,
     required this.hintText,
+    this.initialValue,
     this.borderColor,
     super.key,
   });
 
   final Future<List<String>> future;
-  final void Function(BuildContext context) onPressed;
+  final void Function(BuildContext context, String value) onPressed;
   final Color? borderColor;
   final double? width;
   final String hintText;
+  final String? initialValue;
 
   @override
   State<DCSpecialityButton> createState() => _DCSpecialityButtonState();
@@ -49,11 +51,16 @@ class _DCSpecialityButtonState extends State<DCSpecialityButton> {
             fontSize: 15,
           );
           return DropdownMenu<String>(
-            onSelected: (value) {},
+            onSelected: (value) {
+              if (value != null) {
+                widget.onPressed(context, value);
+              }
+            },
             textStyle: context.textTheme.bodyRegularPoppins.copyWith(
               color: context.colorScheme.tertiary,
               fontSize: 15,
             ),
+            initialSelection: widget.initialValue,
             inputDecorationTheme: InputDecorationTheme(
               border: normalBorder,
               enabledBorder: normalBorder,
