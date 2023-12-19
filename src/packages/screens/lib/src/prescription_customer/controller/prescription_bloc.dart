@@ -95,7 +95,6 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
         ),
       );
 
-      print('prescriptionID: ${event.prescriptionID}');
       try {
         final intake = await _intakeAPIService
             .getIntakeListByPrescriptionID(event.prescriptionID)
@@ -182,8 +181,12 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
       final prescription = await _prescriptionAPIService
           .getAllPrescriptionListByCustomerID(ID)
           .then((value) {
-        for (final element in value) {
-          done.add(element.done);
+        for (var i = 0; i < state.prescriptionID.length; i++) {
+          for (final element in value) {
+            if (element.id == state.prescriptionID[i]) {
+              done.add(element.done);
+            }
+          }
         }
       });
       emit(
