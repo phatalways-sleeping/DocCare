@@ -6,8 +6,16 @@ import 'package:meta/meta.dart';
 
 part 'doctor_absent_event.dart';
 part 'doctor_absent_state.dart';
+
 class DoctorAbsentBloc extends Bloc<DoctorAbsentEvent, DoctorAbsentState> {
   DoctorAbsentBloc() : super(const DoctorAbsentInitial()) {
+    on<DoctorAbsentResetEvent>((event, emit) {
+      emit(
+        DoctorAbsentInitial.fromState(
+          state: state,
+        ),
+      );
+    });
     on<DoctorAbsentDateInputEvent>((event, emit) {
       emit(state.copyWith(date: event.date));
     });
@@ -20,25 +28,33 @@ class DoctorAbsentBloc extends Bloc<DoctorAbsentEvent, DoctorAbsentState> {
     on<DoctorAbsentArrangeAnotherDoctorEvent>((event, emit) {
       emit(state.copyWith(arrangeAnotherDoctor: event.arrangeAnotherDoctor));
     });
-    on<DoctorAbsentButtonPressedEvent>((event, emit) {
-      emit(DoctorAbsentLoading(
-        date: state.date,
-        reasons: state.reasons,
-        agreeTerms: state.agreeTerms,
-        arrangeAnotherDoctor: state.arrangeAnotherDoctor,
-      ));
-      if(state.date.isEmpty || state.reasons.isEmpty || !state.agreeTerms) {
-        emit(DoctorAbsentInitial(
-          date: state.date,
-          reasons: state.reasons,
-          agreeTerms: state.agreeTerms,
-          arrangeAnotherDoctor: state.arrangeAnotherDoctor,
-        ));
-        return;
+    on<DoctorAbsentButtonPressedEvent>((event, emit) async {
+      if (state.date.isEmpty || state.reasons.isEmpty || !state.agreeTerms) {
+        return emit(
+          DoctorAbsentError.fromState(
+            state: state,
+            errorMessage: 'Either date, reasons or agree terms is empty',
+          ),
+        );
       }
+      try {
+        emit(DoctorAbsentLoading.fromState(state: state));
 
-      /// Inject doctor repository service here
-      emit(const DoctorAbsentSuccess());
+        await Future.delayed(const Duration(seconds: 4), () {});
+
+        // throw Exception('An error occured while trying to submit the form');
+
+        /// Use doctor repo api to call the api to submit the form
+        /// Then emit the success state
+        emit(const DoctorAbsentSuccess());
+      } catch (error) {
+        emit(
+          DoctorAbsentError.fromState(
+            state: state,
+            errorMessage: 'An error occured while trying to submit the form',
+          ),
+        );
+      }
     });
   }
 }

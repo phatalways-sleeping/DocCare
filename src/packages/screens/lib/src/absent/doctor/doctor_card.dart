@@ -1,17 +1,20 @@
+// ignore_for_file: public_member_api_docs
+
 import 'package:components/components.dart';
 import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
+import 'package:screens/src/absent/dc_storage_image.dart';
 
 class DoctorCard extends StatelessWidget {
   const DoctorCard({
-    required this.imageSrc,
+    required this.imgPath,
     required this.name,
     required this.speciality,
     required this.rating,
     super.key,
   });
 
-  final String imageSrc;
+  final String imgPath;
   final String name;
   final String speciality;
   final int rating;
@@ -19,10 +22,6 @@ class DoctorCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(
-        horizontal: context.width * 0.03,
-        vertical: context.height * 0.02,
-      ),
       constraints: BoxConstraints(
         maxHeight: context.height * 0.14,
       ),
@@ -43,49 +42,47 @@ class DoctorCard extends StatelessWidget {
       ),
       child: Row(
         children: [
-          ClipRRect(
-            borderRadius: const BorderRadius.all(
-              Radius.circular(16),
-            ),
-            child: Image.network(
-              imageSrc,
-              fit: BoxFit.cover,
-            ),
+          DCStorageImage(
+            imgPath: imgPath,
           ),
           SizedBox(
             width: context.width * 0.03,
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Text(
-                name,
-                style: context.textTheme.h1BoldPoppins.copyWith(
-                  fontSize: 20,
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Text(
+                  name,
+                  style: context.textTheme.h1BoldPoppins.copyWith(
+                    fontSize: 20,
+                  ),
                 ),
-              ),
-              Text(
-                speciality,
-                style: context.textTheme.h1RegularPoppins.copyWith(
-                  fontSize: 16,
+                Text(
+                  speciality,
+                  style: context.textTheme.h1RegularPoppins.copyWith(
+                    fontSize: 16,
+                  ),
                 ),
-              ),
-              Row(
-                children: [
-                  for (var i = 0; i < rating; i++)
-                    const Icon(
-                      Icons.star,
-                      color: Colors.yellow,
-                    ),
-                  for (var i = 0; i < 5 - rating; i++)
-                    const Icon(
-                      Icons.star,
-                      color: Colors.grey,
-                    ),
-                ],
-              ),
-            ],
+                Row(
+                  children: [
+                    for (var i = 0; i < rating; i++)
+                      const Icon(
+                        Icons.star,
+                        color: Colors.yellow,
+                        size: 20,
+                      ),
+                    for (var i = 0; i < 5 - rating; i++)
+                      const Icon(
+                        Icons.star,
+                        color: Colors.grey,
+                        size: 20,
+                      ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ],
       ),

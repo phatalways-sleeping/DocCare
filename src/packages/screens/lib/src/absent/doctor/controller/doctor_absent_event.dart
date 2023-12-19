@@ -1,15 +1,21 @@
+// ignore_for_file: avoid_positional_boolean_parameters, public_member_api_docs
+
 part of 'doctor_absent_bloc.dart';
 
 @immutable
 sealed class DoctorAbsentEvent extends Equatable {
   const DoctorAbsentEvent();
+
+  @override
+  List<Object?> get props => [];
+}
+
+final class DoctorAbsentResetEvent extends DoctorAbsentEvent {
+  const DoctorAbsentResetEvent();
 }
 
 final class DoctorAbsentButtonPressedEvent extends DoctorAbsentEvent {
   const DoctorAbsentButtonPressedEvent();
-
-  @override
-  List<Object?> get props => [];
 }
 
 final class DoctorAbsentDateInputEvent extends DoctorAbsentEvent {

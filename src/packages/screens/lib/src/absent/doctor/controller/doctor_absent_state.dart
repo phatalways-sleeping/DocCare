@@ -1,3 +1,5 @@
+// ignore_for_file: public_member_api_docs
+
 part of 'doctor_absent_bloc.dart';
 
 @immutable
@@ -33,6 +35,16 @@ final class DoctorAbsentInitial extends DoctorAbsentState {
     super.arrangeAnotherDoctor = false,
   });
 
+  factory DoctorAbsentInitial.fromState({
+    required DoctorAbsentState state,
+  }) =>
+      DoctorAbsentInitial(
+        date: state.date,
+        reasons: state.reasons,
+        agreeTerms: state.agreeTerms,
+        arrangeAnotherDoctor: state.arrangeAnotherDoctor,
+      );
+
   @override
   DoctorAbsentState copyWith({
     String? date,
@@ -56,6 +68,16 @@ final class DoctorAbsentLoading extends DoctorAbsentState {
     super.agreeTerms = false,
     super.arrangeAnotherDoctor = false,
   });
+
+  factory DoctorAbsentLoading.fromState({
+    required DoctorAbsentState state,
+  }) =>
+      DoctorAbsentLoading(
+        date: state.date,
+        reasons: state.reasons,
+        agreeTerms: state.agreeTerms,
+        arrangeAnotherDoctor: state.arrangeAnotherDoctor,
+      );
 
   @override
   DoctorAbsentState copyWith({
@@ -103,12 +125,28 @@ final class DoctorAbsentError extends DoctorAbsentState {
     super.reasons = '',
     super.agreeTerms = false,
     super.arrangeAnotherDoctor = false,
+    required this.errorMessage,
   });
+
+  factory DoctorAbsentError.fromState({
+    required DoctorAbsentState state,
+    required String errorMessage,
+  }) =>
+      DoctorAbsentError(
+        date: state.date,
+        reasons: state.reasons,
+        agreeTerms: state.agreeTerms,
+        arrangeAnotherDoctor: state.arrangeAnotherDoctor,
+        errorMessage: errorMessage,
+      );
+
+  final String errorMessage;
 
   @override
   DoctorAbsentState copyWith({
     String? date,
     String? reasons,
+    String? errorMessage,
     bool? agreeTerms,
     bool? arrangeAnotherDoctor,
   }) {
@@ -117,6 +155,7 @@ final class DoctorAbsentError extends DoctorAbsentState {
       reasons: reasons ?? this.reasons,
       agreeTerms: agreeTerms ?? this.agreeTerms,
       arrangeAnotherDoctor: arrangeAnotherDoctor ?? this.arrangeAnotherDoctor,
+      errorMessage: errorMessage ?? this.errorMessage,
     );
   }
 }
