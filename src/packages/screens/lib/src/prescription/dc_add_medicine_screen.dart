@@ -18,40 +18,6 @@ class DCAddMedicineScreen extends StatefulWidget {
 }
 
 class _DCAddMedicineScreenState extends State<DCAddMedicineScreen> {
-  List<String> _availableMedicines = [];
-  late TextEditingController _medicineNameController;
-
-  @override
-  void initState() {
-    super.initState();
-    _medicineNameController = TextEditingController();
-  }
-
-  @override
-  void dispose() {
-    _medicineNameController.dispose();
-    super.dispose();
-  }
-
-  void filterMedicines(String value) {
-    var res = <String>[];
-    if (value.isEmpty) {
-      res = BlocProvider.of<PrescriptionBloc>(context).state.availableMedicines;
-    } else {
-      res = BlocProvider.of<PrescriptionBloc>(context)
-          .state
-          .availableMedicines
-          .where(
-            (element) => element.toLowerCase().startsWith(value.toLowerCase()),
-          )
-          .toList();
-    }
-
-    setState(() {
-      _availableMedicines = res;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -87,52 +53,115 @@ class _DCAddMedicineScreenState extends State<DCAddMedicineScreen> {
                         ),
                       ),
                       const SizedBox(height: 8),
-                      DCOutlinedTextFormField(
-                        controller: _medicineNameController,
-                        hintText: 'Enter medicine name',
-                        onChanged: (context, controller) {
+                      Autocomplete<String>(
+                        optionsBuilder: (TextEditingValue textEditingValue) {
+                          if (textEditingValue.text == '') {
+                            return const Iterable<String>.empty();
+                          }
+                          return BlocProvider.of<PrescriptionBloc>(context)
+                              .state
+                              .availableMedicines
+                              .where(
+                            (String option) {
+                              return option.toLowerCase().contains(
+                                    textEditingValue.text.toLowerCase(),
+                                  );
+                            },
+                          );
+                        },
+                        optionsViewBuilder: (
+                          BuildContext context,
+                          AutocompleteOnSelected<String> onSelected,
+                          Iterable<String> options,
+                        ) {
+                          return Align(
+                            alignment: Alignment.topLeft,
+                            child: Material(
+                              child: SizedBox(
+                                width: context.width * 0.94,
+                                height: context.height * 0.3,
+                                child: ListView.builder(
+                                  padding: EdgeInsets.zero,
+                                  itemCount: options.length,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    final option = options.elementAt(index);
+                                    return Container(
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                          color: context.colorScheme.quinary,
+                                        ),
+                                      ),
+                                      child: ListTile(
+                                        title: Text(
+                                          option,
+                                          style: const TextStyle(
+                                            fontSize: 16,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                        onTap: () {
+                                          onSelected(option);
+                                        },
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                        onSelected: (String selection) {
                           context.read<PrescriptionBloc>().add(
                                 MedicineNameInputEvent(
-                                  controller.text,
+                                  selection,
                                 ),
                               );
-                          filterMedicines(controller.text);
+                          FocusScope.of(context).unfocus();
                         },
-                      ),
-                      Container(
-                        alignment: Alignment.centerLeft,
-                        height: _availableMedicines.isEmpty ? 0 : 200,
-                        child: ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: _availableMedicines.length,
-                          itemBuilder: (context, index) {
-                            return Container(
-                              decoration: const BoxDecoration(
-                                border: Border(
-                                  bottom: BorderSide(
-                                    color: Colors.grey,
-                                  ),
-                                ), // Add a border here
+                        fieldViewBuilder: (
+                          BuildContext context,
+                          TextEditingController textEditingController,
+                          FocusNode focusNode,
+                          VoidCallback onFieldSubmitted,
+                        ) {
+                          return TextField(
+                            controller: textEditingController,
+                            focusNode: focusNode,
+                            onSubmitted: (String value) {
+                              onFieldSubmitted();
+                            },
+                            style: context.textTheme.h6RegularPoppins.copyWith(
+                              color: context.theme.colorScheme.onSecondary,
+                            ),
+                            decoration: InputDecoration(
+                              hintText: 'Medicine name',
+                              contentPadding: const EdgeInsets.symmetric(
+                                vertical: 10,
+                                horizontal: 10,
                               ),
-                              child: ListTile(
-                                title: Text(_availableMedicines[index]),
-                                onTap: () {
-                                  context.read<PrescriptionBloc>().add(
-                                        MedicineNameInputEvent(
-                                          _availableMedicines[index],
-                                        ),
-                                      );
-                                  _medicineNameController.text =
-                                      _availableMedicines[index];
-                                  FocusScope.of(context).unfocus();
-                                  setState(() {
-                                    _availableMedicines = [];
-                                  });
-                                },
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(40),
+                                borderSide: BorderSide(
+                                  color: context.theme.colorScheme.secondary,
+                                ),
                               ),
-                            );
-                          },
-                        ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(40),
+                                borderSide: BorderSide(
+                                  color: context.theme.colorScheme.secondary,
+                                ),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(40),
+                                borderSide: BorderSide(
+                                  width: 2,
+                                  color: context.theme.colorScheme.secondary,
+                                ),
+                              ),
+                            ),
+                          );
+                        },
                       ),
                       const SizedBox(height: 8),
                       Container(

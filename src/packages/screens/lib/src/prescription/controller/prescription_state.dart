@@ -445,3 +445,68 @@ final class PrescriptionSuccess extends PrescriptionState {
     );
   }
 }
+
+final class PrescriptionMedicineLoading extends PrescriptionState {
+  const PrescriptionMedicineLoading({
+    required super.heartRate,
+    required super.bloodPressure,
+    required super.choresterol,
+    required super.bloodSugar,
+    required super.doctorNote,
+    required super.medicines,
+    required super.currentMedicineName,
+    required super.currentDuration,
+    required super.currentDose,
+    required super.currentTimeToTake,
+    required super.currentMealTime,
+    required super.availableMedicines,
+  });
+
+  factory PrescriptionMedicineLoading.from(PrescriptionState state) =>
+      PrescriptionMedicineLoading(
+        heartRate: state.heartRate,
+        bloodPressure: state.bloodPressure,
+        choresterol: state.choresterol,
+        bloodSugar: state.bloodSugar,
+        doctorNote: state.doctorNote,
+        medicines: state.medicines,
+        currentMedicineName: state.currentMedicineName,
+        currentDuration: state.currentDuration,
+        currentDose: state.currentDose,
+        currentTimeToTake: state.currentTimeToTake,
+        currentMealTime: state.currentMealTime,
+        availableMedicines: state.availableMedicines,
+      );
+
+  @override
+  PrescriptionState copyWith({
+    String? name,
+    String? heartRate,
+    String? bloodPressure,
+    String? choresterol,
+    String? bloodSugar,
+    List<String>? doctorNote,
+    Map<String, List<String>>? medicines,
+    String? currentMedicineName,
+    String? currentDuration,
+    String? currentDose,
+    List<bool>? currentTimeToTake,
+    List<bool>? currentMealTime,
+    List<String>? availableMedicines,
+  }) {
+    return PrescriptionMedicineLoading(
+      heartRate: heartRate ?? super.heartRate,
+      bloodPressure: bloodPressure ?? super.bloodPressure,
+      choresterol: choresterol ?? super.choresterol,
+      bloodSugar: bloodSugar ?? super.bloodSugar,
+      doctorNote: doctorNote ?? super.doctorNote,
+      medicines: medicines ?? super.medicines,
+      currentMedicineName: currentMedicineName ?? super.currentMedicineName,
+      currentDuration: currentDuration ?? super.currentDuration,
+      currentDose: currentDose ?? super.currentDose,
+      currentTimeToTake: currentTimeToTake ?? super.currentTimeToTake,
+      currentMealTime: currentMealTime ?? super.currentMealTime,
+      availableMedicines: availableMedicines ?? super.availableMedicines,
+    );
+  }
+}

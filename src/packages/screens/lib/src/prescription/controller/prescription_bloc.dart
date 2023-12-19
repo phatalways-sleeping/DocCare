@@ -15,7 +15,11 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
   PrescriptionBloc(
     this._notificationManagerService,
     this._supabaseClient,
-  ) : super(PrescriptionMedicalInitial.empty()) {
+  ) : super(
+          PrescriptionMedicalLoading.from(
+            const PrescriptionMedicalInitial.empty(),
+          ),
+        ) {
     on<HeartRateInputEvent>(_onHeartRateInputEvent);
     on<BloodPressureInputEvent>(_onBloodPressureInputEvent);
     on<ChoresterolInputEvent>(_onCholesterolInputEvent);
@@ -407,15 +411,34 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
     RetrieveMedicineEvent event,
     Emitter<PrescriptionState> emit,
   ) async {
-    if (state.availableMedicines.isNotEmpty) {
-      return;
-    }
     final instance = SupabaseMedicineApiService(supabase: _supabaseClient);
-    final availableMed = await instance.getAllMedicineList();
-    final allMed = List<String>.from(state.availableMedicines);
-    for (final med in availableMed) {
-      allMed.add(med.name);
+    try {
+      final availableMed = await instance.getAllMedicineList();
+      final allMed = List<String>.from([]);
+      for (final med in availableMed) {
+        allMed.add(med.name);
+      }
+      emit(
+        PrescriptionMedicalInitial.from(
+          state.copyWith(availableMedicines: allMed),
+        ),
+      );
+    } catch (e) {
+      await _notificationManagerService.show<void>(
+        NotificationType.error,
+        title: const Text(
+          'Something went wrong',
+          style: TextStyle(
+            fontSize: 16,
+          ),
+        ),
+        message: const Text(
+          'Cannot retrieve medicine list',
+          style: TextStyle(
+            fontSize: 16,
+          ),
+        ),
+      );
     }
-    emit(state.copyWith(availableMedicines: allMed));
   }
 }

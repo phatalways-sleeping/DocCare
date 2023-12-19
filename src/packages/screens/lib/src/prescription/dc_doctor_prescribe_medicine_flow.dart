@@ -23,7 +23,8 @@ class DCDoctorPrescibeMedicineFlow extends StatefulWidget {
       _DCDoctorPrescibeMedicineFlowState();
 }
 
-class _DCDoctorPrescibeMedicineFlowState extends State<DCDoctorPrescibeMedicineFlow> {
+class _DCDoctorPrescibeMedicineFlowState
+    extends State<DCDoctorPrescibeMedicineFlow> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -40,18 +41,22 @@ class _DCDoctorPrescibeMedicineFlowState extends State<DCDoctorPrescibeMedicineF
           }
         },
         builder: (context, state) {
-          final screen = state is PrescriptionMedicalInitial
-              ? DCMedicalStatScreen(customerName: widget.customerName)
-              : state is PrescriptionMedicalSuccess
-                  ? DCPrescriptionScreen(customerName: widget.customerName)
-                  : state is PrescriptionAddMedicine
-                      ? GestureDetector(
-                          onTap: () => FocusScope.of(context).unfocus(),
-                          child: const DCAddMedicineScreen(),
-                        )
-                      : state is PrescriptionSuccess
-                          ? Container()
-                          : Container();
+          if (state is PrescriptionMedicalLoading) {
+            BlocProvider.of<PrescriptionBloc>(context).add(
+              const RetrieveMedicineEvent(),
+            );
+          }
+          final screen = state is PrescriptionMedicalLoading
+              ? const Center(child: CircularProgressIndicator())
+              : state is PrescriptionMedicalInitial
+                  ? DCMedicalStatScreen(customerName: widget.customerName)
+                  : state is PrescriptionMedicalSuccess
+                      ? DCPrescriptionScreen(customerName: widget.customerName)
+                      : state is PrescriptionAddMedicine
+                          ? const DCAddMedicineScreen()
+                          : state is PrescriptionSuccess
+                              ? Container()
+                              : Container();
           return Scaffold(
             resizeToAvoidBottomInset: true,
             appBar: DCDoctorHeaderBar(
