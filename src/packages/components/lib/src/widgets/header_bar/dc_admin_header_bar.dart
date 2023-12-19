@@ -56,7 +56,7 @@ class _DCAdminHeaderBarState extends State<DCAdminHeaderBar> {
                 ),
               ),
               onPressed: () {
-                Navigator.pop(context);
+                widget.onLeadingIconPressed?.call(context);
               },
             )
           : widget.haveLogout
