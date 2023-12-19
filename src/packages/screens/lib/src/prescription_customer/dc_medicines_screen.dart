@@ -8,9 +8,10 @@ import 'package:roundcheckbox/roundcheckbox.dart';
 import 'package:screens/src/prescription_customer/controller/prescription_bloc.dart';
 
 class DCMedicineScreen extends StatefulWidget {
-  const DCMedicineScreen({required this.prescriptionID, super.key});
+  const DCMedicineScreen({required this.prescriptionID, required this.customerID, super.key});
 
   final String prescriptionID;
+  final String customerID;
 
   @override
   _DCMedicineScreenState createState() => _DCMedicineScreenState();
@@ -31,7 +32,7 @@ class _DCMedicineScreenState extends State<DCMedicineScreen> {
 
     List<String> medicineName = [];
     List<int?> quantity = [];
-    List<int?> toBeTaken = [];
+    List<int?> toBeTaken = [];    
 
     //Get the list of medicine name, quantity and toBeTaken
     for (var i = 0;
@@ -48,7 +49,7 @@ class _DCMedicineScreenState extends State<DCMedicineScreen> {
         (context.watch<PrescriptionBloc>().state as MedicineInitial)
             .quantity[i],
       );
-      toBeTaken.add(
+      toBeTaken.add(  
         (context.watch<PrescriptionBloc>().state as MedicineInitial)
             .toBeTaken[i],
       );
@@ -167,10 +168,20 @@ class _DCMedicineScreenState extends State<DCMedicineScreen> {
                                   {Navigator.pop(context)},
                             ),
                           );
+
+                          if (results != null) {
+                            print(results);
+                            context.read<PrescriptionBloc>().add(
+                                  PrescriptionReviewEvent(
+                                    results,
+                                      index,
+                                  ),
+                                );
+                          }
                         },
                         child: Padding(
                           padding: const EdgeInsets.only(
-                            top: 20,
+                            top: 20,  
                             left: 10,
                             right: 10,
                           ),

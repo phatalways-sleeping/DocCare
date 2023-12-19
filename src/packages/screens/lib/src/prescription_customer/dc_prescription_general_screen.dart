@@ -43,6 +43,7 @@ class _DCPrescriptionGeneralState extends State<DCPrescriptionGeneral> {
           } else if (state is MedicineInitial) {
             return DCMedicineScreen(
               prescriptionID: state.currentPrescriptionID,
+              customerID: widget.customerID,
             );
           } else {
             return const Center(

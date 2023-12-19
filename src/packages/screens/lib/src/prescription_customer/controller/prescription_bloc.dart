@@ -5,6 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:model_api/model_api.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 part 'prescription_event.dart';
 part 'prescription_state.dart';
@@ -153,7 +154,72 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
   FutureOr<void> _onPrescriptionReviewEvent(
     PrescriptionReviewEvent event,
     Emitter<PrescriptionState> emit,
-  ) async {}
+  ) async { 
+  try {
+    final doctorID = <String>[];
+
+    final prescription = await _prescriptionAPIService
+          .getAllPrescriptionListByCustomerID(ID)
+          .then((value) {
+        for (final element in value) {
+          doctorID.add(element.doctorID);
+        }
+      });
+
+    emit(
+      PrescriptionLoading(
+          prescriptionID: state.prescriptionID,
+          doctorName: state.doctorName,
+          datePrescribed: state.datePrescribed,
+          note: state.note,
+          done: state.done,
+          diagnosis: state.diagnosis,
+        ),
+      );
+
+      final SupabaseClient client = Supabase.instance.client;
+
+      print(ID);
+      print(doctorID[event.index]);
+      print(state.datePrescribed[event.index].toString());
+      print(event.rating);
+
+      await client.rpc('sp_update_appointment_rating', params: {
+        'n_period': 1,
+        'n_customer_id': ID,
+        'n_doctor_id': doctorID[event.index],
+        'n_date': state.datePrescribed[event.index].toString(),
+        'n_rating': event.rating,
+      },);
+
+      emit(
+        PrescriptionInitial.input(
+          prescriptionID: state.prescriptionID,
+          doctorName: state.doctorName,
+          datePrescribed: state.datePrescribed,
+          note: state.note,
+          done: state.done,
+          diagnosis: state.diagnosis,
+        ),
+      );
+  }
+  catch (e) {
+    print(e);
+
+    emit(
+        PrescriptionInitial.input(
+          prescriptionID: state.prescriptionID,
+          doctorName: state.doctorName,
+          datePrescribed: state.datePrescribed,
+          note: state.note,
+          done: state.done,
+          diagnosis: state.diagnosis,
+        ),
+      );
+
+    return;
+  }
+}
 
   FutureOr<void> _onPrescriptionOnTickEvent(
     PrescriptionOnTickEvent event,

@@ -16,9 +16,10 @@ final class PrescriptionInitialEvent extends PrescriptionEvent {
 }
 
 final class PrescriptionReviewEvent extends PrescriptionEvent {
-  const PrescriptionReviewEvent(this.rating);
+  const PrescriptionReviewEvent(this.rating, this.index);
 
   final int rating;
+  final int index;
 
   @override
   List<Object?> get props => [rating];
