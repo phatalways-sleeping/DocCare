@@ -6,7 +6,6 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/widgets.dart';
 import 'package:meta/meta.dart';
-import 'package:models/models.dart' show LoginUser;
 import 'package:utility/utility.dart'
     show NotificationManagerService, NotificationType;
 

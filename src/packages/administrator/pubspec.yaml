@@ -10,7 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  supabase_flutter: ^1.10.25
+  supabase_flutter: ^1.10.24
   uuid: ^4.2.1
 
 dev_dependencies:

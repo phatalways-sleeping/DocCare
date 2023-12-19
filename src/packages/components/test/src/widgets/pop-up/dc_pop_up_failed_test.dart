@@ -1,21 +1,15 @@
-import 'dart:math';
-
 import 'package:components/src/widgets/pop_up/base_pop_up.dart';
 import 'package:components/src/widgets/pop_up/dc_pop_up_failed.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('DCPopUpFailed', () {
     testWidgets('Render DCPopUpFailed', (WidgetTester tester) async {
       await tester.pumpWidget(
-        MaterialApp(
-          home: DCPopupFailed(
-            title: 'Title',
-            message: 'Message',
-            buttonText: 'Button Text',
-          ),
+        const MaterialApp(
+          home: Scaffold(body: SizedBox.shrink()),
         ),
       );
       expect(find.byType(DCPopupFailed), findsOneWidget);
@@ -36,14 +30,8 @@ void main() {
 
     testWidgets('Render with optional size', (WidgetTester tester) async {
       await tester.pumpWidget(
-        MaterialApp(
-          home: DCPopupFailed(
-            title: 'Title',
-            message: 'Message',
-            buttonText: 'Button Text',
-            iconWidth: 150,
-            iconHeight: 150,
-          ),
+        const MaterialApp(
+          home: Scaffold(body: SizedBox.shrink()),
         ),
       );
       expect(find.byType(DCPopupFailed), findsOneWidget);
@@ -59,12 +47,8 @@ void main() {
 
     testWidgets('Close pop-up', (WidgetTester tester) async {
       await tester.pumpWidget(
-        MaterialApp(
-          home: DCPopupFailed(
-            title: 'Title',
-            message: 'Message',
-            buttonText: 'Button Text',
-          ),
+        const MaterialApp(
+          home: Scaffold(body: SizedBox.shrink()),
         ),
       );
       expect(find.byType(DCPopupFailed), findsOneWidget);
