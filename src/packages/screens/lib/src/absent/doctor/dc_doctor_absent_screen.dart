@@ -160,6 +160,8 @@ class _DCDoctorAbsentScreenState extends State<DCDoctorAbsentScreen> {
                             current.arrangeAnotherDoctor,
                         builder: (context, state) {
                           return Row(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Checkbox(
                                 value: state.arrangeAnotherDoctor,
@@ -174,21 +176,18 @@ class _DCDoctorAbsentScreenState extends State<DCDoctorAbsentScreen> {
                                       );
                                 },
                               ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Please help me arrange alternative',
-                                    style: context.textTheme.bodyRegularPoppins
-                                        .copyWith(fontSize: 16),
-                                  ),
-                                  Text(
-                                    '',
-                                    style: context.textTheme.bodyRegularPoppins
-                                        .copyWith(fontSize: 16),
-                                  ),
-                                ],
-                              )
+                              Flexible(
+                                child: Wrap(
+                                  children: [
+                                    Text(
+                                      'Please help me arrange alternative appointments for my patients',
+                                      style: context
+                                          .textTheme.bodyRegularPoppins
+                                          .copyWith(fontSize: 16),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ],
                           );
                         },
