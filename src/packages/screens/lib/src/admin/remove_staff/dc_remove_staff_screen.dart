@@ -88,7 +88,7 @@ class BodyScreen extends StatelessWidget {
         children: [
           const Text(
             'Select role',
-            textScaler: TextScaler.linear(1.5),
+            // textScaler: TextScaler.linear(1.5),
           ),
           DropdownMenu<String>(
             onSelected: (value) {
