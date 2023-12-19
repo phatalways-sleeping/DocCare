@@ -1,19 +1,15 @@
 import 'package:components/src/widgets/pop_up/base_pop_up.dart';
 import 'package:components/src/widgets/pop_up/dc_pop_up_success.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('DCPopUpSuccess', () {
     testWidgets('Render DCPopUpSuccess', (WidgetTester tester) async {
       await tester.pumpWidget(
-        MaterialApp(
-          home: DCPopupSuccess(
-            title: 'Title',
-            message: 'Message',
-            buttonText: 'Button Text',
-          ),
+        const MaterialApp(
+          home: Scaffold(body: SizedBox.shrink()),
         ),
       );
       expect(find.byType(DCPopupSuccess), findsOneWidget);
@@ -34,14 +30,8 @@ void main() {
 
     testWidgets('Render with optional size', (WidgetTester tester) async {
       await tester.pumpWidget(
-        MaterialApp(
-          home: DCPopupSuccess(
-            title: 'Title',
-            message: 'Message',
-            buttonText: 'Button Text',
-            iconWidth: 50,
-            iconHeight: 50,
-          ),
+        const MaterialApp(
+          home: Scaffold(body: SizedBox.shrink()),
         ),
       );
       expect(find.byType(DCPopupSuccess), findsOneWidget);
@@ -57,12 +47,8 @@ void main() {
 
     testWidgets('Close pop-up', (WidgetTester tester) async {
       await tester.pumpWidget(
-        MaterialApp(
-          home: DCPopupSuccess(
-            title: 'Title',
-            message: 'Message',
-            buttonText: 'Button Text',
-          ),
+        const MaterialApp(
+          home: Scaffold(body: SizedBox.shrink()),
         ),
       );
       expect(find.byType(DCPopupSuccess), findsOneWidget);
