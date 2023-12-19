@@ -56,7 +56,7 @@ class _DCAddMedicineScreenState extends State<DCAddMedicineScreen> {
   Widget build(BuildContext context) {
     return Center(
       child: FractionallySizedBox(
-        widthFactor: 0.9,
+        widthFactor: 0.94,
         child: CustomScrollView(
           slivers: [
             SliverList(
@@ -66,10 +66,13 @@ class _DCAddMedicineScreenState extends State<DCAddMedicineScreen> {
                     children: [
                       Container(
                         alignment: Alignment.centerLeft,
+                        margin: const EdgeInsets.symmetric(
+                          vertical: 5,
+                        ),
                         child: Text(
                           'Add a medicine',
                           style: context.textTheme.h6BoldPoppins.copyWith(
-                            fontSize: 26,
+                            fontSize: 30,
                           ),
                         ),
                       ),
@@ -144,6 +147,7 @@ class _DCAddMedicineScreenState extends State<DCAddMedicineScreen> {
                       const SizedBox(height: 8),
                       DCOutlinedTextFormField(
                         hintText: 'Number of days',
+                        maxLines: 1,
                         onChanged: (context, controller) {
                           context.read<PrescriptionBloc>().add(
                                 MedicineDurationInputEvent(
@@ -165,6 +169,7 @@ class _DCAddMedicineScreenState extends State<DCAddMedicineScreen> {
                       const SizedBox(height: 8),
                       DCOutlinedTextFormField(
                         hintText: 'Number of pills per time',
+                        maxLines: 1,
                         onChanged: (context, controller) {
                           context.read<PrescriptionBloc>().add(
                                 MedicineDoseInputEvent(
@@ -202,16 +207,19 @@ class _DCAddMedicineScreenState extends State<DCAddMedicineScreen> {
                         backgroundColor: context.colorScheme.surface,
                         fixedSize: Size(
                           context.width * 0.8,
-                          context.height * 0.07,
+                          context.height * 0.05,
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 4,
                         ),
                         onPressed: (context) {
                           BlocProvider.of<PrescriptionBloc>(context)
                               .add(const AddIntakeButtonPressedEvent());
                         },
                         child: Text(
-                          'Add this to intake',
+                          'Add this to prescription',
                           style: context.textTheme.h6RegularPoppins.copyWith(
-                            fontSize: 20,
+                            fontSize: 16,
                             color: context.colorScheme.onSecondary,
                           ),
                         ),

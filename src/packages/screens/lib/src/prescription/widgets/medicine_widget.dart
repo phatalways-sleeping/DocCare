@@ -31,21 +31,30 @@ class DCMedicine extends StatelessWidget {
             : context.colorScheme.onPrimary,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
-          side: const BorderSide(
-            color: Colors.green,
-          ),
+          side: isAddMedicine
+              ? BorderSide.none
+              : BorderSide(
+                  color: context.colorScheme.primary,
+                ),
         ),
         elevation: 0,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
           child: Row(
             children: [
-              SvgPicture.string(
-                DCSVGIcons.pill,
-                width: 30,
-                height: 30,
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: context.colorScheme.background,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: SvgPicture.string(
+                  DCSVGIcons.pill,
+                  width: 30,
+                  height: 30,
+                ),
               ),
-              const SizedBox(width: 8),
+              SizedBox(width: context.width * 0.05),
               if (!isAddMedicine)
                 Expanded(
                   child: Column(
@@ -96,12 +105,10 @@ class DCMedicine extends StatelessWidget {
                 )
               else
                 Expanded(
-                  child: Center(
-                    child: Text(
-                      'Add new medicine',
-                      style: context.textTheme.h6RegularPoppins.copyWith(
-                        fontSize: 20,
-                      ),
+                  child: Text(
+                    'Add new medicine',
+                    style: context.textTheme.h6RegularPoppins.copyWith(
+                      fontSize: 20,
                     ),
                   ),
                 ),

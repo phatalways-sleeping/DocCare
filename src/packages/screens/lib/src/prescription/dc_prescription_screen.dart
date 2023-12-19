@@ -70,22 +70,21 @@ class _DCPrescriptionScreenState extends State<DCPrescriptionScreen> {
 
     return Center(
       child: FractionallySizedBox(
-        widthFactor: 0.9,
+        widthFactor: 0.94,
         child: CustomScrollView(
           slivers: [
-            SliverList(
-              delegate: SliverChildListDelegate(
-                [
-                  Container(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      widget.customerName,
-                      style: context.textTheme.h6BoldPoppins.copyWith(
-                        fontSize: 20,
-                      ),
-                    ),
+            SliverToBoxAdapter(
+              child: Container(
+                alignment: Alignment.centerLeft,
+                margin: const EdgeInsets.symmetric(
+                  vertical: 5,
+                ),
+                child: Text(
+                  widget.customerName,
+                  style: context.textTheme.h6BoldPoppins.copyWith(
+                    fontSize: 30,
                   ),
-                ],
+                ),
               ),
             ),
             SliverList(
@@ -106,6 +105,9 @@ class _DCPrescriptionScreenState extends State<DCPrescriptionScreen> {
                   const SizedBox(height: 16),
                   Container(
                     alignment: Alignment.centerLeft,
+                    margin: const EdgeInsets.only(
+                      bottom: 5,
+                    ),
                     child: Text(
                       "Doctor's Notes",
                       style: context.textTheme.h6BoldPoppins.copyWith(
@@ -113,25 +115,16 @@ class _DCPrescriptionScreenState extends State<DCPrescriptionScreen> {
                       ),
                     ),
                   ),
-                  Container(
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: context.colorScheme.onPrimary,
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: context.colorScheme.secondary),
-                    ),
-                    child: TextField(
-                      controller: _noteController,
-                      maxLines: 5,
-                      decoration: const InputDecoration(
-                        hintText: 'Write some note for the patient...',
-                        border: InputBorder.none,
-                        contentPadding: EdgeInsets.all(12),
+                  DCOutlinedTextFormField(
+                    controller: _noteController,
+                    maxLines: 7,
+                    hintText: 'Write some note for the patient...',
+                    borderRadius: 12,
+                    onChanged: (context, controller) =>
+                        BlocProvider.of<PrescriptionBloc>(context).add(
+                      DoctorNoteMedicineInputEvent(
+                        controller.text,
                       ),
-                      style: const TextStyle(fontSize: 16),
-                      onChanged: (value) =>
-                          BlocProvider.of<PrescriptionBloc>(context)
-                              .add(DoctorNoteMedicineInputEvent(value)),
                     ),
                   ),
                   const SizedBox(height: 16),
@@ -139,13 +132,16 @@ class _DCPrescriptionScreenState extends State<DCPrescriptionScreen> {
                     backgroundColor: context.colorScheme.surface,
                     fixedSize: Size(
                       context.width * 0.8,
-                      context.height * 0.07,
+                      context.height * 0.05,
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 4,
                     ),
                     onPressed: (context) {},
                     child: Text(
                       'Add prescription',
-                      style: context.textTheme.h6RegularPoppins.copyWith(
-                        fontSize: 20,
+                      style: context.textTheme.h6BoldPoppins.copyWith(
+                        fontSize: 18,
                         color: context.colorScheme.onSecondary,
                       ),
                     ),

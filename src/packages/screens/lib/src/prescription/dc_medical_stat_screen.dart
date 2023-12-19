@@ -60,7 +60,7 @@ class _DCMedicalStatScreenState extends State<DCMedicalStatScreen> {
     setText();
     return Center(
       child: FractionallySizedBox(
-        widthFactor: 0.9,
+        widthFactor: 0.94,
         child: CustomScrollView(
           slivers: [
             SliverList(
@@ -70,10 +70,14 @@ class _DCMedicalStatScreenState extends State<DCMedicalStatScreen> {
                     children: [
                       Container(
                         alignment: Alignment.centerLeft,
+                        margin: const EdgeInsets.symmetric(
+                          vertical: 5,
+                        ),
                         child: Text(
                           widget.customerName,
                           style: context.textTheme.h6BoldPoppins.copyWith(
                             fontSize: 30,
+                            color: context.colorScheme.tertiary,
                           ),
                         ),
                       ),
@@ -143,40 +147,34 @@ class _DCMedicalStatScreenState extends State<DCMedicalStatScreen> {
                       const SizedBox(height: 16),
                       Container(
                         alignment: Alignment.centerLeft,
+                        margin: const EdgeInsets.only(
+                          bottom: 5,
+                        ),
                         child: Text(
                           "Doctor's Notes",
                           style: context.textTheme.h6BoldPoppins
                               .copyWith(fontSize: 20),
                         ),
                       ),
-                      Container(
-                        padding: const EdgeInsets.all(16),
-                        decoration: BoxDecoration(
-                          color: context.colorScheme.onPrimary,
-                          borderRadius: BorderRadius.circular(12),
-                          border:
-                              Border.all(color: context.colorScheme.secondary),
-                        ),
-                        child: TextField(
-                          controller: _controller5,
-                          maxLines: 3,
-                          decoration: const InputDecoration(
-                            hintText: 'Write some note for the patient...',
-                            border: InputBorder.none,
-                            contentPadding: EdgeInsets.all(12),
-                          ),
-                          style: const TextStyle(fontSize: 16),
-                          onChanged: (value) =>
-                              BlocProvider.of<PrescriptionBloc>(context)
-                                  .add(DoctorNoteInputEvent(value)),
-                        ),
+                      DCOutlinedTextFormField(
+                        controller: _controller5,
+                        keyboardType: TextInputType.multiline,
+                        borderRadius: 12,
+                        maxLines: 5,
+                        hintText: 'Write some notes for the patient',
+                        onChanged: (context, controller) =>
+                            BlocProvider.of<PrescriptionBloc>(context)
+                                .add(DoctorNoteInputEvent(controller.text)),
                       ),
                       const SizedBox(height: 16),
                       DCFilledButton(
                         backgroundColor: context.colorScheme.surface,
                         fixedSize: Size(
-                          context.width * 0.4,
-                          context.height * 0.06,
+                          context.width * 0.8,
+                          context.height * 0.05,
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 4,
                         ),
                         onPressed: (context) {
                           BlocProvider.of<PrescriptionBloc>(
