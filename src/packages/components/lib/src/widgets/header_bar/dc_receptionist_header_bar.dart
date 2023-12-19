@@ -30,7 +30,8 @@ class DCReceptionistHeaderBar extends StatefulWidget
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
   @override
-  State<DCReceptionistHeaderBar> createState() => _DCReceptionistHeaderBarState();
+  State<DCReceptionistHeaderBar> createState() =>
+      _DCReceptionistHeaderBarState();
 }
 
 class _DCReceptionistHeaderBarState extends State<DCReceptionistHeaderBar> {
@@ -59,7 +60,22 @@ class _DCReceptionistHeaderBarState extends State<DCReceptionistHeaderBar> {
                 widget.onLeadingIconPressed?.call(context);
               },
             )
-          : null,
+          : widget.haveLogout
+              ? IconButton(
+                  icon: SvgPicture.string(
+                    DCSVGIcons.logout,
+                    width: 25,
+                    height: 25,
+                    colorFilter: ColorFilter.mode(
+                      context.colorScheme.onBackground,
+                      BlendMode.srcIn,
+                    ),
+                  ),
+                  onPressed: () {
+                    widget.onLeadingIconPressed?.call(context);
+                  },
+                )
+              : null,
       actionItems: [
         if (haveNotification)
           IconButton(
