@@ -9,7 +9,7 @@ class SupabaseStatisticsApiService implements StatisticsAPIService<Statistics> {
 
   final SupabaseClient supabase;
 
- @override
+  @override
   Future<Statistics> getStatistics(int id) => supabase
       .from('statistics')
       .select<PostgrestList>()
@@ -31,7 +31,7 @@ class SupabaseStatisticsApiService implements StatisticsAPIService<Statistics> {
             : value.map(Statistics.fromJson).toList(),
       )
       .onError((error, stackTrace) => throw Exception(error));
-      
+
   @override
   Future<List<Statistics>> getStatisticsList(String prescriptionID) => supabase
       .from('statistics')
@@ -39,11 +39,12 @@ class SupabaseStatisticsApiService implements StatisticsAPIService<Statistics> {
       .eq('prescriptionID', prescriptionID)
       .then(
         (value) => value.isEmpty
-            ? throw Exception('No statistics with prescriptionID = $prescriptionID found')
+            ? throw Exception(
+                'No statistics with prescriptionID = $prescriptionID found')
             : value.map(Statistics.fromJson).toList(),
       )
       .onError((error, stackTrace) => throw Exception(error));
-  
+
   @override
   Future<void> createStatistics(Statistics statistics) => supabase
       .from('statistics')
@@ -51,7 +52,7 @@ class SupabaseStatisticsApiService implements StatisticsAPIService<Statistics> {
         statistics.toJson(),
       )
       .onError((error, stackTrace) => throw Exception(error));
-  
+
   @override
   Future<void> updateStatistics(int id, Statistics statistics) => supabase
       .from('statistics')
@@ -59,7 +60,6 @@ class SupabaseStatisticsApiService implements StatisticsAPIService<Statistics> {
         'value': statistics.value,
         'categoryName': statistics.categoryName,
         'prescriptionID': statistics.prescriptionID,
-        'note': statistics.note,
       })
       .eq('id', id)
       .onError((error, stackTrace) => throw Exception(error));
@@ -72,25 +72,27 @@ class SupabaseStatisticsApiService implements StatisticsAPIService<Statistics> {
       })
       .eq('id', id)
       .onError((error, stackTrace) => throw Exception(error));
-    
+
   @override
-  Future<void> updateStatisticsCategoryName(int id, String categoryName) => supabase
-      .from('statistics')
-      .update({
-        'categoryName': categoryName,
-      })
-      .eq('id', id)
-      .onError((error, stackTrace) => throw Exception(error));
-    
+  Future<void> updateStatisticsCategoryName(int id, String categoryName) =>
+      supabase
+          .from('statistics')
+          .update({
+            'categoryName': categoryName,
+          })
+          .eq('id', id)
+          .onError((error, stackTrace) => throw Exception(error));
+
   @override
-  Future<void> updateStatisticsPrescriptionID(int id, String prescriptionID) => supabase
-      .from('statistics')
-      .update({
-        'prescriptionID': prescriptionID,
-      })
-      .eq('id', id)
-      .onError((error, stackTrace) => throw Exception(error));
-  
+  Future<void> updateStatisticsPrescriptionID(int id, String prescriptionID) =>
+      supabase
+          .from('statistics')
+          .update({
+            'prescriptionID': prescriptionID,
+          })
+          .eq('id', id)
+          .onError((error, stackTrace) => throw Exception(error));
+
   @override
   Future<void> updateStatisticsNote(int id, String note) => supabase
       .from('statistics')

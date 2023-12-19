@@ -1,8 +1,6 @@
 // ignore_for_file: public_member_api_docs
 
-import 'package:models/models.dart';
-
-abstract interface class SpecializationApiService<T extends Specialization> {
+abstract interface class SpecializationApiService<Specialization> {
   const SpecializationApiService();
 
   Future<void> createSpecialization(Specialization specialization);

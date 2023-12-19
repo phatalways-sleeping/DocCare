@@ -7,7 +7,6 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
-import 'package:models/models.dart' show SignUpUser;
 
 import 'package:utility/utility.dart'
     show FormValidator, NotificationManagerService, NotificationType;
@@ -174,13 +173,8 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
       emit(SignUpLoading.from(state));
       await _authenticationRepositoryService
           .signUp(
-            SignUpUser(
-              state.email,
-              state.password,
-              state.birthday,
-              state.fullName,
-              state.phone,
-            ),
+            state.email,
+            state.password,
           )
           .then((value) => emit(SignUpSuccess.from(state)));
     } on AuthException catch (e) {
