@@ -222,6 +222,25 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
       return;
     }
 
+    if (state.medicines.containsKey(state.currentMedicineName)) {
+      await _notificationManagerService.show<void>(
+        NotificationType.error,
+        title: const Text(
+          'Something went wrong',
+          style: TextStyle(
+            fontSize: 16,
+          ),
+        ),
+        message: const Text(
+          'Medicine is already in the list',
+          style: TextStyle(
+            fontSize: 16,
+          ),
+        ),
+      );
+      return;
+    }
+
     var timeTake = '';
     for (var i = 0; i < state.currentTimeToTake.length; i++) {
       if (state.currentTimeToTake[i]) {

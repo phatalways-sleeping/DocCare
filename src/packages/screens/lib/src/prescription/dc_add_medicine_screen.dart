@@ -55,6 +55,9 @@ class _DCAddMedicineScreenState extends State<DCAddMedicineScreen> {
                       const SizedBox(height: 8),
                       Autocomplete<String>(
                         optionsBuilder: (TextEditingValue textEditingValue) {
+                          context.read<PrescriptionBloc>().add(
+                                MedicineNameInputEvent(textEditingValue.text),
+                              );
                           if (textEditingValue.text == '') {
                             return const Iterable<String>.empty();
                           }
