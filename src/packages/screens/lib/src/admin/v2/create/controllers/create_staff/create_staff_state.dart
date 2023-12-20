@@ -160,17 +160,23 @@ final class CreateStaffLoading extends CreateStaffState {
 }
 
 final class CreateStaffSuccess extends CreateStaffState {
-  const CreateStaffSuccess()
+  const CreateStaffSuccess(String role)
       : super(
           fullName: '',
           email: '',
           password: '',
           birthdate: '',
           phoneNumber: '',
-          role: '',
+          role: role,
           specialization: '',
           workingShifts: const [],
         );
+
+  factory CreateStaffSuccess.fromState(CreateStaffState state) {
+    return CreateStaffSuccess(
+      state.role,
+    );
+  }
 
   @override
   CreateStaffSuccess copyWith({
@@ -183,7 +189,9 @@ final class CreateStaffSuccess extends CreateStaffState {
     String? specialization,
     List<Map<String, dynamic>>? workingShifts,
   }) {
-    return const CreateStaffSuccess();
+    return CreateStaffSuccess(
+      role ?? this.role,
+    );
   }
 }
 

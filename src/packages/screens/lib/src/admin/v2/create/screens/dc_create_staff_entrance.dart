@@ -36,114 +36,141 @@ class _DCCreateStaffEntranceState extends State<DCCreateStaffEntrance> {
                 fit: BoxFit.cover,
               ),
               gap,
-              DCOutlinedWithHeadingTextFormField(
-                onChanged: (context, controller) =>
-                    context.read<StaffCreationBloc>().add(
-                          CreateStaffNameChangedEvent(
-                            controller.text,
-                          ),
-                        ),
-                heading: Text(
-                  'Full name',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                    color: context.colorScheme.tertiary,
-                  ),
-                ),
-                hintText: 'Enter the full name of the staff',
-                borderRadius: 12,
-                textAlign: TextAlign.center,
-                maxLines: 1,
-                keyboardType: TextInputType.name,
+              BlocSelector<StaffCreationBloc, CreateStaffState, String>(
+                selector: (state) => state.fullName,
+                builder: (context, state) {
+                  return DCOutlinedWithHeadingTextFormField(
+                    initialText: state,
+                    onChanged: (context, controller) =>
+                        context.read<StaffCreationBloc>().add(
+                              CreateStaffNameChangedEvent(
+                                controller.text,
+                              ),
+                            ),
+                    heading: Text(
+                      'Full name',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
+                        color: context.colorScheme.tertiary,
+                      ),
+                    ),
+                    hintText: 'Enter the full name of the staff',
+                    borderRadius: 12,
+                    textAlign: TextAlign.center,
+                    maxLines: 1,
+                    keyboardType: TextInputType.name,
+                  );
+                },
               ),
               gap,
-              DCOutlinedWithHeadingTextFormField(
-                onChanged: (context, controller) =>
-                    context.read<StaffCreationBloc>().add(
-                          CreateStaffEmailChangedEvent(
-                            controller.text,
-                          ),
-                        ),
-                heading: Text(
-                  'Email',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                    color: context.colorScheme.tertiary,
-                  ),
-                ),
-                hintText: 'Enter the email of the staff',
-                borderRadius: 12,
-                textAlign: TextAlign.center,
-                maxLines: 1,
-                keyboardType: TextInputType.emailAddress,
+              BlocSelector<StaffCreationBloc, CreateStaffState, String>(
+                selector: (state) => state.email,
+                builder: (context, state) {
+                  return DCOutlinedWithHeadingTextFormField(
+                    initialText: state,
+                    onChanged: (context, controller) =>
+                        context.read<StaffCreationBloc>().add(
+                              CreateStaffEmailChangedEvent(
+                                controller.text,
+                              ),
+                            ),
+                    heading: Text(
+                      'Email',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
+                        color: context.colorScheme.tertiary,
+                      ),
+                    ),
+                    hintText: 'Enter the email of the staff',
+                    borderRadius: 12,
+                    textAlign: TextAlign.center,
+                    maxLines: 1,
+                    keyboardType: TextInputType.emailAddress,
+                  );
+                },
               ),
               gap,
-              DCOutlinedWithHeadingTextFormField(
-                onChanged: (context, controller) =>
-                    context.read<StaffCreationBloc>().add(
-                          CreateStaffPasswordChangedEvent(
-                            controller.text,
-                          ),
-                        ),
-                heading: Text(
-                  'Password',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                    color: context.colorScheme.tertiary,
-                  ),
-                ),
-                hintText: "Enter the account's password",
-                borderRadius: 12,
-                textAlign: TextAlign.center,
-                maxLines: 1,
-                keyboardType: TextInputType.visiblePassword,
+              BlocSelector<StaffCreationBloc, CreateStaffState, String>(
+                selector: (state) => state.password,
+                builder: (context, state) {
+                  return DCOutlinedWithHeadingTextFormField(
+                    onChanged: (context, controller) =>
+                        context.read<StaffCreationBloc>().add(
+                              CreateStaffPasswordChangedEvent(
+                                controller.text,
+                              ),
+                            ),
+                    heading: Text(
+                      'Password',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
+                        color: context.colorScheme.tertiary,
+                      ),
+                    ),
+                    hintText: "Enter the account's password",
+                    borderRadius: 12,
+                    textAlign: TextAlign.center,
+                    maxLines: 1,
+                    keyboardType: TextInputType.visiblePassword,
+                  );
+                },
               ),
               gap,
-              DCOutlinedWithHeadingTextFormField(
-                onChanged: (context, controller) =>
-                    context.read<StaffCreationBloc>().add(
-                          CreateStaffBirthdateChangedEvent(
-                            controller.text,
-                          ),
-                        ),
-                heading: Text(
-                  'Birthdate',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                    color: context.colorScheme.tertiary,
-                  ),
-                ),
-                hintText: 'DD/MM/YYYY',
-                borderRadius: 12,
-                textAlign: TextAlign.center,
-                maxLines: 1,
-                keyboardType: TextInputType.datetime,
+              BlocSelector<StaffCreationBloc, CreateStaffState, String>(
+                selector: (state) => state.birthdate,
+                builder: (context, state) {
+                  return DCOutlinedWithHeadingTextFormField(
+                    onChanged: (context, controller) =>
+                        context.read<StaffCreationBloc>().add(
+                              CreateStaffBirthdateChangedEvent(
+                                controller.text,
+                              ),
+                            ),
+                    heading: Text(
+                      'Birthdate',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
+                        color: context.colorScheme.tertiary,
+                      ),
+                    ),
+                    hintText: 'DD/MM/YYYY',
+                    borderRadius: 12,
+                    textAlign: TextAlign.center,
+                    maxLines: 1,
+                    keyboardType: TextInputType.datetime,
+                  );
+                },
               ),
               gap,
-              DCOutlinedWithHeadingTextFormField(
-                onChanged: (context, controller) =>
-                    context.read<StaffCreationBloc>().add(
-                          CreateStaffPhoneNumberChangedEvent(
-                            controller.text,
-                          ),
-                        ),
-                heading: Text(
-                  'Phone number',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                    color: context.colorScheme.tertiary,
-                  ),
-                ),
-                hintText: 'Enter the phone number of the staff',
-                borderRadius: 12,
-                textAlign: TextAlign.center,
-                maxLines: 1,
-                keyboardType: TextInputType.phone,
+              BlocSelector<StaffCreationBloc, CreateStaffState, String>(
+                selector: (state) => state.phoneNumber,
+                builder: (context, state) {
+                  return DCOutlinedWithHeadingTextFormField(
+                    onChanged: (context, controller) =>
+                        context.read<StaffCreationBloc>().add(
+                              CreateStaffPhoneNumberChangedEvent(
+                                controller.text,
+                              ),
+                            ),
+                    heading: Text(
+                      'Phone number',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
+                        color: context.colorScheme.tertiary,
+                      ),
+                    ),
+                    hintText: 'Enter the phone number of the staff',
+                    borderRadius: 12,
+                    textAlign: TextAlign.center,
+                    maxLines: 1,
+                    keyboardType: TextInputType.phone,
+                  );
+                },
               ),
               gap,
               Align(
@@ -231,8 +258,8 @@ class _DCCreateStaffEntranceState extends State<DCCreateStaffEntrance> {
                       onPressed: (context) {
                         if (state == 'Receptionist') {
                           return context.read<ScreenBloc>().add(
-                              const NavigateToThirdScreen(),
-                            );
+                                const NavigateToThirdScreen(),
+                              );
                         }
                         context.read<ScreenBloc>().add(
                               const NavigateToSecondScreen(),

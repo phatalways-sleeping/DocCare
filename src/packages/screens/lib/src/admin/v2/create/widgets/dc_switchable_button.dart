@@ -32,9 +32,15 @@ class DCSwitchableButton extends StatelessWidget {
               side: BorderSide(color: borderColor),
             ),
           ),
+          fixedSize: MaterialStateProperty.all(
+            Size(
+              context.width * 0.4,
+              context.height * 0.05,
+            ),
+          ),
           padding: MaterialStateProperty.all(
             const EdgeInsets.symmetric(
-              vertical: 10,
+              vertical: 5,
               horizontal: 20,
             ),
           ),
@@ -44,7 +50,7 @@ class DCSwitchableButton extends StatelessWidget {
           text,
           style: TextStyle(
             fontSize: 18,
-            fontWeight: FontWeight.w700,
+            fontWeight: FontWeight.w600,
             color: context.colorScheme.tertiary,
           ),
         ),

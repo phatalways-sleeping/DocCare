@@ -25,6 +25,8 @@ class StaffCreationBloc extends Bloc<CreateStaffEvent, CreateStaffState> {
     on<CreateStaffChangeStartPeriodEvent>(_onCreateStaffChangeStartPeriodEvent);
     on<CreateStaffChangeEndPeriodEvent>(_onCreateStaffChangeEndPeriodEvent);
     on<CreateStaffRoleChangedEvent>(_onCreateStaffRoleChangedEvent);
+    on<CreateStaffSpecializationChangedEvent>(
+        _onCreateStaffSpecializationChangedEvent);
   }
 
   void _onCreateStaffResetEvent(
@@ -46,6 +48,13 @@ class StaffCreationBloc extends Bloc<CreateStaffEvent, CreateStaffState> {
     Emitter<CreateStaffState> emit,
   ) {
     emit(state.copyWith(email: event.email));
+  }
+
+  void _onCreateStaffSpecializationChangedEvent(
+    CreateStaffSpecializationChangedEvent event,
+    Emitter<CreateStaffState> emit,
+  ) {
+    emit(state.copyWith(specialization: event.specialization));
   }
 
   void _onCreateStaffPasswordChangedEvent(
@@ -76,10 +85,27 @@ class StaffCreationBloc extends Bloc<CreateStaffEvent, CreateStaffState> {
     emit(state.copyWith(role: event.role));
   }
 
-  void _onCreateStaffSubmitEvent(
+  Future<void> _onCreateStaffSubmitEvent(
     CreateStaffSubmitEvent event,
     Emitter<CreateStaffState> emit,
-  ) {}
+  ) async {
+    // Data validation
+
+    // Start submitting
+    try {
+      emit(CreateStaffLoading.fromState(state));
+      await Future.delayed(const Duration(seconds: 2), () {}); // Fake request
+      // throw Exception('Request failed');
+      emit(CreateStaffSuccess.fromState(state));
+    } catch (error) {
+      emit(
+        CreateStaffFailure.fromState(
+          state: state,
+          errorMessage: 'Request failed',
+        ),
+      );
+    }
+  }
 
   void _onCreateStaffAddNewWorkingShiftEvent(
     CreateStaffAddNewWorkingShiftEvent event,

@@ -9,6 +9,7 @@ import 'package:screens/src/admin/v2/create/controllers/create_staff/create_staf
 import 'package:screens/src/admin/v2/create/controllers/screen/screen_bloc.dart';
 import 'package:screens/src/admin/v2/create/widgets/config.dart';
 import 'package:screens/src/admin/v2/create/widgets/dc_content_line.dart';
+import 'package:screens/src/admin/v2/create/widgets/show_dialog.dart';
 
 class DCCreateStaffReview extends StatefulWidget {
   const DCCreateStaffReview({super.key});
@@ -38,7 +39,24 @@ class _DCCreateStaffReviewState extends State<DCCreateStaffReview> {
       body: BlocConsumer<StaffCreationBloc, CreateStaffState>(
         listener: (context, state) async {
           if (state is CreateStaffSuccess) {
-          } else if (state is CreateStaffFailure) {}
+            await showStaffAddedDialog(
+              context: context,
+              role: state.role,
+            ).then(
+              (value) => context.read<ScreenBloc>().add(
+                    const NavigateToFirstScreen(),
+                  ),
+            );
+          } else if (state is CreateStaffFailure) {
+            await showAddingOperationFailure(
+              context: context,
+              message: state.errorMessage,
+            ).then(
+              (value) => context.read<StaffCreationBloc>().add(
+                    const CreateStaffResetEvent(), // Still uses the old content
+                  ),
+            );
+          }
         },
         builder: (context, state) {
           if (state is CreateStaffSuccess) {
