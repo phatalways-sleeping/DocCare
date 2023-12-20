@@ -69,6 +69,9 @@ class _DCSpecialityButtonState extends State<DCSpecialityButton> {
               focusedErrorBorder: errorBorder,
               labelStyle: normalTextStyle,
               hintStyle: normalTextStyle,
+              contentPadding: EdgeInsets.symmetric(
+                horizontal: context.width * 0.05,
+              ),
             ),
             hintText: widget.hintText,
             menuStyle: MenuStyle(

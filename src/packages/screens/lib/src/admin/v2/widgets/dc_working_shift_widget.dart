@@ -3,8 +3,8 @@
 import 'package:components/components.dart';
 import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
-import 'package:screens/src/admin/v2/create/widgets/config.dart';
-import 'package:screens/src/admin/v2/create/widgets/dc_speciality_button.dart';
+import 'package:screens/src/admin/v2/config.dart';
+import 'package:screens/src/admin/v2/widgets/dc_speciality_button.dart';
 
 class DCWorkingShiftWidget extends StatelessWidget {
   const DCWorkingShiftWidget({

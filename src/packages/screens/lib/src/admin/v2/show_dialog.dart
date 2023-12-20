@@ -8,6 +8,7 @@ import 'package:flutter_svg/svg.dart';
 Future<void> showStaffAddedDialog({
   required BuildContext context,
   required String role,
+  String? message,
 }) =>
     showDialog(
       context: context,
@@ -61,7 +62,7 @@ Future<void> showStaffAddedDialog({
                   height: 10,
                 ),
                 Text(
-                  'The $role has been added to the system.',
+                  message ?? 'The $role has been added to the system.',
                   style: context.textTheme.bodyRegularPoppins.copyWith(
                     fontSize: 16,
                   ),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+const Duration debounceDuration = Duration(milliseconds: 500);
+
 const gap = SizedBox(
   height: 20,
 );

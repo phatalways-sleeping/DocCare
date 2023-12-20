@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:screens/src/admin/v2/create/controllers/create_staff/create_staff_bloc.dart';
 import 'package:screens/src/admin/v2/create/controllers/screen/screen_bloc.dart';
-import 'package:screens/src/admin/v2/create/widgets/config.dart';
-import 'package:screens/src/admin/v2/create/widgets/dc_working_shift_widget.dart';
+import 'package:screens/src/admin/v2/config.dart';
+import 'package:screens/src/admin/v2/widgets/dc_working_shift_widget.dart';
 
 class DCCreateStaffSecond extends StatefulWidget {
   const DCCreateStaffSecond({super.key});

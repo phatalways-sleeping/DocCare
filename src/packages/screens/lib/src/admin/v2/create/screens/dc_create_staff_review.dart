@@ -7,9 +7,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:screens/src/absent/doctor/dc_loading_view.dart';
 import 'package:screens/src/admin/v2/create/controllers/create_staff/create_staff_bloc.dart';
 import 'package:screens/src/admin/v2/create/controllers/screen/screen_bloc.dart';
-import 'package:screens/src/admin/v2/create/widgets/config.dart';
-import 'package:screens/src/admin/v2/create/widgets/dc_content_line.dart';
-import 'package:screens/src/admin/v2/create/widgets/show_dialog.dart';
+import 'package:screens/src/admin/v2/config.dart';
+import 'package:screens/src/admin/v2/widgets/dc_content_line.dart';
+import 'package:screens/src/admin/v2/show_dialog.dart';
 
 class DCCreateStaffReview extends StatefulWidget {
   const DCCreateStaffReview({super.key});
