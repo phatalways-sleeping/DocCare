@@ -1,3 +1,5 @@
+// ignore_for_file: doc_directive_missing_closing_tag
+
 part of 'login_bloc.dart';
 
 /// {@template login_state}

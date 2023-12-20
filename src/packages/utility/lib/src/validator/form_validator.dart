@@ -198,4 +198,48 @@ class FormValidator {
 
     return const FieldValidationResponse.valid();
   }
+
+  /// [validateBloodPressure] is a method that validates the blood pressure.
+  /// It returns a [FieldValidationResponse]
+  static FieldValidationResponse validateBloodPressure(
+    String bloodPressure, {
+    bool bloodPressureValidation = true,
+  }) {
+    if (bloodPressure.isEmpty) {
+      return FieldValidationResponse.empty(field: 'Blood Pressure');
+    }
+
+    // Check if blood pressure is in the format XXX/XXX
+    if (!bloodPressure.contains(RegExp(r'^\d{1,3}\/\d{1,3}$'))) {
+      return const FieldValidationResponse(
+        isValid: false,
+        cause: 'Blood Pressure must be in the format XXX/XXX',
+        field: 'Blood Pressure',
+      );
+    }
+
+    return const FieldValidationResponse.valid();
+  }
+
+  /// [validateNumber] is a method that validates the number.
+  /// It returns a [FieldValidationResponse]
+  static FieldValidationResponse validateNumber(
+    String numb, {
+    bool numberValidation = true,
+  }) {
+    if (numb.isEmpty) {
+      return FieldValidationResponse.empty(field: 'Number');
+    }
+
+    // Check if it is a number
+    if (!numb.contains(RegExp(r'^\d+$'))) {
+      return const FieldValidationResponse(
+        isValid: false,
+        cause: 'Number must be a number',
+        field: 'Number',
+      );
+    }
+
+    return const FieldValidationResponse.valid();
+  }
 }

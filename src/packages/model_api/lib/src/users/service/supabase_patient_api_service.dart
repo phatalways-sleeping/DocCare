@@ -13,6 +13,17 @@ class SupabaseCustomerApiService implements UserApiService<Customer> {
   final SupabaseClient supabase;
 
   @override
+  Future<List<String>> getAllUserEmail() => supabase
+      .from('customer')
+      .select<PostgrestList>()
+      .then(
+        (value) => value.isEmpty
+            ? throw Exception('No patient email found')
+            : value.map((item) => item['email'] as String).toList(),
+      )
+      .onError((error, stackTrace) => throw Exception(error));
+
+  @override
   Future<void> createUser(Customer user) => supabase
       .from('customer')
       .insert(

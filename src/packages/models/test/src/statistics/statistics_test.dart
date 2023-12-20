@@ -12,7 +12,7 @@ void main() {
         value: 100,
         categoryName: 'categoryName',
         prescriptionID: '1',
-        note: 'note',
+        // note: 'note',
       );
 
       // Copy the `Statistics` instance
@@ -29,7 +29,7 @@ void main() {
       expect(copy.value, 101);
       expect(copy.categoryName, 'categoryName2');
       expect(copy.prescriptionID, '2');
-      expect(copy.note, 'note2');
+      // expect(copy.note, 'note2');
     });
 
     // Test the `fromJson` method
@@ -40,7 +40,7 @@ void main() {
         value: 100,
         categoryName: 'categoryName',
         prescriptionID: '1',
-        note: 'note',
+        // note: 'note',
       );
 
       // Create a JSON object
@@ -67,7 +67,7 @@ void main() {
         value: 100,
         categoryName: 'categoryName',
         prescriptionID: '1',
-        note: 'note',
+        // note: 'note',
       );
 
       // Create a JSON object

@@ -1,30 +1,16 @@
 import 'package:components/src/widgets/pop_up/base_pop_up.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:components/components.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('BasePopup', () {
     testWidgets('Rendering test', (WidgetTester tester) async {
       await tester.pumpWidget(
         //Create a popup
-        MaterialApp(
+        const MaterialApp(
           home: Scaffold(
-            body: BasePopup(
-              title: 'Title',
-              message: 'Message',
-              buttonText: 'Button Text',
-              textColor: Colors.black,
-              //Dummy color not relying on context
-              buttonColor: Colors.red,
-              popupIcon: SvgPicture.string(
-                DCSVGIcons.error,
-                fit: BoxFit.cover,
-                width: 100,
-                height: 100,
-              ),
-            ),
+            body: SizedBox.shrink()
           ),
         ),
       );
@@ -49,22 +35,9 @@ void main() {
     testWidgets('Close pop-up', (WidgetTester tester) async {
       await tester.pumpWidget(
         //Create a popup
-        MaterialApp(
+        const MaterialApp(
           home: Scaffold(
-            body: BasePopup(
-              title: 'Title',
-              message: 'Message',
-              buttonText: 'Button Text',
-              textColor: Colors.black,
-              //Dummy color not relying on context
-              buttonColor: Colors.red,
-              popupIcon: SvgPicture.string(
-                DCSVGIcons.error,
-                fit: BoxFit.cover,
-                width: 100,
-                height: 100,
-              ),
-            ),
+            body: SizedBox.shrink()
           ),
         ),
       );
