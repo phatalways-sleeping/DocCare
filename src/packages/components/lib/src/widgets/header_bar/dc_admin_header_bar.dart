@@ -7,7 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class DCAdminHeaderBar extends StatefulWidget implements PreferredSizeWidget {
   const DCAdminHeaderBar({
-    super.key,
+    Key? key,
     this.headerBarTitle,
     this.onLeadingIconPressed,
     this.onActionsIconPressed,
@@ -16,7 +16,8 @@ class DCAdminHeaderBar extends StatefulWidget implements PreferredSizeWidget {
     this.allowNavigationBack = false,
     this.haveLogout = false,
     this.haveNotification = false,
-  });
+  }) : super(key: key);
+
   final String? headerBarTitle;
   final bool haveLogout;
   final bool allowNavigationBack;
@@ -28,6 +29,7 @@ class DCAdminHeaderBar extends StatefulWidget implements PreferredSizeWidget {
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+
   @override
   State<DCAdminHeaderBar> createState() => _DCAdminHeaderBarState();
 }

@@ -31,7 +31,6 @@ class DCPieChartState extends State<DCPieChart> {
 
   @override
   Widget build(BuildContext context) {
-
     final DocCareLightColorScheme colorScheme = DocCareLightColorScheme();
     return AspectRatio(
       aspectRatio: 1.3,
@@ -65,12 +64,22 @@ class DCPieChartState extends State<DCPieChart> {
                   sectionsSpace: 0,
                   centerSpaceRadius: 40,
                   sections: showingSections(
-                      widget.one_star.toDouble() / widget.sum_star.toDouble() * 100,
-                      widget.two_star.toDouble() / widget.sum_star.toDouble() * 100,
-                      widget.three_star.toDouble() / widget.sum_star.toDouble() * 100,
-                      widget.four_star.toDouble() / widget.sum_star.toDouble() * 100,
-                      widget.five_star.toDouble() / widget.sum_star.toDouble() * 100,
-                      ),
+                    widget.one_star.toDouble() /
+                        widget.sum_star.toDouble() *
+                        100,
+                    widget.two_star.toDouble() /
+                        widget.sum_star.toDouble() *
+                        100,
+                    widget.three_star.toDouble() /
+                        widget.sum_star.toDouble() *
+                        100,
+                    widget.four_star.toDouble() /
+                        widget.sum_star.toDouble() *
+                        100,
+                    widget.five_star.toDouble() /
+                        widget.sum_star.toDouble() *
+                        100,
+                  ),
                 ),
               ),
             ),
@@ -200,7 +209,7 @@ class DCPieChartState extends State<DCPieChart> {
               shadows: shadows,
             ),
           );
-          case 4:
+        case 4:
           return PieChartSectionData(
             color: colorScheme.quartenary,
             value: five_star_percent,
