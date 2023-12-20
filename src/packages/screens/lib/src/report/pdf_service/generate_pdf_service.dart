@@ -102,7 +102,7 @@ class PdfInvoiceService {
               sum_star: totalStar,
             )));
 
-  // design pdf
+      // design pdf
       widgets.addAll([
         pw.Row(
           children: [
@@ -212,21 +212,21 @@ class PdfInvoiceService {
           children: [
             pw.Center(
               child: pw.Container(
-                height: 400,
-                width: 1080,
-                child: totalStar != 0
-                    ? pw.Expanded(child: pw.Image(pw.MemoryImage(bytes)))
-                    : pw.Expanded(child:pw.Column(children: [
-                      pw.SizedBox(height: 50),
-                        pw.Text(
-                          'There is no data to display!',
-                          style: pw.TextStyle(
-                            fontSize: 17,
-                          ),
-                        ),
-                      ]),
-                    )
-              ),
+                  height: 400,
+                  width: 1080,
+                  child: totalStar != 0
+                      ? pw.Expanded(child: pw.Image(pw.MemoryImage(bytes)))
+                      : pw.Expanded(
+                          child: pw.Column(children: [
+                            pw.SizedBox(height: 50),
+                            pw.Text(
+                              'There is no data to display!',
+                              style: pw.TextStyle(
+                                fontSize: 17,
+                              ),
+                            ),
+                          ]),
+                        )),
             ),
             pw.Text(
               '(*)This report aims to provide a comprehensive overview of the performance of the clinic, user engagement, appointment statistics, user feedback, trends, and actionable steps for improvement. Throughout this report, data analysis will be conducted to assess the clinic\'s operational efficiency, patient satisfaction, and areas requiring enhancement, ultimately offering strategic recommendations to elevate overall performance.',

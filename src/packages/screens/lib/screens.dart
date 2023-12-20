@@ -1,6 +1,13 @@
 /// Package for screens in this application
 library screens;
 
+export 'src/absent/doctor/dc_doctor_absent_screen.dart';
+export 'src/absent/receptionist/dc_receptionist_absent.dart';
+// export 'src/admin/create_staff/dc_create_staff_screen1.dart';
+// export 'src/admin/create_staff/dc_create_staff_screen2.dart';
+// export 'src/admin/remove_staff/dc_remove_staff_screen.dart';
+export 'src/admin/v2/create/flows/dc_admin_create_staff_flow.dart';
+export 'src/admin/v2/remove/screens/dc_staff_removal_screen.dart';
 export 'src/booking/flows/dc_doctor_view_main_screen.dart';
 export 'src/booking/flows/dc_schedule_view_screen.dart';
 export 'src/change_password/dc_change_password_screen.dart';

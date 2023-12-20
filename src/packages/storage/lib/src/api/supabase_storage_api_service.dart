@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'dart:typed_data';
+
 import 'package:flutter/foundation.dart';
 import 'package:storage/src/api/storage_api_service.dart';
 import 'package:storage/src/response/storage_response.dart';

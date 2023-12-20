@@ -13,6 +13,17 @@ class SupabaseDoctorApiService implements MedicalStaffApiService<Doctor> {
   final SupabaseClient supabase;
 
   @override
+  Future<List<String>> getAllUserEmail() => supabase
+      .from('doctor')
+      .select<PostgrestList>()
+      .then(
+        (value) => value.isEmpty
+            ? throw Exception('No doctor email found')
+            : value.map((item) => item['email'] as String).toList(),
+      )
+      .onError((error, stackTrace) => throw Exception(error));
+
+  @override
   Future<void> createUser(Doctor user) => supabase
       .from('doctor')
       .insert(

@@ -13,6 +13,17 @@ class SupabaseSpecializationApiService
   final SupabaseClient supabase;
 
   @override
+  Future<List<String>> getAllSpecialization() => supabase
+      .from('specialization')
+      .select<PostgrestList>()
+      .then(
+        (value) => value.isEmpty
+            ? throw Exception('No specialization found')
+            : value.map((item) => item['name'] as String).toList(),
+      )
+      .onError((error, stackTrace) => throw Exception(error));
+
+  @override
   Future<void> createSpecialization(Specialization specialization) => supabase
       .from('specialization')
       .insert(
