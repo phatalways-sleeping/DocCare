@@ -1,3 +1,4 @@
+
 part of 'doctor_home_bloc.dart';
 
 @immutable
@@ -8,60 +9,58 @@ sealed class DoctorHomeEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-final class DoctorHomeInitialEvent extends DoctorHomeEvent {
-  const DoctorHomeInitialEvent();
+final class DoctorHomeResetEvent extends DoctorHomeEvent {
+  const DoctorHomeResetEvent();
 
   @override
   List<Object?> get props => [];
 }
+final class DoctorHomeOpenDoctorScheduleViewEvent extends DoctorHomeEvent {
+  const DoctorHomeOpenDoctorScheduleViewEvent({
+    required this.date,
+  });
 
-// final class DoctorHomeReviewEvent extends DoctorHomeEvent {
-//   const DoctorHomeReviewEvent(this.rating, this.index);
+  final DateTime date;
+
+  @override
+  List<Object?> get props => [date];
+}
+
+final class DoctorHomeOpenCancelAppointmentViewEvent extends DoctorHomeEvent {
+  const DoctorHomeOpenCancelAppointmentViewEvent({
+    required this.customerID,
+    required this.doctorID,
+    required this.period,
+    required this.date,
+
+  });
+
+  final String customerID;
+  final String doctorID;
+  final int period;
+  final DateTime date;
+
+
+  @override
+  List<Object?> get props => [customerID,doctorID,period,date];
+}
+// final class OpenIntakeViewEvent extends DoctorHomeEvent {
+//   const OpenIntakeViewEvent({
+//     required this.customerID,
+//   });
+//   final String customerID;
+
+//   @override
+//   List<Object?> get props => [customerID];
+// }
+
+// final class IntakeRatingEvent extends DoctorHomeEvent {
+//   const IntakeRatingEvent({
+//     required this.rating,
+//   });
 
 //   final int rating;
-//   final int index;
 
 //   @override
 //   List<Object?> get props => [rating];
-//  }
-
-// final class DoctorSelectDateEvent extends DoctorHomeEvent {
-//   const DoctorSelectDateEvent(this.date);
-
-//   final DateTime date;
-
-//   @override
-//   List<Object?> get props => [date];
-// }
-final class DoctorSelectDateEvent extends DoctorHomeEvent {
-  const DoctorSelectDateEvent({
-    required this.selectedDate,
-  });
-
-  final DateTime selectedDate;
-
-  @override
-  List<Object?> get props => [
-        selectedDate,
-      ];
-}
-
-
-
-
-
-final class DoctorScheduleBackEvent extends DoctorHomeEvent {
-  const DoctorScheduleBackEvent();
-
-  @override
-  List<Object?> get props => [];
-}
-
-// final class PrescriptionOnTickEvent extends DoctorHomeEvent {
-//   const PrescriptionOnTickEvent(this.index);
-
-//   final int index;
-
-//   @override
-//   List<Object?> get props => [index];
 // }

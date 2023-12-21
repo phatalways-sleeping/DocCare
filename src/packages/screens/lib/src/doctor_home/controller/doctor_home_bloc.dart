@@ -1,276 +1,224 @@
-import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
-import 'package:model_api/model_api.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+//import 'package:utility/utility.dart';
 
 part 'doctor_home_event.dart';
 part 'doctor_home_state.dart';
 
 class DoctorHomeBloc extends Bloc<DoctorHomeEvent, DoctorHomeState> {
   DoctorHomeBloc(
-    this.ID,
-    this.doctorName,
-    this._appointmentApiService,
-    this._customerApiService,
- //   this._doctorAPIService,
-  ) : super(DoctorHomeInitial.empty()) {
-    on<DoctorHomeInitialEvent>(_onDoctorHomeInitialEvent);    
-    on<DoctorSelectDateEvent>(_onDoctorSelectDateEvent);
-    on<DoctorScheduleBackEvent>(_onDoctorScheduleBackEvent);
+    //this._notificationManagerService,
+  ) : super(DoctorHomeViewState.initial()) {
+    on<DoctorHomeOpenDoctorScheduleViewEvent>(
+        _onDoctorHomeOpenDoctorScheduleViewEvent);
+    on<DoctorHomeResetEvent>(_onDoctorHomeResetEvent);
+    on<DoctorHomeOpenCancelAppointmentViewEvent> (_onDoctorHomeOpenCancelAppointmentViewEvent);
   }
 
-  final String ID;
-  final String doctorName;
-  final SupabaseAppointmentApiService _appointmentApiService;
-  final SupabaseCustomerApiService _customerApiService;
-//  final SupabaseDoctorApiService _doctorAPIService;
-
-  void _onDoctorHomeInitialEvent(
-    DoctorHomeInitialEvent event,
-    Emitter<DoctorHomeState> emit,
-  ) async {
-    try {
-      final customerName = <String>[];
-      final period = <int>[];
-      final date = <DateTime>[];
-      final customerComment = <String?>[];
-      final currentDay = DateTime.now();
-      emit(DoctorHomeInitial.empty());
-      final appointments = await _appointmentApiService
-          .getAppointmentsByDoctorId(ID)
-          .then((value) {
-        for (final element in value) {
-          customerName.add(element.customerID);
-          period.add(element.period);
-          date.add(element.date);
-          customerComment.add(element.customerComment);
-        }
-      });
-
-      for (var i = 0; i < customerName.length; i++) {
-        final customer = await _customerApiService
-            .getUser(customerName[i])
-            .then((value) => customerName[i] = value.fullname);
-      }
-
-      emit(
-        DoctorHomeInitial.input(
-          customerName: customerName,
-          period: period,
-          date: date,
-          customerComment: customerComment,
-          currentDay: currentDay,
-        ),
-      );
-    } catch (e) {
-      return;
-    }
+  @override
+  void onTransition(
+      Transition<DoctorHomeEvent, DoctorHomeState> transition) {
+    debugPrint(transition.toString());
+    super.onTransition(transition);
   }
 
-  void _onDoctorSelectDateEvent(
-    DoctorSelectDateEvent event,
+  //final NotificationManagerService _notificationManagerService;
+
+
+// for doctor home screen
+  Future<List<Map<String, dynamic>>> getAllAppointment() => Future.delayed(
+        const Duration(seconds: 1),
+        () => [
+          {
+            'customerName': 'Nguyen Van A',
+            'date': DateTime.now(),
+            //'Note': //'Note',
+            'id': 'P001',
+          },
+          {
+            'customerName': 'Nguyen Van B',
+            'date': DateTime.now(),
+            //'Note': //'Note',
+            'id': 'P002',
+          },
+          {
+            'customerName': 'Nguyen Van C',
+            'date': DateTime.now(),
+            //'Note': //'Note',
+            'id': 'P003',
+          },
+        ],
+      );
+
+
+
+  Future<List<Map<String, dynamic>>> getUpcomingAppointment() => Future.delayed(
+        const Duration(seconds: 1),
+        () => [
+          {
+            'customerName': 'Nguyen Van D',
+            'date': DateTime.now(),
+            //'Note': //'Note',
+            'id': 'P004',
+          },
+          // {
+          //   'customerName': 'Nguyen Van A',
+          //   'date': DateTime.now(),
+          //   //'Note': //'Note',
+          //   'id': 'P002',
+          // },
+          // {
+          //   'customerName': 'Nguyen Van A',
+          //   'date': DateTime.now(),
+          //   //'Note': //'Note',
+          //   'id': 'P003',
+          // },
+        ],
+      );
+
+// for doctor schedule screen
+  Future<List<Map<String, dynamic>>> getNextAppointment() => Future.delayed(
+        const Duration(seconds: 1),
+        () => [
+          {
+            'customerName': 'Nguyen Van E',
+            'time': '2:00 PM',
+            //'Note': //'Note',
+            'symptom': 'headache',
+            'id': 'P0010',
+
+          },
+          {
+            'customerName': 'Nguyen Van F',
+            'time': '2:00 PM',
+            //'Note': //'Note',
+            'symptom': 'headache',
+            'id': 'P0011',
+
+          },
+          {
+            'customerName': 'Nguyen Van G',
+            'time': '2:00 PM',
+            //'Note': //'Note',
+            'symptom': 'headache',
+            'id': 'P0012',
+          },
+        ],
+      );
+
+  Future<List<Map<String, dynamic>>> getPastAppointment() => Future.delayed(
+        const Duration(seconds: 1),
+        () => [
+          {
+            'customerName': 'Nguyen Van H',
+            'time': '2:00 PM',
+            //'Note': //'Note',
+            'symptom': 'Asthma',
+            'id': 'P0013',
+          },
+          {
+            'customerName': 'Nguyen Van J',
+            'time': '2:00 PM',
+            //'Note': //'Note',
+            'symptom': 'heart attack',
+            'id': 'P0014',
+          },
+        ],
+      );
+
+  void _onDoctorHomeResetEvent(
+    DoctorHomeResetEvent event,
     Emitter<DoctorHomeState> emit,
-  ) async {
-    try {
-      // final medicineName = <String>[];
-      // final quantity = <int?>[];
-      // final toBeTaken = <int?>[];
-      // final timeOfTheDay = <String?>[];
-
-      emit(
-        DoctorHomeLoading(
-          customerName: state.customerName,
-          period: state.period,
-          date: state.date,
-          customerComment: state.customerComment,
-          currentDay: state.currentDay,
-        ),
-      );
-
-      try {
-        // final intake = await _intakeAPIService
-        //     .getIntakeListByPrescriptionID(event.prescriptionID)
-        //     .then((value) {
-        //   for (final element in value) {
-        //     medicineName.add(element.medicineName);
-        //     quantity.add(element.quantity);
-        //     toBeTaken.add(element.toBeTaken);
-        //     timeOfTheDay.add(element.timeOfTheDay);
-        //   }
-        // });
-        
-
-
-
-      } catch (e) {
-        emit(
-          (state as DoctorHomeLoading).toggleBackToInitial(),
-        );
-        return;
-      }
-
-      emit(
-        DoctorScheduleInitial(
-          customerName: state.customerName,
-          period: state.period,
-          date: state.date,
-          customerComment: state.customerComment,
-          currentDay: state.currentDay,
-          // medicineName: medicineName,
-          // quantity: quantity,
-          // toBeTaken: toBeTaken,
-          // timeOfTheDay: timeOfTheDay,
-          // currentPrescriptionID: event.prescriptionID,
-          // clickedIndex: event.index,
-        ),
-      );
-    } catch (e) {
-      return;
-    }
+  ) {
+    emit(DoctorHomeViewState.initial());
   }
 
-  void _onDoctorScheduleBackEvent(
-    DoctorScheduleBackEvent event,
+  // Future<void> _onPrescriptionCheckEvent(
+  //   PrescriptionCheckEvent event,
+  //   Emitter<DoctorHomeState> emit,
+  // ) async {
+  //   if (state is PrescriptionViewLoadingState) {
+  //     return;
+  //   }
+  //   if (state is! DoctorHomeViewState) {
+  //     return emit(DoctorHomeViewState.initial());
+  //   }
+  //   try {
+  //     emit(PrescriptionViewLoadingState.fromState(state));
+
+  //     await Future.delayed(const Duration(seconds: 1), () {}); // Mock delay
+
+  //     // throw Exception('Error');
+
+  //     emit(DoctorHomeViewState.initial());
+  //   } catch (error) {
+  //     emit(DoctorHomeViewState.initial());
+  //     await _notificationManagerService.show<void>(
+  //       NotificationType.error,
+  //       title: const Text('Error'),
+  //       message: const Text('An error occured while loading the prescription.'),
+  //     );
+  //   }
+  // }
+
+  void _onDoctorHomeOpenDoctorScheduleViewEvent(
+    DoctorHomeOpenDoctorScheduleViewEvent event,
     Emitter<DoctorHomeState> emit,
-  ) async {
+  ) {
     emit(
-      DoctorHomeInitial.input(
-        customerName: state.customerName,
-        period: state.period,
-        date: state.date,
-        customerComment: state.customerComment,
-        currentDay: state.currentDay,
-        // prescriptionID: state.prescriptionID,
-        // doctorName: state.doctorName,
-        // datePrescribed: state.datePrescribed,
-        // note: state.note,
-        // done: state.done,
-        // diagnosis: state.diagnosis,
+      DoctorScheduleViewState.fromState(
+        state,
+        //customerID: event.customerID,
       ),
     );
   }
 
-//   FutureOr<void> _onPrescriptionReviewEvent(
-//     PrescriptionReviewEvent event,
-//     Emitter<DoctorHomeState> emit,
-//   ) async { 
-//   try {
-//     final doctorID = <String>[];
-
-//     final prescription = await _prescriptionAPIService
-//           .getAllPrescriptionListByCustomerID(ID)
-//           .then((value) {
-//         for (final element in value) {
-//           doctorID.add(element.doctorID);
-//         }
-//       });
-
-//     emit(
-//       PrescriptionLoading(
-//           prescriptionID: state.prescriptionID,
-//           doctorName: state.doctorName,
-//           datePrescribed: state.datePrescribed,
-//           note: state.note,
-//           done: state.done,
-//           diagnosis: state.diagnosis,
-//         ),
-//       );
-
-//       final SupabaseClient client = Supabase.instance.client;
-
-//       print(ID);
-//       print(doctorID[event.index]);
-//       print(state.datePrescribed[event.index].toString());
-//       print(event.rating);
-
-//       await client.rpc('sp_update_appointment_rating', params: {
-//         'n_period': 1,
-//         'n_customer_id': ID,
-//         'n_doctor_id': doctorID[event.index],
-//         'n_date': state.datePrescribed[event.index].toString(),
-//         'n_rating': event.rating,
-//       },);
-
-//       emit(
-//         DoctorHomeInitial.input(
-//           prescriptionID: state.prescriptionID,
-//           doctorName: state.doctorName,
-//           datePrescribed: state.datePrescribed,
-//           note: state.note,
-//           done: state.done,
-//           diagnosis: state.diagnosis,
-//         ),
-//       );
-//   }
-//   catch (e) {
-//     print(e);
-
-//     emit(
-//         DoctorHomeInitial.input(
-//           prescriptionID: state.prescriptionID,
-//           doctorName: state.doctorName,
-//           datePrescribed: state.datePrescribed,
-//           note: state.note,
-//           done: state.done,
-//           diagnosis: state.diagnosis,
-//         ),
-//       );
-
-//     return;
-//   }
-// }
-
-  // FutureOr<void> _onPrescriptionOnTickEvent(
-  //   PrescriptionOnTickEvent event,
+  void _onDoctorHomeOpenCancelAppointmentViewEvent(
+    DoctorHomeOpenCancelAppointmentViewEvent event,
+    Emitter<DoctorHomeState> emit,
+  ) async{ }
+  // Future<void> _onMedicineCheckEvent(
+  //   MedicineCheckEvent event,
   //   Emitter<DoctorHomeState> emit,
   // ) async {
-  //   try {
-  //     emit(
-  //       PrescriptionLoading(
-  //         prescriptionID: state.prescriptionID,
-  //         doctorName: state.doctorName,
-  //         datePrescribed: state.datePrescribed,
-  //         note: state.note,
-  //         done: state.done,
-  //         diagnosis: state.diagnosis,
-  //       ),
-  //     );
-
-  //     await _prescriptionAPIService.updatePrescriptionDone(
-  //       state.prescriptionID[event.index],
-  //       state.done[event.index] ? false : true,
-  //       DateTime.now(),
-  //     );
-
-  //     final done = <bool>[];
-  //     final prescription = await _prescriptionAPIService
-  //         .getAllPrescriptionListByCustomerID(ID)
-  //         .then((value) {
-  //       for (var i = 0; i < state.prescriptionID.length; i++) {
-  //         for (final element in value) {
-  //           if (element.id == state.prescriptionID[i]) {
-  //             done.add(element.done);
-  //           }
-  //         }
-  //       }
-  //     });
-  //     emit(
-  //       DoctorHomeInitial.input(
-  //         prescriptionID: state.prescriptionID,
-  //         doctorName: state.doctorName,
-  //         datePrescribed: state.datePrescribed,
-  //         note: state.note,
-  //         done: done,
-  //         diagnosis: state.diagnosis,
-  //       ),
-  //     );
-  //   } catch (e) {
-  //     print(e);
+  //   if (state is MedicinesViewLoadingState) {
   //     return;
   //   }
+  //   if (state is! DoctorScheduleViewState) {
+  //     return emit(DoctorHomeViewState.initial());
+  //   }
+  //   try {
+  //     emit(MedicinesViewLoadingState.fromState(state));
+
+  //     await Future.delayed(const Duration(seconds: 1), () {}); // Mock delay
+
+  //     emit(DoctorScheduleViewState.fromState(state));
+  //   } catch (error) {
+  //     emit(MedicinesViewLoadingState.fromState(state));
+  //     await _notificationManagerService.show<void>(
+  //       NotificationType.error,
+  //       title: const Text('Error'),
+  //       message: const Text('An error occured while processing the medicine.'),
+  //     );
+  //   }
   // }
+
+  // void _onMedicineOpenIntakeViewEvent(
+  //   OpenIntakeViewEvent event,
+  //   Emitter<DoctorHomeState> emit,
+  // ) {
+  //   if (state is! DoctorScheduleViewState) {
+  //     return emit(DoctorHomeViewState.initial());
+  //   }
+  //   emit(
+  //     IntakeViewState.fromState(state),
+  //   );
+  // }
+
+  // void _onIntakeRatingEvent(
+  //   IntakeRatingEvent event,
+  //   Emitter<DoctorHomeState> emit,
+  // ) {}
 }
