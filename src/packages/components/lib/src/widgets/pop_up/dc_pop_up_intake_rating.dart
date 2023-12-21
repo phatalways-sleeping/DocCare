@@ -125,10 +125,12 @@ class _DCPopupIntakeRatingState extends State<DCPopupIntakeRating> {
   List<SvgPicture> ratings = List.generate(
     5,
     (index) => SvgPicture.string(
-      DCSVGIcons.yellowStar,
+      DCSVGIcons.greyStar,
       fit: BoxFit.cover,
     ),
   );
+
+  int currentRating = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -259,6 +261,7 @@ class _DCPopupIntakeRatingState extends State<DCPopupIntakeRating> {
             ratings.length,
             (index) => IconButton(
               onPressed: () {
+                currentRating = index + 1;
                 setState(() {
                   for (var i = 0; i <= index; i++) {
                     ratings[i] = SvgPicture.string(
@@ -297,7 +300,10 @@ class _DCPopupIntakeRatingState extends State<DCPopupIntakeRating> {
         widget.confirmButtonTextColor ?? context.colorScheme.onBackground,
       ],
       onConfirmButtonClicked: widget.onConfirmButtonClicked,
-      onCancelButtonClicked: widget.onReviewButtonClicked,
+      onCancelButtonClicked: widget.onReviewButtonClicked ??
+          (context) {
+            Navigator.pop(context, currentRating);
+          },
     );
   }
 }
