@@ -1,3 +1,5 @@
+// ignore_for_file: public_member_api_docs
+
 import 'package:controllers/controllers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,7 +26,6 @@ import 'package:views/src/screens/authentication/splash/dc_page_view/dc_page_vie
 ///   home: DCSplashScreen(key: navigatorKey),
 /// );
 /// ```
-/// {@template dc_splash_screen}
 class DCSplashScreen extends StatefulWidget {
   /// {@macro screens}
   const DCSplashScreen({

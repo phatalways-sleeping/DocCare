@@ -1,6 +1,8 @@
+// ignore_for_file: public_member_api_docs
+
 part of 'dc_page_view.dart';
 
-/// {@template dc_page_view_two}
+
 class DCPageViewTwo extends StatelessWidget {
   /// {@macro dc_page_view_two}
   const DCPageViewTwo({

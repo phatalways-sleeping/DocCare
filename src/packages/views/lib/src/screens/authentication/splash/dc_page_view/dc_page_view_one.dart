@@ -1,6 +1,7 @@
+// ignore_for_file: public_member_api_docs
+
 part of 'dc_page_view.dart';
 
-/// {@template dc_page_view_one}
 class DCPageViewOne extends StatefulWidget {
   /// {@macro dc_page_view_one}
   const DCPageViewOne({
