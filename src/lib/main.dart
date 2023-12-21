@@ -1,5 +1,4 @@
 import 'package:components/components.dart';
-import 'package:screens/screens.dart';
 import 'package:utility/utility.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -107,6 +106,10 @@ class _MyHomePageState extends State<MyHomePage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
-    return const DCDoctorAbsentScreen();
+    return const Scaffold(
+      body: Center(
+        child: Text('Hello World'),
+      ),
+    );
   }
 }
