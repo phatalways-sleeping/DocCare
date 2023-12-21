@@ -3,20 +3,21 @@
 import 'package:components/components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:screens/src/admin/controller/create_staff_bloc.dart';
+import 'package:screens/src/admin/v1/controller/create_staff_bloc.dart';
 
 class DCCreateStaffScreen2 extends StatefulWidget {
   const DCCreateStaffScreen2({required this.initialState, super.key});
 
   final CreateStaffState initialState;
   @override
-  _DCCreateStaffScreen2State createState() =>
+  State<DCCreateStaffScreen2> createState() =>
+      // ignore: no_logic_in_create_state
       _DCCreateStaffScreen2State(initialState);
 }
 
 class _DCCreateStaffScreen2State extends State<DCCreateStaffScreen2> {
-  final CreateStaffState initialState;
   _DCCreateStaffScreen2State(this.initialState);
+  final CreateStaffState initialState;
   final List<DynamicWidget> listDynamic = [];
   List<String> data = [];
   late Map<String, List<int>> dayOfWeek = {};
@@ -38,13 +39,13 @@ class _DCCreateStaffScreen2State extends State<DCCreateStaffScreen2> {
     super.initState();
 
     // Initialize daysOfWeek with state.dayOfWeek if it's not null
-    this.dayOfWeek = initialState.dayOfWeek ?? {};
+    dayOfWeek = initialState.dayOfWeek;
 
 // Initialize listDynamic based on the initial daysOfWeek
-    dayOfWeek.entries.forEach((entry) {
-      final selectedDayOfWeek = entry.key ?? '';
-      final selectedStartPeriod = entry.value[0] ?? -1;
-      final selectedEndPeriod = entry.value[1] ?? -1;
+    for (final entry in dayOfWeek.entries) {
+      final selectedDayOfWeek = entry.key;
+      final selectedStartPeriod = entry.value[0];
+      final selectedEndPeriod = entry.value[1];
 
       listDynamic.add(
         DynamicWidget(
@@ -73,7 +74,7 @@ class _DCCreateStaffScreen2State extends State<DCCreateStaffScreen2> {
           },
         ),
       );
-    });
+    }
   }
 
   void addDynamic() {

@@ -1,13 +1,10 @@
 // ignore_for_file: public_member_api_docs, lines_longer_than_80_chars
-
-import 'dart:ffi';
-
 import 'package:administrator/administrator.dart';
 import 'package:components/components.dart';
 import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:screens/src/admin/remove_controller/remove_staff_bloc.dart';
+import 'package:screens/src/admin/v1/remove_controller/remove_staff_bloc.dart';
 import 'package:utility/utility.dart';
 
 class DCRemoveStaffScreen extends StatefulWidget {
@@ -73,7 +70,7 @@ class Body extends StatelessWidget {
 
 class BodyScreen extends StatelessWidget {
   final RemoveStaffState state;
-  BodyScreen({Key? key, required this.state}) : super(key: key);
+  BodyScreen({required this.state, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -155,13 +152,13 @@ class BodyScreen extends StatelessWidget {
 }
 
 class DCSelectableButton extends StatelessWidget {
-  final String text;
-  final Function() onClick;
-
-  DCSelectableButton({
+  const DCSelectableButton({
     required this.text,
     required this.onClick,
+    super.key,
   });
+  final String text;
+  final void Function() onClick;
 
   @override
   Widget build(BuildContext context) {

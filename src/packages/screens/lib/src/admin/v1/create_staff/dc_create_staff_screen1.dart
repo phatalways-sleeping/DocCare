@@ -6,8 +6,8 @@ import 'package:components/components.dart';
 import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:screens/screens.dart';
-import 'package:screens/src/admin/controller/create_staff_bloc.dart';
+import 'package:screens/src/admin/v1/controller/create_staff_bloc.dart';
+import 'package:screens/src/admin/v1/create_staff/dc_create_staff_screen2.dart';
 import 'package:utility/utility.dart';
 
 class DCCreateStaffScreen1 extends StatefulWidget {
@@ -46,10 +46,8 @@ class _DCCreateStaffScreen1State extends State<DCCreateStaffScreen1> {
               BlocProvider.of<CreateStaffBloc>(context)
                   .add(const LoadingInitialStuffEvent());
             } else if (state is CreateStaffInitial) {
-              print('hello screen 1');
               return BodyScreen1(state: state);
             } else if (state is CreateStaffLater) {
-              print('hello screen 2');
               return DCCreateStaffScreen2(initialState: state);
             } // Add a default case or handle other states if needed
             return const Text('Create role successful');
