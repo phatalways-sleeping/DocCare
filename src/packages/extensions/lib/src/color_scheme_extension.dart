@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-/// {@template extensions}
+// ignore: public_member_api_docs
 extension ColorSchemeExtension on ColorScheme {
   /// {@macro quartenary}
   Color get quartenary => const Color.fromRGBO(140, 108, 231, 1);

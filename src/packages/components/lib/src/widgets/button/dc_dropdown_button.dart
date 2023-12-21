@@ -1,31 +1,8 @@
-import 'package:components/components.dart';
-import 'package:extensions/extensions.dart';
+// ignore_for_file: public_member_api_docs
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class DCDropdownButton<T> extends StatefulWidget {
-  final List<T> items;
-  final double? dropdownWidth;
-  final double? menuHeight;
-  final double? textSize;
-  final double? borderRadius;
-  final bool? enabled; // default is true
-  final bool? enableSearch; // default is true
-  final bool? enableFilter; // default is true
-  final bool? requestFocusOnTap; // default is true
-  final Widget? leadingIcon;
-  final Widget? trailingIcon;
-  final String? hintText;
-  final String? errorText;
-  final TextStyle? textStyle;
-  final Color? textColor;
-  final String? label;
-  final void Function(BuildContext context, TextEditingController controller,
-      T? selectedValue)? onItemSelected;
-  T? dropdownValue;
-
-  void printDropDownValue() {
-    print("DropDValue ${dropdownValue}");
-  }
 
   DCDropdownButton({
     required this.items,
@@ -49,6 +26,29 @@ class DCDropdownButton<T> extends StatefulWidget {
     Key? key,
   }) : super(key: key) {
     printDropDownValue();
+  }
+  final List<T> items;
+  final double? dropdownWidth;
+  final double? menuHeight;
+  final double? textSize;
+  final double? borderRadius;
+  final bool? enabled; // default is true
+  final bool? enableSearch; // default is true
+  final bool? enableFilter; // default is true
+  final bool? requestFocusOnTap; // default is true
+  final Widget? leadingIcon;
+  final Widget? trailingIcon;
+  final String? hintText;
+  final String? errorText;
+  final TextStyle? textStyle;
+  final Color? textColor;
+  final String? label;
+  final void Function(BuildContext context, TextEditingController controller,
+      T? selectedValue)? onItemSelected;
+  T? dropdownValue;
+
+  void printDropDownValue() {
+    debugPrint('DropDValue $dropdownValue');
   }
 
   @override

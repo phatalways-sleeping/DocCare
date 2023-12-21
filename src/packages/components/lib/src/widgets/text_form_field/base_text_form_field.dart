@@ -99,10 +99,10 @@ base class BaseTextFormField extends StatefulWidget {
 
 class _BaseTextFormFieldState extends State<BaseTextFormField> {
   late bool isObscured = widget.obscureMode;
-  late TextEditingController controller = widget.controller ??
-      TextEditingController(
-        text: widget.initialText,
-      );
+  late TextEditingController controller =widget.controller ??
+          TextEditingController(
+            text: widget.initialText,
+          );
   late FocusNode focusNode = FocusNode()
     ..addListener(() {
       widget.onFocusChange?.call(context, focusNode);
@@ -132,7 +132,6 @@ class _BaseTextFormFieldState extends State<BaseTextFormField> {
       : EdgeInsets.only(
           right: max(widget.contentPadding.horizontal / 2 - 8, 0),
         );
-
   @override
   void dispose() {
     if (widget.controller == null) controller.dispose();

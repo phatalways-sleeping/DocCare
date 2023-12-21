@@ -39,16 +39,8 @@ dependencies:
   env_flutter: ^0.1.4
   extensions:
     path: packages/extensions
-  auth_api:
-    path: packages/authentication/auth_api
-  auth_domain:
-    path: packages/authentication/auth_domain
-  components:
-    path: packages/components
-  screens:
-    path: packages/screens
-  storage:
-    path: packages/storage
+  views:
+    path: packages/views
   utility:
     path: packages/utility
   flutter_svg: ^2.0.9

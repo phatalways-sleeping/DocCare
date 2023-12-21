@@ -1,6 +1,20 @@
 /// SVGs for the DC component library.
 final class DCSVGIcons {
   const DCSVGIcons._();
+  
+
+  /// SVG for person icon.
+  static const String person = '''
+<svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<rect width="30" height="30" fill="url(#pattern0)"/>
+<defs>
+<pattern id="pattern0" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#image0_1425_2443" transform="scale(0.0104167)"/>
+</pattern>
+<image id="image0_1425_2443" width="96" height="96" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAYAAADimHc4AAAACXBIWXMAAAsTAAALEwEAmpwYAAAE7UlEQVR4nO2dTWhdRRSAPzXYqlXjT9OKYKTSIooVETe60I1Ucan2x/oDLpRWin+LLtxUwb+2WlDwp7W4c9uN2oULEU1bg4iiqNWFoLhoGtMkpmgqzZVjzsPrM3Xuu3fuzJ13zwcHwnvJO2fOuW9mzsyZCRiGYRiGYRiGYRiGYRhG8zgP2ADsAUaBMeCEypi+thtYD5wb29h+YhWwFzgOZAVFfvctYGVs41PmLGAn8GcPju8W+XZsBxbHbkxqrAS+quD4bjkIXBK7UalwnfbpmWf5GVgdu3EpPPljNTg/H4TlsRvZVBYDX9To/I58puOL0cXOAM7vyNPdytvOqoqznV7lN+uK/s3egM7vyGuRHrZGZrjHIwRgxjLmeTZEcH5H1qkNrWZPxAC8GbvxTWA0YgAkQ249RyMG4EjrvQ/MRgzAHxYALACxOWpdUFxGbRCOy+6IAXgjctsbwfqIAbg7duObwBJdFgjt/BnVbTC/gR46ANL1GbmdsBMBnS+5x4qOcmOe7QED8LzqNLq2JA8GcP4BYFFesfEPsmH+U43O/wW4NKfPWIDVWr3g2/kS2GsWUmj8l6XAR567HStH6ZFFWr0wU3G285z1+dVYrhvovQRiRne7bKrpkSW6hyvrN4d0M2VW5Yi+9jqw1jJcwzAMw0iHIR3gdwH7gcPARG6Qn9DX5L2XdaCXXMWowAXAZl1/miuRY8xpgrcJGKxiSBvzih1aIe0r054GXgSWxW5ckxkAHgWmalzskwRwq+oycqwIXH3xKXB53oA2cwcwGdD5HZGB+zZazr2Btzq7RU79PEhLeaDk7Ma3zOmDkBznAzep8U9pFcM+4OyC3U7IM2cukW/hGhrMOcDNwJPAO8D3p3h6JQkqMuAea4DTFxoThmkQVwJPAB9ombirAb8XuG5gIHKtqUsk6TuDiFwPvAr8WML4Vwp8/uMNcLJLthChL5eU//OKhl9bIMOd9uAgF1U/f1LXnoJ0MW97OoL6bQF9Ozw9oS586HiBGrlCB9KTHr+22wosrPla23HhQ8d0HQt4cgHGMzpYZp7laofuzR51ufCl52E8IgVPX9fg+Eynb6c59B9KMAAjnnzPPTU99ZmKTFP/jyHPGa8LX3qki764qvO3eO7rsxKVzOs86wsVAJG7qh4tmmvAMaJdCQfgpSp9fp3dTpaTGx227Pfs4Kr0Yst7ZZV8GMj5GXCVw5YfEg6ArHn1zC0BnZ8VWP8ZTzgAcki98ed6F3u+a6Juar+r4pvAATjTYU/rAuBjwasXudBhz68JB2CsbgU+ZLiPB+HDdSvwITc47Hk/4QC8W7cCH7LRYU/rErHQAdjmsGdtwgG4M4UA7HPYszThxbiLUgjAOHC6w6YDCQbg4zLOjxGArMC9/5sSDMBDKQVgq8OmQY/5SYj2T2mxQjIB+DLgbSsh2v9sWefHCkBW4J6HZZ5q/+tu/7F+Pt70WMQHpKg8Qh8z4HmD3reMxC5NDMFlJfYIQshEm07N3B75YEa3yJL5rbSM+xpyQOOklu60ko2RvwmzbXZ+hzXa/4Z2/ngbu51TMRzoRsb8bEcmA0YOWdC7v+YZ0qQeBu/7qWYVhrQ+3+fe9pTeTde3GW4dDGqJ+EjJ+lb5m090VbP0wprB30iVshTKyhahlAt+p11V57oa+Vlek/fkf17KTlapzZRu/gKlYnxO2SzGAQAAAABJRU5ErkJggg=="/>
+</defs>
+</svg>
+''';
 
   /// SVG for the back button.
   static const String back = '''

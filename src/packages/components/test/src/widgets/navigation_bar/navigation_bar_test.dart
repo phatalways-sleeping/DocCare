@@ -9,10 +9,9 @@ void main() {
       (WidgetTester tester) async {
     // Build the DCDoctorNavigationBar widget.
     await tester.pumpWidget(
-      MaterialApp(
+      const MaterialApp(
         home: Scaffold(
           bottomNavigationBar: DCDoctorNavigationBar(
-            onItemSelected: (context, index) {},
             unselectedItemColor: Colors.red,
             selectedItemColor: Colors.blue,
           ),

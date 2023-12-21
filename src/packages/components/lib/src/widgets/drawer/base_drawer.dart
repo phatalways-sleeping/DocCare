@@ -55,11 +55,10 @@ class _BaseDrawerState extends State<BaseDrawer> {
         heightFactor: 1, // This is to make the drawer full height
         child: Drawer(
           surfaceTintColor:
-              widget.surfaceTintColor ?? context.colorScheme.tertiary,
+              Colors.white, // This is to make the drawer background white
           semanticLabel: widget.semanticLabel,
           clipBehavior: widget.clipBehavior,
-          backgroundColor:
-              widget.backgroundColor ?? context.colorScheme.background,
+          backgroundColor: Colors.white,
           elevation: widget.elevation,
           shape: RoundedRectangleBorder(
             borderRadius: widget.borderRadius,
@@ -148,7 +147,6 @@ class DCDrawerItem extends StatelessWidget {
           leadingAndTrailingTextStyle ?? context.textTheme.h5RegularPoppins,
       titleTextStyle: titleTextStyle ?? context.textTheme.h5RegularPoppins,
       textColor: textColor ?? context.colorScheme.onBackground,
-      tileColor: tileColor ?? context.colorScheme.background,
       iconColor: iconColor ?? context.colorScheme.onBackground,
       selectedTileColor:
           selectedBackgroundColor ?? context.colorScheme.tertiary,
@@ -164,9 +162,6 @@ class DCDrawerItem extends StatelessWidget {
           const SizedBox.square(
             dimension: 30,
           ),
-      shape: RoundedRectangleBorder(
-        borderRadius: borderRadius,
-      ),
       title: title,
     );
   }

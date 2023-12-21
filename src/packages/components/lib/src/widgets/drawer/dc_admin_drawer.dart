@@ -9,9 +9,6 @@ class DCAdminDrawer extends StatefulWidget {
   /// Constructor for the Admin drawer
   const DCAdminDrawer({
     super.key,
-    this.onProfileSelected,
-    this.onGenerateReportSelected,
-    this.onSignOutSelected,
     this.althernativeHeaderImagePath,
     this.borderRadiusOfEachItem = const BorderRadius.only(
       topRight: Radius.circular(16),
@@ -64,10 +61,6 @@ class DCAdminDrawer extends StatefulWidget {
 
   final String semanticLabel;
   final Clip clipBehavior;
-
-  final void Function(BuildContext context)? onProfileSelected;
-  final void Function(BuildContext context)? onGenerateReportSelected;
-  final void Function(BuildContext context)? onSignOutSelected;
 
   @override
   State<DCAdminDrawer> createState() => _DCAdminDrawerState();
@@ -130,13 +123,7 @@ class _DCAdminDrawerState extends State<DCAdminDrawer>
       items: [
         DCDrawerItem(
           borderRadius: widget.borderRadiusOfEachItem,
-          onTap: (context) {
-            widget.onGenerateReportSelected?.call(context);
-            setState(() {
-              generateReportSelected = true;
-              signOutSelected = false;
-            });
-          },
+          onTap: (context) => Navigator.pushNamed(context, '/admin/reports'),
           selected: generateReportSelected,
           title: Text(
             'Generate Report',
@@ -161,14 +148,61 @@ class _DCAdminDrawerState extends State<DCAdminDrawer>
         ),
         DCDrawerItem(
           borderRadius: widget.borderRadiusOfEachItem,
-          onTap: (context) {
-            widget.onSignOutSelected?.call(context);
-
-            setState(() {
-              generateReportSelected = false;
-              signOutSelected = true;
-            });
-          },
+          onTap: (context) =>
+              Navigator.pushNamed(context, '/admin/staff/create'),
+          selected: generateReportSelected,
+          title: Text(
+            'Add staff',
+            style: TextStyle(
+              fontSize: widget.fontSize,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          prefixIcon: SvgPicture.string(
+            DCSVGIcons.person,
+            fit: BoxFit.cover,
+            height: widget.iconSize,
+            width: widget.iconSize,
+            colorFilter: generateReportSelected
+                ? ColorFilter.mode(
+                    widget.selectedBackgroundColor ??
+                        context.colorScheme.background,
+                    BlendMode.srcIn,
+                  )
+                : null,
+          ),
+        ),
+        DCDrawerItem(
+          borderRadius: widget.borderRadiusOfEachItem,
+          onTap: (context) => Navigator.pushNamed(
+            context,
+            '/admin/staff/delete',
+          ),
+          selected: generateReportSelected,
+          title: Text(
+            'Delete staff',
+            style: TextStyle(
+              fontSize: widget.fontSize,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          prefixIcon: SvgPicture.string(
+            DCSVGIcons.person,
+            fit: BoxFit.cover,
+            height: widget.iconSize,
+            width: widget.iconSize,
+            colorFilter: generateReportSelected
+                ? ColorFilter.mode(
+                    widget.selectedBackgroundColor ??
+                        context.colorScheme.background,
+                    BlendMode.srcIn,
+                  )
+                : null,
+          ),
+        ),
+        DCDrawerItem(
+          borderRadius: widget.borderRadiusOfEachItem,
+          onTap: (context) => Navigator.pushNamed(context, '/sign-out'),
           selected: signOutSelected,
           title: Text(
             'Sign out',
