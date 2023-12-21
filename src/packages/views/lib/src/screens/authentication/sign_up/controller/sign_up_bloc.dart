@@ -17,6 +17,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
   SignUpBloc(
     this._navigatorKey,
     this._authenticationRepositoryService,
+    this._customerRepositoryService,
     this._notificationManagerService,
   ) : super(SignUpInitial.empty()) {
     on<FullNameInputEvent>(_onFullNameInputEvent);
@@ -33,6 +34,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
   }
 
   final AuthenticationRepositoryService _authenticationRepositoryService;
+  final CustomerRepositoryService _customerRepositoryService;
   final GlobalKey<NavigatorState> _navigatorKey;
   final NotificationManagerService _notificationManagerService;
 
@@ -173,12 +175,31 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
 
     try {
       emit(SignUpLoading.from(state));
+      final check =
+          await _customerRepositoryService.isCustomerExist(state.email);
+      if (check) {
+        throw const AuthException('Email already exist');
+      }
+      final id = await _customerRepositoryService.createCustomer(
+        state.fullName,
+        state.email,
+        state.phone,
+        state.birthday,
+      );
+      _customerRepositoryService.initializeCustomerId(id);
       await _authenticationRepositoryService
           .signUp(
             state.email,
             state.password,
+            id,
           )
-          .then((value) => emit(SignUpSuccess.from(state)));
+          .then(
+            (value) => emit(
+              SignUpSuccess.from(
+                state,
+              ),
+            ),
+          );
     } on AuthException catch (e) {
       assert(state is SignUpLoading, 'State is not loading');
 

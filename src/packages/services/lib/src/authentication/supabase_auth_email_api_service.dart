@@ -20,13 +20,18 @@ class SupabaseAuthEmailApiService implements AuthEmailApiService {
       const SupabaseAuthEmailApiErrorHandler();
 
   @override
-  Future<void> signUpWithEmailPassword(String email, String password) async {
+  Future<void> signUpWithEmailPassword(
+    String email,
+    String password,
+    String id,
+  ) async {
     try {
       await supabase.auth.signUp(
         email: email,
         password: password,
         data: {
           'role': 'user',
+          'id': id,
         },
       );
     } on AuthException catch (e) {

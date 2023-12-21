@@ -6,12 +6,13 @@ abstract interface class AuthenticationRepositoryService {
   const AuthenticationRepositoryService();
 
   /// [login] is the method for login
-  Future<String> login(String email, String password);
+  Future<List<String>> login(String email, String password);
 
   /// [signUp] is the method for sign up
   Future<void> signUp(
     String email,
     String password,
+    String id,
   );
 
   /// [sendCode] is the method for send code

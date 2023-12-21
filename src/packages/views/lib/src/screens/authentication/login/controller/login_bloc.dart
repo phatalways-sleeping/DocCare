@@ -19,6 +19,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   LoginBloc(
     this._navigatorKey,
     this._authenticationRepositoryService,
+    this._customerRepositoryService,
     this._notificationManagerService,
   ) : super(const LoginInitial.empty()) {
     on<EmailInputEvent>(_onEmailInputEvent);
@@ -28,6 +29,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   }
 
   final AuthenticationRepositoryService _authenticationRepositoryService;
+  final CustomerRepositoryService _customerRepositoryService;
   final NotificationManagerService _notificationManagerService;
   final GlobalKey<NavigatorState> _navigatorKey;
 
@@ -62,10 +64,20 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     try {
       await _authenticationRepositoryService
           .login(
-            state.email,
-            state.password,
-          )
-          .then((value) => emit(LoginSuccess.from(state, value)));
+        state.email,
+        state.password,
+      )
+          .then(
+        (value) {
+          _customerRepositoryService.initializeCustomerId(value[1]);
+          emit(
+            LoginSuccess.from(
+              state,
+              value[0],
+            ),
+          );
+        },
+      );
     } on AuthException catch (e) {
       assert(state is LoginLoading, 'State is not loading');
       await _notificationManagerService

@@ -28,7 +28,7 @@ class SupabaseAuthenticationRepository
   }
 
   @override
-  Future<String> login(String email, String password) async {
+  Future<List<String>> login(String email, String password) async {
     final emailValidation = FormValidator.validateEmail(email);
     // final passwordValidation = FormValidator.validatePassword(password);
 
@@ -44,7 +44,10 @@ class SupabaseAuthenticationRepository
       email,
       password,
     );
-    return user.userMetadata!['role']! as String;
+    return [
+      user.userMetadata!['role']! as String,
+      user.userMetadata!['id']! as String,
+    ];
   }
 
   @override
@@ -55,9 +58,14 @@ class SupabaseAuthenticationRepository
       _authEmailApiService.sendPasswordResetEmail(email);
 
   @override
-  Future<void> signUp(String email, String password) =>
+  Future<void> signUp(
+    String email,
+    String password,
+    String id,
+  ) =>
       _authEmailApiService.signUpWithEmailPassword(
         email,
         password,
+        id,
       );
 }

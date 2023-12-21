@@ -34,7 +34,8 @@ class _DCSignUpScreenState extends State<DCSignUpScreen> {
       body: BlocProvider(
         create: (_) => SignUpBloc(
           widget.navigatorKey,
-          SupabaseAuthenticationRepository(),
+          context.read<AuthenticationRepositoryService>(),
+          context.read<CustomerRepositoryService>(),
           NotificationManager.instance,
         ),
         child: BlocListener<SignUpBloc, SignUpState>(

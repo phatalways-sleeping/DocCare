@@ -6,12 +6,16 @@ abstract interface class AuthEmailApiService {
   /// [AuthEmailApiService] constructor
   const AuthEmailApiService();
 
-  /// All methods should throw [Exception] 
+  /// All methods should throw [Exception]
   /// or instance extends [Exception] if there is any error
 
   /// [signUpWithEmailPassword] signs up with email and password
-  
-  Future<void> signUpWithEmailPassword(String email, String password);
+
+  Future<void> signUpWithEmailPassword(
+    String email,
+    String password,
+    String id,
+  );
 
   /// [signInWithEmailPassword] signs in with email and password
   Future<User> signInWithEmailPassword(String email, String password);
