@@ -100,21 +100,32 @@ final class LoginSuccess extends LoginState {
   const LoginSuccess({
     required super.email,
     required super.password,
+    required this.role,
   });
 
   /// [LoginSuccess.from] is a named constructor for [LoginSuccess].
   /// It sets the default value of [email] to the given [email] and
   /// [password] to the given [password].
-  factory LoginSuccess.from(LoginState state) => LoginSuccess(
+  factory LoginSuccess.from(LoginState state, String role) => LoginSuccess(
         email: state.email,
         password: state.password,
+        role: role,
       );
+
+  final String role;
 
   @override
   LoginState copyWith({String? email, String? password}) => LoginSuccess(
         email: email ?? super.email,
         password: password ?? super.password,
+        role: role,
       );
+
+  @override
+  List<Object> get props => [
+        ...super.props,
+        role,
+      ];
 }
 
 /// [LoginFailure] is a [LoginState] that is used to set the failure state of

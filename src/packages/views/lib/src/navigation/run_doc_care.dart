@@ -28,6 +28,9 @@ void runDocCare() => runApp(
           RepositoryProvider<AdministratorRepositoryService>(
             create: (context) => SupabaseAdminRepository(),
           ),
+          RepositoryProvider<CustomerRepositoryService>(
+            create: (context) => SupabaseCustomerRepository(),
+          ),
         ],
         child: MaterialApp(
           title: 'DocCare',
@@ -35,7 +38,7 @@ void runDocCare() => runApp(
           theme: ThemeData(
             colorScheme: const DocCareLightColorScheme(),
           ),
-          initialRoute: '/prescription',
+          initialRoute: '/splash',
           onGenerateRoute: (settings) {
             switch (settings.name) {
               case '/splash':

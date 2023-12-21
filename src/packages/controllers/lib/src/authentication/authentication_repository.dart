@@ -6,7 +6,7 @@ abstract interface class AuthenticationRepositoryService {
   const AuthenticationRepositoryService();
 
   /// [login] is the method for login
-  Future<void> login(String email, String password);
+  Future<String> login(String email, String password);
 
   /// [signUp] is the method for sign up
   Future<void> signUp(

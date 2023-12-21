@@ -80,7 +80,22 @@ class _DCSplashScreenState extends State<DCSplashScreen>
                 return BlocListener<LoginBloc, LoginState>(
                   listener: (context, state) {
                     if (state is LoginSuccess) {
-                      Navigator.of(context).pop();
+                      debugPrint('Login Success');
+                      debugPrint(state.role);
+                      switch (state.role) {
+                        case 'doctor':
+                          Navigator.of(context, rootNavigator: true)
+                              .pushReplacementNamed('/doctor/home');
+                        case 'user':
+                          Navigator.of(context, rootNavigator: true)
+                              .pushReplacementNamed('/home');
+                        case 'admin':
+                          Navigator.of(context, rootNavigator: true)
+                              .pushReplacementNamed('/admin/home');
+                        case 'receptionist':
+                          Navigator.of(context, rootNavigator: true)
+                              .pushReplacementNamed('/receptionist/home');
+                      }
                     }
                   },
                   child: DCPageViewOne(

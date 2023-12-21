@@ -65,7 +65,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             state.email,
             state.password,
           )
-          .then((value) => emit(LoginSuccess.from(state)));
+          .then((value) => emit(LoginSuccess.from(state, value)));
     } on AuthException catch (e) {
       assert(state is LoginLoading, 'State is not loading');
       await _notificationManagerService

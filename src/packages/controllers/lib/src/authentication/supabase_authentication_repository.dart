@@ -28,22 +28,23 @@ class SupabaseAuthenticationRepository
   }
 
   @override
-  Future<void> login(String email, String password) async {
+  Future<String> login(String email, String password) async {
     final emailValidation = FormValidator.validateEmail(email);
-    final passwordValidation = FormValidator.validatePassword(password);
+    // final passwordValidation = FormValidator.validatePassword(password);
 
     if (!emailValidation.isValid) {
       throw AuthException(emailValidation.cause!);
     }
 
-    if (!passwordValidation.isValid) {
-      throw AuthException(passwordValidation.cause!);
-    }
+    // if (!passwordValidation.isValid) {
+    //   throw AuthException(passwordValidation.cause!);
+    // }
 
-    await _authEmailApiService.signInWithEmailPassword(
+    final user = await _authEmailApiService.signInWithEmailPassword(
       email,
       password,
     );
+    return user.userMetadata!['role']! as String;
   }
 
   @override

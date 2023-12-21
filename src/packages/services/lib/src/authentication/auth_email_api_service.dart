@@ -1,3 +1,5 @@
+import 'package:supabase_flutter/supabase_flutter.dart';
+
 /// [AuthEmailApiService] is an abstract class that provides the base for all
 /// authentication services
 abstract interface class AuthEmailApiService {
@@ -12,7 +14,7 @@ abstract interface class AuthEmailApiService {
   Future<void> signUpWithEmailPassword(String email, String password);
 
   /// [signInWithEmailPassword] signs in with email and password
-  Future<void> signInWithEmailPassword(String email, String password);
+  Future<User> signInWithEmailPassword(String email, String password);
 
   /// [signOut] signs out
   Future<void> signOut();

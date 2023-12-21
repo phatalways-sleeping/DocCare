@@ -187,17 +187,28 @@ class SupabaseAdminRepository implements AdministratorRepositoryService {
   ) async {
     try {
       final doctorID = const Uuid().v1();
-      await supabase.rpc('sp_add_doctor_record', params: {
-        'birthday': birthday.toIso8601String(),
-        'email': email,
-        'fullname': fullName,
-        'id': doctorID,
-        'numberofrates': numberOfRates,
-        'phone': phone,
-        'rating': rating,
-        'specializationid': specializationId,
-        'startworkingfrom': startWorkingFrom,
-      });
+      await supabase.auth.signUp(
+        email: email,
+        password: password,
+        data: {
+          'role': 'doctor',
+        },
+      );
+      await supabase.rpc(
+        'sp_add_doctor_record',
+        params: {
+          'birthday': birthday.toIso8601String(),
+          'email': email,
+          'fullname': fullName,
+          'id': doctorID,
+          'numberofrates': numberOfRates,
+          'phone': phone,
+          'rating': rating,
+          'specializationid': specializationId,
+          'startworkingfrom': startWorkingFrom,
+        },
+      );
+
       for (final entry in dayOfWeek.entries) {
         await supabase.rpc(
           'sp_add_workingshift_record',
@@ -213,9 +224,6 @@ class SupabaseAdminRepository implements AdministratorRepositoryService {
         if (daysOfWeek.contains(entry.key) &&
             entry.value[0] > 0 &&
             entry.value[1] > 1) {
-          // entry.key is the dayofweek
-          // entry.value[0] is the endperiodid
-          // entry.value[1] is the startperiodid
           await supabase.rpc(
             'sp_add_working_shift',
             params: {
@@ -242,6 +250,13 @@ class SupabaseAdminRepository implements AdministratorRepositoryService {
   ) async {
     try {
       final receptionistID = const Uuid().v1();
+      await supabase.auth.signUp(
+        email: email,
+        password: password,
+        data: {
+          'role': 'receptionist',
+        },
+      );
       await supabase.rpc(
         'sp_add_receptionist_record',
         params: {
