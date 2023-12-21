@@ -8,17 +8,13 @@ import 'package:utility/utility.dart' show FormValidator;
 class SupabaseAuthenticationRepository
     implements AuthenticationRepositoryService {
   /// [SupabaseAuthenticationRepository] constructor
-  SupabaseAuthenticationRepository._();
+  SupabaseAuthenticationRepository();
 
   /// [Supabase.instance.client] is the static instance of [SupabaseClient]
   /// [_authEmailApiService] is the instance of [AuthEmailApiService]
   final AuthEmailApiService _authEmailApiService = SupabaseAuthEmailApiService(
     supabase: Supabase.instance.client,
   );
-
-  /// [instance] is the static instance of [SupabaseAuthenticationRepository]
-  static final SupabaseAuthenticationRepository instance =
-      SupabaseAuthenticationRepository._();
 
   @override
   Future<void> changePassword(String password) async {

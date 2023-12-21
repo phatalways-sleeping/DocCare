@@ -30,7 +30,7 @@ class _DCSignUpScreenState extends State<DCSignUpScreen> {
       ),
       body: BlocProvider(
         create: (_) => SignUpBloc(
-          SupabaseAuthenticationRepository.instance,
+          SupabaseAuthenticationRepository(),
           NotificationManager.instance,
         ),
         child: CustomScrollView(

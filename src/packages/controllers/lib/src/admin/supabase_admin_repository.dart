@@ -15,16 +15,10 @@ List<String> daysOfWeek = [
 ];
 
 class SupabaseAdminRepository implements AdministratorRepositoryService {
-  SupabaseAdminRepository._({
-    required this.supabase,
-  });
-
-  /// [instance] is the static instance of [AdministratorRepositoryService]
-  static final AdministratorRepositoryService instance =
-      SupabaseAdminRepository._(supabase: Supabase.instance.client);
+  SupabaseAdminRepository();
 
   /// [supabase] is the instance of [SupabaseClient]
-  final SupabaseClient supabase;
+  final SupabaseClient supabase = Supabase.instance.client;
 
   @override
   Future<int> countAppointmentsInMonth(int month, int year) async {

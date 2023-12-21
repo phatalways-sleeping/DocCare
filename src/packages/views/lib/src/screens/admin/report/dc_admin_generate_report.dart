@@ -34,7 +34,7 @@ class _DCAdminGenerateReportScreenState
       ),
       body: BlocProvider(
         create: (_) => GenerateReportBloc(
-          SupabaseAdminRepository.instance,
+          SupabaseAdminRepository(),
           PdfInvoiceService(),
           NotificationManager.instance,
         ),

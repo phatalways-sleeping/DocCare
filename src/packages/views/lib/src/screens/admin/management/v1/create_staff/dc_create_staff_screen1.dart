@@ -21,9 +21,9 @@ class _DCCreateStaffScreen1State extends State<DCCreateStaffScreen1> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => CreateStaffBloc(
-        SupabaseAuthenticationRepository.instance,
+        SupabaseAuthenticationRepository(),
         NotificationManager.instance,
-        SupabaseAdminRepository.instance,
+        SupabaseAdminRepository(),
       ),
       child: Scaffold(
         appBar: DCCustomerHeaderBar(

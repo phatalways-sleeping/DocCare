@@ -62,7 +62,7 @@ class _DCChangePasswordScreenState extends State<DCChangePasswordScreen> {
       body: BlocProvider(
         create: (_) => ChangePasswordBloc(
           NotificationManager.instance,
-          SupabaseAuthenticationRepository.instance,
+          SupabaseAuthenticationRepository(),
         ),
         child: CustomScrollView(
           slivers: [

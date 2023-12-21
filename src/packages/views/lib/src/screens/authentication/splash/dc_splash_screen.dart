@@ -60,7 +60,7 @@ class _DCSplashScreenState extends State<DCSplashScreen>
       body: SafeArea(
         child: BlocProvider(
           create: (context) => LoginBloc(
-            SupabaseAuthenticationRepository.instance,
+            SupabaseAuthenticationRepository(),
             NotificationManager.instance,
           ),
           child: PageView.builder(

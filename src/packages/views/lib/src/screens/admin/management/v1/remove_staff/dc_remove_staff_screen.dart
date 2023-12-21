@@ -26,7 +26,7 @@ class _DCRemoveStaffScreenState extends State<DCRemoveStaffScreen> {
       body: BlocProvider(
         create: (_) => RemoveStaffBloc(
           NotificationManager.instance,
-          SupabaseAdminRepository.instance,
+          SupabaseAdminRepository(),
         ),
         child: const CustomScrollView(
           slivers: [
