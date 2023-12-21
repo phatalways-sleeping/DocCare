@@ -16,6 +16,7 @@ Statistics _$StatisticsFromJson(Map<String, dynamic> json) {
     value: json['value'] as int,
     categoryName: json['categoryName'] as String,
     prescriptionID: json['prescriptionID'] as String,
+    note: json['note'] as String?,
   );
 }
 
@@ -25,4 +26,5 @@ Map<String, dynamic> _$StatisticsToJson(Statistics instance) =>
       'value': instance.value,
       'categoryName': instance.categoryName,
       'prescriptionID': instance.prescriptionID,
+      'note': instance.note,
     };

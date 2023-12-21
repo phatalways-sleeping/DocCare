@@ -42,7 +42,7 @@ class SupabaseAdminGenerateReportService implements AdminGenerateReportService {
       final response = await supabase.rpc('average_appointments_per_user',
           params: {'p_month': month, 'p_year': year});
 
-          // to do: split into two functions and change the return type to double
+      // to do: split into two functions and change the return type to double
       return response as int;
     } catch (e) {
       throw Exception('Error in calculating average appointments per user: $e');
@@ -128,6 +128,7 @@ class SupabaseAdminGenerateReportService implements AdminGenerateReportService {
       throw Exception('Error in counting one-star appointments: $e');
     }
   }
+
   Future<int> countCustomer() async {
     try {
       final response = await supabase.rpc('count_user');
@@ -137,5 +138,4 @@ class SupabaseAdminGenerateReportService implements AdminGenerateReportService {
       throw Exception('Error in counting total user: $e');
     }
   }
-
 }

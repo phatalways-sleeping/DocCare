@@ -1,14 +1,14 @@
 // ignore_for_file: public_member_api_docs
 
+import 'package:administrator/src/supabase_admin_generate_report_service.dart';
 import 'package:components/components.dart';
 import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:screens/src/report/controller/admin_generate_report_bloc.dart';
-import 'package:utility/utility.dart';
 import 'package:screens/src/report/pdf_service/generate_pdf_service.dart';
-import 'package:administrator/src/supabase_admin_generate_report_service.dart';
+import 'package:utility/utility.dart';
 
 class DCAdminGenerateReportScreen extends StatefulWidget {
   const DCAdminGenerateReportScreen({super.key});

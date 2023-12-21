@@ -8,21 +8,13 @@ environment:
   flutter: ">=3.10.0"
 
 dependencies:
+  administrator:
+    path: ../administrator
   auth_api:
     path: ../authentication/auth_api
   auth_domain:
     path: ../authentication/auth_domain
-  administrator:
-    path: ../administrator
-  model_api:
-    path: ../model_api
   bloc: ^8.1.2
-  pdf: ^3.8.2
-  path_provider: ^2.0.5
-  open_file: ^3.1.0
-  fl_chart: ^0.64.0
-  screenshot: ^2.1.0
-  permission_handler: ^9.2.0
   components:
     path: ../components
   equatable: ^2.0.5
@@ -33,6 +25,8 @@ dependencies:
   flutter_bloc: ^8.1.3
   intl: ^0.18.1
   meta: ^1.9.1
+  model_api:
+    path: ../model_api
   models:
     path: ../models
   supabase_flutter: ^1.10.25
@@ -41,6 +35,10 @@ dependencies:
   flutter_svg: ^2.0.9
   flow_builder: ^0.0.10
   roundcheckbox: ^2.0.5
+  fl_chart: ^0.65.0
+  pdf: ^3.10.7
+  screenshot: ^2.1.0
+  open_file: ^3.3.2
 
 dev_dependencies:
   flutter_test:

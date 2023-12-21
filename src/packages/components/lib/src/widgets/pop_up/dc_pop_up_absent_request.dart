@@ -76,7 +76,6 @@ class DCPopupAbsentRequest extends StatelessWidget {
       titleTextColor: titleTextColor ?? context.colorScheme.tertiary,
       titleTextSize: titleTextSize ?? 24,
       titleAlignment: titleAlignment,
-      messageAlligment: CrossAxisAlignment.start,
       message: [
         FractionallySizedBox(
           widthFactor: 1,
@@ -124,7 +123,7 @@ class DCPopupAbsentRequest extends StatelessWidget {
               fontWeight: FontWeight.normal,
               color: messageReasonTextColor ?? context.colorScheme.onTertiary,
             ),
-            textAlign: TextAlign.left,
+            textAlign: TextAlign.center,
             child: Text('Reasons: $messageReasons'),
           ),
         ),
