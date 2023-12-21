@@ -1,8 +1,10 @@
 //import 'package:fl_chart_app/presentation/resources/app_resources.dart';
-import 'package:fl_chart/fl_chart.dart';
-import 'package:screens/src/report/chart/indicator.dart';
-import 'package:flutter/material.dart';
+// ignore_for_file: public_member_api_docs
+
 import 'package:components/src/theme/color_scheme/light_color_scheme.dart';
+import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/material.dart';
+import 'package:screens/src/report/chart/indicator.dart';
 
 class DCPieChart extends StatefulWidget {
   final int one_star;
