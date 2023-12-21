@@ -8,6 +8,8 @@ environment:
   flutter: ">=3.10.0"
 
 dependencies:
+  administrator:
+    path: ../administrator
   auth_api:
     path: ../authentication/auth_api
   auth_domain:
@@ -33,6 +35,10 @@ dependencies:
   flutter_svg: ^2.0.9
   flow_builder: ^0.0.10
   roundcheckbox: ^2.0.5
+  fl_chart: ^0.65.0
+  pdf: ^3.10.7
+  screenshot: ^2.1.0
+  open_file: ^3.3.2
 
 dev_dependencies:
   flutter_test:
