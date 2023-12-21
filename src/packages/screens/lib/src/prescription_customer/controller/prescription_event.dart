@@ -1,3 +1,5 @@
+// ignore_for_file: public_member_api_docs
+
 part of 'prescription_bloc.dart';
 
 @immutable
@@ -8,45 +10,63 @@ sealed class PrescriptionEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-final class PrescriptionInitialEvent extends PrescriptionEvent {
-  const PrescriptionInitialEvent();
+final class PrescriptionResetEvent extends PrescriptionEvent {
+  const PrescriptionResetEvent();
 
   @override
   List<Object?> get props => [];
 }
 
-final class PrescriptionReviewEvent extends PrescriptionEvent {
-  const PrescriptionReviewEvent(this.rating, this.index);
+final class PrescriptionCheckEvent extends PrescriptionEvent {
+  const PrescriptionCheckEvent({
+    required this.prescriptionId,
+  });
+
+  final String prescriptionId;
+
+  @override
+  List<Object?> get props => [prescriptionId];
+}
+
+final class PrescriptionOpenMedicinesViewEvent extends PrescriptionEvent {
+  const PrescriptionOpenMedicinesViewEvent({
+    required this.prescriptionId,
+  });
+
+  final String prescriptionId;
+
+  @override
+  List<Object?> get props => [prescriptionId];
+}
+
+final class MedicineCheckEvent extends PrescriptionEvent {
+  const MedicineCheckEvent({
+    required this.medineName,
+  });
+
+  final String medineName;
+
+  @override
+  List<Object?> get props => [medineName];
+}
+
+final class OpenIntakeViewEvent extends PrescriptionEvent {
+  const OpenIntakeViewEvent({
+    required this.prescriptionId,
+  });
+  final String prescriptionId;
+
+  @override
+  List<Object?> get props => [prescriptionId];
+}
+
+final class IntakeRatingEvent extends PrescriptionEvent {
+  const IntakeRatingEvent({
+    required this.rating,
+  });
 
   final int rating;
-  final int index;
 
   @override
   List<Object?> get props => [rating];
-}
-
-final class PrescriptionTapEvent extends PrescriptionEvent {
-  const PrescriptionTapEvent(this.prescriptionID, this.index);
-
-  final String prescriptionID;
-  final int index;
-
-  @override
-  List<Object?> get props => [prescriptionID];
-}
-
-final class MedicineBackEvent extends PrescriptionEvent {
-  const MedicineBackEvent();
-
-  @override
-  List<Object?> get props => [];
-}
-
-final class PrescriptionOnTickEvent extends PrescriptionEvent {
-  const PrescriptionOnTickEvent(this.index);
-
-  final int index;
-
-  @override
-  List<Object?> get props => [index];
 }

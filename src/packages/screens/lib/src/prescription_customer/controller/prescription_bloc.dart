@@ -1,273 +1,188 @@
-import 'dart:async';
-
+// ignore_for_file: public_member_api_docs
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
-import 'package:model_api/model_api.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:utility/utility.dart';
 
 part 'prescription_event.dart';
 part 'prescription_state.dart';
 
 class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
   PrescriptionBloc(
-    this.ID,
-    this._prescriptionAPIService,
-    this._doctorAPIService,
-    this._intakeAPIService,
-  ) : super(PrescriptionInitial.empty()) {
-    on<PrescriptionInitialEvent>(_onPrescriptionInitialEvent);
-    on<PrescriptionTapEvent>(_onPrescriptionTapEvent);
-    on<MedicineBackEvent>(_onMedicineBackEvent);
-    on<PrescriptionOnTickEvent>(_onPrescriptionOnTickEvent);
-    on<PrescriptionReviewEvent>(_onPrescriptionReviewEvent);
+    this._notificationManagerService,
+  ) : super(PrescriptionViewState.initial()) {
+    on<PrescriptionCheckEvent>(_onPrescriptionCheckEvent);
+    on<PrescriptionOpenMedicinesViewEvent>(
+        _onPrescriptionOpenMedicinesViewEvent);
+    on<MedicineCheckEvent>(_onMedicineCheckEvent);
+    on<OpenIntakeViewEvent>(_onMedicineOpenIntakeViewEvent);
+    on<IntakeRatingEvent>(_onIntakeRatingEvent);
+    on<PrescriptionResetEvent>(_onPrescriptionResetEvent);
   }
 
-  final String ID;
-  final SupabasePrescriptionApiService _prescriptionAPIService;
-  final SupabaseDoctorApiService _doctorAPIService;
-  final SupabaseIntakeAPIService _intakeAPIService;
+  @override
+  void onTransition(
+      Transition<PrescriptionEvent, PrescriptionState> transition) {
+    debugPrint(transition.toString());
+    super.onTransition(transition);
+  }
 
-  void _onPrescriptionInitialEvent(
-    PrescriptionInitialEvent event,
+  final NotificationManagerService _notificationManagerService;
+
+  Future<List<Map<String, dynamic>>> getLatestPrescription() => Future.delayed(
+        const Duration(seconds: 3),
+        () => [
+          {
+            'doctorName': 'Nguyen Van A',
+            'date': DateTime.now(),
+            'Note': 'Note',
+            'id': 'P001',
+          },
+          {
+            'doctorName': 'Nguyen Van A',
+            'date': DateTime.now(),
+            'Note': 'Note',
+            'id': 'P002',
+          },
+          {
+            'doctorName': 'Nguyen Van A',
+            'date': DateTime.now(),
+            'Note': 'Note',
+            'id': 'P003',
+          },
+        ],
+      );
+
+  Future<List<Map<String, dynamic>>> getPastPrescriptions() => Future.delayed(
+        const Duration(seconds: 3),
+        () => [
+          {
+            'doctorName': 'Nguyen Van A',
+            'date': DateTime.now(),
+            'Note': 'Note',
+            'id': 'P005',
+          },
+        ],
+      );
+
+  Future<List<Map<String, dynamic>>> getLatestMedicines() => Future.delayed(
+        const Duration(seconds: 3),
+        () => [
+          {
+            'medicineName': 'Ranitidine',
+            'quantity': 1,
+            'toBeTaken': 0,
+            'time': 'Morning,Afternoon,Evening',
+          },
+          {
+            'medicineName': 'Esomeprazole',
+            'quantity': 1,
+            'toBeTaken': 1,
+            'time': 'Morning',
+          },
+        ],
+      );
+
+  Future<List<Map<String, dynamic>>> getPastMedicines() => Future.delayed(
+        const Duration(seconds: 3),
+        () => [
+          {
+            'medicineName': 'Ranitidine',
+            'quantity': 1,
+            'toBeTaken': 0,
+            'time': 'Morning,Afternoon,Evening',
+          },
+        ],
+      );
+
+  void _onPrescriptionResetEvent(
+    PrescriptionResetEvent event,
+    Emitter<PrescriptionState> emit,
+  ) {
+    emit(PrescriptionViewState.initial());
+  }
+
+  Future<void> _onPrescriptionCheckEvent(
+    PrescriptionCheckEvent event,
     Emitter<PrescriptionState> emit,
   ) async {
-    try {
-      final prescriptionID = <String>[];
-      final doctorName = <String>[];
-      final datePrescribed = <DateTime>[];
-      final note = <String>[];
-      final done = <bool>[];
-      final diagnosis = <String>[];
-      emit(PrescriptionInitial.empty());
-      final prescription = await _prescriptionAPIService
-          .getAllPrescriptionListByCustomerID(ID)
-          .then((value) {
-        for (final element in value) {
-          prescriptionID.add(element.id);
-          doctorName.add(element.doctorID);
-          datePrescribed.add(element.datePrescribed);
-          note.add(element.note);
-          done.add(element.done);
-          diagnosis.add(element.diagnosis);
-        }
-      });
-
-      for (var i = 0; i < doctorName.length; i++) {
-        final doctor = await _doctorAPIService
-            .getUser(doctorName[i])
-            .then((value) => doctorName[i] = value.fullname);
-      }
-
-      emit(
-        PrescriptionInitial.input(
-          prescriptionID: prescriptionID,
-          doctorName: doctorName,
-          datePrescribed: datePrescribed,
-          note: note,
-          done: done,
-          diagnosis: diagnosis,
-        ),
-      );
-    } catch (e) {
+    if (state is PrescriptionViewLoadingState) {
       return;
+    }
+    if (state is! PrescriptionViewState) {
+      return emit(PrescriptionViewState.initial());
+    }
+    try {
+      emit(PrescriptionViewLoadingState.fromState(state));
+
+      await Future.delayed(const Duration(seconds: 2), () {}); // Mock delay
+
+      // throw Exception('Error');
+
+      emit(PrescriptionViewState.initial());
+    } catch (error) {
+      emit(PrescriptionViewState.initial());
+      await _notificationManagerService.show<void>(
+        NotificationType.error,
+        title: const Text('Error'),
+        message: const Text('An error occured while loading the prescription.'),
+      );
     }
   }
 
-  void _onPrescriptionTapEvent(
-    PrescriptionTapEvent event,
+  void _onPrescriptionOpenMedicinesViewEvent(
+    PrescriptionOpenMedicinesViewEvent event,
     Emitter<PrescriptionState> emit,
-  ) async {
-    try {
-      final medicineName = <String>[];
-      final quantity = <int?>[];
-      final toBeTaken = <int?>[];
-      final timeOfTheDay = <String?>[];
-
-      emit(
-        PrescriptionLoading(
-          prescriptionID: state.prescriptionID,
-          doctorName: state.doctorName,
-          datePrescribed: state.datePrescribed,
-          note: state.note,
-          done: state.done,
-          diagnosis: state.diagnosis,
-        ),
-      );
-
-      try {
-        final intake = await _intakeAPIService
-            .getIntakeListByPrescriptionID(event.prescriptionID)
-            .then((value) {
-          for (final element in value) {
-            medicineName.add(element.medicineName);
-            quantity.add(element.quantity);
-            toBeTaken.add(element.toBeTaken);
-            timeOfTheDay.add(element.timeOfTheDay);
-          }
-        });
-      } catch (e) {
-        emit(
-          (state as PrescriptionLoading).toggleBackToInitial(),
-        );
-        return;
-      }
-
-      emit(
-        MedicineInitial(
-          prescriptionID: state.prescriptionID,
-          doctorName: state.doctorName,
-          datePrescribed: state.datePrescribed,
-          note: state.note,
-          done: state.done,
-          diagnosis: state.diagnosis,
-          medicineName: medicineName,
-          quantity: quantity,
-          toBeTaken: toBeTaken,
-          timeOfTheDay: timeOfTheDay,
-          currentPrescriptionID: event.prescriptionID,
-          clickedIndex: event.index,
-        ),
-      );
-    } catch (e) {
-      return;
-    }
-  }
-
-  void _onMedicineBackEvent(
-    MedicineBackEvent event,
-    Emitter<PrescriptionState> emit,
-  ) async {
+  ) {
     emit(
-      PrescriptionInitial.input(
-        prescriptionID: state.prescriptionID,
-        doctorName: state.doctorName,
-        datePrescribed: state.datePrescribed,
-        note: state.note,
-        done: state.done,
-        diagnosis: state.diagnosis,
+      MedicinesViewState.fromState(
+        state,
+        prescriptionId: event.prescriptionId,
       ),
     );
   }
 
-  FutureOr<void> _onPrescriptionReviewEvent(
-    PrescriptionReviewEvent event,
-    Emitter<PrescriptionState> emit,
-  ) async { 
-  try {
-    final doctorID = <String>[];
-
-    final prescription = await _prescriptionAPIService
-          .getAllPrescriptionListByCustomerID(ID)
-          .then((value) {
-        for (final element in value) {
-          doctorID.add(element.doctorID);
-        }
-      });
-
-    emit(
-      PrescriptionLoading(
-          prescriptionID: state.prescriptionID,
-          doctorName: state.doctorName,
-          datePrescribed: state.datePrescribed,
-          note: state.note,
-          done: state.done,
-          diagnosis: state.diagnosis,
-        ),
-      );
-
-      final SupabaseClient client = Supabase.instance.client;
-
-      print(ID);
-      print(doctorID[event.index]);
-      print(state.datePrescribed[event.index].toString());
-      print(event.rating);
-
-      await client.rpc('sp_update_appointment_rating', params: {
-        'n_period': 1,
-        'n_customer_id': ID,
-        'n_doctor_id': doctorID[event.index],
-        'n_date': state.datePrescribed[event.index].toString(),
-        'n_rating': event.rating,
-      },);
-
-      emit(
-        PrescriptionInitial.input(
-          prescriptionID: state.prescriptionID,
-          doctorName: state.doctorName,
-          datePrescribed: state.datePrescribed,
-          note: state.note,
-          done: state.done,
-          diagnosis: state.diagnosis,
-        ),
-      );
-  }
-  catch (e) {
-    print(e);
-
-    emit(
-        PrescriptionInitial.input(
-          prescriptionID: state.prescriptionID,
-          doctorName: state.doctorName,
-          datePrescribed: state.datePrescribed,
-          note: state.note,
-          done: state.done,
-          diagnosis: state.diagnosis,
-        ),
-      );
-
-    return;
-  }
-}
-
-  FutureOr<void> _onPrescriptionOnTickEvent(
-    PrescriptionOnTickEvent event,
+  Future<void> _onMedicineCheckEvent(
+    MedicineCheckEvent event,
     Emitter<PrescriptionState> emit,
   ) async {
-    try {
-      emit(
-        PrescriptionLoading(
-          prescriptionID: state.prescriptionID,
-          doctorName: state.doctorName,
-          datePrescribed: state.datePrescribed,
-          note: state.note,
-          done: state.done,
-          diagnosis: state.diagnosis,
-        ),
-      );
-
-      await _prescriptionAPIService.updatePrescriptionDone(
-        state.prescriptionID[event.index],
-        state.done[event.index] ? false : true,
-        DateTime.now(),
-      );
-
-      final done = <bool>[];
-      final prescription = await _prescriptionAPIService
-          .getAllPrescriptionListByCustomerID(ID)
-          .then((value) {
-        for (var i = 0; i < state.prescriptionID.length; i++) {
-          for (final element in value) {
-            if (element.id == state.prescriptionID[i]) {
-              done.add(element.done);
-            }
-          }
-        }
-      });
-      emit(
-        PrescriptionInitial.input(
-          prescriptionID: state.prescriptionID,
-          doctorName: state.doctorName,
-          datePrescribed: state.datePrescribed,
-          note: state.note,
-          done: done,
-          diagnosis: state.diagnosis,
-        ),
-      );
-    } catch (e) {
-      print(e);
+    if (state is MedicinesViewLoadingState) {
       return;
     }
+    if (state is! MedicinesViewState) {
+      return emit(PrescriptionViewState.initial());
+    }
+    try {
+      emit(MedicinesViewLoadingState.fromState(state));
+
+      await Future.delayed(const Duration(seconds: 2), () {}); // Mock delay
+
+      emit(MedicinesViewState.fromState(state));
+    } catch (error) {
+      emit(MedicinesViewLoadingState.fromState(state));
+      await _notificationManagerService.show<void>(
+        NotificationType.error,
+        title: const Text('Error'),
+        message: const Text('An error occured while processing the medicine.'),
+      );
+    }
   }
+
+  void _onMedicineOpenIntakeViewEvent(
+    OpenIntakeViewEvent event,
+    Emitter<PrescriptionState> emit,
+  ) {
+    if (state is! MedicinesViewState) {
+      return emit(PrescriptionViewState.initial());
+    }
+    emit(
+      IntakeViewState.fromState(state),
+    );
+  }
+
+  void _onIntakeRatingEvent(
+    IntakeRatingEvent event,
+    Emitter<PrescriptionState> emit,
+  ) {}
 }
