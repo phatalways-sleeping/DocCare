@@ -55,9 +55,17 @@ class _DCChangePasswordScreenState extends State<DCChangePasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // TODO(phucchuhoang): change appBar to custom app bar
       appBar: AppBar(
-        title: const Text('Change Password'),
+        backgroundColor: context.colorScheme.background,
+        elevation: 0,
+        leading: IconButton(
+          onPressed: () => Navigator.of(context).pop(),
+          icon: Icon(
+            Icons.arrow_back_sharp,
+            color: context.colorScheme.tertiary,
+            size: 40,
+          ),
+        ),
       ),
       body: BlocProvider(
         create: (_) => ChangePasswordBloc(
@@ -72,7 +80,7 @@ class _DCChangePasswordScreenState extends State<DCChangePasswordScreen> {
                   Container(
                     padding: EdgeInsets.symmetric(
                       horizontal: context.width * 0.05,
-                      vertical: context.height * 0.05,
+                      vertical: context.height * 0.02,
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -114,7 +122,7 @@ class _DCChangePasswordScreenState extends State<DCChangePasswordScreen> {
                             );
                           },
                         ),
-                        const SizedBox(height: 8),
+                        const SizedBox(height: 10),
                         Center(
                           child: BlocBuilder<ChangePasswordBloc,
                               ChangePasswordState>(

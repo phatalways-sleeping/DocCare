@@ -166,7 +166,7 @@ class __DCLoginModalBottomSheetState extends State<_DCLoginModalBottomSheet> {
               context.width * 0.90,
               context.height * 0.05,
             ),
-            onPressed: (context) {},
+            onPressed: (context) => Navigator.pushNamed(context, '/sign-up'),
             child: Text(
               'Create new account',
               style: context.textTheme.bodyRegularPoppins.copyWith(
@@ -185,7 +185,7 @@ class __DCLoginModalBottomSheetState extends State<_DCLoginModalBottomSheet> {
               context.width * 0.90,
               context.height * 0.05,
             ),
-            onPressed: (context) {},
+            onPressed: (context) => Navigator.pushReplacementNamed(context, '/forgot-password'),
             child: Text(
               'I have forgotten my password',
               style: context.textTheme.bodyRegularPoppins.copyWith(

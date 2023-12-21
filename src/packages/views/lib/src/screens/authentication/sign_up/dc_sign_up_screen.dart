@@ -23,10 +23,7 @@ class _DCSignUpScreenState extends State<DCSignUpScreen> {
         cornerRadius: 12,
         backgroundColor: context.colorScheme.background,
         allowNavigateBack: true,
-        onLeadingIconPressed: (context) {
-          // TODO: handle navigate back to splash screen
-          Navigator.of(context).pop();
-        },
+        onLeadingIconPressed: (context) => Navigator.of(context).pop(),
       ),
       body: BlocProvider(
         create: (_) => SignUpBloc(
