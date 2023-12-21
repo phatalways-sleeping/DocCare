@@ -36,6 +36,9 @@ class DCDoctorCard extends StatelessWidget {
             context.height * 0.15,
           ),
         ),
+        surfaceTintColor: MaterialStateProperty.all<Color>(
+          Colors.transparent,
+        ),
         padding: MaterialStateProperty.all<EdgeInsets>(
           EdgeInsets.symmetric(
             horizontal: context.width * 0.03,

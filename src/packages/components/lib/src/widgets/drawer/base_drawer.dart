@@ -55,7 +55,7 @@ class _BaseDrawerState extends State<BaseDrawer> {
         heightFactor: 1, // This is to make the drawer full height
         child: Drawer(
           surfaceTintColor:
-              widget.surfaceTintColor ?? context.colorScheme.tertiary,
+              Colors.white, // This is to make the drawer background white
           semanticLabel: widget.semanticLabel,
           clipBehavior: widget.clipBehavior,
           backgroundColor: Colors.white,

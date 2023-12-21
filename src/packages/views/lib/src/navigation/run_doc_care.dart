@@ -31,108 +31,147 @@ void runDocCare() => runApp(
         ],
         child: MaterialApp(
           title: 'DocCare',
+          debugShowCheckedModeBanner: false,
           theme: ThemeData(
             colorScheme: const DocCareLightColorScheme(),
           ),
           initialRoute: '/prescription',
-          routes: {
-            // Authentication
-
-            '/splash': (context) => RestorationScope(
-                  restorationId: 'splash',
-                  child: DCSplashScreen(
-                    navigatorKey: GlobalKey<NavigatorState>(
-                      debugLabel: 'splash',
+          onGenerateRoute: (settings) {
+            switch (settings.name) {
+              case '/splash':
+                return MaterialPageRoute(
+                  builder: (context) => RestorationScope(
+                    restorationId: 'splash',
+                    child: DCSplashScreen(
+                      navigatorKey: GlobalKey<NavigatorState>(
+                        debugLabel: 'splash',
+                      ),
                     ),
                   ),
-                ),
-
-            '/sign-up': (context) => DCSignUpScreen(
-                  navigatorKey: GlobalKey<NavigatorState>(
-                    debugLabel: 'sign-up',
+                );
+              case '/sign-up':
+                return MaterialPageRoute(
+                  builder: (context) => DCSignUpScreen(
+                    navigatorKey: GlobalKey<NavigatorState>(
+                      debugLabel: 'sign-up',
+                    ),
                   ),
-                ),
-
-            '/forgot-password': (context) => DCChangePasswordScreen(
-                  navigatorKey: GlobalKey<NavigatorState>(
-                    debugLabel: 'forgot-password',
+                );
+              case '/forgot-password':
+                return MaterialPageRoute(
+                  builder: (context) => DCChangePasswordScreen(
+                    navigatorKey: GlobalKey<NavigatorState>(
+                      debugLabel: 'forgot-password',
+                    ),
                   ),
-                ),
-
-            // User
-            '/home': (context) => const SizedBox.shrink(),
-
-            '/profile': (context) => DCProfileScreen(
-                  navigatorKey: GlobalKey<NavigatorState>(
-                    debugLabel: 'profile',
+                );
+              case '/sign-out':
+                return MaterialPageRoute(
+                  builder: (context) => const SizedBox.shrink(),
+                );
+              case '/home':
+                return MaterialPageRoute(
+                  builder: (context) => const SizedBox.shrink(),
+                );
+              case '/profile':
+                return MaterialPageRoute(
+                  builder: (context) => DCProfileScreen(
+                    navigatorKey: GlobalKey<NavigatorState>(
+                      debugLabel: 'profile',
+                    ),
                   ),
-                ),
-
-            '/prescription': (context) => DCCustomerViewPrescriptionFlow(
-                  navigatorKey: GlobalKey<NavigatorState>(
-                    debugLabel: 'prescription',
+                );
+              case '/prescription':
+                return MaterialPageRoute(
+                  builder: (context) => DCCustomerViewPrescriptionFlow(
+                    navigatorKey: GlobalKey<NavigatorState>(
+                      debugLabel: 'prescription',
+                    ),
                   ),
-                ),
-
-            '/schedule/doctor': (context) => DCDoctorViewMainScreen(
-                  navigatorKey: GlobalKey<NavigatorState>(
-                    debugLabel: 'schedule/doctor',
+                );
+              case '/schedule/doctor':
+                return MaterialPageRoute(
+                  builder: (context) => DCDoctorViewMainScreen(
+                    navigatorKey: GlobalKey<NavigatorState>(
+                      debugLabel: 'schedule/doctor',
+                    ),
                   ),
-                ),
-
-            '/schedule': (context) => DCScheduleViewScreen(
-                  navigatorKey: GlobalKey<NavigatorState>(
-                    debugLabel: 'schedule',
+                );
+              case '/booking':
+                return MaterialPageRoute(
+                  builder: (context) => DCScheduleViewScreen(
+                    navigatorKey: GlobalKey<NavigatorState>(
+                      debugLabel: 'schedule',
+                    ),
                   ),
-                ),
-
-            '/message': (context) => const SizedBox.shrink(),
-
-            '/notification': (context) => const SizedBox.shrink(),
-
-            '/sign-out': (context) => const SizedBox.shrink(),
-
-            // Admin
-
-            '/admin/home': (context) => const SizedBox.shrink(),
-
-            '/admin/reports': (context) => DCAdminGenerateReportScreen(
-                  navigatorKey: GlobalKey<NavigatorState>(
-                    debugLabel: 'admin/reports',
+                );
+              case '/notification':
+                return MaterialPageRoute(
+                  builder: (context) => const SizedBox.shrink(),
+                );
+              case '/admin/home':
+                return MaterialPageRoute(
+                  builder: (context) => const SizedBox.shrink(),
+                );
+              case '/admin/reports':
+                return MaterialPageRoute(
+                  builder: (context) => DCAdminGenerateReportScreen(
+                    navigatorKey: GlobalKey<NavigatorState>(
+                      debugLabel: 'admin/reports',
+                    ),
                   ),
-                ),
-
-            '/admin/staff/create': (context) => const DCAdminCreateStaffFlow(),
-
-            '/admin/staff/delete': (context) => const DCStaffRemovalScreen(),
-
-            // Doctor
-
-            '/doctor/home': (context) => const SizedBox.shrink(),
-
-            '/doctor/message': (context) => const SizedBox.shrink(),
-
-            '/doctor/notification': (context) => const SizedBox.shrink(),
-
-            '/doctor/prescribe': (context) => DCDoctorPrescibeMedicineFlow(
-                  navigatorKey: GlobalKey<NavigatorState>(
-                    debugLabel: 'prescribe-doctor',
+                );
+              case '/admin/staff/create':
+                return MaterialPageRoute(
+                  builder: (context) => const DCAdminCreateStaffFlow(),
+                );
+              case '/admin/staff/delete':
+                return MaterialPageRoute(
+                  builder: (context) => const DCStaffRemovalScreen(),
+                );
+              case '/doctor/home':
+                return MaterialPageRoute(
+                  builder: (context) => const SizedBox.shrink(),
+                );
+              case '/doctor/message':
+                return MaterialPageRoute(
+                  builder: (context) => const SizedBox.shrink(),
+                );
+              case '/doctor/notification':
+                return MaterialPageRoute(
+                  builder: (context) => const SizedBox.shrink(),
+                );
+              case '/doctor/prescribe':
+                return MaterialPageRoute(
+                  builder: (context) => DCDoctorPrescibeMedicineFlow(
+                    navigatorKey: GlobalKey<NavigatorState>(
+                      debugLabel: 'prescribe-doctor',
+                    ),
+                    customerName: 'John Doe', // Later we replace
                   ),
-                  customerName: 'John Doe', // Later we replace
-                ),
-
-            '/doctor/absent-request': (context) => const DCDoctorAbsentScreen(),
-
-            // Receptionist
-
-            '/receptionist/home': (context) =>
-                const DCReceptionistAbsentScreen(),
-
-            '/receptionist/booking': (context) => DCScheduleViewScreen(
-                  navigatorKey: GlobalKey<NavigatorState>(
-                    debugLabel: 'schedule',
+                );
+              case '/doctor/absent-request':
+                return MaterialPageRoute(
+                  builder: (context) => const DCDoctorAbsentScreen(),
+                );
+              case '/receptionist/home':
+                return MaterialPageRoute(
+                  builder: (context) => const DCReceptionistAbsentScreen(),
+                );
+              case '/receptionist/booking':
+                return MaterialPageRoute(
+                  builder: (context) => DCDoctorViewMainScreen(
+                    navigatorKey: GlobalKey<NavigatorState>(
+                      debugLabel: 'schedule/receptionist',
+                    ),
                   ),
-                ),
+                );
+
+              default:
+                return MaterialPageRoute(
+                  builder: (context) => const SizedBox.shrink(),
+                );
+            }
           },
           restorationScopeId: 'doccare',
         ),

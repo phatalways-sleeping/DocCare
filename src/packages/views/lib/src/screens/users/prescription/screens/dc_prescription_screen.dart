@@ -24,8 +24,7 @@ class _DCPrescriptionScreenState extends State<DCPrescriptionScreen> {
         title: 'DocCare',
       ),
       drawer: const DCCustomerDrawer(),
-      bottomNavigationBar: DCCustomerNavigationBar(
-        onItemSelected: (BuildContext context, int index) {},
+      bottomNavigationBar: const DCCustomerNavigationBar(
         selectedIndex: 1,
       ),
       extendBody: true,

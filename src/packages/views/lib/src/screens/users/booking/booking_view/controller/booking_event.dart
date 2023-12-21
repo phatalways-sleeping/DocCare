@@ -82,3 +82,7 @@ final class BookingConfirmEvent extends BookingEvent {
 final class BookingResetEvent extends BookingEvent {
   const BookingResetEvent();
 }
+
+final class BookingBackToInitialEvent extends BookingEvent {
+  const BookingBackToInitialEvent();
+}
