@@ -8,7 +8,12 @@ import 'package:views/src/profile/controller/profile_bloc.dart';
 import 'package:views/src/screens/admin/management/v2/config.dart';
 
 class DCProfileScreen extends StatelessWidget {
-  const DCProfileScreen({super.key});
+  const DCProfileScreen({
+    required this.navigatorKey,
+    super.key,
+  });
+
+  final GlobalKey<NavigatorState> navigatorKey;
 
   @override
   Widget build(BuildContext context) {
@@ -19,6 +24,7 @@ class DCProfileScreen extends StatelessWidget {
           const ProfileLoadEvent(),
         ),
       child: BlocConsumer<ProfileBloc, ProfileState>(
+        key: navigatorKey,
         listener: (context, state) {
           // TODO: implement listener
         },

@@ -9,9 +9,6 @@ class DCCustomerDrawer extends StatefulWidget {
   /// Constructor for the customer drawer
   const DCCustomerDrawer({
     super.key,
-    this.onProfileSelected,
-    this.onIntakeHistorySelected,
-    this.onSignOutSelected,
     this.althernativeHeaderImagePath,
     this.borderRadiusOfEachItem = const BorderRadius.only(
       topRight: Radius.circular(16),
@@ -64,10 +61,6 @@ class DCCustomerDrawer extends StatefulWidget {
 
   final String semanticLabel;
   final Clip clipBehavior;
-
-  final void Function(BuildContext context)? onProfileSelected;
-  final void Function(BuildContext context)? onIntakeHistorySelected;
-  final void Function(BuildContext context)? onSignOutSelected;
 
   @override
   State<DCCustomerDrawer> createState() => _DCCustomerDrawerState();
@@ -131,15 +124,7 @@ class _DCCustomerDrawerState extends State<DCCustomerDrawer>
       items: [
         DCDrawerItem(
           borderRadius: widget.borderRadiusOfEachItem,
-          onTap: (context) {
-            widget.onProfileSelected?.call(context);
-
-            setState(() {
-              profileSelected = true;
-              intakeHistorySelected = false;
-              signOutSelected = false;
-            });
-          },
+          onTap: (context) => Navigator.pushNamed(context, '/profile'),
           selected: profileSelected,
           title: Text(
             'Profile',
@@ -166,47 +151,7 @@ class _DCCustomerDrawerState extends State<DCCustomerDrawer>
         ),
         DCDrawerItem(
           borderRadius: widget.borderRadiusOfEachItem,
-          onTap: (context) {
-            widget.onIntakeHistorySelected?.call(context);
-            setState(() {
-              profileSelected = false;
-              intakeHistorySelected = true;
-              signOutSelected = false;
-            });
-          },
-          selected: intakeHistorySelected,
-          title: Text(
-            'Intake History',
-            style: TextStyle(
-              fontSize: widget.fontSize,
-            ),
-            textAlign: TextAlign.center,
-          ),
-          prefixIcon: SvgPicture.string(
-            DCSVGIcons.report,
-            fit: BoxFit.cover,
-            height: widget.iconSize,
-            width: widget.iconSize,
-            colorFilter: intakeHistorySelected
-                ? ColorFilter.mode(
-                    widget.selectedBackgroundColor ??
-                        context.colorScheme.background,
-                    BlendMode.srcIn,
-                  )
-                : null,
-          ),
-        ),
-        DCDrawerItem(
-          borderRadius: widget.borderRadiusOfEachItem,
-          onTap: (context) {
-            widget.onSignOutSelected?.call(context);
-
-            setState(() {
-              profileSelected = false;
-              intakeHistorySelected = false;
-              signOutSelected = true;
-            });
-          },
+          onTap: (context) => Navigator.pushNamed(context, '/sign-out'),
           selected: signOutSelected,
           title: Text(
             'Sign out',

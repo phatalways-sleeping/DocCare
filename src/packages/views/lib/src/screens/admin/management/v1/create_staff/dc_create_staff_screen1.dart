@@ -8,9 +8,13 @@ import 'package:utility/utility.dart';
 import 'package:views/src/screens/admin/management/v1/controller/create_staff_bloc.dart';
 import 'package:views/src/screens/admin/management/v1/create_staff/dc_create_staff_screen2.dart';
 
-
 class DCCreateStaffScreen1 extends StatefulWidget {
-  const DCCreateStaffScreen1({super.key});
+  const DCCreateStaffScreen1({
+    required this.navigatorKey,
+    super.key,
+  });
+
+  final GlobalKey<NavigatorState> navigatorKey;
 
   @override
   State<DCCreateStaffScreen1> createState() => _DCCreateStaffScreen1State();
@@ -21,11 +25,13 @@ class _DCCreateStaffScreen1State extends State<DCCreateStaffScreen1> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => CreateStaffBloc(
+        widget.navigatorKey,
         SupabaseAuthenticationRepository(),
         NotificationManager.instance,
         SupabaseAdminRepository(),
       ),
       child: Scaffold(
+        key: widget.navigatorKey,
         appBar: DCCustomerHeaderBar(
           title: 'Create staff',
           allowNavigateBack: true,

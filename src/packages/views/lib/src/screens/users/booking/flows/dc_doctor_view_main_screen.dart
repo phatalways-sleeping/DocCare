@@ -12,11 +12,14 @@ import 'package:views/src/screens/users/booking/doctor_view/view/dc_doctor_view.
 
 class DCDoctorViewMainScreen extends StatefulWidget {
   const DCDoctorViewMainScreen({
+    required this.navigatorKey,
     super.key,
     this.inCustomerView = true,
   });
 
   final bool inCustomerView;
+
+  final GlobalKey<NavigatorState> navigatorKey;
 
   @override
   State<DCDoctorViewMainScreen> createState() => _DCDoctorViewMainScreenState();
@@ -30,6 +33,7 @@ class _DCDoctorViewMainScreenState extends State<DCDoctorViewMainScreen> {
       child: BlocBuilder<DoctorViewBloc, DoctorViewState>(
         builder: (context, state) {
           return FlowBuilder<DoctorViewState>(
+            key: widget.navigatorKey,
             state: state,
             onGeneratePages: (state, pages) {
               return [

@@ -13,9 +13,7 @@ part 'notification_state.dart';
 class NotificationManager implements NotificationManagerService {
   /// [NotificationManager] constructor.
   /// It requires [GlobalKey] to be injected.
-  NotificationManager._(this._navigatorKey);
-
-  final GlobalKey<NavigatorState> _navigatorKey;
+  NotificationManager._();
 
   /// Static instance of [NotificationManager].
   /// It requires [GlobalKey] to be injected in the constructor.
@@ -25,9 +23,8 @@ class NotificationManager implements NotificationManagerService {
   OverlayEntry? _overlayEntry;
 
   /// [init] is the method to initialize the [NotificationManager].
-  static void init(GlobalKey<NavigatorState> navigatorKey) {
-    instance =
-        GetIt.instance.registerSingleton(NotificationManager._(navigatorKey));
+  static void init() {
+    instance = GetIt.instance.registerSingleton(NotificationManager._());
 
     // Register lazing singletons
     GetIt.instance.registerLazySingleton(DismissedNotificationBuilder.new);
@@ -42,13 +39,9 @@ class NotificationManager implements NotificationManagerService {
 
   @override
   void dismiss<T>([T? result]) {
-    assert(_navigatorKey.currentContext != null, 'Navigator key is null');
     _overlayEntry?.remove();
     _overlayEntry = null;
   }
-
-  @override
-  GlobalKey<NavigatorState> get navigatorKey => _navigatorKey;
 
   NotificationBuilder _mapNotificationTypeToNotificationBuilder(
     NotificationType type,
@@ -71,12 +64,12 @@ class NotificationManager implements NotificationManagerService {
 
   @override
   Future<T?> show<T>(
+    BuildContext context,
     NotificationType type, {
     Widget? title,
     Widget? message,
     Duration duration = const Duration(seconds: 2),
   }) {
-    assert(_navigatorKey.currentContext != null, 'Navigator key is null');
     assert(type != NotificationType.dismissed, 'Type is dismissed');
     dismiss<T>();
 
@@ -90,7 +83,7 @@ class NotificationManager implements NotificationManagerService {
       builder: notificationBuilder.build,
     );
 
-    Overlay.of(_navigatorKey.currentContext!).insert(_overlayEntry!);
+    Overlay.of(context).insert(_overlayEntry!);
 
     Future.delayed(
       duration,

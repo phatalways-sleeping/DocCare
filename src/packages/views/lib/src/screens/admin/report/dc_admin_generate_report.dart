@@ -11,7 +11,12 @@ import 'package:views/src/screens/admin/report/controller/admin_generate_report_
 import 'package:views/src/screens/admin/report/pdf_service/generate_pdf_service.dart';
 
 class DCAdminGenerateReportScreen extends StatefulWidget {
-  const DCAdminGenerateReportScreen({super.key});
+  const DCAdminGenerateReportScreen({
+    required this.navigatorKey,
+    super.key,
+  });
+
+  final GlobalKey<NavigatorState> navigatorKey;
 
   @override
   State<DCAdminGenerateReportScreen> createState() =>
@@ -23,6 +28,7 @@ class _DCAdminGenerateReportScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: widget.navigatorKey,
       appBar: DCCustomerHeaderBar(
         cornerRadius: 12,
         backgroundColor: context.colorScheme.background,
@@ -34,6 +40,7 @@ class _DCAdminGenerateReportScreenState
       ),
       body: BlocProvider(
         create: (_) => GenerateReportBloc(
+          widget.navigatorKey,
           SupabaseAdminRepository(),
           PdfInvoiceService(),
           NotificationManager.instance,

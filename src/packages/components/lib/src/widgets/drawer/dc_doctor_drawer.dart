@@ -9,9 +9,6 @@ class DCDoctorDrawer extends StatefulWidget {
   /// Constructor for the Doctor drawer
   const DCDoctorDrawer({
     super.key,
-    this.onProfileSelected,
-    this.onAbsentRequestSelected,
-    this.onSignOutSelected,
     this.althernativeHeaderImagePath,
     this.borderRadiusOfEachItem = const BorderRadius.only(
       topRight: Radius.circular(16),
@@ -64,10 +61,6 @@ class DCDoctorDrawer extends StatefulWidget {
 
   final String semanticLabel;
   final Clip clipBehavior;
-
-  final void Function(BuildContext context)? onProfileSelected;
-  final void Function(BuildContext context)? onAbsentRequestSelected;
-  final void Function(BuildContext context)? onSignOutSelected;
 
   @override
   State<DCDoctorDrawer> createState() => _DCDoctorDrawerState();
@@ -131,15 +124,7 @@ class _DCDoctorDrawerState extends State<DCDoctorDrawer>
       items: [
         DCDrawerItem(
           borderRadius: widget.borderRadiusOfEachItem,
-          onTap: (context) {
-            widget.onProfileSelected?.call(context);
-
-            setState(() {
-              profileSelected = true;
-              absentRequest = false;
-              signOutSelected = false;
-            });
-          },
+          onTap: (context) => Navigator.pushNamed(context, '/profile'),
           selected: profileSelected,
           title: Text(
             'Profile',
@@ -166,14 +151,8 @@ class _DCDoctorDrawerState extends State<DCDoctorDrawer>
         ),
         DCDrawerItem(
           borderRadius: widget.borderRadiusOfEachItem,
-          onTap: (context) {
-            widget.onAbsentRequestSelected?.call(context);
-            setState(() {
-              profileSelected = false;
-              absentRequest = true;
-              signOutSelected = false;
-            });
-          },
+          onTap: (context) =>
+              Navigator.pushNamed(context, '/doctor/absent-request'),
           selected: absentRequest,
           title: Text(
             'Absent Request',
@@ -198,15 +177,7 @@ class _DCDoctorDrawerState extends State<DCDoctorDrawer>
         ),
         DCDrawerItem(
           borderRadius: widget.borderRadiusOfEachItem,
-          onTap: (context) {
-            widget.onSignOutSelected?.call(context);
-
-            setState(() {
-              profileSelected = false;
-              absentRequest = false;
-              signOutSelected = true;
-            });
-          },
+          onTap: (context) => Navigator.pushNamed(context, '/sign-out'),
           selected: signOutSelected,
           title: Text(
             'Sign out',

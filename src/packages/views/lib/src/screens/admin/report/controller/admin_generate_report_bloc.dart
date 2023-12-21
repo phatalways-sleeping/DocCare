@@ -16,6 +16,7 @@ part 'admin_generate_report_state.dart';
 class GenerateReportBloc
     extends Bloc<GenerateReportEvent, GenerateReportState> {
   GenerateReportBloc(
+    this._navigatorKey,
     this._adminGenerateReportService,
     this._pdfInvoiceService,
     this._notificationManagerService,
@@ -29,6 +30,7 @@ class GenerateReportBloc
   final AdministratorRepositoryService _adminGenerateReportService;
   final PdfInvoiceService _pdfInvoiceService;
   final NotificationManagerService _notificationManagerService;
+  final GlobalKey<NavigatorState> _navigatorKey;
 
   void _onFromMonthInputEvent(
     FromMonthInputEvent event,
@@ -57,6 +59,7 @@ class GenerateReportBloc
   ) async {
     if (state.fromMonth == 0 || state.toMonth == 0 || state.year == 0) {
       await _notificationManagerService.show<void>(
+        _navigatorKey.currentContext!,
         NotificationType.signUp,
         title: const Text(
           'Something went wrong',
@@ -90,6 +93,7 @@ class GenerateReportBloc
 
       await _notificationManagerService
           .show<void>(
+            _navigatorKey.currentContext!,
             NotificationType.signUp,
             title: const Text(
               'Something went wrong',

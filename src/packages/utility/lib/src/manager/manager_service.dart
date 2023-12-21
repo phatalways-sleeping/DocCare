@@ -12,10 +12,6 @@ abstract interface class ManagerService<R> {
   /// It requires [GlobalKey] to be injected.
   const ManagerService();
 
-  /// [navigatorKey] is the key to navigate the widget on top of the screen.
-  /// It requires [GlobalKey] to be injected.
-  GlobalKey<NavigatorState> get navigatorKey;
-
   /// [dismiss] is the method to dismiss the widget on top of the screen.
   /// It requires [result] to be injected.
   /// [result] is the result of the widget.
@@ -23,6 +19,7 @@ abstract interface class ManagerService<R> {
 
   /// [show] is the method to show the widget on top of the screen.
   Future<T?> show<T>(
+    BuildContext context,
     R type, {
     Widget? title,
     Widget? message,

@@ -27,7 +27,12 @@ import 'package:views/src/screens/authentication/splash/dc_page_view/dc_page_vie
 /// {@template dc_splash_screen}
 class DCSplashScreen extends StatefulWidget {
   /// {@macro screens}
-  const DCSplashScreen({super.key});
+  const DCSplashScreen({
+    required this.navigatorKey,
+    super.key,
+  });
+
+  final GlobalKey<NavigatorState> navigatorKey;
 
   @override
   State<DCSplashScreen> createState() => _DCSplashScreenState();
@@ -56,10 +61,12 @@ class _DCSplashScreenState extends State<DCSplashScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: widget.navigatorKey,
       resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: BlocProvider(
           create: (context) => LoginBloc(
+            widget.navigatorKey,
             SupabaseAuthenticationRepository(),
             NotificationManager.instance,
           ),

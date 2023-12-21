@@ -15,6 +15,7 @@ part 'remove_staff_state.dart';
 
 class RemoveStaffBloc extends Bloc<RemoveStaffEvent, RemoveStaffState> {
   RemoveStaffBloc(
+    this._navigatorKey,
     this._notificationManagerService,
     this._supabaseAdminService,
   ) : super(RemoveStaffLoading.empty()) {
@@ -26,6 +27,8 @@ class RemoveStaffBloc extends Bloc<RemoveStaffEvent, RemoveStaffState> {
   }
 
   final NotificationManagerService _notificationManagerService;
+
+  final GlobalKey<NavigatorState> _navigatorKey;
 
   final AdministratorRepositoryService _supabaseAdminService;
 
@@ -130,6 +133,7 @@ class RemoveStaffBloc extends Bloc<RemoveStaffEvent, RemoveStaffState> {
 
       await _notificationManagerService
           .show<void>(
+            _navigatorKey.currentContext!,
             NotificationType.adminDeleteStaff,
             title: const Text(
               'Something went wrong',

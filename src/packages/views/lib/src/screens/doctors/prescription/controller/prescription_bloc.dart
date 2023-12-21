@@ -13,6 +13,7 @@ part 'prescription_state.dart';
 
 class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
   PrescriptionBloc(
+    this._navigatorKey,
     this._notificationManagerService,
     this._supabaseClient,
   ) : super(
@@ -41,7 +42,7 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
   }
 
   final NotificationManagerService _notificationManagerService;
-
+  final GlobalKey<NavigatorState> _navigatorKey;
   final SupabaseClient _supabaseClient;
 
   void _onHeartRateInputEvent(
@@ -148,6 +149,7 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
         state.currentTimeToTake.isEmpty ||
         state.currentMealTime.isEmpty) {
       await _notificationManagerService.show<void>(
+        _navigatorKey.currentContext!,
         NotificationType.error,
         title: const Text(
           'Something went wrong',
@@ -167,6 +169,7 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
 
     if (!state.availableMedicines.contains(state.currentMedicineName)) {
       await _notificationManagerService.show<void>(
+        _navigatorKey.currentContext!,
         NotificationType.error,
         title: const Text(
           'Something went wrong',
@@ -186,6 +189,7 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
 
     if (!FormValidator.validateNumber(state.currentDose).isValid) {
       await _notificationManagerService.show<void>(
+        _navigatorKey.currentContext!,
         NotificationType.error,
         title: const Text(
           'Something went wrong',
@@ -205,6 +209,7 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
 
     if (!FormValidator.validateNumber(state.currentDuration).isValid) {
       await _notificationManagerService.show<void>(
+        _navigatorKey.currentContext!,
         NotificationType.error,
         title: const Text(
           'Something went wrong',
@@ -224,6 +229,7 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
 
     if (state.medicines.containsKey(state.currentMedicineName)) {
       await _notificationManagerService.show<void>(
+        _navigatorKey.currentContext!,
         NotificationType.error,
         title: const Text(
           'Something went wrong',
@@ -310,6 +316,7 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
         state.heartRate.isEmpty ||
         state.choresterol.isEmpty) {
       await _notificationManagerService.show<void>(
+        _navigatorKey.currentContext!,
         NotificationType.error,
         title: const Text(
           'Something went wrong',
@@ -329,6 +336,7 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
 
     if (!FormValidator.validateBloodPressure(state.bloodPressure).isValid) {
       await _notificationManagerService.show<void>(
+        _navigatorKey.currentContext!,
         NotificationType.error,
         title: const Text(
           'Something went wrong',
@@ -348,6 +356,7 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
 
     if (!FormValidator.validateNumber(state.heartRate).isValid) {
       await _notificationManagerService.show<void>(
+        _navigatorKey.currentContext!,
         NotificationType.error,
         title: const Text(
           'Something went wrong',
@@ -367,6 +376,7 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
 
     if (!FormValidator.validateNumber(state.choresterol).isValid) {
       await _notificationManagerService.show<void>(
+        _navigatorKey.currentContext!,
         NotificationType.error,
         title: const Text(
           'Something went wrong',
@@ -386,6 +396,7 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
 
     if (!FormValidator.validateNumber(state.bloodSugar).isValid) {
       await _notificationManagerService.show<void>(
+        _navigatorKey.currentContext!,
         NotificationType.error,
         title: const Text(
           'Something went wrong',
@@ -444,6 +455,7 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
       );
     } catch (e) {
       await _notificationManagerService.show<void>(
+        _navigatorKey.currentContext!,
         NotificationType.error,
         title: const Text(
           'Something went wrong',

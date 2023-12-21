@@ -11,7 +11,12 @@ import 'package:utility/utility.dart';
 import 'package:views/src/screens/authentication/change_password/controller/change_password_bloc.dart';
 
 class DCChangePasswordScreen extends StatefulWidget {
-  const DCChangePasswordScreen({super.key});
+  const DCChangePasswordScreen({
+    required this.navigatorKey,
+    super.key,
+  });
+
+  final GlobalKey<NavigatorState> navigatorKey;
 
   @override
   State<DCChangePasswordScreen> createState() => _DCChangePasswordScreenState();
@@ -55,6 +60,7 @@ class _DCChangePasswordScreenState extends State<DCChangePasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: widget.navigatorKey,
       appBar: AppBar(
         backgroundColor: context.colorScheme.background,
         elevation: 0,
@@ -69,6 +75,7 @@ class _DCChangePasswordScreenState extends State<DCChangePasswordScreen> {
       ),
       body: BlocProvider(
         create: (_) => ChangePasswordBloc(
+          widget.navigatorKey,
           NotificationManager.instance,
           SupabaseAuthenticationRepository(),
         ),

@@ -10,6 +10,7 @@ part 'prescription_state.dart';
 
 class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
   PrescriptionBloc(
+    this._navigatorKey,
     this._notificationManagerService,
   ) : super(PrescriptionViewState.initial()) {
     on<PrescriptionCheckEvent>(_onPrescriptionCheckEvent);
@@ -29,6 +30,7 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
   }
 
   final NotificationManagerService _notificationManagerService;
+  final GlobalKey<NavigatorState> _navigatorKey;
 
   Future<List<Map<String, dynamic>>> getLatestPrescription() => Future.delayed(
         const Duration(seconds: 3),
@@ -124,6 +126,7 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
     } catch (error) {
       emit(PrescriptionViewState.initial());
       await _notificationManagerService.show<void>(
+        _navigatorKey.currentContext!,
         NotificationType.error,
         title: const Text('Error'),
         message: const Text('An error occured while loading the prescription.'),
@@ -162,6 +165,7 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
     } catch (error) {
       emit(MedicinesViewLoadingState.fromState(state));
       await _notificationManagerService.show<void>(
+        _navigatorKey.currentContext!,
         NotificationType.error,
         title: const Text('Error'),
         message: const Text('An error occured while processing the medicine.'),

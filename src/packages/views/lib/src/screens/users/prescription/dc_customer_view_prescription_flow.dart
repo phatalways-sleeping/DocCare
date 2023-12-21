@@ -8,9 +8,9 @@ import 'package:views/src/screens/users/prescription/screens/dc_medicine_screen.
 import 'package:views/src/screens/users/prescription/screens/dc_prescription_screen.dart';
 
 class DCCustomerViewPrescriptionFlow extends StatefulWidget {
-  const DCCustomerViewPrescriptionFlow({
-    super.key,
-  });
+  const DCCustomerViewPrescriptionFlow({required this.navigatorKey, super.key});
+
+  final GlobalKey<NavigatorState> navigatorKey;
 
   @override
   State<DCCustomerViewPrescriptionFlow> createState() =>
@@ -23,9 +23,11 @@ class _DCCustomerViewPrescriptionFlowState
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => PrescriptionBloc(
+        widget.navigatorKey,
         NotificationManager.instance,
       ),
       child: BlocConsumer<PrescriptionBloc, PrescriptionState>(
+        key: widget.navigatorKey,
         listener: (context, state) {},
         builder: (context, state) {
           if (state is PrescriptionViewState ||

@@ -27,11 +27,21 @@ Future<void> main() async {
     )
   ]);
 
-  final key = GlobalKey<NavigatorState>();
+  NotificationManager.init();
 
-  NotificationManager.init(key);
+  FlutterError.onError = (FlutterErrorDetails details) {
+    if (details.exception is FlutterError && details.stack != null) {
+      if (details.exception.toString().contains('Multiple widgets used the same GlobalKey')) {
+        return;
+      }
+      debugPrint('FlutterError: ${details.exception.toString()}');
+      debugPrint('Stack trace: ${details.stack}');
+    } else {
+      FlutterError.dumpErrorToConsole(details);
+    }
+  };
 
-  runApp(const MyApp());
+  runDocCare();
 }
 
 class MyApp extends StatefulWidget {
@@ -104,6 +114,6 @@ class _MyHomePageState extends State<MyHomePage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
-    return const DCProfileScreen();
+    return const SizedBox.shrink();
   }
 }
