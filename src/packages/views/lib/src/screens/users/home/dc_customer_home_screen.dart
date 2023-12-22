@@ -2,11 +2,11 @@
 
 import 'dart:async';
 
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 import 'package:components/components.dart';
 import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:views/src/screens/users/home/controller/home_bloc.dart';
 import 'package:views/src/screens/users/home/widgets/medical_stat_display_widget.dart';
 import 'package:views/src/screens/users/home/widgets/reminder_widget.dart';
@@ -212,9 +212,7 @@ class _DCCustomerHomeScreen extends State<DCCustomerHomeScreen> {
                 ),
               ],
             ),
-            bottomNavigationBar: DCCustomerNavigationBar(
-              onItemSelected: (context, value) {},
-            ),
+            bottomNavigationBar: const DCCustomerNavigationBar(),
           );
         },
       ),
