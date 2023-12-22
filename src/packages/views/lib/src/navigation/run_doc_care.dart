@@ -31,6 +31,12 @@ void runDocCare() => runApp(
           RepositoryProvider<CustomerRepositoryService>(
             create: (context) => SupabaseCustomerRepository(),
           ),
+          RepositoryProvider<DoctorRepositoryService>(
+            create: (context) => SupabaseDoctorRepository(),
+          ),
+          RepositoryProvider<ReceptionistRepositoryService>(
+            create: (context) => SupabaseReceptionistRepository(),
+          ),
         ],
         child: MaterialApp(
           title: 'DocCare',

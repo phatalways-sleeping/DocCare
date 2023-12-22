@@ -20,6 +20,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     this._navigatorKey,
     this._authenticationRepositoryService,
     this._customerRepositoryService,
+    this._doctorRepositoryService,
+    this._receptionistRepositoryService,
     this._notificationManagerService,
   ) : super(const LoginInitial.empty()) {
     on<EmailInputEvent>(_onEmailInputEvent);
@@ -30,6 +32,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   final AuthenticationRepositoryService _authenticationRepositoryService;
   final CustomerRepositoryService _customerRepositoryService;
+  final DoctorRepositoryService _doctorRepositoryService;
+  final ReceptionistRepositoryService _receptionistRepositoryService;
   final NotificationManagerService _notificationManagerService;
   final GlobalKey<NavigatorState> _navigatorKey;
 
@@ -69,7 +73,13 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       )
           .then(
         (value) {
-          _customerRepositoryService.initializeCustomerId(value[1]);
+          if (value[0] == 'user') {
+            _customerRepositoryService.initializeCustomerId(value[1]);
+          } else if (value[0] == 'doctor') {
+            _doctorRepositoryService.initializeDoctorId(value[1]);
+          } else if (value[0] == 'receptionist') {
+            _receptionistRepositoryService.initializeReceptionistId(value[1]);
+          } else if (value[0] == 'admin') {}
           emit(
             LoginSuccess.from(
               state,

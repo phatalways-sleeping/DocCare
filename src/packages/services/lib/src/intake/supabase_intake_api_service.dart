@@ -142,4 +142,19 @@ class SupabaseIntakeAPIService implements IntakeApiService<Intake> {
           .eq('prescriptionID', prescriptionID)
           .eq('medicineName', medicineName)
           .onError((error, stackTrace) => throw Exception(error));
+
+  @override
+  Future<void> updateIntakeDone(
+    String prescriptionID,
+    String medicineName, {
+    required bool done,
+  }) =>
+      supabase
+          .from('intake')
+          .update({
+            'done': done,
+          })
+          .eq('prescriptionID', prescriptionID)
+          .eq('medicineName', medicineName)
+          .onError((error, stackTrace) => throw Exception(error));
 }

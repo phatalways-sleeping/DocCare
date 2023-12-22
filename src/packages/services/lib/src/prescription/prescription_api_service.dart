@@ -11,7 +11,13 @@ abstract interface class PrescriptionApiService<T extends Prescription> {
 
   Future<void> createPrescription(Prescription prescription);
 
-  Future<void> updatePrescriptionDone(String id, bool done, DateTime dateDone);
+  Future<void> updatePrescriptionDone(
+    String id,
+    bool done,
+    DateTime dateDone,
+  );
+
+  Future<void> updatePrescriptionRating(String id, int rating);
 
   Future<void> deletePrescription(String id);
 

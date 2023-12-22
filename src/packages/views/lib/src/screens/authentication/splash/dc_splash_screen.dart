@@ -70,6 +70,8 @@ class _DCSplashScreenState extends State<DCSplashScreen>
             widget.navigatorKey,
             context.read<AuthenticationRepositoryService>(),
             context.read<CustomerRepositoryService>(),
+            context.read<DoctorRepositoryService>(),
+            context.read<ReceptionistRepositoryService>(),
             NotificationManager.instance,
           ),
           child: PageView.builder(
