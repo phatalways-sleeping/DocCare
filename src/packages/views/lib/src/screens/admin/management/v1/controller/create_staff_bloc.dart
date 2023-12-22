@@ -17,6 +17,7 @@ part 'create_staff_state.dart';
 
 class CreateStaffBloc extends Bloc<CreateStaffEvent, CreateStaffState> {
   CreateStaffBloc(
+    this._navigatorKey,
     this._authenticationRepositoryService,
     this._notificationManagerService,
     this._supabaseAdminService,
@@ -42,6 +43,8 @@ class CreateStaffBloc extends Bloc<CreateStaffEvent, CreateStaffState> {
   }
 
   final NotificationManagerService _notificationManagerService;
+
+  final GlobalKey<NavigatorState> _navigatorKey;
 
   final AdministratorRepositoryService _supabaseAdminService;
 
@@ -110,6 +113,7 @@ class CreateStaffBloc extends Bloc<CreateStaffEvent, CreateStaffState> {
     if (!check) {
       _notificationManagerService
           .show<void>(
+            _navigatorKey.currentContext!,
             NotificationType.adminCreateStaff,
             title: const Text(
               'Something went wrong',
@@ -218,7 +222,8 @@ class CreateStaffBloc extends Bloc<CreateStaffEvent, CreateStaffState> {
     //     state.email.isEmpty ||
     //     state.phone.isEmpty) {
     //   await _notificationManagerService.show<void>(
-    //     NotificationType.adminCreateStaff,
+    //  _navigatorKey.currentContext!,    
+    // NotificationType.adminCreateStaff,
     //     title: const Text(
     //       'Something went wrong',
     //       style: TextStyle(
@@ -238,7 +243,8 @@ class CreateStaffBloc extends Bloc<CreateStaffEvent, CreateStaffState> {
     // if (!check) {
     //   await _notificationManagerService
     //       .show<void>(
-    //         NotificationType.adminCreateStaff,
+    //  _navigatorKey.currentContext!,        
+    // NotificationType.adminCreateStaff,
     //         title: const Text(
     //           'Something went wrong',
     //           style: TextStyle(
@@ -287,6 +293,7 @@ class CreateStaffBloc extends Bloc<CreateStaffEvent, CreateStaffState> {
             state.email.isEmpty ||
             state.phone.isEmpty) {
           await _notificationManagerService.show<void>(
+            _navigatorKey.currentContext!,
             NotificationType.adminCreateStaff,
             title: const Text(
               'Something went wrong',
@@ -328,6 +335,7 @@ class CreateStaffBloc extends Bloc<CreateStaffEvent, CreateStaffState> {
             state.dayOfWeek.isEmpty ||
             state.specializationId.isEmpty) {
           await _notificationManagerService.show<void>(
+            _navigatorKey.currentContext!,
             NotificationType.adminCreateStaff,
             title: const Text(
               'Something went wrong',
@@ -373,6 +381,7 @@ class CreateStaffBloc extends Bloc<CreateStaffEvent, CreateStaffState> {
 
       await _notificationManagerService
           .show<void>(
+            _navigatorKey.currentContext!,
             NotificationType.adminCreateStaff,
             title: const Text(
               'Something went wrong',

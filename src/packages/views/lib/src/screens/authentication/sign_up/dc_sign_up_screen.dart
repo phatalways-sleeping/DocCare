@@ -9,7 +9,12 @@ import 'package:utility/utility.dart';
 import 'package:views/src/screens/authentication/sign_up/controller/sign_up_bloc.dart';
 
 class DCSignUpScreen extends StatefulWidget {
-  const DCSignUpScreen({super.key});
+  const DCSignUpScreen({
+    required this.navigatorKey,
+    super.key,
+  });
+
+  final GlobalKey<NavigatorState> navigatorKey;
 
   @override
   State<DCSignUpScreen> createState() => _DCSignUpScreenState();
@@ -19,18 +24,17 @@ class _DCSignUpScreenState extends State<DCSignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: widget.navigatorKey,
       appBar: DCCustomerHeaderBar(
         cornerRadius: 12,
         backgroundColor: context.colorScheme.background,
         allowNavigateBack: true,
-        onLeadingIconPressed: (context) {
-          // TODO: handle navigate back to splash screen
-          Navigator.of(context).pop();
-        },
+        onLeadingIconPressed: (context) => Navigator.of(context).pop(),
       ),
       body: BlocProvider(
         create: (_) => SignUpBloc(
-          SupabaseAuthenticationRepository.instance,
+          widget.navigatorKey,
+          SupabaseAuthenticationRepository(),
           NotificationManager.instance,
         ),
         child: CustomScrollView(

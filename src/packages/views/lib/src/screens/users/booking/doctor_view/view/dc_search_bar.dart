@@ -86,6 +86,14 @@ class _DCSearchBarState extends State<DCSearchBar> {
         suffixIcon: IconButton.filled(
           splashColor: Colors.white,
           highlightColor: Colors.white,
+          style: ButtonStyle(
+            shape: MaterialStateProperty.all(
+              const CircleBorder(),
+            ),
+            backgroundColor: MaterialStateProperty.all(
+              Colors.transparent,
+            ),
+          ),
           onPressed: () {
             _controller.clear();
             context.read<DoctorViewBloc>().add(

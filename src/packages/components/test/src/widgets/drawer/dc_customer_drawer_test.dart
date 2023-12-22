@@ -11,27 +11,17 @@ void main() {
       const elevation = 16.0;
       const backgroundColor = Colors.white;
 
-      void onProfileTap(BuildContext context) {}
-      void onIntakeTap(BuildContext context) {}
-      void onLogoutTap(BuildContext context) {}
-
-      final drawer = DCCustomerDrawer(
+      const drawer = DCCustomerDrawer(
         widthFactor: widthFactor,
         borderRadius: borderRadius,
         elevation: elevation,
         backgroundColor: backgroundColor,
-        onProfileSelected: onProfileTap,
-        onIntakeHistorySelected: onIntakeTap,
-        onSignOutSelected: onLogoutTap,
       );
 
       expect(drawer.widthFactor, widthFactor);
       expect(drawer.borderRadius, borderRadius);
       expect(drawer.elevation, elevation);
       expect(drawer.backgroundColor, backgroundColor);
-      expect(drawer.onProfileSelected, onProfileTap);
-      expect(drawer.onIntakeHistorySelected, onIntakeTap);
-      expect(drawer.onSignOutSelected, onLogoutTap);
     });
 
     testWidgets('DCCustomerDrawer should have correct properties',
@@ -41,21 +31,15 @@ void main() {
       const elevation = 16.0;
       const backgroundColor = Colors.white;
 
-      void onProfileTap(BuildContext context) {}
-      void onIntakeTap(BuildContext context) {}
-      void onLogoutTap(BuildContext context) {}
 
       await tester.pumpWidget(
-        MaterialApp(
+        const MaterialApp(
           home: Scaffold(
             body: DCCustomerDrawer(
               widthFactor: widthFactor,
               borderRadius: borderRadius,
               elevation: elevation,
               backgroundColor: backgroundColor,
-              onProfileSelected: onProfileTap,
-              onIntakeHistorySelected: onIntakeTap,
-              onSignOutSelected: onLogoutTap,
             ),
           ),
         ),
@@ -68,9 +52,6 @@ void main() {
       expect(drawer.borderRadius, borderRadius);
       expect(drawer.elevation, elevation);
       expect(drawer.backgroundColor, backgroundColor);
-      expect(drawer.onProfileSelected, onProfileTap);
-      expect(drawer.onIntakeHistorySelected, onIntakeTap);
-      expect(drawer.onSignOutSelected, onLogoutTap);
     });
   });
 }

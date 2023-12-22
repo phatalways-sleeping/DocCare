@@ -12,11 +12,13 @@ import 'package:views/src/screens/doctors/prescription/dc_prescription_screen.da
 
 class DCDoctorPrescibeMedicineFlow extends StatefulWidget {
   const DCDoctorPrescibeMedicineFlow({
+    required this.navigatorKey,
     required this.customerName,
     super.key,
   });
 
   final String customerName;
+  final GlobalKey<NavigatorState> navigatorKey;
 
   @override
   State<DCDoctorPrescibeMedicineFlow> createState() =>
@@ -29,6 +31,7 @@ class _DCDoctorPrescibeMedicineFlowState
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => PrescriptionBloc(
+        widget.navigatorKey,
         NotificationManager.instance,
         Supabase.instance.client,
       ),
@@ -58,6 +61,7 @@ class _DCDoctorPrescibeMedicineFlowState
                               ? Container()
                               : Container();
           return Scaffold(
+            key: widget.navigatorKey,
             resizeToAvoidBottomInset: true,
             appBar: DCDoctorHeaderBar(
               title: '',

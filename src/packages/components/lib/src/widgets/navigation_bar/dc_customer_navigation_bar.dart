@@ -10,7 +10,6 @@ import 'package:flutter_svg/svg.dart';
 /// This navigation bar is used in the doctor screens.
 class DCCustomerNavigationBar extends StatelessWidget {
   const DCCustomerNavigationBar({
-    required this.onItemSelected,
     this.backgroundColor,
     this.selectedItemColor,
     this.unselectedItemColor,
@@ -31,12 +30,35 @@ class DCCustomerNavigationBar extends StatelessWidget {
   final double iconSize;
   final double bottomPadding;
 
-  final void Function(BuildContext context, int index) onItemSelected;
-
   @override
   Widget build(BuildContext context) {
     return BaseNavigationBar(
-      onItemSelected: onItemSelected,
+      onItemSelected: (context, index) {
+        if (index != selectedIndex) {
+          switch (index) {
+            case 0:
+              Navigator.of(context, rootNavigator: true).pushReplacementNamed(
+                '/home',
+              );
+            case 1:
+              Navigator.of(context, rootNavigator: true).pushReplacementNamed(
+                '/prescription',
+              );
+            case 2:
+              Navigator.of(context, rootNavigator: true).pushReplacementNamed(
+                '/schedule/doctor',
+              );
+            case 3:
+              Navigator.of(context, rootNavigator: true).pushReplacementNamed(
+                '/booking',
+              );
+            case 4:
+              Navigator.of(context, rootNavigator: true).pushReplacementNamed(
+                '/message',
+              );
+          }
+        }
+      },
       backgroundColor: backgroundColor,
       selectedItemColor: selectedItemColor,
       unselectedItemColor: unselectedItemColor,

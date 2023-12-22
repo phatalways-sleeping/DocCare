@@ -15,6 +15,7 @@ part 'sign_up_state.dart';
 
 class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
   SignUpBloc(
+    this._navigatorKey,
     this._authenticationRepositoryService,
     this._notificationManagerService,
   ) : super(SignUpInitial.empty()) {
@@ -32,7 +33,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
   }
 
   final AuthenticationRepositoryService _authenticationRepositoryService;
-
+  final GlobalKey<NavigatorState> _navigatorKey;
   final NotificationManagerService _notificationManagerService;
 
   void _onFullNameInputEvent(
@@ -71,6 +72,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     if (!check) {
       _notificationManagerService
           .show<void>(
+            _navigatorKey.currentContext!,
             NotificationType.signUp,
             title: const Text(
               'Something went wrong',
@@ -129,6 +131,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
         state.confirmPassword.isEmpty ||
         state.checkedTerm == false) {
       await _notificationManagerService.show<void>(
+        _navigatorKey.currentContext!,
         NotificationType.signUp,
         title: const Text(
           'Something went wrong',
@@ -149,6 +152,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
 
     if (state.password != state.confirmPassword) {
       await _notificationManagerService.show<void>(
+        _navigatorKey.currentContext!,
         NotificationType.signUp,
         title: const Text(
           'Something went wrong',
@@ -180,6 +184,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
 
       await _notificationManagerService
           .show<void>(
+            _navigatorKey.currentContext!,
             NotificationType.signUp,
             title: const Text(
               'Something went wrong',

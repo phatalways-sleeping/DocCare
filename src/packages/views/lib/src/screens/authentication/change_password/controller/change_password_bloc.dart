@@ -13,6 +13,7 @@ part 'change_password_state.dart';
 class ChangePasswordBloc
     extends Bloc<ChangePasswordEvent, ChangePasswordState> {
   ChangePasswordBloc(
+    this._navigatorKey,
     this._notificationManagerService,
     this._authenticationRepositoryService,
   ) : super(const ChangePasswordInitial.empty()) {
@@ -22,6 +23,7 @@ class ChangePasswordBloc
   }
 
   final NotificationManagerService _notificationManagerService;
+  final GlobalKey<NavigatorState> _navigatorKey;
   final AuthenticationRepositoryService _authenticationRepositoryService;
 
   void _onEmailInputEvent(
@@ -41,6 +43,7 @@ class ChangePasswordBloc
     final check = FormValidator.validateEmail(event.email);
     if (!check.isValid) {
       _notificationManagerService.show<void>(
+        _navigatorKey.currentContext!,
         NotificationType.error,
         title: const Text(
           'Something went wrong',
@@ -70,6 +73,7 @@ class ChangePasswordBloc
 
       await _notificationManagerService
           .show<void>(
+            _navigatorKey.currentContext!,
             NotificationType.error,
             title: const Text(
               'Something went wrong',

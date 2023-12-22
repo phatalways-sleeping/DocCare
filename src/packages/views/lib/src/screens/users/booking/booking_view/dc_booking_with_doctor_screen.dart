@@ -69,6 +69,10 @@ class _DCBookingWithDoctorScreenState extends State<DCBookingWithDoctorScreen> {
                   title: 'Booking',
                   allowNavigateBack:
                       context.watch<BookingBloc>().state.dateSelected != null,
+                  onLeadingIconPressed: (context) =>
+                      context.read<BookingBloc>().add(
+                            const BookingBackToInitialEvent(),
+                          ),
                 )
               : DCCustomerHeaderBar(
                   title: 'Booking',
@@ -78,6 +82,14 @@ class _DCBookingWithDoctorScreenState extends State<DCBookingWithDoctorScreen> {
                             const DoctorViewInitialEvent(),
                           ),
                 ),
+      drawer: widget.inCustomerView ? const DCCustomerDrawer() : null,
+      bottomNavigationBar:
+          context.watch<BookingBloc>().state.dateSelected == null
+              ? const DCCustomerNavigationBar(
+                  selectedIndex: 3,
+                )
+              : null,
+      extendBody: true,
       body: BlocConsumer<BookingBloc, BookingState>(
         listener: (context, state) async {
           if (state is BookingFailure) {

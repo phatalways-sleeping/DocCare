@@ -97,6 +97,15 @@ class _DCDoctorViewScreenState extends State<DCDoctorViewScreen> {
                   padding: EdgeInsets.zero,
                   splashColor: Colors.white,
                   highlightColor: Colors.white,
+                  style: ButtonStyle(
+                    elevation: MaterialStateProperty.all<double>(2),
+                    backgroundColor: const MaterialStatePropertyAll(
+                      Colors.transparent,
+                    ),
+                    surfaceTintColor: MaterialStateProperty.all<Color>(
+                      Colors.transparent,
+                    ),
+                  ),
                   icon: SvgPicture.string(
                     DCSVGIcons.filter,
                     height: 30,
@@ -208,8 +217,7 @@ class _DCDoctorViewScreenState extends State<DCDoctorViewScreen> {
       drawer: const DCCustomerDrawer(),
       extendBody: true,
       bottomNavigationBar: showBottomNavBar
-          ? DCCustomerNavigationBar(
-              onItemSelected: (context, index) {},
+          ? const DCCustomerNavigationBar(
               selectedIndex: 2,
             )
           : null,

@@ -41,9 +41,12 @@ class DCPrescriptionItem extends StatelessWidget {
             borderRadius: BorderRadius.circular(20),
           ),
         ),
+        surfaceTintColor: const MaterialStatePropertyAll(
+          Colors.transparent,
+        ),
         elevation: MaterialStateProperty.all(4),
         shadowColor: MaterialStateProperty.all(
-          context.colorScheme.onSurface.withOpacity(0.5),
+          context.colorScheme.tertiary.withOpacity(0.2),
         ),
         overlayColor: MaterialStateProperty.all(
           color.withOpacity(0.7),

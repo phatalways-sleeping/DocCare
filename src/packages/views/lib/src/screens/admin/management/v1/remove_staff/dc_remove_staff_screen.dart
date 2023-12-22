@@ -8,7 +8,12 @@ import 'package:utility/utility.dart';
 import 'package:views/src/screens/admin/management/v1/remove_controller/remove_staff_bloc.dart';
 
 class DCRemoveStaffScreen extends StatefulWidget {
-  const DCRemoveStaffScreen({super.key});
+  const DCRemoveStaffScreen({
+    required this.navigatorKey,
+    super.key,
+  });
+
+  final GlobalKey<NavigatorState> navigatorKey;
 
   @override
   State<DCRemoveStaffScreen> createState() => _DCRemoveStaffScreenState();
@@ -22,11 +27,13 @@ class _DCRemoveStaffScreenState extends State<DCRemoveStaffScreen> {
 
   Scaffold buildScaffold() {
     return Scaffold(
+      key: widget.navigatorKey,
       appBar: buildAppBar(),
       body: BlocProvider(
         create: (_) => RemoveStaffBloc(
+          widget.navigatorKey,
           NotificationManager.instance,
-          SupabaseAdminRepository.instance,
+          SupabaseAdminRepository(),
         ),
         child: const CustomScrollView(
           slivers: [

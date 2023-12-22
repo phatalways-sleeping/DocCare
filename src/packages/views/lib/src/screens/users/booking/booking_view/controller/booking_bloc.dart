@@ -22,6 +22,18 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     on<BookingEnterSymptomEvent>(_onBookingEnterSymptomEvent);
     on<BookingConfirmEvent>(_onBookingConfirmEvent);
     on<BookingResetEvent>(_onBookingResetEvent);
+    on<BookingBackToInitialEvent>(_onBookingBackToInitialEvent);
+  }
+
+  void _onBookingBackToInitialEvent(
+    BookingBackToInitialEvent event,
+    Emitter<BookingState> emit,
+  ) {
+    emit(
+      BookingInitial(
+        doctorData: state.doctorData,
+      ),
+    );
   }
 
   void _onBookingResetEvent(

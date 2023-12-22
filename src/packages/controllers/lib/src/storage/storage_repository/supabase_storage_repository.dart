@@ -10,11 +10,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class SupabaseStorageRepository
     implements StorageRepositoryService {
   /// Creates a [SupabaseStorageRepository].
-  SupabaseStorageRepository._();
-
-  /// [instance] is the singleton instance of [SupabaseStorageRepository].
-  static final SupabaseStorageRepository instance =
-      SupabaseStorageRepository._();
+  SupabaseStorageRepository();
   
   // We have to declare the SupabaseStorageApiService here
   // because we need to pass the TransformOptions and FileOptions

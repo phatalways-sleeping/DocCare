@@ -9,10 +9,7 @@ import 'package:services/services.dart';
 /// [StorageRepositoryService] for Firebase storage in the domain layer.
 class FirebaseStorageRepository implements StorageRepositoryService {
   /// Creates a [FirebaseStorageRepository].
-  FirebaseStorageRepository._();
-
-  /// [instance] is the singleton instance of [FirebaseStorageRepository].
-  static final instance = FirebaseStorageRepository._();
+  FirebaseStorageRepository();
 
   /// [storage] is the instance implements [StorageApiService].
   final StorageApiService storage = FirebaseStorageApiService(

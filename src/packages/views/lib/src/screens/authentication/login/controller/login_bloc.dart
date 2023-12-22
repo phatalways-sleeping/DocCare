@@ -17,6 +17,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   /// It requires [AuthenticationRepositoryService]
   /// and [NotificationManagerService] instances.
   LoginBloc(
+    this._navigatorKey,
     this._authenticationRepositoryService,
     this._notificationManagerService,
   ) : super(const LoginInitial.empty()) {
@@ -28,6 +29,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   final AuthenticationRepositoryService _authenticationRepositoryService;
   final NotificationManagerService _notificationManagerService;
+  final GlobalKey<NavigatorState> _navigatorKey;
 
   /// [_onEmailInputEvent] is a method that handles the [EmailInputEvent].
   /// It sets the email of the [LoginState] to the input email
@@ -68,6 +70,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       assert(state is LoginLoading, 'State is not loading');
       await _notificationManagerService
           .show<void>(
+            _navigatorKey.currentContext!,
             NotificationType.login,
             title: const Text(
               'Something went wrong',

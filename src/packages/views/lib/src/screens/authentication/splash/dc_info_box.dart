@@ -1,8 +1,9 @@
+// ignore_for_file: public_member_api_docs
+
 import 'package:components/components.dart';
 import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
 
-/// {@template dc_information_box}
 class DCInformationBox extends StatelessWidget {
   /// {@macro dc_information_box}
   const DCInformationBox({
