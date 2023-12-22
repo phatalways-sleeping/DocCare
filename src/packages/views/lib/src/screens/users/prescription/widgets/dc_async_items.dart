@@ -35,66 +35,66 @@ class _DCAsyncItemsState extends State<DCAsyncItems> {
               snapshot.data!.isEmpty ||
                   (snapshot.data!.first.containsKey('medicineName') &&
                       snapshot.data!.first.containsKey('quantity') &&
-                      snapshot.data!.first.containsKey('time') &&
+                      snapshot.data!.first.containsKey('timeOfTheDay') &&
                       snapshot.data!.first.containsKey('toBeTaken')),
-              'Medicine data must contain medicineName, quantity, time, toBeTaken',
+              'Medicine data must contain medicineName, quantity, timeOfTheDay, toBeTaken',
             );
           } else {
             assert(
               snapshot.data!.isEmpty ||
                   (snapshot.data!.first.containsKey('doctorName') &&
                       snapshot.data!.first.containsKey('date') &&
-                      snapshot.data!.first.containsKey('Note') &&
+                      snapshot.data!.first.containsKey('note') &&
                       snapshot.data!.first.containsKey('id')),
-              'Prescription data must contain doctorName, date, Note and id',
+              'Prescription data must contain doctorName, date, note and id',
             );
           }
           final children = snapshot.data!
-                .map(
-                  (e) => !widget.medicine
-                      ? DCPrescriptionItem(
-                          title: 'Dr. ${e['doctorName'] as String}',
-                          bottomLeft: Text(
-                            e['date'].toString().substring(0, 10),
-                          ),
-                          color: context.colorScheme.error,
-                          onSelected: (context) =>
-                              context.read<PrescriptionBloc>().add(
-                                    PrescriptionCheckEvent(
-                                      prescriptionId: e['id'] as String,
-                                    ),
-                                  ),
-                          onPressed: (context) =>
-                              context.read<PrescriptionBloc>().add(
-                                    PrescriptionOpenMedicinesViewEvent(
-                                      prescriptionId: e['id'] as String,
-                                    ),
-                                  ),
-                          bottomRight: Text(
-                            e['Note'] as String,
-                          ),
-                          isDone: widget.isDone,
-                        )
-                      : DCPrescriptionItem(
-                          title: '${e['medicineName']}',
-                          bottomLeft: Text(
-                            (e['time'] as String).split(',').join(', '),
-                          ),
-                          color: context.colorScheme.error,
-                          onSelected: (context) =>
-                              context.read<PrescriptionBloc>().add(
-                                    MedicineCheckEvent(
-                                      medineName: e['medicineName'] as String,
-                                    ),
-                                  ),
-                          onPressed: (context) {},
-                          bottomRight: Text(
-                            '${e['quantity']} pills - ${e['toBeTaken'] as int == 0 ? 'Before meal' : 'After meal'}',
-                          ),
-                          isDone: widget.isDone,
+              .map(
+                (e) => !widget.medicine
+                    ? DCPrescriptionItem(
+                        title: 'Dr. ${e['doctorName'] as String}',
+                        bottomLeft: Text(
+                          e['date'].toString().substring(0, 10),
                         ),
-                )
-                .toList();
+                        color: context.colorScheme.error,
+                        onSelected: (context) =>
+                            context.read<PrescriptionBloc>().add(
+                                  PrescriptionCheckEvent(
+                                    prescriptionId: e['id'] as String,
+                                  ),
+                                ),
+                        onPressed: (context) =>
+                            context.read<PrescriptionBloc>().add(
+                                  PrescriptionOpenMedicinesViewEvent(
+                                    prescriptionId: e['id'] as String,
+                                  ),
+                                ),
+                        bottomRight: Text(
+                          e['note'] as String,
+                        ),
+                        isDone: widget.isDone,
+                      )
+                    : DCPrescriptionItem(
+                        title: '${e['medicineName']}',
+                        bottomLeft: Text(
+                          (e['timeOfTheDay'] as String).split(',').join(', '),
+                        ),
+                        color: context.colorScheme.error,
+                        onSelected: (context) =>
+                            context.read<PrescriptionBloc>().add(
+                                  MedicineCheckEvent(
+                                    medineName: e['medicineName'] as String,
+                                  ),
+                                ),
+                        onPressed: (context) {},
+                        bottomRight: Text(
+                          '${e['quantity']} pills - ${e['toBeTaken'] as int == 0 ? 'Before meal' : 'After meal'}',
+                        ),
+                        isDone: widget.isDone,
+                      ),
+              )
+              .toList();
           return ListView.separated(
             shrinkWrap: true,
             padding: EdgeInsets.zero,

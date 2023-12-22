@@ -31,7 +31,9 @@ Future<void> main() async {
 
   FlutterError.onError = (FlutterErrorDetails details) {
     if (details.exception is FlutterError && details.stack != null) {
-      if (details.exception.toString().contains('Multiple widgets used the same GlobalKey')) {
+      if (details.exception
+          .toString()
+          .contains('Multiple widgets used the same GlobalKey')) {
         return;
       }
       debugPrint('FlutterError: ${details.exception.toString()}');

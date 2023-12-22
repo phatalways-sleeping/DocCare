@@ -64,8 +64,9 @@ class __DCLoginModalBottomSheetState extends State<_DCLoginModalBottomSheet> {
                 });
               }
             },
-            onChanged: (context, controller) =>
-                context.read<LoginBloc>().add(EmailInputEvent(controller.text)),
+            onChanged: (context, controller) => context
+                .read<LoginBloc>()
+                .add(EmailInputEvent(controller.text)),
           ),
           DCOutlinedObscuredTextFormField(
             controller: widget.passwordController,
@@ -185,7 +186,8 @@ class __DCLoginModalBottomSheetState extends State<_DCLoginModalBottomSheet> {
               context.width * 0.90,
               context.height * 0.05,
             ),
-            onPressed: (context) => Navigator.pushNamed(context, '/forgot-password'),
+            onPressed: (context) =>
+                Navigator.pushNamed(context, '/forgot-password'),
             child: Text(
               'I have forgotten my password',
               style: context.textTheme.bodyRegularPoppins.copyWith(

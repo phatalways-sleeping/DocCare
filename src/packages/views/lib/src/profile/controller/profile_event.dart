@@ -14,6 +14,10 @@ final class ProfileLoadEvent extends ProfileEvent {
   const ProfileLoadEvent();
 }
 
+final class ProfileResetEvent extends ProfileEvent {
+  const ProfileResetEvent();
+}
+
 final class ProfileFullNameChanged extends ProfileEvent {
   const ProfileFullNameChanged(this.fullName);
 
@@ -21,15 +25,6 @@ final class ProfileFullNameChanged extends ProfileEvent {
 
   @override
   List<Object?> get props => [fullName];
-}
-
-final class ProfileEmailChanged extends ProfileEvent {
-  const ProfileEmailChanged(this.email);
-
-  final String email;
-
-  @override
-  List<Object?> get props => [email];
 }
 
 final class ProfilePhoneChanged extends ProfileEvent {
@@ -76,14 +71,23 @@ final class ProfilePasswordChangedClickEvent extends ProfileEvent {
 }
 
 final class ProfilePasswordChanged extends ProfileEvent {
-  const ProfilePasswordChanged(this.password);
+  const ProfilePasswordChanged({
+    required this.password,
+    required this.confirmPassword,
+  });
 
   final String password;
 
+  final String confirmPassword;
+
   @override
-  List<Object?> get props => [password];
+  List<Object?> get props => [password, confirmPassword];
 }
 
 final class ProfileSubmitted extends ProfileEvent {
   const ProfileSubmitted();
+}
+
+final class ProfileAskForConfirmation extends ProfileEvent {
+  const ProfileAskForConfirmation();
 }

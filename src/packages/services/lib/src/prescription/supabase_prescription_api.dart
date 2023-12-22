@@ -84,4 +84,13 @@ class SupabasePrescriptionApiService
       .stream(primaryKey: ['id'])
       .eq('id', id)
       .map((event) => Prescription.fromJson(event.first));
+
+  @override
+  Future<void> updatePrescriptionRating(String id, int rating) => supabase
+      .from('prescription')
+      .update({
+        'rating': rating,
+      })
+      .eq('id', id)
+      .onError((error, stackTrace) => throw Exception(error));
 }
