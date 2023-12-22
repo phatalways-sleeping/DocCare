@@ -5,6 +5,10 @@ abstract interface class AuthenticationRepositoryService {
   /// {@macro auth_domain}
   const AuthenticationRepositoryService();
 
+  String get role;
+
+  void setRole(String role);
+
   /// [login] is the method for login
   Future<List<String>> login(String email, String password);
 

@@ -189,17 +189,20 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
       _customerRepositoryService.initializeCustomerId(id);
       await _authenticationRepositoryService
           .signUp(
-            state.email,
-            state.password,
-            id,
-          )
+        state.email,
+        state.password,
+        id,
+      )
           .then(
-            (value) => emit(
-              SignUpSuccess.from(
-                state,
-              ),
+        (value) {
+          _authenticationRepositoryService.setRole('customer');
+          emit(
+            SignUpSuccess.from(
+              state,
             ),
           );
+        },
+      );
     } on AuthException catch (e) {
       assert(state is SignUpLoading, 'State is not loading');
 

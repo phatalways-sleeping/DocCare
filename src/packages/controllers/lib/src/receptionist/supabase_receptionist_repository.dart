@@ -15,4 +15,21 @@ class SupabaseReceptionistRepository implements ReceptionistRepositoryService {
   void clear() {
     _receptionistId = '';
   }
+
+  @override
+  Future<Map<String, dynamic>> getProfileData() {
+    // TODO: implement getProfileData
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> updateProfileData({
+    String? fullname,
+    String? email,
+    String? phone,
+    DateTime? birthday,
+  }) {
+    // TODO: implement updateProfileData
+    throw UnimplementedError();
+  }
 }

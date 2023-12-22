@@ -16,13 +16,15 @@ class SupabaseAuthenticationRepository
     supabase: Supabase.instance.client,
   );
 
+  late String _role;
+
   @override
   Future<void> changePassword(String password) async {
-    final passwordValidation = FormValidator.validatePassword(password);
+    // final passwordValidation = FormValidator.validatePassword(password);
 
-    if (!passwordValidation.isValid) {
-      throw AuthException(passwordValidation.cause!);
-    }
+    // if (!passwordValidation.isValid) {
+    //   throw AuthException(passwordValidation.cause!);
+    // }
 
     await _authEmailApiService.changePassword(password);
   }
@@ -68,4 +70,12 @@ class SupabaseAuthenticationRepository
         password,
         id,
       );
+
+  @override
+  String get role => _role;
+  
+  @override
+  void setRole(String role) {
+    _role = role;
+  }
 }

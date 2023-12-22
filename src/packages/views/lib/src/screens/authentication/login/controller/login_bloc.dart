@@ -73,13 +73,15 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       )
           .then(
         (value) {
-          if (value[0] == 'user') {
+          if (value[0] == 'customer') {
             _customerRepositoryService.initializeCustomerId(value[1]);
           } else if (value[0] == 'doctor') {
             _doctorRepositoryService.initializeDoctorId(value[1]);
           } else if (value[0] == 'receptionist') {
             _receptionistRepositoryService.initializeReceptionistId(value[1]);
           } else if (value[0] == 'admin') {}
+
+          _authenticationRepositoryService.setRole(value[0]);
           emit(
             LoginSuccess.from(
               state,

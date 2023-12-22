@@ -30,7 +30,7 @@ class SupabaseAuthEmailApiService implements AuthEmailApiService {
         email: email,
         password: password,
         data: {
-          'role': 'user',
+          'role': 'customer',
           'id': id,
         },
       );

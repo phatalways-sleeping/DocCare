@@ -1,31 +1,39 @@
 // ignore_for_file: public_member_api_docs
 
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
+import 'package:controllers/controllers.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
+import 'package:utility/utility.dart';
 
 part 'profile_event.dart';
 part 'profile_state.dart';
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
-  ProfileBloc({
+  ProfileBloc(
+    this._navigatorKey,
+    this._notificationManagerService, {
     required String role,
-  }) : super(ProfileInitial(role: role, birthday: DateTime.now())) {
+    required this.authenticationRepositoryService,
+    this.customerRepositoryService,
+    this.doctorRepositoryService,
+    this.receptionistRepositoryService,
+  })  : assert(
+          (role == 'customer') || role == 'doctor' || role == 'receptionist',
+          'Role must be customer, doctor or receptionist',
+        ),
+        super(ProfileInitial(role: role, birthday: DateTime.now())) {
     on<ProfileLoadEvent>((event, emit) async {
       await emit.forEach(
         Stream.fromFuture(
-          Future.delayed(
-            const Duration(seconds: 1),
-            () => {
-              'fullName': 'Nguyen Van A',
-              'email': 'nvanh@gmail.com',
-              'phone': '0123456789',
-              'birthday': DateTime.now(),
-              'specialization': 'Cardiology',
-              'startWorkingFrom': 2015,
-            },
-          ),
+          state.role == 'customer'
+              ? customerRepositoryService!.getProfileData()
+              : state.role == 'doctor'
+                  ? doctorRepositoryService!.getProfileData()
+                  : receptionistRepositoryService!.getProfileData(),
         ),
         onData: (data) {
           return ProfileLoadedSuccess(
@@ -34,22 +42,36 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
             email: data['email']! as String,
             phone: data['phone']! as String,
             birthday: data['birthday']! as DateTime,
-            specialization: data['specialization']! as String,
-            startWorkingFrom: data['startWorkingFrom']! as int,
+            specialization: (data['specialization'] as String?) ?? '',
+            startWorkingFrom: (data['startWorkingFrom'] as int?) ?? 0,
           );
         },
       );
     });
 
     on<ProfileFullNameChanged>(_onProfileFullNameChanged);
-    on<ProfileEmailChanged>(_onProfileEmailChanged);
     on<ProfilePhoneChanged>(_onProfilePhoneChanged);
     on<ProfileBirthdayChanged>(_onProfileBirthdayChanged);
     on<ProfileSpecializationChanged>(_onProfileSpecializationChanged);
     on<ProfileStartWorkingFromChanged>(_onProfileStartWorkingFromChanged);
     on<ProfilePasswordChangedClickEvent>(_onProfilePasswordChangedClickEvent);
+    on<ProfilePasswordChanged>(_onProfilePasswordChangedEvent);
+    on<ProfileAskForConfirmation>((event, emit) {
+      emit(ProfileWaitingForConfirmState.fromState(state));
+    });
+    on<ProfileResetEvent>((event, emit) {
+      emit(ProfileLoadedSuccess.fromState(state));
+    });
     on<ProfileSubmitted>(_onProfileSaveEvent);
   }
+
+  final CustomerRepositoryService? customerRepositoryService;
+  final DoctorRepositoryService? doctorRepositoryService;
+  final ReceptionistRepositoryService? receptionistRepositoryService;
+  final AuthenticationRepositoryService authenticationRepositoryService;
+
+  final GlobalKey<NavigatorState> _navigatorKey;
+  final NotificationManagerService _notificationManagerService;
 
   @override
   void onTransition(Transition<ProfileEvent, ProfileState> transition) {
@@ -64,17 +86,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     emit(
       state.copyWith(
         fullName: event.fullName,
-      ),
-    );
-  }
-
-  void _onProfileEmailChanged(
-    ProfileEmailChanged event,
-    Emitter<ProfileState> emit,
-  ) {
-    emit(
-      state.copyWith(
-        email: event.email,
+        hasChanged: true,
       ),
     );
   }
@@ -86,6 +98,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     emit(
       state.copyWith(
         phone: event.phone,
+        hasChanged: true,
       ),
     );
   }
@@ -99,6 +112,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       emit(
         state.copyWith(
           birthday: DateTime.parse(event.birthday),
+          hasChanged: true,
         ),
       );
     } catch (e) {
@@ -117,6 +131,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     emit(
       state.copyWith(
         specialization: event.specialization,
+        hasChanged: true,
       ),
     );
   }
@@ -128,6 +143,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     emit(
       state.copyWith(
         startWorkingFrom: event.startWorkingFrom,
+        hasChanged: true,
       ),
     );
   }
@@ -135,10 +151,135 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   void _onProfilePasswordChangedClickEvent(
     ProfilePasswordChangedClickEvent event,
     Emitter<ProfileState> emit,
-  ) {}
+  ) {
+    if (state is ProfileChangePasswordState) {
+      emit(ProfileLoadedSuccess.fromState(state));
+    }
+    emit(
+      ProfileChangePasswordState.fromState(state),
+    );
+  }
 
-  void _onProfileSaveEvent(
+  Future<void> _onProfilePasswordChangedEvent(
+    ProfilePasswordChanged event,
+    Emitter<ProfileState> emit,
+  ) async {
+    try {
+      if (event.password != event.confirmPassword) {
+        await _notificationManagerService.show<void>(
+          _navigatorKey.currentContext!,
+          NotificationType.error,
+          message: const Text(
+            'Password and confirm password must be the same',
+            style: TextStyle(
+              fontSize: 13,
+            ),
+          ),
+          title: const Text(
+            'Opps! Something went wrong',
+            style: TextStyle(
+              fontSize: 16,
+            ),
+          ),
+        );
+        return emit(ProfileLoadedSuccess.fromState(state));
+      }
+      emit(ProfileLoadingState.fromState(state));
+      await authenticationRepositoryService
+          .changePassword(
+        event.password,
+      )
+          .then((value) async {
+        unawaited(
+          _notificationManagerService.show<void>(
+            _navigatorKey.currentContext!,
+            NotificationType.login,
+            message: const Text(
+              'Password changed successfully',
+              style: TextStyle(
+                fontSize: 13,
+              ),
+            ),
+            title: const Text(
+              'Success',
+              style: TextStyle(
+                fontSize: 16,
+              ),
+            ),
+          ),
+        );
+      });
+      emit(ProfileLoadedSuccess.fromState(state));
+    } catch (error) {
+      await _notificationManagerService.show<void>(
+        _navigatorKey.currentContext!,
+        NotificationType.error,
+        message: const Text(
+          'An error occurred while updating password',
+          style: TextStyle(
+            fontSize: 13,
+          ),
+        ),
+        title: const Text(
+          'Opps! Something went wrong',
+          style: TextStyle(
+            fontSize: 16,
+          ),
+        ),
+      );
+      emit(ProfileLoadedSuccess.fromState(state));
+    }
+  }
+
+  Future<void> _onProfileSaveEvent(
     ProfileSubmitted event,
     Emitter<ProfileState> emit,
-  ) {}
+  ) async {
+    try {
+      emit(ProfileLoadingState.fromState(state));
+      if (state.role == 'customer') {
+        await customerRepositoryService!.updateProfileData(
+          fullname: state.fullName,
+          email: state.email,
+          phone: state.phone,
+          birthday: state.birthday,
+        );
+      } else if (state.role == 'doctor') {
+        await doctorRepositoryService!.updateProfileData(
+          fullname: state.fullName,
+          email: state.email,
+          phone: state.phone,
+          birthday: state.birthday,
+          specialization: state.specialization,
+          startWorkingFrom: state.startWorkingFrom,
+        );
+      } else if (state.role == 'receptionist') {
+        await receptionistRepositoryService!.updateProfileData(
+          fullname: state.fullName,
+          email: state.email,
+          phone: state.phone,
+          birthday: state.birthday,
+        );
+      }
+      emit(ProfileUpdatedSuccess.fromState(state));
+    } catch (error) {
+      await _notificationManagerService.show<void>(
+        _navigatorKey.currentContext!,
+        NotificationType.error,
+        message: const Text(
+          'An error occurred while updating profile',
+          style: TextStyle(
+            fontSize: 13,
+          ),
+        ),
+        title: const Text(
+          'Opps! Something went wrong',
+          style: TextStyle(
+            fontSize: 16,
+          ),
+        ),
+      );
+      emit(ProfileLoadedSuccess.fromState(state));
+    }
+  }
 }

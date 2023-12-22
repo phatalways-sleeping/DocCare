@@ -16,4 +16,16 @@ class SupabaseDoctorRepository implements DoctorRepositoryService {
   void clear() {
     _doctorId = '';
   }
+  
+  @override
+  Future<Map<String, dynamic>> getProfileData() {
+    // TODO: implement getProfileData
+    throw UnimplementedError();
+  }
+  
+  @override
+  Future<void> updateProfileData({String? fullname, String? email, String? phone, DateTime? birthday, String? specialization, int? startWorkingFrom}) {
+    // TODO: implement updateProfileData
+    throw UnimplementedError();
+  }
 }

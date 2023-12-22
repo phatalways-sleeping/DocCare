@@ -42,7 +42,7 @@ class _DCSignUpScreenState extends State<DCSignUpScreen> {
           listener: (context, state) {
             if (state is SignUpSuccess) {
               Navigator.of(context, rootNavigator: true)
-                  .pushReplacementNamed('/home');
+                  .pushReplacementNamed('/profile');
             }
           },
           child: CustomScrollView(
