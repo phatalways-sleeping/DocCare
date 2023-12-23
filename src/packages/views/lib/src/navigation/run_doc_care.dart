@@ -12,6 +12,7 @@ import 'package:views/src/screens/authentication/change_password/dc_change_passw
 import 'package:views/src/screens/authentication/sign_up/dc_sign_up_screen.dart';
 import 'package:views/src/screens/authentication/splash/dc_splash_screen.dart';
 import 'package:views/src/screens/doctors/absent/dc_doctor_absent_screen.dart';
+import 'package:views/src/screens/doctors/home/dc_doctor_home_flow.dart';
 import 'package:views/src/screens/doctors/prescription/dc_doctor_prescribe_medicine_flow.dart';
 import 'package:views/src/screens/receptionist/absent/dc_receptionist_absent.dart';
 import 'package:views/src/screens/users/booking/flows/dc_doctor_view_main_screen.dart';
@@ -142,7 +143,7 @@ void runDocCare() => runApp(
                 );
               case '/doctor/home':
                 return MaterialPageRoute(
-                  builder: (context) => const SizedBox.shrink(),
+                  builder: (context) => DCDoctorHomeFlow(),
                 );
               case '/doctor/message':
                 return MaterialPageRoute(

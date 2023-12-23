@@ -4,9 +4,8 @@ import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:screens/src/doctor_home/controller/doctor_home_bloc.dart';
-import 'package:screens/src/doctor_home/widgets/dc_doctor_async_item.dart';
-
+import 'package:views/src/screens/doctors/home/controller/doctor_home_bloc.dart';
+import 'package:views/src/screens/doctors/home/widgets/dc_doctor_async_item.dart';
 
 class DCDoctorScheduleScreen extends StatefulWidget {
   const DCDoctorScheduleScreen({

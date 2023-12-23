@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:extensions/extensions.dart';
 import 'package:components/components.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:screens/src/doctor_home/controller/doctor_home_bloc.dart';
 import 'package:components/src/widgets/pop_up/dc_pop_up_doctor_cancel.dart';
 
 class AppointmentDetailsWidget extends StatelessWidget {

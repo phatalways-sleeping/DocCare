@@ -1,9 +1,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:screens/src/doctor_home/controller/doctor_home_bloc.dart';
-import 'package:screens/src/doctor_home/screens/dc_doctor_schedule_screen.dart';
-import 'package:screens/src/doctor_home/screens/dc_doctor_home_screen.dart';
+import 'package:views/src/screens/doctors/home/controller/doctor_home_bloc.dart';
+import 'package:views/src/screens/doctors/home/screens/dc_doctor_schedule_screen.dart';
+import 'package:views/src/screens/doctors/home/screens/dc_doctor_home_screen.dart';
 //import 'package:utility/utility.dart';
 
 class DCDoctorHomeFlow extends StatefulWidget {

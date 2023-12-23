@@ -5,10 +5,10 @@ import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:screens/src/doctor_home/controller/doctor_home_bloc.dart';
-import 'package:screens/src/doctor_home/widgets/dc_doctor_calendar.dart';
-import 'package:screens/src/doctor_home/widgets/circle_image_with_text.dart';
-import 'package:screens/src/doctor_home/widgets/appointment_detail.dart';
+import 'package:views/src/screens/doctors/home/controller/doctor_home_bloc.dart';
+import 'package:views/src/screens/doctors/home/widgets/dc_doctor_calendar.dart';
+import 'package:views/src/screens/doctors/home/widgets/circle_image_with_text.dart';
+import 'package:views/src/screens/doctors/home/widgets/appointment_detail.dart';
 
 class DCDoctorHomeScreen extends StatefulWidget {
   const DCDoctorHomeScreen({
@@ -56,7 +56,6 @@ class _DCDoctorHomeScreenState extends State<DCDoctorHomeScreen> {
       ),
       drawer: const DCDoctorDrawer(),
       bottomNavigationBar: DCDoctorNavigationBar(
-        onItemSelected: (BuildContext context, int index) {},
         selectedIndex: 0,
       ),
       extendBody: true,

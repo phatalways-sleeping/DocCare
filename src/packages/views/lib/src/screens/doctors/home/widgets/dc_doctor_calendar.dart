@@ -4,7 +4,7 @@ import 'package:components/components.dart';
 import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:screens/src/doctor_home/controller/doctor_home_bloc.dart';
+import 'package:views/src/screens/doctors/home/controller/doctor_home_bloc.dart';
 
 class DCDoctorCalendar extends StatefulWidget {
   const DCDoctorCalendar({super.key});
@@ -176,7 +176,8 @@ class DCDoctorCalendarButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        if (available && !date.isBefore(DateTime.now())) {
+       // if (available && !date.isBefore(DateTime.now()))
+         {
           onPressed(context);
         }
       },

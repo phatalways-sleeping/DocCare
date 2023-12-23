@@ -3,7 +3,7 @@ import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
 //import 'package:flutter_bloc/flutter_bloc.dart';
 //import 'package:screens/src/doctor_home/new_doctor_home/controller/doctor_home_bloc.dart';
-import 'package:screens/src/doctor_home/widgets/dc_appointment_item.dart';
+import 'package:views/src/screens/doctors/home/widgets/dc_appointment_item.dart';
 //import 'package:views/src/screens/users/prescription/widgets/dc_prescription_item.dart';
 
 class DCDoctorAsyncItem extends StatefulWidget {
