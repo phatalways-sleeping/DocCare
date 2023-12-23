@@ -103,6 +103,7 @@ class _DCCustomerHomeScreen extends State<DCCustomerHomeScreen> {
               onLeadingIconPressed: (context) {},
               onActionsIconPressed: (context) {},
             ),
+            drawer: const DCCustomerDrawer(),
             body: CustomScrollView(
               slivers: [
                 SliverPadding(
