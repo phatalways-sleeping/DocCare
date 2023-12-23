@@ -133,6 +133,8 @@ class _DCProfileScreenState extends State<DCProfileScreen> {
           }
 
           return Scaffold(
+            resizeToAvoidBottomInset: true,
+            extendBody: true,
             appBar: AppBar(
               backgroundColor: context.colorScheme.background,
               elevation: 0,
@@ -156,6 +158,11 @@ class _DCProfileScreenState extends State<DCProfileScreen> {
                 ),
               ),
             ),
+            bottomNavigationBar: (role == 'receptionist')
+                ? const DCReceptionistNavigationBar(
+                    selectedIndex: 1,
+                  )
+                : null,
             body: Stack(
               children: [
                 SingleChildScrollView(
@@ -346,6 +353,9 @@ class _DCProfileScreenState extends State<DCProfileScreen> {
                             fontSize: 16,
                           ),
                         ),
+                      ),
+                      SizedBox(
+                        height: context.height * 0.08,
                       ),
                     ],
                   ),

@@ -7,6 +7,8 @@ abstract interface class DoctorRepositoryService {
 
   Future<Map<String, dynamic>> getProfileData();
 
+  Future<bool> isDoctorExist(String email);
+
   Future<void> updateProfileData({
     String? fullname,
     String? email,
