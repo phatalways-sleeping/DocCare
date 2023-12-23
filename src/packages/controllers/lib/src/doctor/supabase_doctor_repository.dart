@@ -73,6 +73,19 @@ class SupabaseDoctorRepository implements DoctorRepositoryService {
     required String bloodSugar,
     required String choresterol,
   }) async {
+    final appointment = Appointment(
+      customerID: customerID,
+      doctorID: _doctorId,
+      period: int.parse(period),
+      date: DateTime.parse(date),
+      prescriptionID: prescriptionID,
+      done: false,
+      note: doctorNote[1],
+      diagnosis: doctorNote[0],
+    );
+
+    await _supabaseAppointmentApiService.updateAppointment(appointment);
+
     for (final medicine in medicines.entries) {
       final intake = Intake(
         medicineName: medicine.key,

@@ -462,16 +462,15 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
       return;
     }
 
-    // final prescriptionId = const Uuid().v4();
-    const prescriptionId = 'P001';
+    final prescriptionId = const Uuid().v4();
+    // const prescriptionId = 'P001';
     final diagnosis = state.doctorNote[0];
     final medicineNote = state.doctorNote[1];
-    final date = DateTime.now().toIso8601String();
 
     await _doctorRepositoryService.addPrescriptionToDatabase(
       customerID: state.customerID,
-      period: '',
-      date: date,
+      period: state.period,
+      date: state.date.toIso8601String(),
       prescriptionID: prescriptionId,
       doctorNote: [diagnosis, medicineNote],
       medicines: state.medicines,
