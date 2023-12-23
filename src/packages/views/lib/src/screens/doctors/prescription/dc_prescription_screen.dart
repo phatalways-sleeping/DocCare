@@ -137,7 +137,11 @@ class _DCPrescriptionScreenState extends State<DCPrescriptionScreen> {
                     padding: const EdgeInsets.symmetric(
                       vertical: 4,
                     ),
-                    onPressed: (context) {},
+                    onPressed: (context) {
+                      BlocProvider.of<PrescriptionBloc>(context).add(
+                        const AddPrescriptionButtonPressedEvent(),
+                      );
+                    },
                     child: Text(
                       'Add prescription',
                       style: context.textTheme.h6BoldPoppins.copyWith(
