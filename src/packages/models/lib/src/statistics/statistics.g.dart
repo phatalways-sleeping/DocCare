@@ -13,7 +13,7 @@ Statistics _$StatisticsFromJson(Map<String, dynamic> json) {
   );
   return Statistics(
     id: json['id'] as int,
-    value: json['value'] as int,
+    value: json['value'] as String,
     categoryName: json['categoryName'] as String,
     prescriptionID: json['prescriptionID'] as String,
     note: json['note'] as String?,

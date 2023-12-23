@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs
 
 import 'package:bloc/bloc.dart';
+import 'package:controllers/controllers.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
@@ -8,8 +9,9 @@ part 'home_event.dart';
 part 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
-  HomeBloc()
-      : super(
+  HomeBloc(
+    this._customerRepositoryService,
+  ) : super(
           HomeLoading.from(
             const HomeInitial.empty(),
           ),
@@ -17,26 +19,43 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<DataLoadingEvent>(_onDataLoadingEvent);
   }
 
+  final CustomerRepositoryService _customerRepositoryService;
+
   Future<void> _onDataLoadingEvent(
     DataLoadingEvent event,
     Emitter<HomeState> emit,
   ) async {
-    // TODO(phucchuhoang): Replace with real data from API
-    print('Loading data...');
-    const bloodPressure = '120/80';
-    const cholesterol = '5.2';
-    const bloodSugar = '5.2';
-    const heartRate = '80';
-    const name = 'Orz Orz Orz';
-    final appointments = {
-      'Cardiology Consultation': ['10:00 AM'],
-      'Dental Consultation': ['11:00 AM'],
-      'Eye Consultation': ['12:00 PM'],
-    };
-    const oldBloodPressure = '120/80';
-    const oldCholesterol = '5.2';
-    const oldBloodSugar = '5.2';
-    const oldHeartRate = '80';
+    final profileData = await _customerRepositoryService.getProfileData();
+    final name = profileData['fullName'].toString();
+
+    final prescriptionID =
+        await _customerRepositoryService.getNewestPrescriptionID();
+
+    final statisticsData =
+        await _customerRepositoryService.getStatistics(prescriptionID[0]);
+    final heartRate = statisticsData['heart_rate'].toString();
+    final bloodPressure = statisticsData['blood_pressure'].toString();
+    final cholesterol = statisticsData['cholesterol'].toString();
+    final bloodSugar = statisticsData['blood_sugar'].toString();
+
+    final oldStatisticsData =
+        await _customerRepositoryService.getStatistics(prescriptionID[1]);
+    final oldHeartRate = oldStatisticsData['heart_rate'].toString();
+    final oldBloodPressure = oldStatisticsData['blood_pressure'].toString();
+    final oldCholesterol = oldStatisticsData['cholesterol'].toString();
+    final oldBloodSugar = oldStatisticsData['blood_sugar'].toString();
+
+    final appointmentsData =
+        await _customerRepositoryService.getUpcomingAppointments();
+
+    final appointments = Map<String, List<String>>.fromEntries(
+      appointmentsData.map(
+        (e) => MapEntry(
+          e['name'].toString(),
+          [e['time'].toString()],
+        ),
+      ),
+    );
 
     emit(
       HomeInitial.input(

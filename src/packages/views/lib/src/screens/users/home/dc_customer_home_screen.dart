@@ -3,6 +3,7 @@
 import 'dart:async';
 
 import 'package:components/components.dart';
+import 'package:controllers/controllers.dart';
 import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,7 +13,9 @@ import 'package:views/src/screens/users/home/widgets/medical_stat_display_widget
 import 'package:views/src/screens/users/home/widgets/reminder_widget.dart';
 
 class DCCustomerHomeScreen extends StatefulWidget {
-  const DCCustomerHomeScreen({super.key});
+  const DCCustomerHomeScreen({
+    super.key,
+  });
 
   @override
   State<StatefulWidget> createState() => _DCCustomerHomeScreen();
@@ -20,29 +23,32 @@ class DCCustomerHomeScreen extends StatefulWidget {
 
 List<Widget> createAppointmentWidgets(Map<String, List<String>> appointments) {
   final now = DateTime.now();
-  final format = DateFormat('h:mm a');
+  // Updated the format to match "07:30:00"
+  final format = DateFormat('HH:mm:ss');
 
   return appointments.entries.map((entry) {
+    // Parse the appointment time with the new format
     final appointmentTime = format.parse(entry.value[0]);
-    var todayAppointmentTime = DateTime(
+    final todayAppointmentTime = DateTime(
       now.year,
       now.month,
       now.day,
       appointmentTime.hour,
       appointmentTime.minute,
+      appointmentTime.second, // Add seconds to the DateTime construction
     );
 
     if (todayAppointmentTime.isBefore(now)) {
-      todayAppointmentTime = todayAppointmentTime.add(const Duration(days: 1));
+      return Container(); // Return an empty container for past appointments
     }
-
     // Calculate the time left
     final timeLeft = todayAppointmentTime.difference(now);
     String formattedTimeLeft;
 
-    // Display the time in hours if more than 1 hour, otherwise in minutes
+    // Display the time in hours and minutes, and add seconds if needed
     if (timeLeft.inHours >= 1) {
-      formattedTimeLeft = '${timeLeft.inHours} hour(s) left';
+      formattedTimeLeft =
+          '${timeLeft.inHours} hour(s) ${timeLeft.inMinutes.remainder(60)} minute(s) left';
     } else if (timeLeft.inMinutes > 0) {
       formattedTimeLeft = '${timeLeft.inMinutes} minute(s) left';
     } else {
@@ -54,7 +60,8 @@ List<Widget> createAppointmentWidgets(Map<String, List<String>> appointments) {
         ReminderCard(
           content: entry.key,
           timeLeft: formattedTimeLeft,
-          appointmentTime: entry.value[0],
+          appointmentTime: format.format(
+              todayAppointmentTime), // Format the DateTime object back to string
         ),
         const SizedBox(height: 8),
       ],
@@ -85,14 +92,15 @@ class _DCCustomerHomeScreen extends State<DCCustomerHomeScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => HomeBloc(),
+      create: (_) => HomeBloc(
+        context.read<CustomerRepositoryService>(),
+      ),
       child: BlocBuilder<HomeBloc, HomeState>(
         builder: (context, state) {
           if (state is HomeLoading) {
             BlocProvider.of<HomeBloc>(context).add(
               const DataLoadingEvent(),
             );
-            return const Center(child: CircularProgressIndicator());
           }
           return Scaffold(
             extendBody: true,
@@ -104,115 +112,121 @@ class _DCCustomerHomeScreen extends State<DCCustomerHomeScreen> {
               onActionsIconPressed: (context) {},
             ),
             drawer: const DCCustomerDrawer(),
-            body: CustomScrollView(
-              slivers: [
-                SliverPadding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12),
-                  sliver: SliverList(
-                    delegate: SliverChildListDelegate(
-                      createAppointmentWidgets(state.appointments),
-                    ),
-                  ),
-                ),
-                SliverList(
-                  delegate: SliverChildListDelegate(
-                    [
-                      Row(
-                        children: [
-                          const SizedBox(
-                            width: 12,
+            body: (state is! HomeLoading)
+                ? CustomScrollView(
+                    slivers: [
+                      SliverPadding(
+                        padding: const EdgeInsets.symmetric(horizontal: 12),
+                        sliver: SliverList(
+                          delegate: SliverChildListDelegate(
+                            createAppointmentWidgets(state.appointments),
                           ),
-                          Text(
-                            'Hi, ${state.name}!',
-                            style: context.textTheme.h6BoldPoppins.copyWith(
-                              fontSize: 25,
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
-                      const SizedBox(height: 4),
-                      Row(
-                        children: [
-                          const SizedBox(
-                            width: 12,
-                          ),
-                          Text(
-                            'Today: ',
-                            style: context.textTheme.h6RegularPoppins.copyWith(
-                              fontSize: 20,
+                      SliverList(
+                        delegate: SliverChildListDelegate(
+                          [
+                            Row(
+                              children: [
+                                const SizedBox(
+                                  width: 12,
+                                ),
+                                Text(
+                                  'Hi, ${state.name}!',
+                                  style:
+                                      context.textTheme.h6BoldPoppins.copyWith(
+                                    fontSize: 25,
+                                  ),
+                                ),
+                              ],
                             ),
-                          ),
-                          Text(
-                            DateFormat('dd-MM-yyyy').format(DateTime.now()),
-                            style: context.textTheme.h6RegularPoppins.copyWith(
-                              fontSize: 20,
+                            const SizedBox(height: 4),
+                            Row(
+                              children: [
+                                const SizedBox(
+                                  width: 12,
+                                ),
+                                Text(
+                                  'Today: ',
+                                  style: context.textTheme.h6RegularPoppins
+                                      .copyWith(
+                                    fontSize: 20,
+                                  ),
+                                ),
+                                Text(
+                                  DateFormat('dd-MM-yyyy')
+                                      .format(DateTime.now()),
+                                  style: context.textTheme.h6RegularPoppins
+                                      .copyWith(
+                                    fontSize: 20,
+                                  ),
+                                ),
+                              ],
                             ),
+                          ],
+                        ),
+                      ),
+                      SliverPadding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        sliver: SliverGrid(
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 10,
+                            mainAxisSpacing: 10,
                           ),
-                        ],
+                          delegate: SliverChildListDelegate(
+                            [
+                              CustomHealthCard(
+                                title: 'Blood Pressure',
+                                icon: DCSVGIcons.bloodDrop,
+                                color: context.colorScheme.surface,
+                                currentValue: state.bloodPressure,
+                                unit: 'mmHg',
+                                lastCheckupValue: state.oldBloodPressure,
+                              ),
+                              CustomHealthCard(
+                                title: 'Heart Rate',
+                                icon: DCSVGIcons.heart,
+                                color: context.colorScheme.quartenary
+                                    .withOpacity(0.5),
+                                currentValue: state.heartRate,
+                                unit: 'beats/minute',
+                                lastCheckupValue: state.oldHeartRate,
+                              ),
+                              CustomHealthCard(
+                                title: 'Cholesterol',
+                                icon: DCSVGIcons.cholesterol,
+                                color: context.colorScheme.error,
+                                currentValue: state.cholesterol,
+                                unit: 'mg/dl',
+                                lastCheckupValue: state.oldCholesterol,
+                              ),
+                              CustomHealthCard(
+                                title: 'Glucose',
+                                icon: DCSVGIcons.glucometer,
+                                color: const Color.fromARGB(255, 163, 241, 232)
+                                    .withOpacity(0.9),
+                                currentValue: state.bloodSugar,
+                                unit: 'mg/dl',
+                                lastCheckupValue: state.oldBloodSugar,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      SliverList(
+                        delegate: SliverChildListDelegate(
+                          [
+                            const SizedBox(
+                              height: 70,
+                            ),
+                          ],
+                        ),
                       ),
                     ],
-                  ),
-                ),
-                SliverPadding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                  sliver: SliverGrid(
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 10,
-                      mainAxisSpacing: 10,
-                    ),
-                    delegate: SliverChildListDelegate(
-                      [
-                        CustomHealthCard(
-                          title: 'Blood Pressure',
-                          icon: DCSVGIcons.bloodDrop,
-                          color: context.colorScheme.surface,
-                          currentValue: state.bloodPressure,
-                          unit: 'mmHg',
-                          lastCheckupValue: state.oldBloodPressure,
-                        ),
-                        CustomHealthCard(
-                          title: 'Heart Rate',
-                          icon: DCSVGIcons.heart,
-                          color:
-                              context.colorScheme.quartenary.withOpacity(0.5),
-                          currentValue: state.heartRate,
-                          unit: 'beats/minute',
-                          lastCheckupValue: state.oldHeartRate,
-                        ),
-                        CustomHealthCard(
-                          title: 'Cholesterol',
-                          icon: DCSVGIcons.cholesterol,
-                          color: context.colorScheme.error,
-                          currentValue: state.cholesterol,
-                          unit: 'mg/dl',
-                          lastCheckupValue: state.oldCholesterol,
-                        ),
-                        CustomHealthCard(
-                          title: 'Glucose',
-                          icon: DCSVGIcons.glucometer,
-                          color: const Color.fromARGB(255, 163, 241, 232)
-                              .withOpacity(0.9),
-                          currentValue: state.bloodSugar,
-                          unit: 'mg/dl',
-                          lastCheckupValue: state.oldBloodSugar,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                SliverList(
-                  delegate: SliverChildListDelegate(
-                    [
-                      const SizedBox(
-                        height: 70,
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+                  )
+                : Container(),
             bottomNavigationBar: const DCCustomerNavigationBar(),
           );
         },
