@@ -57,6 +57,5 @@ abstract interface class CustomerRepositoryService {
     int? rating,
     String? searchName,
     DateTime? date,
-    required int period,
   });
 }

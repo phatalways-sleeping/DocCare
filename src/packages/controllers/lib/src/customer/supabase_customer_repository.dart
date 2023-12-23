@@ -259,7 +259,6 @@ class SupabaseCustomerRepository implements CustomerRepositoryService {
 
   @override
   Future<List<Map<String, dynamic>>> getAvailableDoctors({
-    required int period,
     List<String>? specialities,
     int? rating,
     String? searchName,

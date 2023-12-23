@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs
 
 import 'package:bloc/bloc.dart';
+import 'package:controllers/controllers.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
@@ -8,7 +9,9 @@ part 'doctor_view_event.dart';
 part 'doctor_view_state.dart';
 
 class DoctorViewBloc extends Bloc<DoctorViewEvent, DoctorViewState> {
-  DoctorViewBloc() : super(const DoctorViewInitial()) {
+  DoctorViewBloc(
+    this._customerRepositoryService,
+  ) : super(const DoctorViewInitial()) {
     on<DoctorViewInitialEvent>(_onDoctorViewInitialEvent);
     on<DoctorViewFilterEvent>(_onDoctorViewFilterEvent);
     on<DoctorViewStartSearchForNameEvent>(_onDoctorViewStartSearchForNameEvent);
@@ -19,6 +22,19 @@ class DoctorViewBloc extends Bloc<DoctorViewEvent, DoctorViewState> {
     on<DoctorViewApplyFiltersEvent>(_onDoctorViewApplyFiltersEvent);
     on<DoctorViewChooseDoctorEvent>(_onDoctorViewChooseDoctorEvent);
   }
+
+  final CustomerRepositoryService _customerRepositoryService;
+
+  Future<List<Map<String, dynamic>>> getAvaiableDoctors() =>
+      _customerRepositoryService.getAvailableDoctors(
+        rating: (state.filteredRating != 'All')
+            ? int.parse(state.filteredRating)
+            : null,
+        specialities: state.filteredSpecialties,
+        searchName: state is DoctorViewSearchForName
+            ? (state as DoctorViewSearchForName).searchedName
+            : null,
+      );
 
   void _onDoctorViewChooseDoctorEvent(
     DoctorViewChooseDoctorEvent event,

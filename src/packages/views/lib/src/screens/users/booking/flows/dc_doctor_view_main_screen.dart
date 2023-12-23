@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs
 
+import 'package:controllers/controllers.dart';
 import 'package:flow_builder/flow_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,7 +30,7 @@ class _DCDoctorViewMainScreenState extends State<DCDoctorViewMainScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => DoctorViewBloc(),
+      create: (context) => DoctorViewBloc(SupabaseCustomerRepository()),
       child: BlocBuilder<DoctorViewBloc, DoctorViewState>(
         builder: (context, state) {
           return FlowBuilder<DoctorViewState>(
