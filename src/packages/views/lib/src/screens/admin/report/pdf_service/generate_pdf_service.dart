@@ -105,7 +105,6 @@ class PdfInvoiceService {
               sum_star: totalStar,
             )));
       }
-
       // design pdf
       widgets.addAll([
         pw.Row(
@@ -115,6 +114,7 @@ class PdfInvoiceService {
               style: pw.TextStyle(
                 fontSize: 37,
                 fontWeight: pw.FontWeight.bold,
+                font: pw.Font.ttf(await rootBundle.load('assets/fonts/Montserrat-ExtraBold.ttf')),
               ),
             ),
           ],
@@ -127,6 +127,7 @@ class PdfInvoiceService {
               style: pw.TextStyle(
                 fontSize: 35,
                 fontWeight: pw.FontWeight.bold,
+                font: pw.Font.ttf(await rootBundle.load('assets/fonts/Montserrat-ExtraBold.ttf')),
               ),
             ),
           ],
@@ -147,6 +148,7 @@ class PdfInvoiceService {
               style: pw.TextStyle(
                 fontSize: 16,
                 fontWeight: pw.FontWeight.bold,
+                font: pw.Font.ttf(await rootBundle.load('assets/fonts/Montserrat-ExtraBold.ttf')),
               ),
             ),
           ],
@@ -155,8 +157,9 @@ class PdfInvoiceService {
           children: [
             pw.Text(
               'OVERVIEW:',
-              style: const pw.TextStyle(
+              style:  pw.TextStyle(
                 fontSize: 17,
+                font: pw.Font.ttf(await rootBundle.load('assets/fonts/Montserrat-Medium.ttf')),
               ),
             ),
           ],
@@ -167,6 +170,7 @@ class PdfInvoiceService {
           style: pw.TextStyle(
             fontSize: 14,
             fontWeight: pw.FontWeight.bold,
+            font: pw.Font.ttf(await rootBundle.load('assets/fonts/Montserrat-ExtraBold.ttf')),
           ),
         ),
         pw.Bullet(
@@ -174,6 +178,8 @@ class PdfInvoiceService {
           style: pw.TextStyle(
             fontSize: 14,
             fontWeight: pw.FontWeight.bold,
+                        font: pw.Font.ttf(await rootBundle.load('assets/fonts/Montserrat-ExtraBold.ttf')),
+
           ),
         ),
         pw.Bullet(
@@ -182,6 +188,7 @@ class PdfInvoiceService {
           style: pw.TextStyle(
             fontSize: 14,
             fontWeight: pw.FontWeight.bold,
+            font: pw.Font.ttf(await rootBundle.load('assets/fonts/Montserrat-ExtraBold.ttf')),
           ),
         ),
         pw.Bullet(
@@ -191,6 +198,7 @@ class PdfInvoiceService {
           style: pw.TextStyle(
             fontSize: 14,
             fontWeight: pw.FontWeight.bold,
+            font: pw.Font.ttf(await rootBundle.load('assets/fonts/Montserrat-ExtraBold.ttf')),
           ),
         ),
         pw.Bullet(
@@ -198,6 +206,7 @@ class PdfInvoiceService {
           style: pw.TextStyle(
             fontSize: 14,
             fontWeight: pw.FontWeight.bold,
+            font: pw.Font.ttf(await rootBundle.load('assets/fonts/Montserrat-ExtraBold.ttf')),
           ),
         ),
         pw.SizedBox(height: 30),
@@ -206,8 +215,9 @@ class PdfInvoiceService {
           children: [
             pw.Text(
               'MONTHLY CUSTOMERS RATING CHART',
-              style: const pw.TextStyle(
+              style:  pw.TextStyle(
                 fontSize: 17,
+                font: pw.Font.ttf(await rootBundle.load('assets/fonts/Montserrat-Medium.ttf')),
               ),
             ),
           ],
@@ -216,7 +226,7 @@ class PdfInvoiceService {
           children: [
             pw.Center(
               child: pw.Container(
-                  height: 400,
+                  height: 380,
                   width: 1080,
                   child: totalStar != 0
                       ? pw.Expanded(child: pw.Image(pw.MemoryImage(bytes)))
@@ -225,22 +235,28 @@ class PdfInvoiceService {
                             pw.SizedBox(height: 50),
                             pw.Text(
                               'There is no data to display!',
-                              style: const pw.TextStyle(
+                              style:  pw.TextStyle(
                                 fontSize: 17,
+                                font: pw.Font.ttf(await rootBundle.load('assets/fonts/Montserrat-Medium.ttf')),
                               ),
                             ),
                           ]),
                         )),
             ),
+            pw.SizedBox(height:10),
             pw.Text(
               '(*)This report aims to provide a comprehensive overview of the performance of the clinic, user engagement, appointment statistics, user feedback, trends, and actionable steps for improvement. Throughout this report, data analysis will be conducted to assess the clinic\'s operational efficiency, patient satisfaction, and areas requiring enhancement, ultimately offering strategic recommendations to elevate overall performance.',
-              style: const pw.TextStyle(
+              style:  pw.TextStyle(
                 fontSize: 10,
+                font: pw.Font.ttf(await rootBundle.load('assets/fonts/Montserrat-Medium.ttf')),
               ),
             ),
           ],
         ),
       ]);
+
+
+
     }
 
     pdf.addPage(pw.MultiPage(
