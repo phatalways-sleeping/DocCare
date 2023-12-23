@@ -46,6 +46,8 @@ class SupabaseAuthenticationRepository
       email,
       password,
     );
+    final role = user.userMetadata!['role']! as String;
+    if (role == 'admin') return [role, ''];
     return [
       user.userMetadata!['role']! as String,
       user.userMetadata!['id']! as String,
@@ -73,7 +75,7 @@ class SupabaseAuthenticationRepository
 
   @override
   String get role => _role;
-  
+
   @override
   void setRole(String role) {
     _role = role;

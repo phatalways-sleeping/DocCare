@@ -38,13 +38,17 @@ class DCPageViewTwo extends StatelessWidget {
         background: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Image.asset(
-              'assets/images/pic_3.png',
-              fit: BoxFit.cover,
+            Expanded(
+              child: Image.asset(
+                'assets/images/pic_3.png',
+                fit: BoxFit.cover,
+              ),
             ),
-            Image.asset(
-              'assets/images/pic_4.png',
-              fit: BoxFit.cover,
+            Expanded(
+              child: Image.asset(
+                'assets/images/pic_4.png',
+                fit: BoxFit.cover,
+              ),
             ),
           ],
         ),

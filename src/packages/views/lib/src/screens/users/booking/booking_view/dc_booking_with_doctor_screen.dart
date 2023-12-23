@@ -83,8 +83,9 @@ class _DCBookingWithDoctorScreenState extends State<DCBookingWithDoctorScreen> {
                           ),
                 ),
       drawer: widget.inCustomerView ? const DCCustomerDrawer() : null,
-      bottomNavigationBar:
-          context.watch<BookingBloc>().state.dateSelected == null
+      bottomNavigationBar: context.watch<BookingBloc>().state.doctorData.isEmpty
+          ? null
+          : context.watch<BookingBloc>().state.dateSelected == null
               ? const DCCustomerNavigationBar(
                   selectedIndex: 3,
                 )
