@@ -47,8 +47,7 @@ List<Widget> createAppointmentWidgets(Map<String, List<String>> appointments) {
 
     // Display the time in hours and minutes, and add seconds if needed
     if (timeLeft.inHours >= 1) {
-      formattedTimeLeft =
-          '${timeLeft.inHours} hour(s) ${timeLeft.inMinutes.remainder(60)} minute(s) left';
+      formattedTimeLeft = '${timeLeft.inHours} hour(s) left';
     } else if (timeLeft.inMinutes > 0) {
       formattedTimeLeft = '${timeLeft.inMinutes} minute(s) left';
     } else {
