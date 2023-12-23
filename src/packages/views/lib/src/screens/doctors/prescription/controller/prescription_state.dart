@@ -5,6 +5,9 @@ part of 'prescription_bloc.dart';
 @immutable
 sealed class PrescriptionState extends Equatable {
   const PrescriptionState({
+    required this.customerID,
+    required this.period,
+    required this.date,
     required this.heartRate,
     required this.bloodPressure,
     required this.choresterol,
@@ -18,6 +21,10 @@ sealed class PrescriptionState extends Equatable {
     required this.currentMealTime,
     required this.availableMedicines,
   });
+
+  final String customerID;
+  final String period;
+  final DateTime date;
 
   final String heartRate;
   final String bloodPressure;
@@ -46,6 +53,9 @@ sealed class PrescriptionState extends Equatable {
 
   @override
   List<Object> get props => [
+        customerID,
+        period,
+        date,
         heartRate,
         bloodPressure,
         choresterol,
@@ -61,6 +71,9 @@ sealed class PrescriptionState extends Equatable {
       ];
 
   PrescriptionState copyWith({
+    String? customerID,
+    String? period,
+    DateTime? date,
     String? heartRate,
     String? bloodPressure,
     String? choresterol,
@@ -78,6 +91,9 @@ sealed class PrescriptionState extends Equatable {
 
 final class PrescriptionMedicalInitial extends PrescriptionState {
   const PrescriptionMedicalInitial({
+    required super.customerID,
+    required super.period,
+    required super.date,
     required super.heartRate,
     required super.bloodPressure,
     required super.choresterol,
@@ -92,8 +108,11 @@ final class PrescriptionMedicalInitial extends PrescriptionState {
     required super.availableMedicines,
   });
 
-  const PrescriptionMedicalInitial.empty()
+  PrescriptionMedicalInitial.empty()
       : super(
+          customerID: '',
+          period: '',
+          date: DateTime(1970),
           heartRate: '',
           bloodPressure: '',
           choresterol: '',
@@ -110,6 +129,9 @@ final class PrescriptionMedicalInitial extends PrescriptionState {
 
   factory PrescriptionMedicalInitial.from(PrescriptionState state) =>
       PrescriptionMedicalInitial(
+        customerID: state.customerID,
+        period: state.period,
+        date: state.date,
         heartRate: state.heartRate,
         bloodPressure: state.bloodPressure,
         choresterol: state.choresterol,
@@ -125,6 +147,9 @@ final class PrescriptionMedicalInitial extends PrescriptionState {
       );
 
   const PrescriptionMedicalInitial.input({
+    required super.customerID,
+    required super.period,
+    required super.date,
     required super.heartRate,
     required super.bloodPressure,
     required super.choresterol,
@@ -141,7 +166,9 @@ final class PrescriptionMedicalInitial extends PrescriptionState {
 
   @override
   PrescriptionState copyWith({
-    String? name,
+    String? customerID,
+    String? period,
+    DateTime? date,
     String? heartRate,
     String? bloodPressure,
     String? choresterol,
@@ -156,6 +183,9 @@ final class PrescriptionMedicalInitial extends PrescriptionState {
     List<String>? availableMedicines,
   }) {
     return PrescriptionMedicalInitial.input(
+      customerID: customerID ?? super.customerID,
+      period: period ?? super.period,
+      date: date ?? super.date,
       heartRate: heartRate ?? super.heartRate,
       bloodPressure: bloodPressure ?? super.bloodPressure,
       choresterol: choresterol ?? super.choresterol,
@@ -174,6 +204,9 @@ final class PrescriptionMedicalInitial extends PrescriptionState {
 
 final class PrescriptionMedicalLoading extends PrescriptionState {
   const PrescriptionMedicalLoading({
+    required super.customerID,
+    required super.period,
+    required super.date,
     required super.heartRate,
     required super.bloodPressure,
     required super.choresterol,
@@ -190,6 +223,9 @@ final class PrescriptionMedicalLoading extends PrescriptionState {
 
   factory PrescriptionMedicalLoading.from(PrescriptionState state) =>
       PrescriptionMedicalLoading(
+        customerID: state.customerID,
+        period: state.period,
+        date: state.date,
         heartRate: state.heartRate,
         bloodPressure: state.bloodPressure,
         choresterol: state.choresterol,
@@ -205,6 +241,9 @@ final class PrescriptionMedicalLoading extends PrescriptionState {
       );
 
   PrescriptionState toggleBackToInitial() => PrescriptionMedicalInitial.input(
+        customerID: customerID,
+        period: period,
+        date: date,
         heartRate: heartRate,
         bloodPressure: bloodPressure,
         choresterol: choresterol,
@@ -221,6 +260,9 @@ final class PrescriptionMedicalLoading extends PrescriptionState {
 
   @override
   PrescriptionState copyWith({
+    String? customerID,
+    String? period,
+    DateTime? date,
     String? heartRate,
     String? bloodPressure,
     String? choresterol,
@@ -235,6 +277,9 @@ final class PrescriptionMedicalLoading extends PrescriptionState {
     List<String>? availableMedicines,
   }) {
     return PrescriptionMedicalLoading(
+      customerID: customerID ?? super.customerID,
+      period: period ?? super.period,
+      date: date ?? super.date,
       heartRate: heartRate ?? super.heartRate,
       bloodPressure: bloodPressure ?? super.bloodPressure,
       choresterol: choresterol ?? super.choresterol,
@@ -253,6 +298,9 @@ final class PrescriptionMedicalLoading extends PrescriptionState {
 
 final class PrescriptionMedicalSuccess extends PrescriptionState {
   const PrescriptionMedicalSuccess({
+    required super.customerID,
+    required super.period,
+    required super.date,
     required super.heartRate,
     required super.bloodPressure,
     required super.choresterol,
@@ -269,6 +317,9 @@ final class PrescriptionMedicalSuccess extends PrescriptionState {
 
   factory PrescriptionMedicalSuccess.from(PrescriptionState state) =>
       PrescriptionMedicalSuccess(
+        customerID: state.customerID,
+        period: state.period,
+        date: state.date,
         heartRate: state.heartRate,
         bloodPressure: state.bloodPressure,
         choresterol: state.choresterol,
@@ -285,7 +336,9 @@ final class PrescriptionMedicalSuccess extends PrescriptionState {
 
   @override
   PrescriptionState copyWith({
-    String? name,
+    String? customerID,
+    String? period,
+    DateTime? date,
     String? heartRate,
     String? bloodPressure,
     String? choresterol,
@@ -300,6 +353,9 @@ final class PrescriptionMedicalSuccess extends PrescriptionState {
     List<String>? availableMedicines,
   }) {
     return PrescriptionMedicalSuccess(
+      customerID: customerID ?? super.customerID,
+      period: period ?? super.period,
+      date: date ?? super.date,
       heartRate: heartRate ?? super.heartRate,
       bloodPressure: bloodPressure ?? super.bloodPressure,
       choresterol: choresterol ?? super.choresterol,
@@ -318,6 +374,9 @@ final class PrescriptionMedicalSuccess extends PrescriptionState {
 
 final class PrescriptionAddMedicine extends PrescriptionState {
   const PrescriptionAddMedicine({
+    required super.customerID,
+    required super.period,
+    required super.date,
     required super.heartRate,
     required super.bloodPressure,
     required super.choresterol,
@@ -334,6 +393,9 @@ final class PrescriptionAddMedicine extends PrescriptionState {
 
   factory PrescriptionAddMedicine.from(PrescriptionState state) =>
       PrescriptionAddMedicine(
+        customerID: state.customerID,
+        period: state.period,
+        date: state.date,
         heartRate: state.heartRate,
         bloodPressure: state.bloodPressure,
         choresterol: state.choresterol,
@@ -350,7 +412,9 @@ final class PrescriptionAddMedicine extends PrescriptionState {
 
   @override
   PrescriptionState copyWith({
-    String? name,
+    String? customerID,
+    String? period,
+    DateTime? date,
     String? heartRate,
     String? bloodPressure,
     String? choresterol,
@@ -365,6 +429,9 @@ final class PrescriptionAddMedicine extends PrescriptionState {
     List<String>? availableMedicines,
   }) {
     return PrescriptionAddMedicine(
+      customerID: customerID ?? super.customerID,
+      period: period ?? super.period,
+      date: date ?? super.date,
       heartRate: heartRate ?? super.heartRate,
       bloodPressure: bloodPressure ?? super.bloodPressure,
       choresterol: choresterol ?? super.choresterol,
@@ -383,6 +450,9 @@ final class PrescriptionAddMedicine extends PrescriptionState {
 
 final class PrescriptionSuccess extends PrescriptionState {
   const PrescriptionSuccess({
+    required super.customerID,
+    required super.period,
+    required super.date,
     required super.heartRate,
     required super.bloodPressure,
     required super.choresterol,
@@ -399,6 +469,9 @@ final class PrescriptionSuccess extends PrescriptionState {
 
   factory PrescriptionSuccess.from(PrescriptionState state) =>
       PrescriptionSuccess(
+        customerID: state.customerID,
+        period: state.period,
+        date: state.date,
         heartRate: state.heartRate,
         bloodPressure: state.bloodPressure,
         choresterol: state.choresterol,
@@ -415,7 +488,9 @@ final class PrescriptionSuccess extends PrescriptionState {
 
   @override
   PrescriptionState copyWith({
-    String? name,
+    String? customerID,
+    String? period,
+    DateTime? date,
     String? heartRate,
     String? bloodPressure,
     String? choresterol,
@@ -430,6 +505,9 @@ final class PrescriptionSuccess extends PrescriptionState {
     List<String>? availableMedicines,
   }) {
     return PrescriptionSuccess(
+      customerID: customerID ?? super.customerID,
+      period: period ?? super.period,
+      date: date ?? super.date,
       heartRate: heartRate ?? super.heartRate,
       bloodPressure: bloodPressure ?? super.bloodPressure,
       choresterol: choresterol ?? super.choresterol,
@@ -448,6 +526,9 @@ final class PrescriptionSuccess extends PrescriptionState {
 
 final class PrescriptionMedicineLoading extends PrescriptionState {
   const PrescriptionMedicineLoading({
+    required super.customerID,
+    required super.period,
+    required super.date,
     required super.heartRate,
     required super.bloodPressure,
     required super.choresterol,
@@ -464,6 +545,9 @@ final class PrescriptionMedicineLoading extends PrescriptionState {
 
   factory PrescriptionMedicineLoading.from(PrescriptionState state) =>
       PrescriptionMedicineLoading(
+        customerID: state.customerID,
+        period: state.period,
+        date: state.date,
         heartRate: state.heartRate,
         bloodPressure: state.bloodPressure,
         choresterol: state.choresterol,
@@ -480,7 +564,9 @@ final class PrescriptionMedicineLoading extends PrescriptionState {
 
   @override
   PrescriptionState copyWith({
-    String? name,
+    String? customerID,
+    String? period,
+    DateTime? date,
     String? heartRate,
     String? bloodPressure,
     String? choresterol,
@@ -495,6 +581,9 @@ final class PrescriptionMedicineLoading extends PrescriptionState {
     List<String>? availableMedicines,
   }) {
     return PrescriptionMedicineLoading(
+      customerID: customerID ?? super.customerID,
+      period: period ?? super.period,
+      date: date ?? super.date,
       heartRate: heartRate ?? super.heartRate,
       bloodPressure: bloodPressure ?? super.bloodPressure,
       choresterol: choresterol ?? super.choresterol,
