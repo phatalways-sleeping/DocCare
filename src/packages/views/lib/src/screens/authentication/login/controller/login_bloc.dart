@@ -80,7 +80,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           } else if (value[0] == 'receptionist') {
             _receptionistRepositoryService.initializeReceptionistId(value[1]);
           } else if (value[0] == 'admin') {}
-
           _authenticationRepositoryService.setRole(value[0]);
           emit(
             LoginSuccess.from(

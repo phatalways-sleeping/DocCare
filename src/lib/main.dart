@@ -1,4 +1,6 @@
 import 'package:components/components.dart';
+import 'package:controllers/controllers.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:utility/utility.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -44,6 +46,8 @@ Future<void> main() async {
   };
 
   runDocCare();
+
+  // runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
@@ -57,7 +61,28 @@ class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider<AuthenticationRepositoryService>(
+          create: (context) => SupabaseAuthenticationRepository(),
+        ),
+        RepositoryProvider<StorageRepositoryService>(
+          create: (context) => SupabaseStorageRepository(),
+        ),
+        RepositoryProvider<AdministratorRepositoryService>(
+          create: (context) => SupabaseAdminRepository(),
+        ),
+        RepositoryProvider<CustomerRepositoryService>(
+          create: (context) => SupabaseCustomerRepository(),
+        ),
+        RepositoryProvider<DoctorRepositoryService>(
+          create: (context) => SupabaseDoctorRepository(),
+        ),
+        RepositoryProvider<ReceptionistRepositoryService>(
+          create: (context) => SupabaseReceptionistRepository(),
+        ),
+      ],
+      child: MaterialApp(
         title: 'DocCare',
         theme: ThemeData(
           // This is the theme of your application.
@@ -79,7 +104,9 @@ class _MyAppState extends State<MyApp> {
         ),
         home: const MyHomePage(
           title: 'DocCare',
-        ));
+        ),
+      ),
+    );
   }
 
   @override
