@@ -68,7 +68,10 @@ class _DCSplashScreenState extends State<DCSplashScreen>
         child: BlocProvider(
           create: (context) => LoginBloc(
             widget.navigatorKey,
-            SupabaseAuthenticationRepository(),
+            context.read<AuthenticationRepositoryService>(),
+            context.read<CustomerRepositoryService>(),
+            context.read<DoctorRepositoryService>(),
+            context.read<ReceptionistRepositoryService>(),
             NotificationManager.instance,
           ),
           child: PageView.builder(
@@ -80,7 +83,20 @@ class _DCSplashScreenState extends State<DCSplashScreen>
                 return BlocListener<LoginBloc, LoginState>(
                   listener: (context, state) {
                     if (state is LoginSuccess) {
-                      Navigator.of(context).pop();
+                      switch (state.role) {
+                        case 'doctor':
+                          Navigator.of(context, rootNavigator: true)
+                              .pushReplacementNamed('/doctor/home');
+                        case 'customer':
+                          Navigator.of(context, rootNavigator: true)
+                              .pushReplacementNamed('/profile');
+                        case 'admin':
+                          Navigator.of(context, rootNavigator: true)
+                              .pushReplacementNamed('/admin/home');
+                        case 'receptionist':
+                          Navigator.of(context, rootNavigator: true)
+                              .pushReplacementNamed('/receptionist/home');
+                      }
                     }
                   },
                   child: DCPageViewOne(

@@ -12,6 +12,7 @@ sealed class ProfileState extends Equatable {
     required this.birthday,
     required this.specialization,
     required this.startWorkingFrom,
+    this.hasChanged = false,
   });
 
   final String role;
@@ -24,6 +25,8 @@ sealed class ProfileState extends Equatable {
   final String specialization;
   final int startWorkingFrom;
 
+  final bool hasChanged;
+
   @override
   List<Object?> get props => [
         role,
@@ -33,6 +36,7 @@ sealed class ProfileState extends Equatable {
         birthday,
         specialization,
         startWorkingFrom,
+        hasChanged,
       ];
 
   ProfileState copyWith({
@@ -43,6 +47,7 @@ sealed class ProfileState extends Equatable {
     DateTime? birthday,
     String? specialization,
     int? startWorkingFrom,
+    bool? hasChanged,
   });
 }
 
@@ -66,6 +71,7 @@ final class ProfileInitial extends ProfileState {
     DateTime? birthday,
     String? specialization,
     int? startWorkingFrom,
+    bool? hasChanged,
   }) {
     return ProfileInitial(
       role: role ?? this.role,
@@ -83,6 +89,7 @@ final class ProfileLoadedSuccess extends ProfileState {
     required super.birthday,
     required super.specialization,
     required super.startWorkingFrom,
+    super.hasChanged = false,
   });
 
   factory ProfileLoadedSuccess.fromState(ProfileState state) {
@@ -94,6 +101,7 @@ final class ProfileLoadedSuccess extends ProfileState {
       birthday: state.birthday,
       specialization: state.specialization,
       startWorkingFrom: state.startWorkingFrom,
+      hasChanged: state.hasChanged,
     );
   }
 
@@ -106,6 +114,7 @@ final class ProfileLoadedSuccess extends ProfileState {
     DateTime? birthday,
     String? specialization,
     int? startWorkingFrom,
+    bool? hasChanged,
   }) {
     return ProfileLoadedSuccess(
       role: role ?? this.role,
@@ -115,6 +124,56 @@ final class ProfileLoadedSuccess extends ProfileState {
       birthday: birthday ?? this.birthday,
       specialization: specialization ?? this.specialization,
       startWorkingFrom: startWorkingFrom ?? this.startWorkingFrom,
+      hasChanged: hasChanged ?? this.hasChanged,
+    );
+  }
+}
+
+final class ProfileWaitingForConfirmState extends ProfileState {
+  const ProfileWaitingForConfirmState({
+    required super.role,
+    required super.fullName,
+    required super.email,
+    required super.phone,
+    required super.birthday,
+    required super.specialization,
+    required super.startWorkingFrom,
+    super.hasChanged = false,
+  });
+
+  factory ProfileWaitingForConfirmState.fromState(ProfileState state) {
+    return ProfileWaitingForConfirmState(
+      role: state.role,
+      fullName: state.fullName,
+      email: state.email,
+      phone: state.phone,
+      birthday: state.birthday,
+      specialization: state.specialization,
+      startWorkingFrom: state.startWorkingFrom,
+      hasChanged: state.hasChanged,
+    );
+  }
+
+  @override
+  ProfileState copyWith({
+    String? role,
+    String? fullName,
+    String? email,
+    String? phone,
+    DateTime? birthday,
+    String? specialization,
+    int? startWorkingFrom,
+    bool? hasChanged,
+  }) {
+    return ProfileWaitingForConfirmState(
+      role: role ?? this.role,
+      fullName: fullName ?? this.fullName,
+      email: email ?? this.email,
+      phone: phone ?? this.phone,
+      birthday: birthday ?? this.birthday,
+      specialization: specialization ?? this.specialization,
+      startWorkingFrom: startWorkingFrom ?? this.startWorkingFrom,
+      hasChanged: hasChanged ?? this.hasChanged,
     );
   }
 }
@@ -128,6 +187,7 @@ final class ProfileLoadingState extends ProfileState {
     required super.birthday,
     required super.specialization,
     required super.startWorkingFrom,
+    super.hasChanged = false,
   });
 
   factory ProfileLoadingState.fromState(ProfileState state) {
@@ -139,6 +199,7 @@ final class ProfileLoadingState extends ProfileState {
       birthday: state.birthday,
       specialization: state.specialization,
       startWorkingFrom: state.startWorkingFrom,
+      hasChanged: state.hasChanged,
     );
   }
 
@@ -151,6 +212,7 @@ final class ProfileLoadingState extends ProfileState {
     DateTime? birthday,
     String? specialization,
     int? startWorkingFrom,
+    bool? hasChanged,
   }) {
     return ProfileLoadingState(
       role: role ?? this.role,
@@ -160,6 +222,7 @@ final class ProfileLoadingState extends ProfileState {
       birthday: birthday ?? this.birthday,
       specialization: specialization ?? this.specialization,
       startWorkingFrom: startWorkingFrom ?? this.startWorkingFrom,
+      hasChanged: hasChanged ?? this.hasChanged,
     );
   }
 }
@@ -173,6 +236,7 @@ final class ProfileUpdatedSuccess extends ProfileState {
     required super.birthday,
     required super.specialization,
     required super.startWorkingFrom,
+    super.hasChanged = false,
   });
 
   factory ProfileUpdatedSuccess.fromState(ProfileState state) {
@@ -184,6 +248,7 @@ final class ProfileUpdatedSuccess extends ProfileState {
       birthday: state.birthday,
       specialization: state.specialization,
       startWorkingFrom: state.startWorkingFrom,
+      hasChanged: state.hasChanged,
     );
   }
 
@@ -196,6 +261,7 @@ final class ProfileUpdatedSuccess extends ProfileState {
     DateTime? birthday,
     String? specialization,
     int? startWorkingFrom,
+    bool? hasChanged,
   }) {
     return ProfileUpdatedSuccess(
       role: role ?? this.role,
@@ -205,6 +271,7 @@ final class ProfileUpdatedSuccess extends ProfileState {
       birthday: birthday ?? this.birthday,
       specialization: specialization ?? this.specialization,
       startWorkingFrom: startWorkingFrom ?? this.startWorkingFrom,
+      hasChanged: hasChanged ?? this.hasChanged,
     );
   }
 }
@@ -218,6 +285,7 @@ final class ProfileFailureState extends ProfileState {
     required super.birthday,
     required super.specialization,
     required super.startWorkingFrom,
+    super.hasChanged = false,
   });
 
   factory ProfileFailureState.fromState(ProfileState state) {
@@ -229,6 +297,7 @@ final class ProfileFailureState extends ProfileState {
       birthday: state.birthday,
       specialization: state.specialization,
       startWorkingFrom: state.startWorkingFrom,
+      hasChanged: state.hasChanged,
     );
   }
 
@@ -241,6 +310,7 @@ final class ProfileFailureState extends ProfileState {
     DateTime? birthday,
     String? specialization,
     int? startWorkingFrom,
+    bool? hasChanged,
   }) {
     return ProfileFailureState(
       role: role ?? this.role,
@@ -250,6 +320,57 @@ final class ProfileFailureState extends ProfileState {
       birthday: birthday ?? this.birthday,
       specialization: specialization ?? this.specialization,
       startWorkingFrom: startWorkingFrom ?? this.startWorkingFrom,
+      hasChanged: hasChanged ?? this.hasChanged,
     );
   }
 }
+
+final class ProfileChangePasswordState extends ProfileState {
+  const ProfileChangePasswordState({
+    required super.role,
+    required super.fullName,
+    required super.email,
+    required super.phone,
+    required super.birthday,
+    required super.specialization,
+    required super.startWorkingFrom,
+    super.hasChanged = false,
+  });
+
+  factory ProfileChangePasswordState.fromState(ProfileState state) {
+    return ProfileChangePasswordState(
+      role: state.role,
+      fullName: state.fullName,
+      email: state.email,
+      phone: state.phone,
+      birthday: state.birthday,
+      specialization: state.specialization,
+      startWorkingFrom: state.startWorkingFrom,
+      hasChanged: state.hasChanged,
+    );
+  }
+
+  @override
+  ProfileState copyWith({
+    String? role,
+    String? fullName,
+    String? email,
+    String? phone,
+    DateTime? birthday,
+    String? specialization,
+    int? startWorkingFrom,
+    bool? hasChanged,
+  }) {
+    return ProfileChangePasswordState(
+      role: role ?? this.role,
+      fullName: fullName ?? this.fullName,
+      email: email ?? this.email,
+      phone: phone ?? this.phone,
+      birthday: birthday ?? this.birthday,
+      specialization: specialization ?? this.specialization,
+      startWorkingFrom: startWorkingFrom ?? this.startWorkingFrom,
+      hasChanged: hasChanged ?? this.hasChanged,
+    );
+  }
+}
+

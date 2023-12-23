@@ -16,34 +16,40 @@ class SupabaseAuthenticationRepository
     supabase: Supabase.instance.client,
   );
 
+  late String _role;
+
   @override
   Future<void> changePassword(String password) async {
-    final passwordValidation = FormValidator.validatePassword(password);
+    // final passwordValidation = FormValidator.validatePassword(password);
 
-    if (!passwordValidation.isValid) {
-      throw AuthException(passwordValidation.cause!);
-    }
+    // if (!passwordValidation.isValid) {
+    //   throw AuthException(passwordValidation.cause!);
+    // }
 
     await _authEmailApiService.changePassword(password);
   }
 
   @override
-  Future<void> login(String email, String password) async {
+  Future<List<String>> login(String email, String password) async {
     final emailValidation = FormValidator.validateEmail(email);
-    final passwordValidation = FormValidator.validatePassword(password);
+    // final passwordValidation = FormValidator.validatePassword(password);
 
     if (!emailValidation.isValid) {
       throw AuthException(emailValidation.cause!);
     }
 
-    if (!passwordValidation.isValid) {
-      throw AuthException(passwordValidation.cause!);
-    }
+    // if (!passwordValidation.isValid) {
+    //   throw AuthException(passwordValidation.cause!);
+    // }
 
-    await _authEmailApiService.signInWithEmailPassword(
+    final user = await _authEmailApiService.signInWithEmailPassword(
       email,
       password,
     );
+    return [
+      user.userMetadata!['role']! as String,
+      user.userMetadata!['id']! as String,
+    ];
   }
 
   @override
@@ -54,9 +60,22 @@ class SupabaseAuthenticationRepository
       _authEmailApiService.sendPasswordResetEmail(email);
 
   @override
-  Future<void> signUp(String email, String password) =>
+  Future<void> signUp(
+    String email,
+    String password,
+    String id,
+  ) =>
       _authEmailApiService.signUpWithEmailPassword(
         email,
         password,
+        id,
       );
+
+  @override
+  String get role => _role;
+  
+  @override
+  void setRole(String role) {
+    _role = role;
+  }
 }

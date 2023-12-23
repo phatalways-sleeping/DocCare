@@ -2,13 +2,11 @@ import 'package:components/components.dart';
 import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:views/screens.dart' show DCSplashScreen;
 import 'package:views/src/screens/authentication/login/controller/login_bloc.dart';
 
 /// [_DCLoginModalBottomSheet] is a [StatelessWidget] that displays a modal
 /// bottom sheet for logging in.
 /// It appears when the user taps the "Get Started" button on the
-/// [DCSplashScreen].
 class _DCLoginModalBottomSheet extends StatefulWidget {
   /// [_DCLoginModalBottomSheet] constructor.
   const _DCLoginModalBottomSheet({
@@ -64,8 +62,9 @@ class __DCLoginModalBottomSheetState extends State<_DCLoginModalBottomSheet> {
                 });
               }
             },
-            onChanged: (context, controller) =>
-                context.read<LoginBloc>().add(EmailInputEvent(controller.text)),
+            onChanged: (context, controller) => context
+                .read<LoginBloc>()
+                .add(EmailInputEvent(controller.text)),
           ),
           DCOutlinedObscuredTextFormField(
             controller: widget.passwordController,
@@ -185,7 +184,8 @@ class __DCLoginModalBottomSheetState extends State<_DCLoginModalBottomSheet> {
               context.width * 0.90,
               context.height * 0.05,
             ),
-            onPressed: (context) => Navigator.pushNamed(context, '/forgot-password'),
+            onPressed: (context) =>
+                Navigator.pushNamed(context, '/forgot-password'),
             child: Text(
               'I have forgotten my password',
               style: context.textTheme.bodyRegularPoppins.copyWith(

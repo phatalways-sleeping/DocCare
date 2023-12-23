@@ -32,5 +32,11 @@ abstract interface class IntakeApiService<T extends Intake> {
   Future<void> updateIntakeQuantity(
       String prescriptionID, String medicineName, Int quantity);
 
+  Future<void> updateIntakeDone(
+    String prescriptionID,
+    String medicineName, {
+    required bool done,
+  });
+
   Stream<T> streamIntake(String prescriptionID, String medicineName);
 }

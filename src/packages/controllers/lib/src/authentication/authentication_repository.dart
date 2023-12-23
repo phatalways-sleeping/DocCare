@@ -5,13 +5,18 @@ abstract interface class AuthenticationRepositoryService {
   /// {@macro auth_domain}
   const AuthenticationRepositoryService();
 
+  String get role;
+
+  void setRole(String role);
+
   /// [login] is the method for login
-  Future<void> login(String email, String password);
+  Future<List<String>> login(String email, String password);
 
   /// [signUp] is the method for sign up
   Future<void> signUp(
     String email,
     String password,
+    String id,
   );
 
   /// [sendCode] is the method for send code

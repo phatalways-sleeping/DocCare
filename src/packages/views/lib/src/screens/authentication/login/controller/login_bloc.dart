@@ -19,6 +19,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   LoginBloc(
     this._navigatorKey,
     this._authenticationRepositoryService,
+    this._customerRepositoryService,
+    this._doctorRepositoryService,
+    this._receptionistRepositoryService,
     this._notificationManagerService,
   ) : super(const LoginInitial.empty()) {
     on<EmailInputEvent>(_onEmailInputEvent);
@@ -28,6 +31,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   }
 
   final AuthenticationRepositoryService _authenticationRepositoryService;
+  final CustomerRepositoryService _customerRepositoryService;
+  final DoctorRepositoryService _doctorRepositoryService;
+  final ReceptionistRepositoryService _receptionistRepositoryService;
   final NotificationManagerService _notificationManagerService;
   final GlobalKey<NavigatorState> _navigatorKey;
 
@@ -62,10 +68,28 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     try {
       await _authenticationRepositoryService
           .login(
-            state.email,
-            state.password,
-          )
-          .then((value) => emit(LoginSuccess.from(state)));
+        state.email,
+        state.password,
+      )
+          .then(
+        (value) {
+          if (value[0] == 'customer') {
+            _customerRepositoryService.initializeCustomerId(value[1]);
+          } else if (value[0] == 'doctor') {
+            _doctorRepositoryService.initializeDoctorId(value[1]);
+          } else if (value[0] == 'receptionist') {
+            _receptionistRepositoryService.initializeReceptionistId(value[1]);
+          } else if (value[0] == 'admin') {}
+
+          _authenticationRepositoryService.setRole(value[0]);
+          emit(
+            LoginSuccess.from(
+              state,
+              value[0],
+            ),
+          );
+        },
+      );
     } on AuthException catch (e) {
       assert(state is LoginLoading, 'State is not loading');
       await _notificationManagerService

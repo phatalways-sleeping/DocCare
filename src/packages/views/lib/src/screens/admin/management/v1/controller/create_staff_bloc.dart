@@ -317,6 +317,7 @@ class CreateStaffBloc extends Bloc<CreateStaffEvent, CreateStaffState> {
         await _authenticationRepositoryService.signUp(
           state.email,
           state.password,
+          '',
         );
 
         //Create information for receptionist
@@ -359,6 +360,7 @@ class CreateStaffBloc extends Bloc<CreateStaffEvent, CreateStaffState> {
         await _authenticationRepositoryService.signUp(
           state.email,
           state.password,
+          '',
         );
 
         //Create information for Doctor
