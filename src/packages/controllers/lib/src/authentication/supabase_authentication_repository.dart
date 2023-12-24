@@ -8,7 +8,10 @@ import 'package:utility/utility.dart' show FormValidator;
 class SupabaseAuthenticationRepository
     implements AuthenticationRepositoryService {
   /// [SupabaseAuthenticationRepository] constructor
-  SupabaseAuthenticationRepository();
+  SupabaseAuthenticationRepository(
+    this._supabaseUrl,
+    this._serviceRoleKey,
+  );
 
   /// [Supabase.instance.client] is the static instance of [SupabaseClient]
   /// [_authEmailApiService] is the instance of [AuthEmailApiService]
@@ -17,6 +20,9 @@ class SupabaseAuthenticationRepository
   );
 
   late String _role;
+
+  final String _serviceRoleKey;
+  final String _supabaseUrl;
 
   @override
   Future<void> changePassword(String password) async {
@@ -42,15 +48,20 @@ class SupabaseAuthenticationRepository
     //   throw AuthException(passwordValidation.cause!);
     // }
 
-    final user = await _authEmailApiService.signInWithEmailPassword(
-      email,
-      password,
-    );
+    final user = await _authEmailApiService
+        .signInWithEmailPassword(
+          email,
+          password,
+        )
+        .timeout(
+          const Duration(
+            seconds: 10,
+          ),
+        );
     final role = user.userMetadata!['role']! as String;
-    if (role == 'admin') return [role, ''];
     return [
-      user.userMetadata!['role']! as String,
-      user.userMetadata!['id']! as String,
+      role,
+      if (role == 'admin') '' else user.userMetadata!['id']! as String,
     ];
   }
 
@@ -67,11 +78,17 @@ class SupabaseAuthenticationRepository
     String password,
     String id,
   ) =>
-      _authEmailApiService.signUpWithEmailPassword(
-        email,
-        password,
-        id,
-      );
+      _authEmailApiService
+          .signUpWithEmailPassword(
+            email,
+            password,
+            id,
+          )
+          .timeout(
+            const Duration(
+              seconds: 10,
+            ),
+          );
 
   @override
   String get role => _role;
@@ -79,5 +96,50 @@ class SupabaseAuthenticationRepository
   @override
   void setRole(String role) {
     _role = role;
+  }
+
+  @override
+  Future<User?> fetchUserByEmail(String email) async {
+    if (email.isEmpty) {
+      throw Exception('Email is empty');
+    }
+    if (!FormValidator.validateEmail(email).isValid) {
+      throw Exception('Email is invalid');
+    }
+    final auth = SupabaseClient(_supabaseUrl, _serviceRoleKey).auth;
+    final defaultUser = User(
+      id: '@default.id',
+      email: 'admin@doccare.io',
+      aud: '',
+      appMetadata: {},
+      createdAt: DateTime.now().toIso8601String(),
+      lastSignInAt: DateTime.now().toIso8601String(),
+      updatedAt: DateTime.now().toIso8601String(),
+      userMetadata: {},
+    );
+    final user = await auth.admin.listUsers().then(
+          (value) => value.firstWhere(
+            (element) => element.email == email,
+            orElse: () => defaultUser,
+          ),
+        );
+    return user == defaultUser ? null : user;
+  }
+
+  @override
+  Future<void> disableAccount(String id) {
+    final auth = SupabaseClient(_supabaseUrl, _serviceRoleKey).auth;
+    return auth.admin.updateUserById(
+      id,
+      attributes: AdminUserAttributes(
+        userMetadata: {'enable': false},
+      ),
+    );
+  }
+
+  @override
+  Future<void> removeAccount(String id) {
+    final auth = SupabaseClient(_supabaseUrl, _serviceRoleKey).auth;
+    return auth.admin.deleteUser(id);
   }
 }

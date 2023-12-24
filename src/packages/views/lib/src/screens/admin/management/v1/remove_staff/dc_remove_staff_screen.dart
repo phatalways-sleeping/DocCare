@@ -1,6 +1,5 @@
 // ignore_for_file: public_member_api_docs, lines_longer_than_80_chars
 import 'package:components/components.dart';
-import 'package:controllers/controllers.dart';
 import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -33,7 +32,7 @@ class _DCRemoveStaffScreenState extends State<DCRemoveStaffScreen> {
         create: (_) => RemoveStaffBloc(
           widget.navigatorKey,
           NotificationManager.instance,
-          SupabaseAdminRepository(),
+          // SupabaseAdminRepository(),
         ),
         child: const CustomScrollView(
           slivers: [

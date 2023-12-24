@@ -43,9 +43,14 @@ class _DCCreateStaffReviewState extends State<DCCreateStaffReview> {
               context: context,
               role: state.role,
             ).then(
-              (value) => context.read<ScreenBloc>().add(
-                    const NavigateToFirstScreen(),
-                  ),
+              (value) {
+                context.read<StaffCreationBloc>().add(
+                      const CreateStaffResetEvent(),
+                    );
+                context.read<ScreenBloc>().add(
+                      const NavigateToFirstScreen(),
+                    );
+              },
             );
           } else if (state is CreateStaffFailure) {
             await showAddingOperationFailure(
@@ -53,7 +58,7 @@ class _DCCreateStaffReviewState extends State<DCCreateStaffReview> {
               message: state.errorMessage,
             ).then(
               (value) => context.read<StaffCreationBloc>().add(
-                    const CreateStaffResetEvent(), // Still uses the old content
+                    const CreateStaffBackEvent(), // Still uses the old content
                   ),
             );
           }

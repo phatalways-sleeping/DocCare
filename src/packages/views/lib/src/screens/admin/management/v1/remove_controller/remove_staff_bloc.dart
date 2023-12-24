@@ -1,7 +1,6 @@
 // ignore_for_file: public_member_api_docs, inference_failure_on_function_invocation, implementation_imports
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:controllers/controllers.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:services/services.dart';
@@ -17,7 +16,7 @@ class RemoveStaffBloc extends Bloc<RemoveStaffEvent, RemoveStaffState> {
   RemoveStaffBloc(
     this._navigatorKey,
     this._notificationManagerService,
-    this._supabaseAdminService,
+    // this._supabaseAdminService,
   ) : super(RemoveStaffLoading.empty()) {
     on<EmailInputEvent>(_onEmailInputEvent);
     on<RoleInputEvent>(_onRoleInputEvent);
@@ -30,7 +29,7 @@ class RemoveStaffBloc extends Bloc<RemoveStaffEvent, RemoveStaffState> {
 
   final GlobalKey<NavigatorState> _navigatorKey;
 
-  final AdministratorRepositoryService _supabaseAdminService;
+  // final AdministratorRepositoryService _supabaseAdminService;
 
   BuildContext? _context;
 
@@ -119,13 +118,13 @@ class RemoveStaffBloc extends Bloc<RemoveStaffEvent, RemoveStaffState> {
 
     try {
       if (state.role == 'Receptionist') {
-        for (final entry in state.selectedEmails) {
-          await _supabaseAdminService.deleteReceptionist(entry);
-        }
+        // for (final entry in state.selectedEmails) {
+        //   // await _supabaseAdminService.deleteReceptionist(entry);
+        // }
       } else if (state.role == 'Doctor') {
-        for (final entry in state.selectedEmails) {
-          await _supabaseAdminService.deleteDoctor(entry);
-        }
+        // for (final entry in state.selectedEmails) {
+        //   await _supabaseAdminService.deleteDoctor(entry);
+        // }
       }
       emit(RemoveStaffSuccess.from(state));
     } on AuthException catch (e) {
