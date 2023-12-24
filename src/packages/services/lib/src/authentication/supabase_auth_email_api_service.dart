@@ -32,6 +32,7 @@ class SupabaseAuthEmailApiService implements AuthEmailApiService {
         data: {
           'role': 'customer',
           'id': id,
+          'enable': true,
         },
       );
     } on AuthException catch (e) {

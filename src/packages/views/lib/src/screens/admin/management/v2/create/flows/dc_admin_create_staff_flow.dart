@@ -22,7 +22,6 @@ class DCAdminCreateStaffFlow extends StatelessWidget {
         BlocProvider<StaffCreationBloc>(
           create: (context) => StaffCreationBloc(
             context.read<AdministratorRepositoryService>(),
-            context.read<AuthenticationRepositoryService>(),
           ),
         ),
       ],

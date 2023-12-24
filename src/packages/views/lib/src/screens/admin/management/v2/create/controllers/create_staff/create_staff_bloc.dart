@@ -1,5 +1,7 @@
 // ignore_for_file: public_member_api_docs
 
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:controllers/controllers.dart';
 import 'package:equatable/equatable.dart';
@@ -13,7 +15,6 @@ part 'create_staff_state.dart';
 class StaffCreationBloc extends Bloc<CreateStaffEvent, CreateStaffState> {
   StaffCreationBloc(
     this._administratorRepositoryService,
-    this._authenticationRepositoryService,
   ) : super(CreateStaffInitial.initial()) {
     on<CreateStaffResetEvent>(_onCreateStaffResetEvent);
     on<CreateStaffBackEvent>(_onCreateStaffBackEvent);
@@ -37,7 +38,6 @@ class StaffCreationBloc extends Bloc<CreateStaffEvent, CreateStaffState> {
   }
 
   final AdministratorRepositoryService _administratorRepositoryService;
-  final AuthenticationRepositoryService _authenticationRepositoryService;
 
   @override
   void onTransition(Transition<CreateStaffEvent, CreateStaffState> transition) {
@@ -149,24 +149,25 @@ class StaffCreationBloc extends Bloc<CreateStaffEvent, CreateStaffState> {
       emit(CreateStaffSuccess.fromState(state));
     } on AuthException catch (error) {
       debugPrint(error.toString());
-      if (error.statusCode == 'create-error') {
-        final authUserId = error.message;
-        if (authUserId == 'User is null') {
-        } else {
-          await _authenticationRepositoryService.removeAccount(authUserId);
-        }
-      }
       emit(
         CreateStaffFailure.fromState(
           state: state,
           errorMessage: 'Request failed',
         ),
       );
-    } catch (error) {
+    } on TimeoutException catch (_) {
       emit(
         CreateStaffFailure.fromState(
           state: state,
-          errorMessage: 'Request failed',
+          errorMessage: 'Request timed out',
+        ),
+      );
+    } on Exception catch (error) {
+      debugPrint(error.toString());
+      emit(
+        CreateStaffFailure.fromState(
+          state: state,
+          errorMessage: 'An unknown error has occurred',
         ),
       );
     }

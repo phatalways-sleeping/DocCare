@@ -32,7 +32,10 @@ void runDocCare(String supabaseUrl, String serviceRoleKey) => runApp(
             create: (context) => SupabaseStorageRepository(),
           ),
           RepositoryProvider<AdministratorRepositoryService>(
-            create: (context) => SupabaseAdminRepository(),
+            create: (context) => SupabaseAdminRepository(
+              supabaseUrl,
+              serviceRoleKey,
+            ),
           ),
           RepositoryProvider<CustomerRepositoryService>(
             create: (context) => SupabaseCustomerRepository(),

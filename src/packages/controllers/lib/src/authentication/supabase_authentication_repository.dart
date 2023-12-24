@@ -48,10 +48,16 @@ class SupabaseAuthenticationRepository
     //   throw AuthException(passwordValidation.cause!);
     // }
 
-    final user = await _authEmailApiService.signInWithEmailPassword(
-      email,
-      password,
-    );
+    final user = await _authEmailApiService
+        .signInWithEmailPassword(
+          email,
+          password,
+        )
+        .timeout(
+          const Duration(
+            seconds: 10,
+          ),
+        );
     final role = user.userMetadata!['role']! as String;
     return [
       role,
@@ -72,11 +78,17 @@ class SupabaseAuthenticationRepository
     String password,
     String id,
   ) =>
-      _authEmailApiService.signUpWithEmailPassword(
-        email,
-        password,
-        id,
-      );
+      _authEmailApiService
+          .signUpWithEmailPassword(
+            email,
+            password,
+            id,
+          )
+          .timeout(
+            const Duration(
+              seconds: 10,
+            ),
+          );
 
   @override
   String get role => _role;

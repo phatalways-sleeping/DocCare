@@ -1,5 +1,7 @@
 // ignore_for_file: public_member_api_docs
 
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:controllers/controllers.dart';
 import 'package:equatable/equatable.dart';
@@ -57,19 +59,38 @@ class StaffRemovalBloc extends Bloc<StaffRemovalEvent, StaffRemovalState> {
   ) async {
     try {
       emit(StaffRemovalLoading.fromState(state));
-      final user = await _authenticationRepositoryService.fetchUserByEmail(
-        state.email,
-      );
+      final user = await _authenticationRepositoryService
+          .fetchUserByEmail(
+            state.email,
+          )
+          .timeout(
+            const Duration(
+              seconds: 30,
+            ),
+          );
 
       if (user == null) {
         throw Exception('User not found');
       }
 
-      await _authenticationRepositoryService.disableAccount(
-        user.id,
-      );
+      await _authenticationRepositoryService
+          .disableAccount(
+            user.id,
+          )
+          .timeout(
+            const Duration(
+              seconds: 30,
+            ),
+          );
 
       emit(StaffRemovalSuccess.fromState(state));
+    } on TimeoutException catch (_) {
+      emit(
+        StaffRemovalFailure.fromState(
+          state: state,
+          errorMessage: 'Failed to remove staff.\nOperation timed out.',
+        ),
+      );
     } catch (error) {
       emit(
         StaffRemovalFailure.fromState(

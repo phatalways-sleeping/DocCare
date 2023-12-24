@@ -15,10 +15,18 @@ List<String> daysOfWeek = [
 ];
 
 class SupabaseAdminRepository implements AdministratorRepositoryService {
-  SupabaseAdminRepository();
+  SupabaseAdminRepository(
+    this._supabaseUrl,
+    this._serviceRoleKey,
+  );
 
   /// [supabase] is the instance of [SupabaseClient]
   final SupabaseClient supabase = Supabase.instance.client;
+
+  final String _serviceRoleKey;
+  final String _supabaseUrl;
+
+  late final admin = SupabaseClient(_supabaseUrl, _serviceRoleKey).auth.admin;
 
   @override
   Future<int> countAppointmentsInMonth(int month, int year) async {
@@ -182,40 +190,41 @@ class SupabaseAdminRepository implements AdministratorRepositoryService {
     String specializationId,
     Map<String, List<int>> dayOfWeek,
   ) async {
+    // debugPrint('Checkpoint 0');
     final id = const Uuid().v7();
-    final response = await supabase.auth.signUp(
-      email: email,
-      password: password,
-      data: {
-        'enable': true,
-        'role': 'doctor',
-        'id': id,
-      },
-    );
+    // debugPrint('Checkpoint 1');
+    final response = await _createUser(email, password, 'doctor', id);
     final authUserId = response.user?.id;
-    await supabase.rpc(
-      'sp_create_doctor',
-      params: {
-        'p_id': id,
-        'p_email': email,
-        'p_fullname': fullName,
-        'p_phone': phone,
-        'p_birthday': birthday.toIso8601String(),
-        'p_specialization_id': specializationId,
-        'p_working_shift': {
-          for (final entry in dayOfWeek.entries)
-            entry.key: {
-              'startPeriod': entry.value[0],
-              'endPeriod': entry.value[1],
+    // debugPrint('Checkpoint 2');
+    await supabase
+        .rpc(
+          'sp_create_doctor',
+          params: {
+            'p_id': id,
+            'p_email': email,
+            'p_fullname': fullName,
+            'p_phone': phone,
+            'p_birthday': birthday.toIso8601String(),
+            'p_specialization_id': specializationId,
+            'p_working_shift': {
+              for (final entry in dayOfWeek.entries)
+                entry.key: {
+                  'startPeriod': entry.value[0],
+                  'endPeriod': entry.value[1],
+                },
             },
-        },
-      },
-    ).onError(
-      (error, stackTrace) => throw AuthException(
-        authUserId ?? 'User is null',
-        statusCode: 'create-error',
-      ),
-    );
+          },
+        )
+        .timeout(
+          const Duration(
+            seconds: 10,
+          ),
+        )
+        .onError(
+          (error, stackTrace) async {
+            await _handleError(error, stackTrace, email, authUserId);
+          },
+        );
   }
 
   @override
@@ -227,30 +236,83 @@ class SupabaseAdminRepository implements AdministratorRepositoryService {
     String phone,
   ) async {
     final id = const Uuid().v7();
-    final response = await supabase.auth.signUp(
-      email: email,
-      password: password,
-      data: {
-        'enable': true,
-        'role': 'receptionist',
-        'id': id,
-      },
-    );
+    final response = await _createUser(email, password, 'receptionist', id);
     final authUserId = response.user?.id;
-    await supabase.rpc(
-      'sp_create_receptionist',
-      params: {
-        'p_id': id,
-        'p_email': email,
-        'p_fullname': fullName,
-        'p_phone': phone,
-        'p_birthday': birthday.toIso8601String(),
-      },
-    ).onError(
-      (error, stackTrace) => throw AuthException(
-        authUserId ?? 'User is null',
-        statusCode: 'create-error',
-      ),
+    await supabase
+        .rpc(
+          'sp_create_receptionist',
+          params: {
+            'p_id': id,
+            'p_email': email,
+            'p_fullname': fullName,
+            'p_phone': phone,
+            'p_birthday': birthday.toIso8601String(),
+          },
+        )
+        .timeout(
+          const Duration(
+            seconds: 10,
+          ),
+        )
+        .onError(
+          (error, stackTrace) async {
+            await _handleError(error, stackTrace, email, authUserId);
+          },
+        );
+  }
+
+  Future<UserResponse> _createUser(
+    String email,
+    String password,
+    String role,
+    String id,
+  ) async =>
+      admin.createUser(
+        AdminUserAttributes(
+          email: email,
+          password: password,
+          userMetadata: {
+            'enable': true,
+            'role': role,
+            'id': id,
+          },
+        ),
+      );
+
+  Future<void> _handleError(
+    Object? error,
+    StackTrace stackTrace,
+    String email,
+    String? authUserId,
+  ) async {
+    if (authUserId == null) {
+      final user = await admin.listUsers().then(
+            (value) => value.firstWhere(
+              (element) => element.email == email,
+              orElse: () => User(
+                id: '@default.id',
+                appMetadata: {},
+                userMetadata: {},
+                aud: '',
+                createdAt: DateTime.now().toIso8601String(),
+              ),
+            ),
+          );
+      if (user.id == '@default.id') {
+        throw const AuthException(
+          'User is null',
+          statusCode: 'create-error',
+        );
+      } else {
+        await admin.deleteUser(user.id);
+      }
+    } else {
+      await admin.deleteUser(authUserId);
+    }
+
+    throw AuthException(
+      error.toString(),
+      statusCode: 'create-error',
     );
   }
 }
