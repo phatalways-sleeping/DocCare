@@ -173,7 +173,11 @@ void runDocCare(String supabaseUrl, String serviceRoleKey) => runApp(
                 );
               case '/receptionist/home':
                 return MaterialPageRoute(
-                  builder: (context) => const DCReceptionistAbsentScreen(),
+                  builder: (context) => DCProfileScreen(
+                    navigatorKey: GlobalKey<NavigatorState>(
+                      debugLabel: 'profile',
+                    ),
+                  ),
                 );
               case '/receptionist/booking':
                 return MaterialPageRoute(

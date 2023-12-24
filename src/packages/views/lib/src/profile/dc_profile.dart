@@ -10,6 +10,7 @@ import 'package:views/src/profile/controller/profile_bloc.dart';
 import 'package:views/src/profile/widgets/show_confirmation_dialog.dart';
 import 'package:views/src/screens/admin/management/v2/config.dart';
 import 'package:views/src/widgets/dc_loading_view.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class DCProfileScreen extends StatefulWidget {
   const DCProfileScreen({
@@ -103,10 +104,14 @@ class _DCProfileScreenState extends State<DCProfileScreen> {
                     context,
                     link,
                   ),
-                  icon: Icon(
-                    Icons.arrow_back_outlined,
-                    color: context.colorScheme.tertiary,
-                    size: 30,
+                  icon: SvgPicture.string(
+                    DCSVGIcons.logout,
+                    width: 25,
+                    height: 25,
+                    colorFilter: const ColorFilter.mode(
+                      Colors.orange,
+                      BlendMode.srcIn,
+                    ),
                   ),
                 ),
               ),
@@ -151,10 +156,14 @@ class _DCProfileScreenState extends State<DCProfileScreen> {
                         );
                   }
                 },
-                icon: Icon(
-                  Icons.arrow_back_outlined,
-                  color: context.colorScheme.tertiary,
-                  size: 30,
+                icon: SvgPicture.string(
+                  DCSVGIcons.logout,
+                  width: 25,
+                  height: 25,
+                  colorFilter: const ColorFilter.mode(
+                    Colors.orange,
+                    BlendMode.srcIn,
+                  ),
                 ),
               ),
             ),
