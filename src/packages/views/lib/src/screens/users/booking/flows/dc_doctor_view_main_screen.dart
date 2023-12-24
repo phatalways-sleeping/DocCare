@@ -30,7 +30,9 @@ class _DCDoctorViewMainScreenState extends State<DCDoctorViewMainScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => DoctorViewBloc(SupabaseCustomerRepository()),
+      create: (context) => DoctorViewBloc(
+        context.read<CustomerRepositoryService>(),
+      ),
       child: BlocBuilder<DoctorViewBloc, DoctorViewState>(
         builder: (context, state) {
           return FlowBuilder<DoctorViewState>(

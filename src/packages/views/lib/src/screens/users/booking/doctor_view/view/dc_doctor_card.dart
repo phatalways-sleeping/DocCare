@@ -76,14 +76,14 @@ class DCDoctorCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Text(
-                  'Dr. John Doe',
+                  name,
                   style: context.textTheme.bodyBoldPoppins.copyWith(
                     fontSize: 18,
                     color: Colors.black,
                   ),
                 ),
                 Text(
-                  'Dentist',
+                  speciality,
                   style: context.textTheme.bodyRegularPoppins.copyWith(
                     fontSize: 16,
                     color: Colors.black,

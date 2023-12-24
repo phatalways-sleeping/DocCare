@@ -162,6 +162,18 @@ class _DCDoctorViewScreenState extends State<DCDoctorViewScreen> {
                   // ),
                   future: context.read<DoctorViewBloc>().getAvaiableDoctors(),
                   builder: (context, snapshot) {
+                    print(
+                        'Snapshot connection state: ${snapshot.connectionState}');
+                    print('Snapshot data: ${snapshot.data}');
+                    print('Snapshot error: ${snapshot.error}');
+                    print('Snapshot size: ${snapshot.data?.length}');
+
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return CircularProgressIndicator(
+                        color: context.colorScheme.secondary,
+                      );
+                    }
+
                     if (snapshot.hasData) {
                       final content = snapshot.data ?? [];
                       return ListView.builder(
@@ -177,7 +189,7 @@ class _DCDoctorViewScreenState extends State<DCDoctorViewScreen> {
                             child: DCDoctorCard(
                               name: data['name'] as String,
                               speciality: data['speciality'] as String,
-                              rating: data['rating'] as double,
+                              rating: (data['rating'] as num).toDouble(),
                               ratingCount: data['ratingCount'] as int,
                               imgPath: data['imgPath'] as String,
                               onPressed: (context) =>

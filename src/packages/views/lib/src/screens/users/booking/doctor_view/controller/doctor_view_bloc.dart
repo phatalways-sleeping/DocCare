@@ -30,7 +30,9 @@ class DoctorViewBloc extends Bloc<DoctorViewEvent, DoctorViewState> {
         rating: (state.filteredRating != 'All')
             ? int.parse(state.filteredRating)
             : null,
-        specialities: state.filteredSpecialties,
+        specialities: (state.filteredSpecialties != const ['All'])
+            ? state.filteredSpecialties
+            : null,
         searchName: state is DoctorViewSearchForName
             ? (state as DoctorViewSearchForName).searchedName
             : null,
@@ -160,5 +162,12 @@ class DoctorViewBloc extends Bloc<DoctorViewEvent, DoctorViewState> {
     emit(
       DoctorViewLoading.fromState(state: state, searchedName: ''),
     );
+  }
+
+  @override
+  void onChange(Change<DoctorViewState> change) {
+    // TODO: implement onChange
+    super.onChange(change);
+    print(change);
   }
 }

@@ -278,16 +278,16 @@ class SupabaseCustomerRepository implements CustomerRepositoryService {
       (e) {
         final result = e as Map<String, dynamic>;
         return {
-          'id': result['id'],
-          'name': result['fullname'],
-          'speciality': result['specializationId'],
-          'rating': result['rating'],
-          'ratingCount': result['numberOfRates'],
-          'imgPath': result['photo'] ?? 'assets/images/doctor.png',
+          'id': result['doctorid'],
+          'name': result['name'],
+          'speciality': result['speciality'],
+          'rating': result['ratings'],
+          'ratingCount': result['ratingcount'],
+          'imgPath': result['imgPath'] ?? 'assets/images/doctor.png',
         };
       },
     ).toList();
 
-    return results;
+    return results.take(10).toList();
   }
 }
