@@ -31,7 +31,7 @@ Future<void> main() async {
   ]);
 
   NotificationManager.init();
-  
+
   runDocCare(supabaseUrl, serviceRoleKey);
 
   FlutterError.onError = (FlutterErrorDetails details) {
@@ -74,7 +74,10 @@ class _MyAppState extends State<MyApp> {
           create: (context) => SupabaseStorageRepository(),
         ),
         RepositoryProvider<AdministratorRepositoryService>(
-          create: (context) => SupabaseAdminRepository(),
+          create: (context) => SupabaseAdminRepository(
+            dotenv.get('SUPABASE_URL'),
+            dotenv.get('SERVICE_ROLE_KEY'),
+          ),
         ),
         RepositoryProvider<CustomerRepositoryService>(
           create: (context) => SupabaseCustomerRepository(),
