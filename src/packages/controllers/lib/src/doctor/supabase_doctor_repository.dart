@@ -88,7 +88,7 @@ class SupabaseDoctorRepository implements DoctorRepositoryService {
       _supabaseAppointmentApiService.updateAppointment(appointment),
       _supabaseStatisticsApiService.createStatistics(
         Statistics(
-          id: const Uuid().v4(),
+          id: const Uuid().v7(),
           value: heartRate,
           prescriptionID: prescriptionID,
           categoryName: 'heart_rate',
@@ -96,7 +96,7 @@ class SupabaseDoctorRepository implements DoctorRepositoryService {
       ),
       _supabaseStatisticsApiService.createStatistics(
         Statistics(
-          id: const Uuid().v4(),
+          id: const Uuid().v7(),
           value: bloodPressure,
           prescriptionID: prescriptionID,
           categoryName: 'blood_pressure',
@@ -104,7 +104,7 @@ class SupabaseDoctorRepository implements DoctorRepositoryService {
       ),
       _supabaseStatisticsApiService.createStatistics(
         Statistics(
-          id: const Uuid().v4(),
+          id: const Uuid().v7(),
           value: bloodSugar,
           prescriptionID: prescriptionID,
           categoryName: 'blood_sugar',
@@ -112,7 +112,7 @@ class SupabaseDoctorRepository implements DoctorRepositoryService {
       ),
       _supabaseStatisticsApiService.createStatistics(
         Statistics(
-          id: const Uuid().v4(),
+          id: const Uuid().v7(),
           value: choresterol,
           prescriptionID: prescriptionID,
           categoryName: 'cholesterol',

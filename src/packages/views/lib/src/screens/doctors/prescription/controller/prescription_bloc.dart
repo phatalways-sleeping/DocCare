@@ -462,8 +462,7 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
       return;
     }
 
-    final prescriptionId = const Uuid().v4();
-    // const prescriptionId = 'P001';
+    final prescriptionId = const Uuid().v7();
     final diagnosis = state.doctorNote[0];
     final medicineNote = state.doctorNote[1];
 
