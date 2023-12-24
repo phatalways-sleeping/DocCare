@@ -1,3 +1,5 @@
+import 'package:supabase_flutter/supabase_flutter.dart';
+
 /// {@template auth_domain}
 /// Package for authentication repository
 /// {@endtemplate}
@@ -19,6 +21,8 @@ abstract interface class AuthenticationRepositoryService {
     String id,
   );
 
+  Future<void> removeAccount(String email);
+
   /// [sendCode] is the method for send code
   Future<void> sendCode(String email);
 
@@ -27,4 +31,10 @@ abstract interface class AuthenticationRepositoryService {
 
   /// [logout] is the method for logout
   Future<void> logout();
+
+  /// [fetchUserByEmail] is the method for fetch user by email
+  Future<User?> fetchUserByEmail(String email);
+
+  /// [disableAccount] is the method for disable account
+  Future<void> disableAccount(String id);
 }

@@ -31,9 +31,6 @@ abstract interface class AdministratorRepositoryService {
     DateTime birthday,
     String phone,
     String specializationId,
-    int startWorkingFrom,
-    double rating,
-    int numberOfRates,
     Map<String, List<int>> dayOfWeek,
   );
 
@@ -44,15 +41,5 @@ abstract interface class AdministratorRepositoryService {
     String password,
     DateTime birthday,
     String phone,
-  );
-
-  /// [deleteDoctor] is the method for delete Doctor
-  Future<void> deleteDoctor(
-    String email,
-  );
-
-  /// [deleteReceptionist] is the method for delete Receptionist
-  Future<void> deleteReceptionist(
-    String email,
   );
 }

@@ -180,64 +180,42 @@ class SupabaseAdminRepository implements AdministratorRepositoryService {
     DateTime birthday,
     String phone,
     String specializationId,
-    int startWorkingFrom,
-    double rating,
-    int numberOfRates,
     Map<String, List<int>> dayOfWeek,
   ) async {
-    try {
-      final doctorID = const Uuid().v1();
-      await supabase.auth.signUp(
-        email: email,
-        password: password,
-        data: {
-          'role': 'doctor',
-        },
-      );
-      await supabase.rpc(
-        'sp_add_doctor_record',
-        params: {
-          'birthday': birthday.toIso8601String(),
-          'email': email,
-          'fullname': fullName,
-          'id': doctorID,
-          'numberofrates': numberOfRates,
-          'phone': phone,
-          'rating': rating,
-          'specializationid': specializationId,
-          'startworkingfrom': startWorkingFrom,
-        },
-      );
-
-      for (final entry in dayOfWeek.entries) {
-        await supabase.rpc(
-          'sp_add_workingshift_record',
-          params: {
-            'doctorid': doctorID,
-            'startperiodid': entry.value[0],
-            'dayofweek': entry.key,
-            'endperiodid': entry.value[1],
-          },
-        );
-      }
-      for (final entry in dayOfWeek.entries) {
-        if (daysOfWeek.contains(entry.key) &&
-            entry.value[0] > 0 &&
-            entry.value[1] > 1) {
-          await supabase.rpc(
-            'sp_add_working_shift',
-            params: {
-              'dayofweek': entry.key,
-              'doctorid': doctorID,
-              'endperiodid': entry.value[0],
-              'startperiodid': entry.value[1],
+    final id = const Uuid().v7();
+    final response = await supabase.auth.signUp(
+      email: email,
+      password: password,
+      data: {
+        'enable': true,
+        'role': 'doctor',
+        'id': id,
+      },
+    );
+    final authUserId = response.user?.id;
+    await supabase.rpc(
+      'sp_create_doctor',
+      params: {
+        'p_id': id,
+        'p_email': email,
+        'p_fullname': fullName,
+        'p_phone': phone,
+        'p_birthday': birthday.toIso8601String(),
+        'p_specialization_id': specializationId,
+        'p_working_shift': {
+          for (final entry in dayOfWeek.entries)
+            entry.key: {
+              'startPeriod': entry.value[0],
+              'endPeriod': entry.value[1],
             },
-          );
-        }
-      }
-    } on AuthException catch (e) {
-      throw Exception(e);
-    }
+        },
+      },
+    ).onError(
+      (error, stackTrace) => throw AuthException(
+        authUserId ?? 'User is null',
+        statusCode: 'create-error',
+      ),
+    );
   }
 
   @override
@@ -248,56 +226,31 @@ class SupabaseAdminRepository implements AdministratorRepositoryService {
     DateTime birthday,
     String phone,
   ) async {
-    try {
-      final receptionistID = const Uuid().v1();
-      await supabase.auth.signUp(
-        email: email,
-        password: password,
-        data: {
-          'role': 'receptionist',
-        },
-      );
-      await supabase.rpc(
-        'sp_add_receptionist_record',
-        params: {
-          'id': receptionistID,
-          'email': email,
-          'fullname': fullName,
-          'phone': phone,
-          'birthday': birthday.toIso8601String(),
-        },
-      );
-    } on AuthException catch (e) {
-      throw Exception(e);
-    }
-  }
-
-  @override
-  Future<void> deleteDoctor(
-    String email,
-  ) async {
-    try {
-      await supabase.rpc(
-        'sp_remove_doctor_using_email',
-        params: {
-          'email': email,
-        },
-      );
-    } on AuthException catch (e) {
-      throw Exception(e);
-    }
-  }
-
-  @override
-  Future<void> deleteReceptionist(
-    String email,
-  ) async {
-    try {
-      await supabase.rpc('sp_remove_receptionist_using_email', params: {
-        'email': email,
-      });
-    } on AuthException catch (e) {
-      throw Exception(e);
-    }
+    final id = const Uuid().v7();
+    final response = await supabase.auth.signUp(
+      email: email,
+      password: password,
+      data: {
+        'enable': true,
+        'role': 'receptionist',
+        'id': id,
+      },
+    );
+    final authUserId = response.user?.id;
+    await supabase.rpc(
+      'sp_create_receptionist',
+      params: {
+        'p_id': id,
+        'p_email': email,
+        'p_fullname': fullName,
+        'p_phone': phone,
+        'p_birthday': birthday.toIso8601String(),
+      },
+    ).onError(
+      (error, stackTrace) => throw AuthException(
+        authUserId ?? 'User is null',
+        statusCode: 'create-error',
+      ),
+    );
   }
 }
