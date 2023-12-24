@@ -26,7 +26,9 @@ class _DCCreateStaffScreen1State extends State<DCCreateStaffScreen1> {
     return BlocProvider(
       create: (_) => CreateStaffBloc(
         widget.navigatorKey,
-        SupabaseAuthenticationRepository(),
+        SupabaseAuthenticationRepository(
+          '', ''
+        ),
         NotificationManager.instance,
         SupabaseAdminRepository(),
       ),
