@@ -13,6 +13,8 @@ abstract interface class AbsentRequestAPIService<T extends AbsentRequest> {
 
   Future<List<T>> getAllAbsentRequestList();
 
+  Future<List<T>> getPendingAbsentRequestList();
+
   Future<List<T>> getAbsentRequestListByDoctorID(String doctorID);
 
   Future<List<T>> getAbsentRequestListByDate(DateTime date);

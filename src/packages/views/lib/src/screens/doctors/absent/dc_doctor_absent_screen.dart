@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs
 
 import 'package:components/components.dart';
+import 'package:controllers/controllers.dart';
 import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,7 +31,9 @@ class _DCDoctorAbsentScreenState extends State<DCDoctorAbsentScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => DoctorAbsentBloc(),
+      create: (context) => DoctorAbsentBloc(
+        context.read<DoctorRepositoryService>(),
+      ),
       child: BlocConsumer<DoctorAbsentBloc, DoctorAbsentState>(
         listener: (context, state) async {
           if (state is DoctorAbsentSuccess) {
@@ -149,44 +152,6 @@ class _DCDoctorAbsentScreenState extends State<DCDoctorAbsentScreen> {
                                 'I agree to the terms and conditions',
                                 style: context.textTheme.bodyRegularPoppins
                                     .copyWith(fontSize: 16),
-                              ),
-                            ],
-                          );
-                        },
-                      ),
-                      BlocBuilder<DoctorAbsentBloc, DoctorAbsentState>(
-                        buildWhen: (previous, current) =>
-                            previous.arrangeAnotherDoctor !=
-                            current.arrangeAnotherDoctor,
-                        builder: (context, state) {
-                          return Row(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Checkbox(
-                                value: state.arrangeAnotherDoctor,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(4),
-                                ),
-                                onChanged: (value) {
-                                  context.read<DoctorAbsentBloc>().add(
-                                        DoctorAbsentArrangeAnotherDoctorEvent(
-                                          value ?? false,
-                                        ),
-                                      );
-                                },
-                              ),
-                              Flexible(
-                                child: Wrap(
-                                  children: [
-                                    Text(
-                                      'Please help me arrange alternative appointments for my patients',
-                                      style: context
-                                          .textTheme.bodyRegularPoppins
-                                          .copyWith(fontSize: 16),
-                                    ),
-                                  ],
-                                ),
                               ),
                             ],
                           );

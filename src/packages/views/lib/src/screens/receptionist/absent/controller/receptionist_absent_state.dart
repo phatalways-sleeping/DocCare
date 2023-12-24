@@ -16,57 +16,49 @@ final class ReceptionistAbsentInitial extends ReceptionistAbsentState {
 
 final class ReceptionistAbsentViewState extends ReceptionistAbsentState {
   const ReceptionistAbsentViewState({
-    required this.doctorId,
-    required this.date,
+    required this.data,
   });
 
-  final String doctorId;
-  final DateTime date;
+  final Map<String, dynamic> data;
 
   @override
-  List<Object?> get props => [doctorId, date];
+  List<Object?> get props => [data];
 }
 
 final class ReceptionistAbsentLoadingState extends ReceptionistAbsentState {
   const ReceptionistAbsentLoadingState({
-    required this.doctorId,
-    required this.date,
+    required this.data,
   });
 
   factory ReceptionistAbsentLoadingState.fromState({
     required ReceptionistAbsentViewState state,
   }) =>
       ReceptionistAbsentLoadingState(
-        doctorId: state.doctorId,
-        date: state.date,
+        data: state.data,
       );
 
-  final String doctorId;
-  final DateTime date;
+  final Map<String, dynamic> data;
 
   @override
-  List<Object?> get props => [doctorId, date];
+  List<Object?> get props => [data];
 }
 
 final class ReceptionistAbsentSuccessState extends ReceptionistAbsentState {
   const ReceptionistAbsentSuccessState({
-    required this.doctorId,
-    required this.date,
+    required this.data,
   });
 
   factory ReceptionistAbsentSuccessState.fromState({
     required ReceptionistAbsentLoadingState state,
   }) =>
       ReceptionistAbsentSuccessState(
-        doctorId: state.doctorId,
-        date: state.date,
+        data: state.data,
       );
 
-  final String doctorId;
-  final DateTime date;
+  final Map<String, dynamic> data;
 
   @override
-  List<Object?> get props => [doctorId, date];
+  List<Object?> get props => [data];
 }
 
 final class ReceptionistAbsentErrorState extends ReceptionistAbsentState {

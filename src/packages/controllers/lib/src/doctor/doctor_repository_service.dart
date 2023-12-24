@@ -15,4 +15,10 @@ abstract interface class DoctorRepositoryService {
     String? specialization,
     int? startWorkingFrom,
   });
+
+  Future<void> sendAbsentRequest({
+    required String reasons,
+    required DateTime date,
+    required String doctorName,
+  });
 }
