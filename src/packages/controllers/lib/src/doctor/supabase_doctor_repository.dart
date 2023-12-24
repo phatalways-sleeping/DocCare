@@ -84,8 +84,9 @@ class SupabaseDoctorRepository implements DoctorRepositoryService {
       diagnosis: doctorNote[0],
     );
 
+    await _supabaseAppointmentApiService.createAppointment(appointment);
+
     await Future.wait([
-      _supabaseAppointmentApiService.updateAppointment(appointment),
       _supabaseStatisticsApiService.createStatistics(
         Statistics(
           id: const Uuid().v7(),
@@ -120,21 +121,19 @@ class SupabaseDoctorRepository implements DoctorRepositoryService {
       ),
     ]);
 
-    for (final medicine in medicines.entries) {
-      try {
-        final intake = Intake(
-          medicineName: medicine.key,
-          prescriptionID: prescriptionID,
-          duration: int.parse(medicine.value[0]),
-          quantity: int.parse(medicine.value[1]),
-          toBeTaken: (medicine.value[3] == 'Before Meal') ? 0 : 1,
-          timeOfTheDay: medicine.value[2],
-        );
-        await _supabaseIntakeApiService.createIntake(intake);
-      } catch (e) {
-        throw Exception('Error creating intake: $e');
-      }
-    }
+    await Future.wait([
+      for (final medicine in medicines.entries)
+        _supabaseIntakeApiService.createIntake(
+          Intake(
+            medicineName: medicine.key,
+            prescriptionID: prescriptionID,
+            duration: int.parse(medicine.value[0]),
+            quantity: int.parse(medicine.value[1]),
+            toBeTaken: (medicine.value[3] == 'Before Meal') ? 0 : 1,
+            timeOfTheDay: medicine.value[2],
+          ),
+        ),
+    ]);
   }
 
   @override
