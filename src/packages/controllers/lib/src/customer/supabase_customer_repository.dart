@@ -116,12 +116,14 @@ class SupabaseCustomerRepository implements CustomerRepositoryService {
   @override
   Future<List<Map<String, dynamic>>> getCurrentPrescriptions() async {
     final response = await Supabase.instance.client.rpc(
-      'get_cur_prescriptions',
+      'get_prescriptions',
       params: {
         'customer_id': _customerId,
         'is_done': false,
       },
-    ).onError((error, stackTrace) => []) as List<dynamic>;
+    ).onError((error, stackTrace) {
+      return [];
+    }) as List<dynamic>;
     final results = response.map(
       (e) {
         final result = e as Map<String, dynamic>;
@@ -133,6 +135,7 @@ class SupabaseCustomerRepository implements CustomerRepositoryService {
         };
       },
     ).toList();
+
     return results;
   }
 
@@ -156,7 +159,7 @@ class SupabaseCustomerRepository implements CustomerRepositoryService {
   @override
   Future<List<Map<String, dynamic>>> getPastPrescriptions() async {
     final response = await Supabase.instance.client.rpc(
-      'get_cur_prescriptions',
+      'get_prescriptions',
       params: {
         'customer_id': _customerId,
         'is_done': true,

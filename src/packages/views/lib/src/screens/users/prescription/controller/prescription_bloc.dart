@@ -4,6 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:utility/utility.dart';
+import 'package:controllers/controllers.dart';
 
 part 'prescription_event.dart';
 part 'prescription_state.dart';
@@ -12,6 +13,7 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
   PrescriptionBloc(
     this._navigatorKey,
     this._notificationManagerService,
+    this._customerRepositoryService,
   ) : super(PrescriptionViewState.initial()) {
     on<PrescriptionCheckEvent>(_onPrescriptionCheckEvent);
     on<PrescriptionOpenMedicinesViewEvent>(
@@ -31,42 +33,19 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
 
   final NotificationManagerService _notificationManagerService;
   final GlobalKey<NavigatorState> _navigatorKey;
+  final CustomerRepositoryService _customerRepositoryService;
 
-  Future<List<Map<String, dynamic>>> getLatestPrescription() => Future.delayed(
-        const Duration(seconds: 3),
-        () => [
-          {
-            'doctorName': 'Nguyen Van A',
-            'date': DateTime.now(),
-            'Note': 'Note',
-            'id': 'P001',
-          },
-          {
-            'doctorName': 'Nguyen Van A',
-            'date': DateTime.now(),
-            'Note': 'Note',
-            'id': 'P002',
-          },
-          {
-            'doctorName': 'Nguyen Van A',
-            'date': DateTime.now(),
-            'Note': 'Note',
-            'id': 'P003',
-          },
-        ],
-      );
+  Future<List<Map<String, dynamic>>> getLatestPrescription() async {
+    final results = await _customerRepositoryService.getCurrentPrescriptions();
 
-  Future<List<Map<String, dynamic>>> getPastPrescriptions() => Future.delayed(
-        const Duration(seconds: 3),
-        () => [
-          {
-            'doctorName': 'Nguyen Van A',
-            'date': DateTime.now(),
-            'Note': 'Note',
-            'id': 'P005',
-          },
-        ],
-      );
+    return results;
+  }
+
+  Future<List<Map<String, dynamic>>> getPastPrescriptions() async {
+    final results = await _customerRepositoryService.getPastPrescriptions();
+
+    return results;
+  }
 
   Future<List<Map<String, dynamic>>> getLatestMedicines() => Future.delayed(
         const Duration(seconds: 3),

@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:models/models.dart';
+import 'package:controllers/controllers.dart';
 import 'package:utility/utility.dart';
 import 'package:views/src/screens/users/prescription/controller/prescription_bloc.dart';
 import 'package:views/src/screens/users/prescription/screens/dc_medicine_screen.dart';
@@ -25,6 +27,7 @@ class _DCCustomerViewPrescriptionFlowState
       create: (context) => PrescriptionBloc(
         widget.navigatorKey,
         NotificationManager.instance,
+        context.read<CustomerRepositoryService>(),
       ),
       child: BlocConsumer<PrescriptionBloc, PrescriptionState>(
         key: widget.navigatorKey,
