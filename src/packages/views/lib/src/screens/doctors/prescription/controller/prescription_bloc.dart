@@ -17,11 +17,9 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
     this._notificationManagerService,
     this._doctorRepositoryService,
   ) : super(
-          PrescriptionMedicalInitial.empty(),
+          const PrescriptionMedicalInitial.empty(),
         ) {
-    on<CustomerIDAssignEvent>(_onCustomerIDAssignEvent);
-    on<PeriodAssignEvent>(_onPeriodAssignEvent);
-    on<DateAssignEvent>(_onDateAssignEvent);
+    on<InitializeCustomerNameEvent>(_onInitializeCustomerNameEvent);
     on<HeartRateInputEvent>(_onHeartRateInputEvent);
     on<BloodPressureInputEvent>(_onBloodPressureInputEvent);
     on<ChoresterolInputEvent>(_onCholesterolInputEvent);
@@ -46,25 +44,12 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
   final GlobalKey<NavigatorState> _navigatorKey;
   final DoctorRepositoryService _doctorRepositoryService;
 
-  void _onCustomerIDAssignEvent(
-    CustomerIDAssignEvent event,
+  void _onInitializeCustomerNameEvent(
+    InitializeCustomerNameEvent event,
     Emitter<PrescriptionState> emit,
   ) {
-    emit(state.copyWith(customerID: event.customerID));
-  }
-
-  void _onPeriodAssignEvent(
-    PeriodAssignEvent event,
-    Emitter<PrescriptionState> emit,
-  ) {
-    emit(state.copyWith(period: event.period));
-  }
-
-  void _onDateAssignEvent(
-    DateAssignEvent event,
-    Emitter<PrescriptionState> emit,
-  ) {
-    emit(state.copyWith(date: event.date));
+    final name = _doctorRepositoryService.getCustomerName;
+    emit(state.copyWith(customerName: name));
   }
 
   void _onHeartRateInputEvent(
@@ -467,9 +452,6 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
     final medicineNote = state.doctorNote[1];
 
     await _doctorRepositoryService.addPrescriptionToDatabase(
-      customerID: state.customerID,
-      period: state.period,
-      date: state.date.toIso8601String(),
       prescriptionID: prescriptionId,
       doctorNote: [diagnosis, medicineNote],
       medicines: state.medicines,

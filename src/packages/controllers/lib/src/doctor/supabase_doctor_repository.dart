@@ -10,6 +10,10 @@ class SupabaseDoctorRepository implements DoctorRepositoryService {
   SupabaseDoctorRepository();
 
   late String _doctorId;
+  late String _customerId;
+  late String _period;
+  late String _date;
+  late String customerName;
 
   final SupabaseIntakeAPIService _supabaseIntakeApiService =
       SupabaseIntakeAPIService(
@@ -34,6 +38,29 @@ class SupabaseDoctorRepository implements DoctorRepositoryService {
   @override
   void initializeDoctorId(String id) {
     _doctorId = id;
+  }
+
+  @override
+  void initializeDate(DateTime date) {
+    _date = date.toIso8601String();
+  }
+
+  @override
+  void initializeCustomerId(String id) {
+    _customerId = id;
+  }
+
+  @override
+  void initializeCustomerName(String name) {
+    customerName = name;
+  }
+
+  @override
+  String get getCustomerName => customerName;
+
+  @override
+  void initializePeriod(String period) {
+    _period = period;
   }
 
   @override
@@ -62,9 +89,6 @@ class SupabaseDoctorRepository implements DoctorRepositoryService {
 
   @override
   Future<void> addPrescriptionToDatabase({
-    required String customerID,
-    required String period,
-    required String date,
     required String prescriptionID,
     required List<String> doctorNote,
     required Map<String, List<String>> medicines,
@@ -74,10 +98,10 @@ class SupabaseDoctorRepository implements DoctorRepositoryService {
     required String choresterol,
   }) async {
     final appointment = Appointment(
-      customerID: customerID,
+      customerID: _customerId,
       doctorID: _doctorId,
-      period: int.parse(period),
-      date: DateTime.parse(date),
+      period: int.parse(_period),
+      date: DateTime.parse(_date),
       prescriptionID: prescriptionID,
       done: false,
       note: doctorNote[1],
