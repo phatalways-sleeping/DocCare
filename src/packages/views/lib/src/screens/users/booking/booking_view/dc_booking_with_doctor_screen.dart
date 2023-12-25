@@ -149,7 +149,7 @@ class _DCBookingWithDoctorScreenState extends State<DCBookingWithDoctorScreen> {
                           imgPath: state['imgPath'] as String,
                           name: state['name'] as String,
                           speciality: state['speciality'] as String,
-                          rating: state['rating'] as double,
+                          rating: (state['rating'] as num).toDouble(),
                           ratingCount: state['ratingCount'] as int,
                           onPressed: (context) {},
                         );
@@ -239,15 +239,13 @@ class _DCBookingWithDoctorScreenState extends State<DCBookingWithDoctorScreen> {
                         height: 10,
                       ),
                       DCAsyncView(
-                        future: Future.delayed(
-                          const Duration(seconds: 2),
-                          () => [
-                            '10:00 AM',
-                            '10:30 AM',
-                            '11:00 AM',
-                            '11:30 AM',
-                          ],
-                        ),
+                        future: context
+                            .read<DoctorViewBloc>()
+                            .getAvailableAppointmentTimes(
+                              context.read<BookingBloc>().state.doctorData['id']
+                                  as String,
+                              context.watch<BookingBloc>().state.dateSelected!,
+                            ),
                         type: DCAsyncViewType.availableTime,
                       ),
                       if (widget.inCustomerView) ...[

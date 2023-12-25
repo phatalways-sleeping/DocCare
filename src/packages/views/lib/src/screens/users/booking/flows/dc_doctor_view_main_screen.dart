@@ -53,6 +53,7 @@ class _DCDoctorViewMainScreenState extends State<DCDoctorViewMainScreen> {
                   MaterialPage(
                     child: BlocProvider(
                       create: (context) => BookingBloc(
+                        context.read<CustomerRepositoryService>(),
                         doctorData: state.doctor,
                       ),
                       child: DCBookingWithDoctorScreen(

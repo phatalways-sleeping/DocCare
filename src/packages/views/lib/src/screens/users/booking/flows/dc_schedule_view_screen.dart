@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs
 
+import 'package:controllers/controllers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:views/src/screens/users/booking/booking_view/controller/booking_bloc.dart';
@@ -16,7 +17,8 @@ class DCScheduleViewScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       key: navigatorKey,
-      create: (context) => BookingBloc(),
+      create: (context) =>
+          BookingBloc(context.read<CustomerRepositoryService>()),
       child: const DCBookingWithDoctorScreen(),
     );
   }

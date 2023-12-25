@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 
 class DCStorageImage extends StatefulWidget {
   const DCStorageImage({
-    super.key,
     required this.imgPath,
+    super.key,
     this.height,
     this.width,
   });
@@ -40,8 +40,8 @@ class _DCStorageImageState extends State<DCStorageImage> {
     );
     return FutureBuilder<String>(
       future: Future<String>.delayed(
-        const Duration(seconds: 2),
-        () => 'https://picsum.photos/200/300',
+        Duration(seconds: 2),
+        () => widget.imgPath,
       ),
       builder: (context, snapshot) {
         if (snapshot.hasData) {

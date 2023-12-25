@@ -42,11 +42,9 @@ class _DCAsyncViewState extends State<DCAsyncView> {
                 runSpacing: 5,
                 children: data.map(
                   (e) {
-                    final title = e.split(' ')[0];
-                    final time = e.split(' ')[1];
                     return DCCircularItem(
-                      title: title,
-                      subtitle: time,
+                      title: e,
+                      subtitle: '', // Assuming no subtitle is needed
                       isSelected: item == e,
                       isAvailable: true,
                       onPressed: widget.type == DCAsyncViewType.availableTime

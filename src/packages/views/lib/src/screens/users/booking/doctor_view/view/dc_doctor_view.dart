@@ -146,28 +146,8 @@ class _DCDoctorViewScreenState extends State<DCDoctorViewScreen> {
               },
               builder: (context, state) {
                 return FutureBuilder<List<Map<String, dynamic>>>(
-                  // future: Future.delayed(
-                  //   const Duration(seconds: 2),
-                  //   () => List.generate(
-                  //     10,
-                  //     (index) => {
-                  //       'doctorId': index,
-                  //       'name': 'Dr. John Doe',
-                  //       'speciality': 'Dentist',
-                  //       'rating': 4.5,
-                  //       'ratingCount': 100,
-                  //       'imgPath': 'assets/images/doctor.png',
-                  //     },
-                  //   ),
-                  // ),
                   future: context.read<DoctorViewBloc>().getAvaiableDoctors(),
                   builder: (context, snapshot) {
-                    print(
-                        'Snapshot connection state: ${snapshot.connectionState}');
-                    print('Snapshot data: ${snapshot.data}');
-                    print('Snapshot error: ${snapshot.error}');
-                    print('Snapshot size: ${snapshot.data?.length}');
-
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return CircularProgressIndicator(
                         color: context.colorScheme.secondary,

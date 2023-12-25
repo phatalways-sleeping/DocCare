@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:controllers/controllers.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
+import 'package:intl/intl.dart';
 
 part 'doctor_view_event.dart';
 part 'doctor_view_state.dart';
@@ -24,6 +25,28 @@ class DoctorViewBloc extends Bloc<DoctorViewEvent, DoctorViewState> {
   }
 
   final CustomerRepositoryService _customerRepositoryService;
+
+  Future<List<String>> getAvailableAppointmentTimes(
+    String doctorID,
+    DateTime date,
+  ) async {
+    final availablePeriods =
+        await _customerRepositoryService.getAvailablePeriod(doctorID, date);
+
+    // Extract 'time' values from the list and format them with leading zeros
+    final appointmentTimes = availablePeriods.map(
+      (period) {
+        final time = period['time'] as String;
+        final formattedTime =
+            DateFormat('HH:mm a').format(DateTime.parse('2022-01-01 $time'));
+        return formattedTime;
+      },
+    ).toList();
+
+    print('Appointment at: $appointmentTimes');
+
+    return appointmentTimes;
+  }
 
   Future<List<Map<String, dynamic>>> getAvaiableDoctors() =>
       _customerRepositoryService.getAvailableDoctors(
@@ -162,12 +185,5 @@ class DoctorViewBloc extends Bloc<DoctorViewEvent, DoctorViewState> {
     emit(
       DoctorViewLoading.fromState(state: state, searchedName: ''),
     );
-  }
-
-  @override
-  void onChange(Change<DoctorViewState> change) {
-    // TODO: implement onChange
-    super.onChange(change);
-    print(change);
   }
 }

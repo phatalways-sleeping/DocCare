@@ -1,5 +1,3 @@
-// ignore_for_file: public_member_api_docs
-
 import 'package:controllers/src/customer/customer_repository_service.dart';
 import 'package:flutter/widgets.dart';
 import 'package:models/models.dart';
@@ -10,6 +8,10 @@ import 'package:uuid/uuid.dart';
 class SupabaseCustomerRepository implements CustomerRepositoryService {
   SupabaseCustomerRepository();
   late String _customerId;
+
+  String getCustomerId() {
+    return _customerId;
+  }
 
   final SupabaseCustomerApiService _supabaseCustomerApiService =
       SupabaseCustomerApiService(
@@ -23,6 +25,11 @@ class SupabaseCustomerRepository implements CustomerRepositoryService {
 
   final SupabaseIntakeAPIService _supabaseIntakeApiService =
       SupabaseIntakeAPIService(
+    supabase: Supabase.instance.client,
+  );
+
+  final SupabaseSpecializationApiService _supabaseSpecializationApiService =
+      SupabaseSpecializationApiService(
     supabase: Supabase.instance.client,
   );
 
@@ -289,5 +296,62 @@ class SupabaseCustomerRepository implements CustomerRepositoryService {
     ).toList();
 
     return results.take(10).toList();
+  }
+
+  @override
+  Future<List<String>> getDoctorSpecialization() async =>
+      _supabaseSpecializationApiService.getAllSpecialization();
+
+  @override
+  Future<List<Map<String, dynamic>>> getAvailablePeriod(
+      String doctorId, DateTime date) async {
+    final response = await Supabase.instance.client
+        .rpc('get_doctor_available_day1', params: {
+      'p_doctorid': doctorId,
+      'p_date': date.toIso8601String(), // Convert DateTime to ISO8601 string
+    }) as List<dynamic>;
+
+    final results = response.map(
+      (e) {
+        final result = e as Map<String, dynamic>;
+        return {
+          'period_id': result['period_id'],
+          'time':
+              result['time'], // Update to match the column name in the function
+        };
+      },
+    ).toList();
+
+    return results;
+  }
+
+  @override
+  Future<void> bookAppointmentWithDoctor({
+    required int period,
+    required String customerid,
+    required String doctorid,
+    required DateTime date,
+    String? customerComment,
+  }) async {
+    await Supabase.instance.client.rpc(
+      'add_appointment_with_doctor_record',
+      params: {
+        'p_period': period,
+        'p_customerid': customerid,
+        'p_doctorid': doctorid,
+        'p_date': date.toIso8601String(),
+        'p_customer_comment': customerComment,
+        'p_prescriptionid': null,
+        'p_datedone': null,
+        'p_done': null,
+        'p_note': null,
+        'p_diagnosis': null,
+        'p_rating': null
+      },
+    ).onError(
+      (error, stackTrace) => debugPrint(
+        error.toString(),
+      ),
+    );
   }
 }

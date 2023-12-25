@@ -1,25 +1,10 @@
 import 'package:components/components.dart';
+import 'package:controllers/controllers.dart';
 import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:views/src/screens/users/booking/doctor_view/controller/doctor_view_bloc.dart';
 import 'package:views/src/screens/users/booking/doctor_view/filter/dc_filter_button.dart';
-
-const specialty = [
-  'All',
-  'Cardiologist',
-  'Dentist',
-  'Dermatologist',
-  'Gastroenterologist',
-  'General Physician',
-  'Gynaecologist',
-  'Neurologist',
-  'Ophthalmologist',
-  'Orthopedic',
-  'Pediatrician',
-  'Psychiatrist',
-  'Urologist',
-];
 
 const rating = [
   'All',
@@ -38,6 +23,28 @@ class DCDoctorFilterScreen extends StatefulWidget {
 }
 
 class _DCDoctorFilterScreenState extends State<DCDoctorFilterScreen> {
+  late List<String>? specialty = [];
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize the specialties list in initState
+    _fetchSpecialties();
+  }
+
+  Future<void> _fetchSpecialties() async {
+    final customerRepositoryService = SupabaseCustomerRepository();
+    final fetchedSpecialties =
+        await customerRepositoryService.getDoctorSpecialization();
+
+    if (mounted) {
+      setState(() {
+        // Add 'All' to the beginning of the list
+        specialty = ['All', ...fetchedSpecialties];
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,28 +74,33 @@ class _DCDoctorFilterScreenState extends State<DCDoctorFilterScreen> {
             const SizedBox(
               height: 10,
             ),
-            BlocSelector<DoctorViewBloc, DoctorViewState, List<String>>(
-              selector: (state) => state.filteredSpecialties,
-              builder: (context, state) {
-                return Wrap(
-                  spacing: 10,
-                  runSpacing: 10,
-                  children: specialty
-                      .map(
-                        (e) => DCSpecialtyButton(
-                          specialty: e,
-                          isSelected: state.contains(e),
-                          onPressed: (context) => context
-                              .read<DoctorViewBloc>()
-                              .add(
-                                DoctorViewFilterSpecialtyEvent(specialty: e),
-                              ),
-                        ),
-                      )
-                      .toList(),
-                );
-              },
-            ),
+            if (specialty != null)
+              BlocSelector<DoctorViewBloc, DoctorViewState, List<String>>(
+                selector: (state) => state.filteredSpecialties,
+                builder: (context, state) {
+                  return Wrap(
+                    spacing: 10,
+                    runSpacing: 10,
+                    children: specialty!
+                        .map(
+                          (e) => DCSpecialtyButton(
+                            specialty: e,
+                            isSelected: state.contains(e),
+                            onPressed: (context) => context
+                                .read<DoctorViewBloc>()
+                                .add(
+                                  DoctorViewFilterSpecialtyEvent(specialty: e),
+                                ),
+                          ),
+                        )
+                        .toList(),
+                  );
+                },
+              )
+            else
+              const Center(
+                child: CircularProgressIndicator(),
+              ),
             const SizedBox(
               height: 20,
             ),

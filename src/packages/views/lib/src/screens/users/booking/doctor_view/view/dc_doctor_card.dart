@@ -66,7 +66,7 @@ class DCDoctorCard extends StatelessWidget {
       ),
       child: Row(
         children: [
-          const DCStorageImage(imgPath: 'assets/images/doctor.png'),
+          DCStorageImage(imgPath: imgPath),
           const SizedBox(
             width: 10,
           ),
@@ -93,7 +93,7 @@ class DCDoctorCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     for (int i = 1; i <= 5; i++)
-                      if (i < rating)
+                      if (i <= rating)
                         Icon(
                           Icons.star,
                           size: context.width * 0.04,
