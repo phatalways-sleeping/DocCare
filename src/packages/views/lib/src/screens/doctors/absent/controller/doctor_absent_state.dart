@@ -8,22 +8,28 @@ sealed class DoctorAbsentState extends Equatable {
     this.date = '',
     this.reasons = '',
     this.agreeTerms = false,
-    this.arrangeAnotherDoctor = false,
+    this.profileData = const {},
   });
 
   final String date;
   final String reasons;
   final bool agreeTerms;
-  final bool arrangeAnotherDoctor;
+
+  final Map<String, dynamic> profileData;
 
   @override
-  List<Object?> get props => [date, reasons, agreeTerms, arrangeAnotherDoctor];
+  List<Object?> get props => [
+        date,
+        reasons,
+        agreeTerms,
+        profileData,
+      ];
 
   DoctorAbsentState copyWith({
     String? date,
     String? reasons,
     bool? agreeTerms,
-    bool? arrangeAnotherDoctor,
+    Map<String, dynamic>? profileData,
   });
 }
 
@@ -32,7 +38,7 @@ final class DoctorAbsentInitial extends DoctorAbsentState {
     super.date = '',
     super.reasons = '',
     super.agreeTerms = false,
-    super.arrangeAnotherDoctor = false,
+    super.profileData = const {},
   });
 
   factory DoctorAbsentInitial.fromState({
@@ -42,7 +48,7 @@ final class DoctorAbsentInitial extends DoctorAbsentState {
         date: state.date,
         reasons: state.reasons,
         agreeTerms: state.agreeTerms,
-        arrangeAnotherDoctor: state.arrangeAnotherDoctor,
+        profileData: state.profileData,
       );
 
   @override
@@ -50,13 +56,14 @@ final class DoctorAbsentInitial extends DoctorAbsentState {
     String? date,
     String? reasons,
     bool? agreeTerms,
-    bool? arrangeAnotherDoctor,
+    Map<String, dynamic>? profileData,
+    
   }) {
     return DoctorAbsentInitial(
       date: date ?? this.date,
       reasons: reasons ?? this.reasons,
       agreeTerms: agreeTerms ?? this.agreeTerms,
-      arrangeAnotherDoctor: arrangeAnotherDoctor ?? this.arrangeAnotherDoctor,
+      profileData: profileData ?? this.profileData,
     );
   }
 }
@@ -66,7 +73,7 @@ final class DoctorAbsentLoading extends DoctorAbsentState {
     super.date = '',
     super.reasons = '',
     super.agreeTerms = false,
-    super.arrangeAnotherDoctor = false,
+    super.profileData = const {},
   });
 
   factory DoctorAbsentLoading.fromState({
@@ -76,7 +83,7 @@ final class DoctorAbsentLoading extends DoctorAbsentState {
         date: state.date,
         reasons: state.reasons,
         agreeTerms: state.agreeTerms,
-        arrangeAnotherDoctor: state.arrangeAnotherDoctor,
+        profileData: state.profileData,
       );
 
   @override
@@ -84,13 +91,13 @@ final class DoctorAbsentLoading extends DoctorAbsentState {
     String? date,
     String? reasons,
     bool? agreeTerms,
-    bool? arrangeAnotherDoctor,
+    Map<String, dynamic>? profileData,
   }) {
     return DoctorAbsentLoading(
       date: date ?? this.date,
       reasons: reasons ?? this.reasons,
       agreeTerms: agreeTerms ?? this.agreeTerms,
-      arrangeAnotherDoctor: arrangeAnotherDoctor ?? this.arrangeAnotherDoctor,
+      profileData: profileData ?? this.profileData,
     );
   }
 }
@@ -100,7 +107,7 @@ final class DoctorAbsentSuccess extends DoctorAbsentState {
     super.date = '',
     super.reasons = '',
     super.agreeTerms = false,
-    super.arrangeAnotherDoctor = false,
+    super.profileData = const {},
   });
 
   @override
@@ -108,24 +115,23 @@ final class DoctorAbsentSuccess extends DoctorAbsentState {
     String? date,
     String? reasons,
     bool? agreeTerms,
-    bool? arrangeAnotherDoctor,
+    Map<String, dynamic>? profileData,
   }) {
     return DoctorAbsentSuccess(
       date: date ?? this.date,
       reasons: reasons ?? this.reasons,
       agreeTerms: agreeTerms ?? this.agreeTerms,
-      arrangeAnotherDoctor: arrangeAnotherDoctor ?? this.arrangeAnotherDoctor,
+      profileData: profileData ?? this.profileData,
     );
   }
 }
 
 final class DoctorAbsentError extends DoctorAbsentState {
   const DoctorAbsentError({
-    super.date = '',
+    required this.errorMessage, super.date = '',
     super.reasons = '',
     super.agreeTerms = false,
-    super.arrangeAnotherDoctor = false,
-    required this.errorMessage,
+    super.profileData = const {},
   });
 
   factory DoctorAbsentError.fromState({
@@ -136,8 +142,8 @@ final class DoctorAbsentError extends DoctorAbsentState {
         date: state.date,
         reasons: state.reasons,
         agreeTerms: state.agreeTerms,
-        arrangeAnotherDoctor: state.arrangeAnotherDoctor,
         errorMessage: errorMessage,
+        profileData: state.profileData,
       );
 
   final String errorMessage;
@@ -148,14 +154,14 @@ final class DoctorAbsentError extends DoctorAbsentState {
     String? reasons,
     String? errorMessage,
     bool? agreeTerms,
-    bool? arrangeAnotherDoctor,
+    Map<String, dynamic>? profileData,
   }) {
     return DoctorAbsentError(
       date: date ?? this.date,
       reasons: reasons ?? this.reasons,
       agreeTerms: agreeTerms ?? this.agreeTerms,
-      arrangeAnotherDoctor: arrangeAnotherDoctor ?? this.arrangeAnotherDoctor,
       errorMessage: errorMessage ?? this.errorMessage,
+      profileData: profileData ?? this.profileData,
     );
   }
 }
