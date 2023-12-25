@@ -1,15 +1,23 @@
 // ignore_for_file: public_member_api_docs
 
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
+import 'package:controllers/controllers.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 part 'create_staff_event.dart';
 part 'create_staff_state.dart';
 
 class StaffCreationBloc extends Bloc<CreateStaffEvent, CreateStaffState> {
-  StaffCreationBloc() : super(CreateStaffInitial.initial()) {
+  StaffCreationBloc(
+    this._administratorRepositoryService,
+  ) : super(CreateStaffInitial.initial()) {
     on<CreateStaffResetEvent>(_onCreateStaffResetEvent);
+    on<CreateStaffBackEvent>(_onCreateStaffBackEvent);
     on<CreateStaffNameChangedEvent>(_onCreateStaffNameChangedEvent);
     on<CreateStaffEmailChangedEvent>(_onCreateStaffEmailChangedEvent);
     on<CreateStaffPasswordChangedEvent>(_onCreateStaffPasswordChangedEvent);
@@ -29,11 +37,26 @@ class StaffCreationBloc extends Bloc<CreateStaffEvent, CreateStaffState> {
         _onCreateStaffSpecializationChangedEvent);
   }
 
+  final AdministratorRepositoryService _administratorRepositoryService;
+
+  @override
+  void onTransition(Transition<CreateStaffEvent, CreateStaffState> transition) {
+    debugPrint(transition.toString());
+    super.onTransition(transition);
+  }
+
   void _onCreateStaffResetEvent(
     CreateStaffResetEvent event,
     Emitter<CreateStaffState> emit,
   ) {
     emit(CreateStaffInitial.initial());
+  }
+
+  void _onCreateStaffBackEvent(
+    CreateStaffBackEvent event,
+    Emitter<CreateStaffState> emit,
+  ) {
+    emit(CreateStaffInitial.fromState(state));
   }
 
   void _onCreateStaffNameChangedEvent(
@@ -89,19 +112,62 @@ class StaffCreationBloc extends Bloc<CreateStaffEvent, CreateStaffState> {
     CreateStaffSubmitEvent event,
     Emitter<CreateStaffState> emit,
   ) async {
-    // Data validation
-
-    // Start submitting
     try {
       emit(CreateStaffLoading.fromState(state));
-      await Future.delayed(const Duration(seconds: 2), () {}); // Fake request
-      // throw Exception('Request failed');
+      final birthdayArr = state.birthdate.split('/');
+      final birthday = DateTime(
+        int.parse(birthdayArr[2]),
+        int.parse(birthdayArr[1]),
+        int.parse(birthdayArr[0]),
+      );
+      if (state.role == 'Doctor') {
+        final workingShifts = <String, List<int>>{};
+        for (final entry in state.workingShifts) {
+          workingShifts[entry['weekDay'] as String] = [
+            int.parse(entry['startPeriod'] as String),
+            int.parse(entry['endPeriod'] as String),
+          ];
+        }
+        await _administratorRepositoryService.signUpDoctor(
+          state.fullName,
+          state.email,
+          state.password,
+          birthday,
+          state.phoneNumber,
+          state.specialization,
+          workingShifts,
+        );
+      } else {
+        await _administratorRepositoryService.signUpReceptionist(
+          state.fullName,
+          state.email,
+          state.password,
+          birthday,
+          state.phoneNumber,
+        );
+      }
       emit(CreateStaffSuccess.fromState(state));
-    } catch (error) {
+    } on AuthException catch (error) {
+      debugPrint(error.toString());
       emit(
         CreateStaffFailure.fromState(
           state: state,
           errorMessage: 'Request failed',
+        ),
+      );
+    } on TimeoutException catch (_) {
+      emit(
+        CreateStaffFailure.fromState(
+          state: state,
+          errorMessage: 'Request timed out',
+        ),
+      );
+    } on Exception catch (error) {
+      debugPrint(error.toString());
+      emit(
+        CreateStaffFailure.fromState(
+          state: state,
+          errorMessage: 'An unknown error has occurred',
         ),
       );
     }

@@ -1,5 +1,7 @@
 // ignore_for_file: public_member_api_docs
 
+import 'package:models/models.dart';
+
 abstract interface class ReceptionistRepositoryService {
   void initializeReceptionistId(String id);
 
@@ -12,5 +14,13 @@ abstract interface class ReceptionistRepositoryService {
     String? email,
     String? phone,
     DateTime? birthday,
+  });
+
+  Future<List<Map<String, dynamic>>> getAbsentRequests();
+
+  Future<void> responseAbsentRequest(
+    String id, {
+    required DateTime date,
+    required bool isAccepted,
   });
 }

@@ -1,23 +1,32 @@
 // ignore_for_file: public_member_api_docs
 
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
+import 'package:controllers/controllers.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
 part 'staff_removal_event.dart';
 part 'staff_removal_state.dart';
 
 class StaffRemovalBloc extends Bloc<StaffRemovalEvent, StaffRemovalState> {
-  StaffRemovalBloc() : super(StaffRemovalInitial.initial()) {
+  StaffRemovalBloc(
+    this._authenticationRepositoryService,
+  ) : super(StaffRemovalInitial.initial()) {
     on<StaffRemovalResetEvent>(_onStaffRemovalResetEvent);
     on<StaffRemovalRoleChangedEvent>(_onStaffRemovalRoleChangedEvent);
     on<StaffRemovalEmailChangedEvent>(_onStaffRemovalEmailChangedEvent);
     on<StaffRemovalSubmitEvent>(_onStaffRemovalSubmitEvent);
   }
 
+  final AuthenticationRepositoryService _authenticationRepositoryService;
+
   @override
-  void onTransition(Transition<StaffRemovalEvent, StaffRemovalState> transition) {
-    print(transition);
+  void onTransition(
+      Transition<StaffRemovalEvent, StaffRemovalState> transition) {
+    debugPrint(transition.toString());
     super.onTransition(transition);
   }
 
@@ -50,10 +59,38 @@ class StaffRemovalBloc extends Bloc<StaffRemovalEvent, StaffRemovalState> {
   ) async {
     try {
       emit(StaffRemovalLoading.fromState(state));
-      await Future.delayed(const Duration(seconds: 2), () {});
-      // throw Exception();
+      final user = await _authenticationRepositoryService
+          .fetchUserByEmail(
+            state.email,
+          )
+          .timeout(
+            const Duration(
+              seconds: 30,
+            ),
+          );
+
+      if (user == null) {
+        throw Exception('User not found');
+      }
+
+      await _authenticationRepositoryService
+          .disableAccount(
+            user.id,
+          )
+          .timeout(
+            const Duration(
+              seconds: 30,
+            ),
+          );
 
       emit(StaffRemovalSuccess.fromState(state));
+    } on TimeoutException catch (_) {
+      emit(
+        StaffRemovalFailure.fromState(
+          state: state,
+          errorMessage: 'Failed to remove staff.\nOperation timed out.',
+        ),
+      );
     } catch (error) {
       emit(
         StaffRemovalFailure.fromState(

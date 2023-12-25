@@ -37,4 +37,10 @@ abstract interface class DoctorRepositoryService {
   });
 
   Future<List<String>> getAvailableMedicine();
+  
+  Future<void> sendAbsentRequest({
+    required String reasons,
+    required DateTime date,
+    required String doctorName,
+  });
 }

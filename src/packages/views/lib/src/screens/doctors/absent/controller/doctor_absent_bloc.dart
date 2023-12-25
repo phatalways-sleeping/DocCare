@@ -1,6 +1,9 @@
 // ignore_for_file: public_member_api_docs
 
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
+import 'package:controllers/controllers.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
@@ -8,7 +11,9 @@ part 'doctor_absent_event.dart';
 part 'doctor_absent_state.dart';
 
 class DoctorAbsentBloc extends Bloc<DoctorAbsentEvent, DoctorAbsentState> {
-  DoctorAbsentBloc() : super(const DoctorAbsentInitial()) {
+  DoctorAbsentBloc(
+    this._doctorRepositoryService,
+  ) : super(const DoctorAbsentInitial()) {
     on<DoctorAbsentResetEvent>((event, emit) {
       emit(
         DoctorAbsentInitial.fromState(
@@ -25,9 +30,6 @@ class DoctorAbsentBloc extends Bloc<DoctorAbsentEvent, DoctorAbsentState> {
     on<DoctorAbsentAgreementCheckboxEvent>((event, emit) {
       emit(state.copyWith(agreeTerms: event.agreed));
     });
-    on<DoctorAbsentArrangeAnotherDoctorEvent>((event, emit) {
-      emit(state.copyWith(arrangeAnotherDoctor: event.arrangeAnotherDoctor));
-    });
     on<DoctorAbsentButtonPressedEvent>((event, emit) async {
       if (state.date.isEmpty || state.reasons.isEmpty || !state.agreeTerms) {
         return emit(
@@ -39,14 +41,27 @@ class DoctorAbsentBloc extends Bloc<DoctorAbsentEvent, DoctorAbsentState> {
       }
       try {
         emit(DoctorAbsentLoading.fromState(state: state));
+        final dateComps = state.date.split('/');
+        final date = DateTime(
+          int.parse(dateComps[2]),
+          int.parse(dateComps[1]),
+          int.parse(dateComps[0]),
+        );
+        await _doctorRepositoryService.sendAbsentRequest(
+          reasons: state.reasons,
+          date: date,
+          doctorName: state.profileData['fullname'] as String,
+        );
 
-        await Future.delayed(const Duration(seconds: 4), () {});
-
-        // throw Exception('An error occured while trying to submit the form');
-
-        /// Use doctor repo api to call the api to submit the form
         /// Then emit the success state
         emit(const DoctorAbsentSuccess());
+      } on TimeoutException catch (_) {
+        emit(
+          DoctorAbsentError.fromState(
+            state: state,
+            errorMessage: 'Request timed out',
+          ),
+        );
       } catch (error) {
         emit(
           DoctorAbsentError.fromState(
@@ -57,4 +72,6 @@ class DoctorAbsentBloc extends Bloc<DoctorAbsentEvent, DoctorAbsentState> {
       }
     });
   }
+
+  final DoctorRepositoryService _doctorRepositoryService;
 }
