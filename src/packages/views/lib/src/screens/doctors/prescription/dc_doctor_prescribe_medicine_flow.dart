@@ -13,17 +13,9 @@ import 'package:views/src/screens/doctors/prescription/dc_prescription_screen.da
 class DCDoctorPrescibeMedicineFlow extends StatefulWidget {
   const DCDoctorPrescibeMedicineFlow({
     required this.navigatorKey,
-    required this.customerName,
-    required this.customerID,
-    required this.period,
-    required this.date,
     super.key,
   });
 
-  final String customerName;
-  final String customerID;
-  final String period;
-  final DateTime date;
   final GlobalKey<NavigatorState> navigatorKey;
 
   @override
@@ -47,32 +39,23 @@ class _DCDoctorPrescibeMedicineFlowState
             BlocProvider.of<PrescriptionBloc>(context).add(
               const RetrieveMedicineEvent(),
             );
-            BlocProvider.of<PrescriptionBloc>(context).add(
-              CustomerIDAssignEvent(widget.customerID),
-            );
           }
         },
         builder: (context, state) {
-          if (state is PrescriptionMedicalInitial) {
-            BlocProvider.of<PrescriptionBloc>(context).add(
-              const RetrieveMedicineEvent(),
-            );
-            BlocProvider.of<PrescriptionBloc>(context).add(
-              CustomerIDAssignEvent(widget.customerID),
-            );
-            BlocProvider.of<PrescriptionBloc>(context).add(
-              PeriodAssignEvent(widget.period),
-            );
-            BlocProvider.of<PrescriptionBloc>(context).add(
-              DateAssignEvent(widget.date),
-            );
-          }
           final screen = state is PrescriptionMedicalLoading
               ? const Center(child: CircularProgressIndicator())
               : state is PrescriptionMedicalInitial
-                  ? DCMedicalStatScreen(customerName: widget.customerName)
+                  ? DCMedicalStatScreen(
+                      customerName: context
+                          .read<DoctorRepositoryService>()
+                          .getCustomerName,
+                    )
                   : state is PrescriptionMedicalSuccess
-                      ? DCPrescriptionScreen(customerName: widget.customerName)
+                      ? DCPrescriptionScreen(
+                          customerName: context
+                              .read<DoctorRepositoryService>()
+                              .getCustomerName,
+                        )
                       : state is PrescriptionAddMedicine
                           ? const DCAddMedicineScreen()
                           : state is PrescriptionSuccess

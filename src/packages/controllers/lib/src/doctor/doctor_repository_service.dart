@@ -3,6 +3,16 @@
 abstract interface class DoctorRepositoryService {
   void initializeDoctorId(String id);
 
+  void initializeDate(DateTime date);
+
+  void initializeCustomerId(String id);
+
+  void initializeCustomerName(String name);
+
+  String get getCustomerName;
+
+  void initializePeriod(String period);
+
   void clear();
 
   Future<Map<String, dynamic>> getProfileData();
@@ -17,9 +27,6 @@ abstract interface class DoctorRepositoryService {
   });
 
   Future<void> addPrescriptionToDatabase({
-    required String customerID,
-    required String period,
-    required String date,
     required String prescriptionID,
     required List<String> doctorNote,
     required Map<String, List<String>> medicines,

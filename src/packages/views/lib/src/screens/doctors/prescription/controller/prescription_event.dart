@@ -10,33 +10,6 @@ sealed class PrescriptionEvent extends Equatable {
   List<Object> get props => [];
 }
 
-final class CustomerIDAssignEvent extends PrescriptionEvent {
-  const CustomerIDAssignEvent(this.customerID);
-
-  final String customerID;
-
-  @override
-  List<Object> get props => [customerID];
-}
-
-final class PeriodAssignEvent extends PrescriptionEvent {
-  const PeriodAssignEvent(this.period);
-
-  final String period;
-
-  @override
-  List<Object> get props => [period];
-}
-
-final class DateAssignEvent extends PrescriptionEvent {
-  const DateAssignEvent(this.date);
-
-  final DateTime date;
-
-  @override
-  List<Object> get props => [date];
-}
-
 final class HeartRateInputEvent extends PrescriptionEvent {
   const HeartRateInputEvent(this.heartRate);
 

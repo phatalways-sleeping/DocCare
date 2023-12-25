@@ -10,6 +10,10 @@ class SupabaseDoctorRepository implements DoctorRepositoryService {
   SupabaseDoctorRepository();
 
   late String _doctorId;
+  late String _customerId;
+  late String _period;
+  late String _date;
+  late String customerName;
 
   final SupabaseIntakeAPIService _supabaseIntakeApiService =
       SupabaseIntakeAPIService(
@@ -30,7 +34,7 @@ class SupabaseDoctorRepository implements DoctorRepositoryService {
       SupabaseMedicineApiService(
     supabase: Supabase.instance.client,
   );
-  
+
   final AbsentRequestAPIService _absentRequestAPIService =
       SupabaseAbsentRequestApiService(
     supabase: Supabase.instance.client,
@@ -39,6 +43,29 @@ class SupabaseDoctorRepository implements DoctorRepositoryService {
   @override
   void initializeDoctorId(String id) {
     _doctorId = id;
+  }
+
+  @override
+  void initializeDate(DateTime date) {
+    _date = date.toIso8601String();
+  }
+
+  @override
+  void initializeCustomerId(String id) {
+    _customerId = id;
+  }
+
+  @override
+  void initializeCustomerName(String name) {
+    customerName = name;
+  }
+
+  @override
+  String get getCustomerName => customerName;
+
+  @override
+  void initializePeriod(String period) {
+    _period = period;
   }
 
   @override
@@ -67,9 +94,6 @@ class SupabaseDoctorRepository implements DoctorRepositoryService {
 
   @override
   Future<void> addPrescriptionToDatabase({
-    required String customerID,
-    required String period,
-    required String date,
     required String prescriptionID,
     required List<String> doctorNote,
     required Map<String, List<String>> medicines,
@@ -79,17 +103,17 @@ class SupabaseDoctorRepository implements DoctorRepositoryService {
     required String choresterol,
   }) async {
     final appointment = Appointment(
-      customerID: customerID,
+      customerID: _customerId,
       doctorID: _doctorId,
-      period: int.parse(period),
-      date: DateTime.parse(date),
+      period: int.parse(_period),
+      date: DateTime.parse(_date),
       prescriptionID: prescriptionID,
       done: false,
       note: doctorNote[1],
       diagnosis: doctorNote[0],
     );
 
-    await _supabaseAppointmentApiService.createAppointment(appointment);
+    await _supabaseAppointmentApiService.updateAppointment(appointment);
 
     await Future.wait([
       _supabaseStatisticsApiService.createStatistics(
@@ -152,7 +176,7 @@ class SupabaseDoctorRepository implements DoctorRepositoryService {
     }
     return result;
   }
-  
+
   Future<void> sendAbsentRequest({
     required String reasons,
     required DateTime date,
