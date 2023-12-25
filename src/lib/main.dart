@@ -30,6 +30,8 @@ Future<void> main() async {
     ).then((value) => debugPrint('Supabase initialized')),
   ]);
 
+  await Supabase.instance.client.auth.signOut(scope: SignOutScope.others);
+
   NotificationManager.init();
 
   runDocCare(supabaseUrl, serviceRoleKey);

@@ -1,6 +1,5 @@
 // ignore_for_file: public_member_api_docs
 import 'package:controllers/src/receptionist/receptionist_repository_service.dart';
-import 'package:models/src/absent_request/absent_request.dart';
 import 'package:services/services.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
