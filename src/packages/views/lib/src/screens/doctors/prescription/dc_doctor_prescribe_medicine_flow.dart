@@ -1,9 +1,9 @@
 // ignore_for_file: public_member_api_docs
 
 import 'package:components/components.dart';
+import 'package:controllers/controllers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:utility/utility.dart';
 import 'package:views/src/screens/doctors/prescription/controller/prescription_bloc.dart';
 import 'package:views/src/screens/doctors/prescription/dc_add_medicine_screen.dart';
@@ -14,10 +14,16 @@ class DCDoctorPrescibeMedicineFlow extends StatefulWidget {
   const DCDoctorPrescibeMedicineFlow({
     required this.navigatorKey,
     required this.customerName,
+    required this.customerID,
+    required this.period,
+    required this.date,
     super.key,
   });
 
   final String customerName;
+  final String customerID;
+  final String period;
+  final DateTime date;
   final GlobalKey<NavigatorState> navigatorKey;
 
   @override
@@ -33,7 +39,7 @@ class _DCDoctorPrescibeMedicineFlowState
       create: (_) => PrescriptionBloc(
         widget.navigatorKey,
         NotificationManager.instance,
-        Supabase.instance.client,
+        context.read<DoctorRepositoryService>(),
       ),
       child: BlocConsumer<PrescriptionBloc, PrescriptionState>(
         listener: (context, state) {
@@ -41,12 +47,24 @@ class _DCDoctorPrescibeMedicineFlowState
             BlocProvider.of<PrescriptionBloc>(context).add(
               const RetrieveMedicineEvent(),
             );
+            BlocProvider.of<PrescriptionBloc>(context).add(
+              CustomerIDAssignEvent(widget.customerID),
+            );
           }
         },
         builder: (context, state) {
-          if (state is PrescriptionMedicalLoading) {
+          if (state is PrescriptionMedicalInitial) {
             BlocProvider.of<PrescriptionBloc>(context).add(
               const RetrieveMedicineEvent(),
+            );
+            BlocProvider.of<PrescriptionBloc>(context).add(
+              CustomerIDAssignEvent(widget.customerID),
+            );
+            BlocProvider.of<PrescriptionBloc>(context).add(
+              PeriodAssignEvent(widget.period),
+            );
+            BlocProvider.of<PrescriptionBloc>(context).add(
+              DateAssignEvent(widget.date),
             );
           }
           final screen = state is PrescriptionMedicalLoading

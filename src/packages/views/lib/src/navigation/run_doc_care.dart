@@ -164,7 +164,10 @@ void runDocCare(String supabaseUrl, String serviceRoleKey) => runApp(
                     navigatorKey: GlobalKey<NavigatorState>(
                       debugLabel: 'prescribe-doctor',
                     ),
-                    customerName: 'John Doe', // Later we replace
+                    customerName: 'John Doe',
+                    customerID: 'C001',
+                    period: '1',
+                    date: DateTime(2023, 12, 25),
                   ),
                 );
               case '/doctor/absent-request':

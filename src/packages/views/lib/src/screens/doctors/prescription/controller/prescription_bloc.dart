@@ -1,12 +1,12 @@
 // ignore_for_file: public_member_api_docs
 
 import 'package:bloc/bloc.dart';
+import 'package:controllers/controllers.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/widgets.dart';
-import 'package:services/services.dart';
-import 'package:supabase/supabase.dart';
 import 'package:utility/utility.dart'
     show FormValidator, NotificationManagerService, NotificationType;
+import 'package:uuid/uuid.dart';
 
 part 'prescription_event.dart';
 part 'prescription_state.dart';
@@ -15,12 +15,13 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
   PrescriptionBloc(
     this._navigatorKey,
     this._notificationManagerService,
-    this._supabaseClient,
+    this._doctorRepositoryService,
   ) : super(
-          PrescriptionMedicalLoading.from(
-            const PrescriptionMedicalInitial.empty(),
-          ),
+          PrescriptionMedicalInitial.empty(),
         ) {
+    on<CustomerIDAssignEvent>(_onCustomerIDAssignEvent);
+    on<PeriodAssignEvent>(_onPeriodAssignEvent);
+    on<DateAssignEvent>(_onDateAssignEvent);
     on<HeartRateInputEvent>(_onHeartRateInputEvent);
     on<BloodPressureInputEvent>(_onBloodPressureInputEvent);
     on<ChoresterolInputEvent>(_onCholesterolInputEvent);
@@ -43,7 +44,28 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
 
   final NotificationManagerService _notificationManagerService;
   final GlobalKey<NavigatorState> _navigatorKey;
-  final SupabaseClient _supabaseClient;
+  final DoctorRepositoryService _doctorRepositoryService;
+
+  void _onCustomerIDAssignEvent(
+    CustomerIDAssignEvent event,
+    Emitter<PrescriptionState> emit,
+  ) {
+    emit(state.copyWith(customerID: event.customerID));
+  }
+
+  void _onPeriodAssignEvent(
+    PeriodAssignEvent event,
+    Emitter<PrescriptionState> emit,
+  ) {
+    emit(state.copyWith(period: event.period));
+  }
+
+  void _onDateAssignEvent(
+    DateAssignEvent event,
+    Emitter<PrescriptionState> emit,
+  ) {
+    emit(state.copyWith(date: event.date));
+  }
 
   void _onHeartRateInputEvent(
     HeartRateInputEvent event,
@@ -420,8 +442,42 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
     AddPrescriptionButtonPressedEvent event,
     Emitter<PrescriptionState> emit,
   ) async {
-    // TODO(phucchuhoang): add the medical stat + prescription to the database
-    emit(PrescriptionMedicalLoading.from(state));
+    if (state.medicines.isEmpty || state.doctorNote[0].isEmpty) {
+      await _notificationManagerService.show<void>(
+        _navigatorKey.currentContext!,
+        NotificationType.error,
+        title: const Text(
+          'Prescription is not complete',
+          style: TextStyle(
+            fontSize: 16,
+          ),
+        ),
+        message: const Text(
+          'Please fill all the fields',
+          style: TextStyle(
+            fontSize: 16,
+          ),
+        ),
+      );
+      return;
+    }
+
+    final prescriptionId = const Uuid().v7();
+    final diagnosis = state.doctorNote[0];
+    final medicineNote = state.doctorNote[1];
+
+    await _doctorRepositoryService.addPrescriptionToDatabase(
+      customerID: state.customerID,
+      period: state.period,
+      date: state.date.toIso8601String(),
+      prescriptionID: prescriptionId,
+      doctorNote: [diagnosis, medicineNote],
+      medicines: state.medicines,
+      heartRate: state.heartRate,
+      bloodPressure: state.bloodPressure,
+      bloodSugar: state.bloodSugar,
+      choresterol: state.choresterol,
+    );
 
     emit(PrescriptionSuccess.from(state));
   }
@@ -441,13 +497,14 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
     RetrieveMedicineEvent event,
     Emitter<PrescriptionState> emit,
   ) async {
-    final instance = SupabaseMedicineApiService(supabase: _supabaseClient);
     try {
-      final availableMed = await instance.getAllMedicineList();
+      final availableMed =
+          await _doctorRepositoryService.getAvailableMedicine();
       final allMed = List<String>.from([]);
       for (final med in availableMed) {
-        allMed.add(med.name);
+        allMed.add(med);
       }
+
       emit(
         PrescriptionMedicalInitial.from(
           state.copyWith(availableMedicines: allMed),
