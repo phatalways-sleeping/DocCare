@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs
 
 import 'package:components/components.dart';
+import 'package:controllers/controllers.dart';
 import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,7 +18,9 @@ class DCStaffRemovalScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => StaffRemovalBloc(),
+      create: (context) => StaffRemovalBloc(
+        context.read<AuthenticationRepositoryService>(),
+      ),
       child: BlocConsumer<StaffRemovalBloc, StaffRemovalState>(
         buildWhen: (previous, current) =>
             previous.runtimeType != current.runtimeType,

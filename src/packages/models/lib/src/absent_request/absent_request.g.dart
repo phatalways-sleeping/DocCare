@@ -14,7 +14,7 @@ AbsentRequest _$AbsentRequestFromJson(Map<String, dynamic> json) {
       'date',
       'doctorName',
       'dateRequest',
-      'isApproved'
+      'isApproved',
     ],
   );
   return AbsentRequest(

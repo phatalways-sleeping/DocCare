@@ -10,6 +10,10 @@ sealed class CreateStaffEvent extends Equatable {
   List<Object> get props => [];
 }
 
+final class CreateStaffBackEvent extends CreateStaffEvent {
+  const CreateStaffBackEvent();
+}
+
 final class CreateStaffResetEvent extends CreateStaffEvent {
   const CreateStaffResetEvent();
 }

@@ -41,7 +41,7 @@ class _DCAdminGenerateReportScreenState
       body: BlocProvider(
         create: (_) => GenerateReportBloc(
           widget.navigatorKey,
-          SupabaseAdminRepository(),
+          context.read<AdministratorRepositoryService>(),
           PdfInvoiceService(),
           NotificationManager.instance,
         ),

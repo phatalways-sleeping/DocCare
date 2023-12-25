@@ -364,18 +364,16 @@ class CreateStaffBloc extends Bloc<CreateStaffEvent, CreateStaffState> {
         );
 
         //Create information for Doctor
-        await _supabaseAdminService.signUpDoctor(
-          state.fullName,
-          state.email,
-          state.password,
-          state.birthday,
-          state.phone,
-          state.specializationId,
-          state.startWorkingFrom,
-          state.rating,
-          state.numberOfRates,
-          state.dayOfWeek,
-        );
+        // await _supabaseAdminService.signUpDoctor(
+        //   state.fullName,
+        //   state.email,
+        //   state.password,
+        //   state.birthday,
+        //   state.phone,
+        //   state.specializationId,
+        //   state.numberOfRates,
+        //   state.dayOfWeek,
+        // );
       }
       emit(CreateStaffSuccess.from(state));
     } on AuthException catch (e) {

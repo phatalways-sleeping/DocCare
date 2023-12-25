@@ -93,7 +93,7 @@ class _DCSplashScreenState extends State<DCSplashScreen>
                               .pushReplacementNamed('/home');
                         case 'admin':
                           Navigator.of(context, rootNavigator: true)
-                              .pushReplacementNamed('/admin/home');
+                              .pushReplacementNamed('/admin/staff/create');
                         case 'receptionist':
                           Navigator.of(context, rootNavigator: true)
                               .pushReplacementNamed('/receptionist/home');

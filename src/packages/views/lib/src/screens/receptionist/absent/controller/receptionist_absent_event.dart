@@ -14,17 +14,19 @@ final class ReceptionistAbsentResetEvent extends ReceptionistAbsentEvent {
   const ReceptionistAbsentResetEvent();
 }
 
+final class ReceptionistAbsentLoadDataEvent extends ReceptionistAbsentEvent {
+  const ReceptionistAbsentLoadDataEvent();
+}
+
 final class ReceptionistAbsentViewEvent extends ReceptionistAbsentEvent {
   const ReceptionistAbsentViewEvent({
-    required this.doctorId,
-    required this.date,
+    required this.data,
   });
 
-  final String doctorId;
-  final DateTime date;
+  final Map<String, dynamic> data;
 
   @override
-  List<Object?> get props => [doctorId, date];
+  List<Object?> get props => [data];
 }
 
 final class ReceptionistAbsentResponseEvent extends ReceptionistAbsentEvent {

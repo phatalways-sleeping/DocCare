@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:controllers/controllers.dart';
 import 'package:equatable/equatable.dart';
@@ -89,27 +91,58 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           );
         },
       );
+    } on TimeoutException catch (_) {
+      assert(state is LoginLoading, 'State is not loading');
+      unawaited(
+        _showNotification(
+          'Something went wrong',
+          'Operation timed out. Please try again later',
+        ),
+      );
+      emit((state as LoginLoading).toggleBackToInitial());
     } on AuthException catch (e) {
       assert(state is LoginLoading, 'State is not loading');
-      await _notificationManagerService
-          .show<void>(
-            _navigatorKey.currentContext!,
-            NotificationType.login,
-            title: const Text(
-              'Something went wrong',
-              style: TextStyle(
-                fontSize: 16,
-              ),
-            ),
-            message: Text(
-              e.message,
-              style: const TextStyle(
-                fontSize: 13,
-              ),
-            ),
-          )
-          .then((value) => emit((state as LoginLoading).toggleBackToInitial()));
+      unawaited(
+        _showNotification(
+          'Something went wrong',
+          e.message,
+        ),
+      );
+      emit((state as LoginLoading).toggleBackToInitial());
+    } catch (e) {
+      assert(state is LoginLoading, 'State is not loading');
+      unawaited(
+        _showNotification(
+          'Something went wrong',
+          'Please try again later',
+        ),
+      );
+      emit((state as LoginLoading).toggleBackToInitial());
     }
+  }
+
+  Future<void> _showNotification(
+    String title,
+    String message,
+  ) async {
+    unawaited(
+      _notificationManagerService.show<void>(
+        _navigatorKey.currentContext!,
+        NotificationType.login,
+        title: Text(
+          title,
+          style: const TextStyle(
+            fontSize: 16,
+          ),
+        ),
+        message: Text(
+          message,
+          style: const TextStyle(
+            fontSize: 13,
+          ),
+        ),
+      ),
+    );
   }
 
   // TODO: Implement Google login functionality

@@ -30,6 +30,11 @@ class SupabaseDoctorRepository implements DoctorRepositoryService {
       SupabaseMedicineApiService(
     supabase: Supabase.instance.client,
   );
+  
+  final AbsentRequestAPIService _absentRequestAPIService =
+      SupabaseAbsentRequestApiService(
+    supabase: Supabase.instance.client,
+  );
 
   @override
   void initializeDoctorId(String id) {
@@ -146,5 +151,27 @@ class SupabaseDoctorRepository implements DoctorRepositoryService {
       result.add(medicine.name);
     }
     return result;
+  }
+  
+  Future<void> sendAbsentRequest({
+    required String reasons,
+    required DateTime date,
+    required String doctorName,
+  }) async {
+    await _absentRequestAPIService
+        .createAbsentRequest(
+          AbsentRequest(
+            doctorID: _doctorId,
+            date: date,
+            doctorName: doctorName,
+            dateRequest: DateTime.now(),
+            isApproved: false,
+          ),
+        )
+        .timeout(
+          const Duration(
+            seconds: 15,
+          ),
+        );
   }
 }
