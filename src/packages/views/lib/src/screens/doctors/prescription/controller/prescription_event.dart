@@ -10,15 +10,6 @@ sealed class PrescriptionEvent extends Equatable {
   List<Object> get props => [];
 }
 
-final class InitializeCustomerNameEvent extends PrescriptionEvent {
-  const InitializeCustomerNameEvent(this.customerName);
-
-  final String customerName;
-
-  @override
-  List<Object> get props => [customerName];
-}
-
 final class HeartRateInputEvent extends PrescriptionEvent {
   const HeartRateInputEvent(this.heartRate);
 

@@ -34,7 +34,7 @@ class SupabaseDoctorRepository implements DoctorRepositoryService {
       SupabaseMedicineApiService(
     supabase: Supabase.instance.client,
   );
-  
+
   final AbsentRequestAPIService _absentRequestAPIService =
       SupabaseAbsentRequestApiService(
     supabase: Supabase.instance.client,
@@ -113,7 +113,7 @@ class SupabaseDoctorRepository implements DoctorRepositoryService {
       diagnosis: doctorNote[0],
     );
 
-    await _supabaseAppointmentApiService.createAppointment(appointment);
+    await _supabaseAppointmentApiService.updateAppointment(appointment);
 
     await Future.wait([
       _supabaseStatisticsApiService.createStatistics(
@@ -176,7 +176,7 @@ class SupabaseDoctorRepository implements DoctorRepositoryService {
     }
     return result;
   }
-  
+
   Future<void> sendAbsentRequest({
     required String reasons,
     required DateTime date,

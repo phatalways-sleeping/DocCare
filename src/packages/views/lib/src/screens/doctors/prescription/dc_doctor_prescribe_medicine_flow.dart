@@ -45,9 +45,17 @@ class _DCDoctorPrescibeMedicineFlowState
           final screen = state is PrescriptionMedicalLoading
               ? const Center(child: CircularProgressIndicator())
               : state is PrescriptionMedicalInitial
-                  ? DCMedicalStatScreen(customerName: state.customerName)
+                  ? DCMedicalStatScreen(
+                      customerName: context
+                          .read<DoctorRepositoryService>()
+                          .getCustomerName,
+                    )
                   : state is PrescriptionMedicalSuccess
-                      ? DCPrescriptionScreen(customerName: state.customerName)
+                      ? DCPrescriptionScreen(
+                          customerName: context
+                              .read<DoctorRepositoryService>()
+                              .getCustomerName,
+                        )
                       : state is PrescriptionAddMedicine
                           ? const DCAddMedicineScreen()
                           : state is PrescriptionSuccess

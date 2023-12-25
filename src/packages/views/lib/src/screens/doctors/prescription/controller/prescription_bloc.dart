@@ -19,7 +19,6 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
   ) : super(
           const PrescriptionMedicalInitial.empty(),
         ) {
-    on<InitializeCustomerNameEvent>(_onInitializeCustomerNameEvent);
     on<HeartRateInputEvent>(_onHeartRateInputEvent);
     on<BloodPressureInputEvent>(_onBloodPressureInputEvent);
     on<ChoresterolInputEvent>(_onCholesterolInputEvent);
@@ -43,14 +42,6 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
   final NotificationManagerService _notificationManagerService;
   final GlobalKey<NavigatorState> _navigatorKey;
   final DoctorRepositoryService _doctorRepositoryService;
-
-  void _onInitializeCustomerNameEvent(
-    InitializeCustomerNameEvent event,
-    Emitter<PrescriptionState> emit,
-  ) {
-    final name = _doctorRepositoryService.getCustomerName;
-    emit(state.copyWith(customerName: name));
-  }
 
   void _onHeartRateInputEvent(
     HeartRateInputEvent event,
