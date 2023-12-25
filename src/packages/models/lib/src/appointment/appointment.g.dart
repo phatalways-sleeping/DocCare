@@ -18,6 +18,16 @@ Appointment _$AppointmentFromJson(Map<String, dynamic> json) {
     date: DateTime.parse(json['date'] as String),
     rating: json['rating'] as int?,
     customerComment: json['customerComment'] as String?,
+    prescriptionID: json['prescriptionID'] as String?,
+    dateDone: json['dateDone'] == null
+        ? null
+        : DateTime.parse(json['dateDone'] as String),
+    done: json['done'] as bool?,
+    note: json['note'] as String?,
+    diagnosis: json['diagnosis'] as String?,
+    isCanceled: json['isCanceled'] as bool?,
+    customerName: json['customerName'] as String?,
+
   );
 }
 
@@ -29,4 +39,12 @@ Map<String, dynamic> _$AppointmentToJson(Appointment instance) =>
       'date': instance.date.toIso8601String(),
       'rating': instance.rating,
       'customerComment': instance.customerComment,
+      'prescriptionID': instance.prescriptionID,
+      'dateDone': instance.dateDone?.toIso8601String(),
+      'done': instance.done,
+      'note': instance.note,
+      'diagnosis': instance.diagnosis,
+      'isCanceled': instance.isCanceled,
+      'customerName': instance.customerName,
+
     };

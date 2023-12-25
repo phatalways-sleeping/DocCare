@@ -15,11 +15,7 @@ abstract interface class AppointmentApiService<Appointment> {
 
   Future<List<Appointment>> getAppointmentsByDate(DateTime date);
 
-  Future<void> updateAppointmentByDoctorId(
-      String doctorId, Appointment appointment);
-
-  Future<void> updateAppointmentByCustomerId(
-      String customerId, Appointment appointment);
+  Future<void> updateAppointment(Appointment appointment);
 
   Future<void> updateRating(String customerId, int rating);
 

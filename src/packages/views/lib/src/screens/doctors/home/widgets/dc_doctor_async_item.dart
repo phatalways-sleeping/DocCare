@@ -15,37 +15,83 @@ class DCDoctorAsyncItem extends StatefulWidget {
     super.key,
   });
 
-  final Future<List<Map<String, dynamic>>> future;
+  final Future<List<dynamic>> future;
   final bool isDone;
   final bool isPast;
 
   @override
   State<DCDoctorAsyncItem> createState() => _DCDoctorAsyncItemState();
 }
+String mapPeriod(String period) {
+  switch (period) {
+    case '1':
+      return '7:00 AM';
+    case '2':
+      return '8:00 AM';
+    case '3':
+      return '8:30 AM';
+    case '4':
+      return '9:00 AM';
+    case '5':
+      return '9:30 AM';
+    case '6': 
+      return '10:00 AM';
+    case '7':
+      return '10:30 AM';
+    case '8':
+      return '11:00 AM';
+    case '9':
+      return '11:30 AM';
+    case '10':
+      return '12:00 PM';
+    case '11':
+      return '12:30 PM';
+    case '12':
+      return '1:00 PM';
+    case '13':
+      return '1:30 PM';
+    case '14':
+      return '2:00 PM';
+    case '15':
+      return '2:30 PM';
+    case '16':
+      return '3:00 PM';
+    case '17': 
+      return '3:30 PM';
+    case '18':
+      return '4:00 PM';
+    case '19':
+      return '4:30 PM';
+   
+    default:
+      return '5:00 PM';
+  }
+}
 
 class _DCDoctorAsyncItemState extends State<DCDoctorAsyncItem> {
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Map<String, dynamic>>>(
+    return FutureBuilder<List<dynamic>>(
       future: widget.future,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           assert(
             snapshot.data!.isEmpty ||
                 (snapshot.data!.first.containsKey('customerName') &&
-                    snapshot.data!.first.containsKey('time') &&
-                    snapshot.data!.first.containsKey('symptom') &&
-                    snapshot.data!.first.containsKey('id')),
-            'Appointment data must contain customerName, time, symptom, id',
+                    snapshot.data!.first.containsKey('period') &&
+                    snapshot.data!.first.containsKey('diagnosis')
+                    ),
+            'Appointment data must contain customerName, period, diagnosis',
           );
 
           final children = snapshot.data!
+              
               .map(
                 (e) => DCAppointmentItem(
                   isPast: widget.isPast,
                   title: '${e['customerName']}',
                   bottomLeft: Text(
-                    '${e['time']}',
+                    mapPeriod(e['period'].toString()),
                   ),
                   color: context.colorScheme.error,
                   
@@ -55,9 +101,10 @@ class _DCDoctorAsyncItemState extends State<DCDoctorAsyncItem> {
                   //         medineName: e['customerName'] as String,
                   //       ),
                   //     ),}
+                  // to do: navigate to prescription screen
                   onPressed: (context) {},
                   bottomRight: Text(
-                    '${e['symptom']}',
+                    '${e['diagnosis']}',
                   ),
                   isDone: widget.isDone,
                 ),

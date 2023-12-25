@@ -27,40 +27,10 @@ final class DoctorHomeOpenDoctorScheduleViewEvent extends DoctorHomeEvent {
 }
 
 final class DoctorHomeOpenCancelAppointmentViewEvent extends DoctorHomeEvent {
-  const DoctorHomeOpenCancelAppointmentViewEvent({
-    required this.customerID,
-    required this.doctorID,
-    required this.period,
-    required this.date,
-
-  });
-
-  final String customerID;
-  final String doctorID;
-  final int period;
-  final DateTime date;
-
-
+  const DoctorHomeOpenCancelAppointmentViewEvent();
   @override
-  List<Object?> get props => [customerID,doctorID,period,date];
+  List<Object?> get props => [];
 }
-// final class OpenIntakeViewEvent extends DoctorHomeEvent {
-//   const OpenIntakeViewEvent({
-//     required this.customerID,
-//   });
-//   final String customerID;
-
-//   @override
-//   List<Object?> get props => [customerID];
-// }
-
-// final class IntakeRatingEvent extends DoctorHomeEvent {
-//   const IntakeRatingEvent({
-//     required this.rating,
-//   });
-
-//   final int rating;
-
-//   @override
-//   List<Object?> get props => [rating];
-// }
+final class DoctorHomeLoadEvent extends DoctorHomeEvent {
+  const DoctorHomeLoadEvent();
+}

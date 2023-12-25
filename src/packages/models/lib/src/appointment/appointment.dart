@@ -12,6 +12,13 @@ final class Appointment extends Equatable {
     required this.date,
     this.rating,
     this.customerComment,
+    this.prescriptionID,
+    this.dateDone,
+    this.done,
+    this.note,
+    this.diagnosis,
+    this.isCanceled,
+    this.customerName,
   });
 
   factory Appointment.fromJson(Map<String, dynamic> json) =>
@@ -31,10 +38,24 @@ final class Appointment extends Equatable {
   final int? rating;
   @JsonKey()
   final String? customerComment;
+  @JsonKey()
+  final String? prescriptionID;
+  @JsonKey()
+  final DateTime? dateDone;
+  @JsonKey()
+  final bool? done;
+  @JsonKey()
+  final String? note;
+  @JsonKey()
+  final String? diagnosis;
+  @JsonKey()
+  final bool? isCanceled;
+  @JsonKey()
+  final String? customerName;
 
   @override
   List<Object?> get props =>
-      [customerID, doctorID, period, date, rating, customerComment];
+      [customerID, doctorID, period, date, rating, customerComment, prescriptionID, dateDone, done, note, diagnosis, isCanceled, customerName];
 
   Appointment copyWith({
     String? customerID,
@@ -43,6 +64,15 @@ final class Appointment extends Equatable {
     DateTime? date,
     int? rating,
     String? customerComment,
+    String? prescriptionID,
+    DateTime? dateDone,
+    bool? done,
+    String? note,
+    String? diagnosis,
+    bool? isCanceled,
+    String? customerName,
+
+
   }) {
     return Appointment(
       customerID: customerID ?? this.customerID,
@@ -51,6 +81,13 @@ final class Appointment extends Equatable {
       date: date ?? this.date,
       rating: rating ?? this.rating,
       customerComment: customerComment ?? this.customerComment,
+      prescriptionID: prescriptionID ?? this.prescriptionID,
+      dateDone: dateDone ?? this.dateDone,
+      done: done ?? this.done,
+      note: note ?? this.note,
+      diagnosis: diagnosis ?? this.diagnosis,
+      isCanceled: isCanceled ?? this.isCanceled,
+      customerName: customerName ?? this.customerName,
     );
   }
 }

@@ -1,4 +1,3 @@
-
 import 'package:components/components.dart';
 import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
@@ -6,15 +5,16 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:views/src/screens/doctors/home/controller/doctor_home_bloc.dart';
 import 'package:views/src/screens/doctors/home/widgets/dc_doctor_async_item.dart';
+import 'package:intl/intl.dart';
 
 class DCDoctorScheduleScreen extends StatefulWidget {
   const DCDoctorScheduleScreen({
     super.key,
   });
-
   @override
   State<DCDoctorScheduleScreen> createState() => _DCDoctorScheduleScreenState();
 }
+
 String mapMonth(int month) {
   switch (month) {
     case 1:
@@ -43,6 +43,7 @@ String mapMonth(int month) {
       return 'Dec';
   }
 }
+
 class _DCDoctorScheduleScreenState extends State<DCDoctorScheduleScreen> {
   @override
   Widget build(BuildContext context) {
@@ -91,11 +92,15 @@ class _DCDoctorScheduleScreenState extends State<DCDoctorScheduleScreen> {
                 const SizedBox(
                   width: 10,
                 ),
-                Text(
-                  '${mapMonth(DateTime.now().month)} ${DateTime.now().year}',
-                  style: context.textTheme.bodyRegularPoppins.copyWith(
-                    fontSize: 16,
-                  ),
+                BlocBuilder<DoctorHomeBloc, DoctorHomeState>(
+                  builder: (context, state) {
+                    return Text(
+                      DateFormat('MMM, dd, yyyy').format(state.selectedDate),
+                      style: context.textTheme.bodyRegularPoppins.copyWith(
+                        fontSize: 16,
+                      ),
+                    );
+                  },
                 ),
               ],
             ),
@@ -109,8 +114,6 @@ class _DCDoctorScheduleScreenState extends State<DCDoctorScheduleScreen> {
               textAlign: TextAlign.left,
               child: const Text('Next Customer'),
             ),
-
-            
             const SizedBox(
               height: 10,
             ),
@@ -122,12 +125,32 @@ class _DCDoctorScheduleScreenState extends State<DCDoctorScheduleScreen> {
                 return false;
               },
               builder: (context, state) {
-                return DCDoctorAsyncItem(
-                  future: context.read<DoctorHomeBloc>().getNextAppointment(),
-                  isDone: false,
-                  isPast: false,
-                  //medicine: true,
-                );
+                String convertedDate = state.selectedDate.year.toString() +
+                    '-' +
+                    state.selectedDate.month.toString() +
+                    '-' +
+                    state.selectedDate.day.toString();
+                final appointmentsForDate =
+                    state.appointmentInDate[convertedDate];
+                final appointmentsNotDone = appointmentsForDate
+                    ?.where((appointment) =>
+                        appointment['done'] == false ||
+                        appointment['done'] == null)
+                    .toList();
+                // Convert the list of appointments to a future
+                final futureAppointments =
+                    Future.value(appointmentsNotDone ?? []);
+                return state.appointmentInDate.containsKey(convertedDate)
+                    ? !appointmentsNotDone!.isEmpty
+                        ? DCDoctorAsyncItem(
+                            future: futureAppointments,
+                            isDone: false,
+                            isPast: false,
+
+                            //medicine: true,
+                          )
+                        : Container()
+                    : Container();
               },
             ),
             SizedBox(
@@ -153,12 +176,31 @@ class _DCDoctorScheduleScreenState extends State<DCDoctorScheduleScreen> {
                 return false;
               },
               builder: (context, state) {
-                return DCDoctorAsyncItem(
-                  future: context.read<DoctorHomeBloc>().getPastAppointment(),
-                  isDone: true,
-                  isPast: true,
-                  //medicine: true,
-                );
+                String convertedDate = state.selectedDate.year.toString() +
+                    '-' +
+                    state.selectedDate.month.toString() +
+                    '-' +
+                    state.selectedDate.day.toString();
+                final appointmentsForDate =
+                    state.appointmentInDate[convertedDate];
+                // initial the appointmentsDone
+                final appointmentsDone = appointmentsForDate
+                    ?.where((appointment) => appointment['done'] == true)
+                    .toList();
+                //
+                // Convert the list of appointments to a future
+                final futureAppointments = Future.value(appointmentsDone ?? []);
+                return state.appointmentInDate.containsKey(convertedDate)
+                    ? !appointmentsDone!.isEmpty
+                        ? DCDoctorAsyncItem(
+                            future: futureAppointments,
+                            isDone: true,
+                            isPast: true,
+
+                            //medicine: true,
+                          )
+                        : Container()
+                    : Container();
               },
             ),
           ],

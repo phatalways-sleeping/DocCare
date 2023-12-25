@@ -40,7 +40,7 @@ class SupabaseAppointmentApiService
       supabase
           .from('appointment')
           .select<PostgrestList>()
-          .eq('doctorId', doctorId)
+          .eq('doctorID', doctorId)
           .then(
             (value) => value.isEmpty
                 ? throw Exception(
@@ -80,34 +80,14 @@ class SupabaseAppointmentApiService
       );
 
   @override
-  Future<void> updateAppointmentByDoctorId(
-    String doctorId,
-    Appointment appointment,
-  ) =>
-      supabase
-          .from('appointment')
-          .update(
-            appointment.toJson(),
-          )
-          .eq('id', doctorId)
-          .onError(
-            (error, stackTrace) => throw Exception(error),
-          );
-
-  @override
-  Future<void> updateAppointmentByCustomerId(
-    String customerId,
-    Appointment appointment,
-  ) =>
-      supabase
-          .from('appointment')
-          .update(
-            appointment.toJson(),
-          )
-          .eq('id', customerId)
-          .onError(
-            (error, stackTrace) => throw Exception(error),
-          );
+  Future<void> updateAppointment(Appointment appointment) => supabase
+      .from('appointment')
+      .update(appointment.toJson())
+      .eq('customerID', appointment.customerID)
+      .eq('doctorID', appointment.doctorID)
+      .eq('period', appointment.period)
+      .eq('date', appointment.date)
+      .onError((error, stackTrace) => throw Exception(error));
 
   @override
   Future<void> updateRating(String customerId, int rating) => supabase

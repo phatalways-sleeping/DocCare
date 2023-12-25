@@ -4,179 +4,301 @@ part of 'doctor_home_bloc.dart';
 @immutable
 sealed class DoctorHomeState extends Equatable {
   const DoctorHomeState({
-    required this.customerID,
-    //required this.customerName,
-    required this.customerName,
+    required this.doctorName,
+    required this.doctorAvatarUrl,
+    required this.appointments,
+    required this.upcomingAppointmentIndex,
+    required this.upcomingCustomerName,
+    required this.appointmentInDate,
+    required this.selectedDate,
   });
 
-  final String customerID;
-  final String customerName;
+  final String doctorName;
+  final String doctorAvatarUrl;
+  final List<dynamic> appointments;
+  final int upcomingAppointmentIndex;
+  final String upcomingCustomerName;
+  final Map<String,List<dynamic>> appointmentInDate;
+  final DateTime selectedDate;
 
   @override
   List<Object?> get props => [
-        customerID,
-        customerName,
+        
+        doctorName,
+        doctorAvatarUrl,
+        appointments,
+        upcomingAppointmentIndex,
+        upcomingCustomerName,
+        appointmentInDate,
+        selectedDate,
       ];
 
   DoctorHomeState copyWith({
-    String? customerID,
-    String? customerName,
+    String? doctorName,
+    String? doctorAvatarUrl,
+    List<dynamic>? appointments,
+    int? upcomingAppointmentIndex,
+    String? upcomingCustomerName,
+    Map<String,List<dynamic>>? appointmentInDate,
+    DateTime? selectedDate,
   });
 }
 
-final class DoctorHomeViewState extends DoctorHomeState {
-  const DoctorHomeViewState()
+final class DoctorHomeInitial extends DoctorHomeState {
+  const DoctorHomeInitial({
+    required super.doctorName,
+    required super.doctorAvatarUrl,
+    required super.appointments,
+    required super.upcomingAppointmentIndex,
+    required super.upcomingCustomerName,
+    required super.appointmentInDate,
+    required super.selectedDate,
+  });
+
+  DoctorHomeInitial.empty()
       : super(
-          customerID: '',
-          customerName: '',
+          doctorName: '',
+          doctorAvatarUrl: '',
+          appointments: [],
+          upcomingAppointmentIndex: -1,
+          upcomingCustomerName: '',
+          appointmentInDate: {},
+          selectedDate: DateTime.now(),
         );
 
-  factory DoctorHomeViewState.initial() {
-    return const DoctorHomeViewState();
-  }
+  factory DoctorHomeInitial.from(DoctorHomeState state) =>
+      DoctorHomeInitial(
+        doctorName: state.doctorName,
+        doctorAvatarUrl: state.doctorAvatarUrl,
+        appointments: state.appointments,
+        upcomingAppointmentIndex: state.upcomingAppointmentIndex,
+        upcomingCustomerName: state.upcomingCustomerName,
+        appointmentInDate: state.appointmentInDate,
+        selectedDate: state.selectedDate,
+      );
+
+  const DoctorHomeInitial.input({
+    required String doctorName,
+    required String doctorAvatarUrl,
+    required List<dynamic> appointments,
+    required int upcomingAppointmentIndex,
+    required String upcomingCustomerName,
+    required Map<String,List<dynamic>> appointmentInDate,
+    required DateTime selectedDate,
+  }) : super(
+           
+          doctorName: doctorName,
+          doctorAvatarUrl: doctorAvatarUrl,
+          appointments: appointments,
+          upcomingAppointmentIndex: upcomingAppointmentIndex,
+          upcomingCustomerName: upcomingCustomerName,
+          appointmentInDate: appointmentInDate,
+          selectedDate: selectedDate,
+        );
 
   @override
   DoctorHomeState copyWith({
-    String? customerID,
-    String? customerName,
+    String? doctorName,
+    String? doctorAvatarUrl,
+    List<dynamic>? appointments,
+    int? upcomingAppointmentIndex,
+    String? upcomingCustomerName,
+    Map<String,List<dynamic>>? appointmentInDate,
+    DateTime? selectedDate,
   }) {
-    return const DoctorHomeViewState();
+    return DoctorHomeInitial.input(
+      doctorName: doctorName ?? super.doctorName,
+      doctorAvatarUrl: doctorAvatarUrl ?? super.doctorAvatarUrl,
+      appointments: appointments ?? super.appointments,
+      upcomingAppointmentIndex:
+          upcomingAppointmentIndex ?? super.upcomingAppointmentIndex,
+      upcomingCustomerName: upcomingCustomerName ?? super.upcomingCustomerName,
+      appointmentInDate: appointmentInDate ?? super.appointmentInDate,
+      selectedDate: selectedDate ?? super.selectedDate,
+    );
   }
 }
 
 final class DoctorScheduleViewState extends DoctorHomeState {
   const DoctorScheduleViewState({
-    required super.customerID,
-    required super.customerName,
+    required super.doctorName,
+    required super.doctorAvatarUrl,
+    required super.appointments,
+    required super.upcomingAppointmentIndex,
+    required super.upcomingCustomerName,
+    required super.appointmentInDate,
+    required super.selectedDate,
   });
     
-  factory DoctorScheduleViewState.fromState(
-    DoctorHomeState state, {
-    String? customerID,
-  }) {
+  factory DoctorScheduleViewState.fromState(DoctorHomeState state) {
     return DoctorScheduleViewState(
-      customerID: customerID ?? state.customerID,
-      customerName: state.customerName,
+      doctorName: state.doctorName,
+      doctorAvatarUrl: state.doctorAvatarUrl,
+      appointments: state.appointments,
+      upcomingAppointmentIndex: state.upcomingAppointmentIndex,
+      upcomingCustomerName: state.upcomingCustomerName,
+      appointmentInDate: state.appointmentInDate,
+      selectedDate: state.selectedDate,
     );
   }
 
   @override
   DoctorHomeState copyWith({
-    String? customerID,
-    String? customerName,
+    String? doctorName,
+    String? doctorAvatarUrl,
+    List<dynamic>? appointments,
+    int? upcomingAppointmentIndex,
+    String? upcomingCustomerName,
+    Map<String,List<dynamic>>? appointmentInDate,
+    DateTime? selectedDate,
   }) {
     return DoctorScheduleViewState(
-      customerID: customerID ?? this.customerID,
-      customerName: customerName ?? this.customerName,
+      doctorName: doctorName ?? this.doctorName,
+      doctorAvatarUrl: doctorAvatarUrl ?? this.doctorAvatarUrl,
+      appointments: appointments ?? this.appointments,
+      upcomingAppointmentIndex:
+          upcomingAppointmentIndex ?? this.upcomingAppointmentIndex,
+      upcomingCustomerName: upcomingCustomerName ?? this.upcomingCustomerName,
+      appointmentInDate: appointmentInDate ?? this.appointmentInDate,
+      selectedDate: selectedDate ?? this.selectedDate,
     );
   }
 }
 
 final class DoctorHomeViewLoadingState extends DoctorHomeState {
   const DoctorHomeViewLoadingState({
-    required super.customerID,
-    required super.customerName,
+    required super.doctorName,
+    required super.doctorAvatarUrl,
+    required super.appointments,
+    required super.upcomingAppointmentIndex,
+    required super.upcomingCustomerName,
+    required super.appointmentInDate,
+    required super.selectedDate,
   });
 
   factory DoctorHomeViewLoadingState.fromState(DoctorHomeState state) {
     return DoctorHomeViewLoadingState(
-      customerID: state.customerID,
-      customerName: state.customerName,
+      doctorName: state.doctorName,
+      doctorAvatarUrl: state.doctorAvatarUrl,
+      appointments: state.appointments,
+      upcomingAppointmentIndex: state.upcomingAppointmentIndex,
+      upcomingCustomerName: state.upcomingCustomerName,
+      appointmentInDate: state.appointmentInDate,
+      selectedDate: state.selectedDate,
     );
   }
 
   @override
   DoctorHomeState copyWith({
-    String? customerID,
-    String? customerName,
+    String? doctorName,
+    String? doctorAvatarUrl,
+    List<dynamic>? appointments,
+    int? upcomingAppointmentIndex,
+    String? upcomingCustomerName,
+    Map<String,List<dynamic>>? appointmentInDate,
+    DateTime? selectedDate,
   }) {
     return DoctorHomeViewLoadingState(
-      customerID: customerID ?? this.customerID,
-      customerName: customerName ?? this.customerName,
+      doctorName: doctorName ?? this.doctorName,
+      doctorAvatarUrl: doctorAvatarUrl ?? this.doctorAvatarUrl,
+      appointments: appointments ?? this.appointments,
+      upcomingAppointmentIndex:
+          upcomingAppointmentIndex ?? this.upcomingAppointmentIndex,
+      upcomingCustomerName: upcomingCustomerName ?? this.upcomingCustomerName,
+      appointmentInDate: appointmentInDate ?? this.appointmentInDate,
+      selectedDate: selectedDate ?? this.selectedDate,
     );
   }
 }
 
 final class DoctorScheduleViewLoadingState extends DoctorHomeState {
   const DoctorScheduleViewLoadingState({
-    required super.customerID,
-    required super.customerName,
+    required super.doctorName,
+    required super.doctorAvatarUrl,
+    required super.appointments,
+    required super.upcomingAppointmentIndex,
+    required super.upcomingCustomerName,
+    required super.appointmentInDate,
+    required super.selectedDate,
   });
 
   factory DoctorScheduleViewLoadingState.fromState(DoctorHomeState state) {
     return DoctorScheduleViewLoadingState(
-      customerID: state.customerID,
-      customerName: state.customerName,
+      doctorName: state.doctorName,
+      doctorAvatarUrl: state.doctorAvatarUrl,
+      appointments: state.appointments,
+      upcomingAppointmentIndex: state.upcomingAppointmentIndex,
+      upcomingCustomerName: state.upcomingCustomerName,
+      appointmentInDate: state.appointmentInDate,
+      selectedDate: state.selectedDate,
     );
   }
 
   @override
   DoctorHomeState copyWith({
-    String? customerID,
-    String? customerName,
+    String? doctorName,
+    String? doctorAvatarUrl,
+    List<dynamic>? appointments,
+    int? upcomingAppointmentIndex,
+    String? upcomingCustomerName,
+    Map<String,List<dynamic>>? appointmentInDate,
+    DateTime? selectedDate,
   }) {
     return DoctorScheduleViewLoadingState(
-      customerID: customerID ?? this.customerID,
-      customerName: customerName ?? this.customerName,
+      doctorName: doctorName ?? this.doctorName,
+      doctorAvatarUrl: doctorAvatarUrl ?? this.doctorAvatarUrl,
+      appointments: appointments ?? this.appointments,
+      upcomingAppointmentIndex:
+          upcomingAppointmentIndex ?? this.upcomingAppointmentIndex,
+      upcomingCustomerName: upcomingCustomerName ?? this.upcomingCustomerName,
+      appointmentInDate: appointmentInDate ?? this.appointmentInDate,
+      selectedDate: selectedDate ?? this.selectedDate,
     );
   }
 }
 
-// final class IntakeViewState extends DoctorHomeState {
-//   const IntakeViewState({
-//     required super.customerID,
-//     required super.customerName,
-//   });
+final class DoctorHomeLoadedSuccess extends DoctorHomeState {
+  const DoctorHomeLoadedSuccess({
+    required super.doctorName,
+    required super.doctorAvatarUrl,
+    required super.appointments,
+    required super.upcomingAppointmentIndex,
+    required super.upcomingCustomerName,
+    required super.appointmentInDate,
+    required super.selectedDate,
+  });
 
-//   factory IntakeViewState.fromState(DoctorHomeState state) {
-//     return IntakeViewState(
-//       customerID: state.customerID,
-//       customerName: state.customerName,
-//     );
-//   }
+  factory DoctorHomeLoadedSuccess.fromState(DoctorHomeState state) {
+    return DoctorHomeLoadedSuccess(
+      doctorName: state.doctorName,
+      doctorAvatarUrl: state.doctorAvatarUrl,
+      appointments: state.appointments,
+      upcomingAppointmentIndex: state.upcomingAppointmentIndex,
+      upcomingCustomerName: state.upcomingCustomerName,
+      appointmentInDate: state.appointmentInDate,
+      selectedDate: state.selectedDate,
+    );
+  }
 
-//   @override
-//   DoctorHomeState copyWith({
-//     String? customerID,
-//     String? customerName,
-//   }) {
-//     return IntakeViewState(
-//       customerID: customerID ?? this.customerID,
-//       customerName: customerName ?? this.customerName,
-//     );
-//   }
-// }
-
-// final class IntakeViewRatingResultState extends DoctorHomeState {
-//   const IntakeViewRatingResultState({
-//     required super.customerID,
-//     required super.customerName,
-//     required this.success,
-//   });
-
-//   factory IntakeViewRatingResultState.fromState({
-//     required DoctorHomeState state,
-//     required bool success,
-//   }) {
-//     return IntakeViewRatingResultState(
-//       customerID: state.customerID,
-//       customerName: state.customerName,
-//       success: success,
-//     );
-//   }
-
-//   final bool success;
-
-//   @override
-//   DoctorHomeState copyWith({
-//     String? customerID,
-//     String? customerName,
-//     bool? success,
-//   }) {
-//     return IntakeViewRatingResultState(
-//       customerID: customerID ?? this.customerID,
-//       customerName: customerName ?? this.customerName,
-//       success: success ?? this.success,
-//     );
-//   }
-// }
+  @override
+  DoctorHomeState copyWith({
+    String? doctorName,
+    String? doctorAvatarUrl,
+    List<dynamic>? appointments,
+    int? upcomingAppointmentIndex,
+    String? upcomingCustomerName,
+    Map<String,List<dynamic>>? appointmentInDate,
+    DateTime? selectedDate,
+  }) {
+    return DoctorHomeLoadedSuccess(
+      doctorName: doctorName ?? this.doctorName,
+      doctorAvatarUrl: doctorAvatarUrl ?? this.doctorAvatarUrl,
+      appointments: appointments ?? this.appointments,
+      upcomingAppointmentIndex:
+          upcomingAppointmentIndex ?? this.upcomingAppointmentIndex,
+      upcomingCustomerName: upcomingCustomerName ?? this.upcomingCustomerName,
+      appointmentInDate: appointmentInDate ?? this.appointmentInDate,
+      selectedDate: selectedDate ?? this.selectedDate,
+    );
+  }
+}

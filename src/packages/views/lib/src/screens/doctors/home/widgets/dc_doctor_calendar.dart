@@ -142,17 +142,19 @@ class DCDoctorCalendarColumn extends StatelessWidget {
         for (final date in dates)
           Padding(
             padding: const EdgeInsets.only(bottom: 10),
-            child: DCDoctorCalendarButton(
-              date: date,
-              onPressed: (context) {
-                context.read<DoctorHomeBloc>().add(
-                      DoctorHomeOpenDoctorScheduleViewEvent(date: date),
-                    );
+            child: BlocBuilder<DoctorHomeBloc, DoctorHomeState>(
+              builder: (context, state) {
+                String convertedDate = date.year.toString() + '-' + date.month.toString() + '-' + date.day.toString();
+                return DCDoctorCalendarButton(
+                  date: date,
+                  onPressed: (context) {
+                    context.read<DoctorHomeBloc>().add(
+                          DoctorHomeOpenDoctorScheduleViewEvent(date: date),
+                        );
+                  },
+                  available: state.appointmentInDate.containsKey(convertedDate),
+                );
               },
-              available: date.isAfter(
-                    DateTime.now(),
-                  ) ||
-                  (date.isBefore(DateTime.now()) && date.day.isEven),
             ),
           ),
       ],
@@ -176,8 +178,8 @@ class DCDoctorCalendarButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-       // if (available && !date.isBefore(DateTime.now()))
-         {
+        // if (available && !date.isBefore(DateTime.now()))
+        {
           onPressed(context);
         }
       },
@@ -196,14 +198,16 @@ class DCDoctorCalendarButton extends StatelessWidget {
         height: 50,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: date.isBefore(DateTime.now())
+          color: date.isBefore(DateTime.now().subtract(Duration(days: 1))) 
               ? available
                   ? const Color(0xFFFFD8DF).withOpacity(0.4)
                   : null
               : available
                   ? context.colorScheme.secondary
                   : null,
-          border: DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 0, 0, 0) == DateTime(date.year, date.month, date.day, 0, 0, 0)
+          border: DateTime(DateTime.now().year, DateTime.now().month,
+                      DateTime.now().day, 0, 0, 0) ==
+                  DateTime(date.year, date.month, date.day, 0, 0, 0)
               ? Border.all(
                   color: const Color(0xFF6B4EFF),
                   width: 2,
@@ -217,7 +221,7 @@ class DCDoctorCalendarButton extends StatelessWidget {
               date.day.toString(),
               style: context.textTheme.bodyRegularPoppins.copyWith(
                 fontSize: 14,
-                color: date.isBefore(DateTime.now())
+                color: date.isBefore(DateTime.now().subtract(Duration(days: 1)))
                     ? available
                         ? const Color(0xFFFF2D55).withOpacity(0.5)
                         : context.colorScheme.onSurface.withOpacity(0.5)
