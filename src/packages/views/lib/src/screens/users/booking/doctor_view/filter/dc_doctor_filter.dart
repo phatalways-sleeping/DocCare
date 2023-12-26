@@ -1,5 +1,4 @@
 import 'package:components/components.dart';
-import 'package:controllers/controllers.dart';
 import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -33,9 +32,8 @@ class _DCDoctorFilterScreenState extends State<DCDoctorFilterScreen> {
   }
 
   Future<void> _fetchSpecialties() async {
-    final customerRepositoryService = SupabaseCustomerRepository();
     final fetchedSpecialties =
-        await customerRepositoryService.getDoctorSpecialization();
+        await context.read<DoctorViewBloc>().getDoctorSpecialization();
 
     if (mounted) {
       setState(() {

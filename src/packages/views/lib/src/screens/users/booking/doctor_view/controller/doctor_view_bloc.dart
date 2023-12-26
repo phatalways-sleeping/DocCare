@@ -26,6 +26,9 @@ class DoctorViewBloc extends Bloc<DoctorViewEvent, DoctorViewState> {
 
   final CustomerRepositoryService _customerRepositoryService;
 
+  Future<List<String>> getDoctorSpecialization() =>
+      _customerRepositoryService.getDoctorSpecialization();
+
   Future<List<String>> getAvailableAppointmentTimes(
     String doctorID,
     DateTime date,
@@ -42,8 +45,6 @@ class DoctorViewBloc extends Bloc<DoctorViewEvent, DoctorViewState> {
         return formattedTime;
       },
     ).toList();
-
-    print('Appointment at: $appointmentTimes');
 
     return appointmentTimes;
   }

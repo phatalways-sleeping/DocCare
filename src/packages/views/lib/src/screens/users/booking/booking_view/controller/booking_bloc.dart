@@ -72,6 +72,9 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     );
   }
 
+  Future<List<String>> getDoctorSpecialization() =>
+      _customerRepositoryService.getDoctorSpecialization();
+
   Future<void> _onBookingConfirmEvent(
     BookingConfirmEvent event,
     Emitter<BookingState> emit,

@@ -191,20 +191,9 @@ class _DCBookingWithDoctorScreenState extends State<DCBookingWithDoctorScreen> {
                         .keys
                         .isEmpty) ...[
                       DCSpecialityButton(
-                        future: Future.delayed(
-                          const Duration(seconds: 2),
-                          () => [
-                            'General Physician',
-                            'Dentist',
-                            'Cardiologist',
-                            'Dermatologist',
-                            'Gynecologist',
-                            'Neurologist',
-                            'Pediatrician',
-                            'Psychiatrist',
-                            'Urologist',
-                          ],
-                        ),
+                        future: context
+                            .read<BookingBloc>()
+                            .getDoctorSpecialization(),
                       ),
                       const SizedBox(
                         height: 10,
