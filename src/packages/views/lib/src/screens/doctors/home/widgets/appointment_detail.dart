@@ -40,27 +40,33 @@ class AppointmentDetailsWidget extends StatelessWidget {
                   return DCButton(
                     text: 'Cancel',
                     textSize: 10,
-                    backgroundColor: context.colorScheme.error,
+                    backgroundColor: state.upcomingAppointmentIndex == -1
+                        ? context.colorScheme.quinary
+                        : context.colorScheme.error,
                     heightFactor: 0.02,
                     widthFactor: 0.2,
-                    onPressed: (context) {
-                    
+                    onPressed: (acontext) {
+                      if (state.upcomingAppointmentIndex == -1) {
+                        return;
+                      }
                       showDialog(
                         context: context,
                         builder: (acontext) => DCPopupDoctorCancel(
                             boldMessage: 'Are you sure?',
                             message: 'Your patients need you!',
-                            onCancelButtonClicked: (context) {
-                               // Close the dialog
-                               Navigator.of(context).pop();
+                            onCancelButtonClicked: (acontext) {
+                              // Close the dialog
+                              Navigator.of(context).pop();
                             },
-                            onConfirmButtonClicked: (context) {
-                              // remove the appointment
-                              context.read<DoctorHomeBloc>().add(
-                                    DoctorHomeOpenCancelAppointmentViewEvent(
-                                     
-                                    ),
-                                  );
+                            onConfirmButtonClicked: (acontext) {
+                              //remove the appointment
+                              Navigator.of(context).pop();
+
+                              BlocProvider.of<DoctorHomeBloc>(context).add(
+                                DoctorHomeOpenCancelAppointmentViewEvent(
+                                    appointment: state.appointments[
+                                        state.upcomingAppointmentIndex]),
+                              );
                             }),
                       );
                     },

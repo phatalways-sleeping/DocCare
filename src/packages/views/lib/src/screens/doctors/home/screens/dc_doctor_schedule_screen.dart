@@ -146,7 +146,6 @@ class _DCDoctorScheduleScreenState extends State<DCDoctorScheduleScreen> {
                             future: futureAppointments,
                             isDone: false,
                             isPast: false,
-
                             //medicine: true,
                           )
                         : Container()
