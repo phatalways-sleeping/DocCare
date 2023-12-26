@@ -148,7 +148,7 @@ class DCPrescriptionItem extends StatelessWidget {
                     top: 3,
                   ),
                   child: RoundCheckBox(
-                    checkedColor: color,
+                    checkedColor: context.colorScheme.secondary,
                     isChecked: isDone,
                     animationDuration: const Duration(
                       milliseconds: 200,

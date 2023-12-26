@@ -47,35 +47,23 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
     return results;
   }
 
-  Future<List<Map<String, dynamic>>> getLatestMedicines() => Future.delayed(
-        const Duration(seconds: 3),
-        () => [
-          {
-            'medicineName': 'Ranitidine',
-            'quantity': 1,
-            'toBeTaken': 0,
-            'time': 'Morning,Afternoon,Evening',
-          },
-          {
-            'medicineName': 'Esomeprazole',
-            'quantity': 1,
-            'toBeTaken': 1,
-            'time': 'Morning',
-          },
-        ],
-      );
+  Future<List<Map<String, dynamic>>> getLatestMedicines(
+    String prescriptionID,
+  ) async {
+    final results = await _customerRepositoryService
+        .getCurrentPrescriptionMedicines(prescriptionID);
 
-  Future<List<Map<String, dynamic>>> getPastMedicines() => Future.delayed(
-        const Duration(seconds: 3),
-        () => [
-          {
-            'medicineName': 'Ranitidine',
-            'quantity': 1,
-            'toBeTaken': 0,
-            'time': 'Morning,Afternoon,Evening',
-          },
-        ],
-      );
+    return results;
+  }
+
+  Future<List<Map<String, dynamic>>> getPastMedicines(
+    String prescriptionID,
+  ) async {
+    final results = await _customerRepositoryService
+        .getPastPrescriptionMedicines(prescriptionID);
+
+    return results;
+  }
 
   void _onPrescriptionResetEvent(
     PrescriptionResetEvent event,

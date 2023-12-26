@@ -106,9 +106,14 @@ class SupabaseCustomerRepository implements CustomerRepositoryService {
         'prescription_id': prescriptionId,
         'is_done': false,
       },
-    ).onError((error, stackTrace) => []) as List<dynamic>;
+    ).onError((error, stackTrace) {
+      //print(error);
+      return [];
+    }) as List<dynamic>;
 
     final results = _convertMedicineData(response);
+
+    print(results);
 
     return results;
   }
@@ -147,9 +152,12 @@ class SupabaseCustomerRepository implements CustomerRepositoryService {
       'get_med_of_prescriptions',
       params: {
         'prescription_id': prescriptionId,
-        'is_done': false,
+        'is_done': true,
       },
-    ).onError((error, stackTrace) => []) as List<dynamic>;
+    ).onError((error, stackTrace) {
+      //print(error);
+      return [];
+    }) as List<dynamic>;
 
     final results = _convertMedicineData(response);
 

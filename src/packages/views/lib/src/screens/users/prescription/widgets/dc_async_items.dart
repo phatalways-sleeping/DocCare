@@ -1,5 +1,5 @@
 // ignore_for_file: public_member_api_docs
-
+import 'dart:math';
 import 'package:components/components.dart';
 import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +26,16 @@ class DCAsyncItems extends StatefulWidget {
 class _DCAsyncItemsState extends State<DCAsyncItems> {
   @override
   Widget build(BuildContext context) {
+    //Color list
+    final List<Color> _colors = [
+      context.colorScheme.error,
+      context.colorScheme.secondary,
+      context.colorScheme.primary,
+      context.colorScheme.secondary,
+    ];
+
+    var rng = Random();
+
     return FutureBuilder<List<Map<String, dynamic>>>(
       future: widget.future,
       builder: (context, snapshot) {
@@ -57,7 +67,8 @@ class _DCAsyncItemsState extends State<DCAsyncItems> {
                         bottomLeft: Text(
                           e['date'].toString().substring(0, 10),
                         ),
-                        color: context.colorScheme.error,
+                        //Color is random
+                        color: _colors[rng.nextInt(_colors.length)],
                         onSelected: (context) =>
                             context.read<PrescriptionBloc>().add(
                                   PrescriptionCheckEvent(
@@ -80,7 +91,7 @@ class _DCAsyncItemsState extends State<DCAsyncItems> {
                         bottomLeft: Text(
                           (e['timeOfTheDay'] as String).split(',').join(', '),
                         ),
-                        color: context.colorScheme.error,
+                        color: _colors[rng.nextInt(_colors.length)],
                         onSelected: (context) =>
                             context.read<PrescriptionBloc>().add(
                                   MedicineCheckEvent(
