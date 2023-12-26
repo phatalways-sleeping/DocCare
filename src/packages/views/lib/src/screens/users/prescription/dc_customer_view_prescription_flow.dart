@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs
 
+import 'package:components/components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:models/models.dart';
@@ -31,11 +32,23 @@ class _DCCustomerViewPrescriptionFlowState
       ),
       child: BlocConsumer<PrescriptionBloc, PrescriptionState>(
         key: widget.navigatorKey,
-        listener: (context, state) {},
+        listener: (context, state) {
+          //No provider at the time listener is called. To be fixed
+
+          // if (state is IntakeViewState) {
+          //   showDialog(
+          //     context: context,
+          //     builder: (context) => DCPopUpRating(
+          //       prescriptionId: state.prescriptionId,
+          //     ),
+          //   );
+          // }
+        },
         builder: (context, state) {
           if (state is PrescriptionViewState ||
-              state is PrescriptionViewLoadingState ||
               state is IntakeViewState ||
+              state is IntakeViewRatingResultState ||
+              state is PrescriptionViewLoadingState ||
               state is IntakeViewRatingResultState) {
             return const DCPrescriptionScreen();
           } else if (state is MedicinesViewState ||

@@ -26,13 +26,13 @@ class SupabaseAppointmentApiService
   Future<void> deleteAppointmentByDoctorId(String doctorId) => supabase
       .from('appointment')
       .delete()
-      .eq('doctorId', doctorId)
+      .eq('doctorID', doctorId)
       .onError((error, stackTrace) => throw Exception(error));
 
   Future<void> deleteAppointmentByCustomerId(String customerId) => supabase
       .from('appointment')
       .delete()
-      .eq('customerId', customerId)
+      .eq('customerID', customerId)
       .onError((error, stackTrace) => throw Exception(error));
 
   @override
@@ -40,7 +40,7 @@ class SupabaseAppointmentApiService
       supabase
           .from('appointment')
           .select<PostgrestList>()
-          .eq('doctorId', doctorId)
+          .eq('doctorID', doctorId)
           .then(
             (value) => value.isEmpty
                 ? throw Exception(
@@ -57,14 +57,17 @@ class SupabaseAppointmentApiService
       supabase
           .from('appointment')
           .select<PostgrestList>()
-          .eq('customerId', customerId)
+          .eq('customerID', customerId)
           .then((value) => value.isEmpty
               ? throw Exception(
                   'Error from getAppointmentsByCustomerId: No appointments found with customerId $customerId')
               : value.map(Appointment.fromJson).toList())
           .onError(
-            (error, stackTrace) => throw Exception(error),
-          );
+        (error, stackTrace) {
+          print(error);
+          throw Exception(error);
+        },
+      );
 
   @override
   Future<List<Appointment>> getAppointmentsByDate(DateTime date) => supabase

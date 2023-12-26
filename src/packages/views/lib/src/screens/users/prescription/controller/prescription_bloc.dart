@@ -65,6 +65,15 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
     return results;
   }
 
+  Future<Map<String, dynamic>> getCurrentPrescriptions(
+    String prescriptionID,
+  ) async {
+    final results =
+        await _customerRepositoryService.getPrescriptionData(prescriptionID);
+
+    return results;
+  }
+
   void _onPrescriptionResetEvent(
     PrescriptionResetEvent event,
     Emitter<PrescriptionState> emit,
@@ -144,11 +153,11 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
     OpenIntakeViewEvent event,
     Emitter<PrescriptionState> emit,
   ) {
-    if (state is! MedicinesViewState) {
+    if (state is! PrescriptionViewState) {
       return emit(PrescriptionViewState.initial());
     }
     emit(
-      IntakeViewState.fromState(state),
+      IntakeViewState.fromState(state, event.prescriptionId),
     );
   }
 

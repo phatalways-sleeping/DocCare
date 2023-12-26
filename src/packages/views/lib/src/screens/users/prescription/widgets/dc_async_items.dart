@@ -5,6 +5,7 @@ import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:views/src/screens/users/prescription/controller/prescription_bloc.dart';
+import 'package:views/src/screens/users/prescription/widgets/dc_async_pop_up.dart';
 import 'package:views/src/screens/users/prescription/widgets/dc_prescription_item.dart';
 
 class DCAsyncItems extends StatefulWidget {
@@ -75,12 +76,26 @@ class _DCAsyncItemsState extends State<DCAsyncItems> {
                                     prescriptionId: e['id'] as String,
                                   ),
                                 ),
+                        onLongPressed: (context) => {
+                          //Move state to IntakeRating, has problem with how the dialog is shown
+                          showDialog(
+                            context: context,
+                            builder: (bcontext) => DCAsyncPopUp(
+                              future: context
+                                  .read<PrescriptionBloc>()
+                                  .getCurrentPrescriptions(
+                                    e['id'] as String,
+                                  ),
+                            ),
+                          ),
+                        },
                         onPressed: (context) =>
                             context.read<PrescriptionBloc>().add(
                                   PrescriptionOpenMedicinesViewEvent(
                                     prescriptionId: e['id'] as String,
                                   ),
                                 ),
+
                         bottomRight: Text(
                           e['note'] as String,
                         ),
@@ -98,6 +113,7 @@ class _DCAsyncItemsState extends State<DCAsyncItems> {
                                     medineName: e['medicineName'] as String,
                                   ),
                                 ),
+                        onLongPressed: (context) => {},
                         onPressed: (context) {},
                         bottomRight: Text(
                           '${e['quantity']} pills - ${e['toBeTaken'] as int == 0 ? 'Before meal' : 'After meal'}',

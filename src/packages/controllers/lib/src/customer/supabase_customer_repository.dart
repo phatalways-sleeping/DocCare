@@ -1,5 +1,7 @@
 // ignore_for_file: public_member_api_docs
 
+import 'dart:ffi';
+
 import 'package:controllers/src/customer/customer_repository_service.dart';
 import 'package:flutter/widgets.dart';
 import 'package:models/models.dart';
@@ -23,6 +25,16 @@ class SupabaseCustomerRepository implements CustomerRepositoryService {
 
   final SupabaseIntakeAPIService _supabaseIntakeApiService =
       SupabaseIntakeAPIService(
+    supabase: Supabase.instance.client,
+  );
+
+  final SupabaseAppointmentApiService _supabaseAppointmentApiService =
+      SupabaseAppointmentApiService(
+    supabase: Supabase.instance.client,
+  );
+
+  final SupabaseDoctorApiService _supabaseDoctorApiService =
+      SupabaseDoctorApiService(
     supabase: Supabase.instance.client,
   );
 
@@ -107,13 +119,10 @@ class SupabaseCustomerRepository implements CustomerRepositoryService {
         'is_done': false,
       },
     ).onError((error, stackTrace) {
-      //print(error);
       return [];
     }) as List<dynamic>;
 
     final results = _convertMedicineData(response);
-
-    print(results);
 
     return results;
   }
@@ -155,7 +164,6 @@ class SupabaseCustomerRepository implements CustomerRepositoryService {
         'is_done': true,
       },
     ).onError((error, stackTrace) {
-      //print(error);
       return [];
     }) as List<dynamic>;
 
@@ -191,21 +199,42 @@ class SupabaseCustomerRepository implements CustomerRepositoryService {
   Future<Map<String, dynamic>> getPrescriptionData(
     String prescriptionId,
   ) async {
+    print('Data from getPrescriptionData: $prescriptionId');
     final medicinesData = await Supabase.instance.client.rpc(
       'get_med_of_prescriptions',
       params: {
         'prescription_id': prescriptionId,
         'is_done': null,
       },
-    ).onError((error, stackTrace) => []) as List<dynamic>;
+    ).onError(
+      (error, stackTrace) {
+        return [];
+      },
+    ) as List<dynamic>;
 
     final medicines = _convertMedicineData(medicinesData);
 
-    final prescription = await _supabasePrescriptionApiService
-        .getPrescriptionByID(prescriptionId);
+    final prescription = await _supabaseAppointmentApiService
+        .getAppointmentsByCustomerId(_customerId);
+
+    final result = prescription.firstWhere(
+      (element) => element.prescriptionID == prescriptionId,
+      orElse: () => throw Exception(
+        'Error from getPrescriptionData: No prescription found with id $prescriptionId',
+      ),
+    );
+
+    //Get doctor name
+    final doctor = await _supabaseDoctorApiService
+        .getUser(result.doctorID)
+        .onError((error, stackTrace) => throw Exception(error));
+
+    //Turn result to json, replace doctorID with doctor name
+    final resultJson = result.toJson();
+    resultJson['doctorID'] = doctor.fullname;
 
     return {
-      ...prescription.toJson(),
+      ...resultJson,
       'medicines': medicines,
     };
   }
