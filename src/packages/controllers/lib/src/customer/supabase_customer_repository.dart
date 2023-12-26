@@ -199,7 +199,6 @@ class SupabaseCustomerRepository implements CustomerRepositoryService {
   Future<Map<String, dynamic>> getPrescriptionData(
     String prescriptionId,
   ) async {
-    print('Data from getPrescriptionData: $prescriptionId');
     final medicinesData = await Supabase.instance.client.rpc(
       'get_med_of_prescriptions',
       params: {
@@ -231,7 +230,7 @@ class SupabaseCustomerRepository implements CustomerRepositoryService {
 
     //Turn result to json, replace doctorID with doctor name
     final resultJson = result.toJson();
-    resultJson['doctorID'] = doctor.fullname;
+    resultJson['doctorName'] = doctor.fullname;
 
     return {
       ...resultJson,
@@ -240,14 +239,22 @@ class SupabaseCustomerRepository implements CustomerRepositoryService {
   }
 
   @override
-  Future<void> ratePrescription(String prescriptionId, int rating) async {
+  Future<void> ratePrescription(
+    int period,
+    String doctorId,
+    String date,
+    int rating,
+  ) async {
     // Prescription relation has not been added with rating yet
     // Currently, rating is in appointment table with
     // primary key is customer_id and doctor_id and date and period
     // So, we need to update rating in appointment table
-    await _supabasePrescriptionApiService
-        .updatePrescriptionRating(
-          prescriptionId,
+    await _supabaseAppointmentApiService
+        .updateRating(
+          period,
+          _customerId,
+          doctorId,
+          date,
           rating,
         )
         .onError((error, stackTrace) => debugPrint(error.toString()));

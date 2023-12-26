@@ -76,9 +76,9 @@ class _DCAsyncItemsState extends State<DCAsyncItems> {
                                     prescriptionId: e['id'] as String,
                                   ),
                                 ),
-                        onLongPressed: (context) => {
+                        onLongPressed: (context) async {
                           //Move state to IntakeRating, has problem with how the dialog is shown
-                          showDialog(
+                          final results = await showDialog<int>(
                             context: context,
                             builder: (bcontext) => DCAsyncPopUp(
                               future: context
@@ -87,7 +87,11 @@ class _DCAsyncItemsState extends State<DCAsyncItems> {
                                     e['id'] as String,
                                   ),
                             ),
-                          ),
+                          );
+
+                          if (results != null) {
+                            print(results);
+                          }
                         },
                         onPressed: (context) =>
                             context.read<PrescriptionBloc>().add(

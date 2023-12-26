@@ -164,5 +164,21 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
   void _onIntakeRatingEvent(
     IntakeRatingEvent event,
     Emitter<PrescriptionState> emit,
-  ) {}
+  ) async {
+    if (state is! IntakeViewState) {
+      return emit(PrescriptionViewState.initial());
+    }
+
+    final results = await _customerRepositoryService
+        .getPrescriptionData(event.prescriptionId);
+
+    await _customerRepositoryService.ratePrescription(
+      int.parse(results['period'].toString()),
+      results['doctorID'].toString(),
+      results['date'].toString(),
+      event.rating,
+    );
+
+    emit(PrescriptionViewState.initial());
+  }
 }

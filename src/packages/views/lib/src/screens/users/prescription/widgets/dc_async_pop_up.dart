@@ -56,8 +56,8 @@ class _DCAsyncPopUpState extends State<DCAsyncPopUp> {
             //List of medicines to string
             medicinesMessage: medicineMessage,
             noteMessage: snapshot.data!['note'].toString(),
-            doctorName: snapshot.data!['doctorID'].toString(),
-            onReviewButtonClicked: (context) => {print('Here')},
+            doctorName: snapshot.data!['doctorName'].toString(),
+            onConfirmButtonClicked: (context) => {Navigator.pop(context)},
           );
         } else if (snapshot.hasError) {
           return ElevatedButton(

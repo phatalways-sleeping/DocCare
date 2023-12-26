@@ -23,7 +23,12 @@ abstract interface class CustomerRepositoryService {
     DateTime? birthday,
   });
 
-  Future<void> ratePrescription(String prescriptionId, int rating);
+  Future<void> ratePrescription(
+    int period,
+    String doctorId,
+    String date,
+    int rating,
+  );
 
   Future<void> togglePrescription(
     String prescriptionId, {

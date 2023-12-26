@@ -62,11 +62,13 @@ final class OpenIntakeViewEvent extends PrescriptionEvent {
 
 final class IntakeRatingEvent extends PrescriptionEvent {
   const IntakeRatingEvent({
+    required this.prescriptionId,
     required this.rating,
   });
 
   final int rating;
+  final String prescriptionId;
 
   @override
-  List<Object?> get props => [rating];
+  List<Object?> get props => [rating, prescriptionId];
 }
