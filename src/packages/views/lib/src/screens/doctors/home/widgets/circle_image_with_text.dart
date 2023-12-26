@@ -20,7 +20,6 @@ class CircleImageWithText extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         CircleAvatar(
-          
           radius: 25,
           backgroundImage: NetworkImage(imagePath),
         ),
@@ -28,30 +27,27 @@ class CircleImageWithText extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-
             DefaultTextStyle.merge(
-              style: context.textTheme.h2BoldPoppins.copyWith(
-                fontSize: 12,
-                fontWeight: FontWeight.w100,
-                color: context.colorScheme.quinary,
-              ),
-              textAlign: TextAlign.left,
-              child:  Text(
-                welcomeText,
-              )),
-            
+                style: context.textTheme.h2BoldPoppins.copyWith(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w100,
+                  color: context.colorScheme.quinary,
+                ),
+                textAlign: TextAlign.left,
+                child: Text(
+                  welcomeText,
+                )),
             SizedBox(height: 8),
-
             DefaultTextStyle.merge(
-              style: context.textTheme.h2BoldPoppins.copyWith(
-                fontSize: 15,
-                fontWeight: FontWeight.bold,
-                color: context.colorScheme.onSecondary,
-              ),
-              textAlign: TextAlign.left,
-              child:  Text(
-                name,
-              )),
+                style: context.textTheme.h2BoldPoppins.copyWith(
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                  color: context.colorScheme.onSecondary,
+                ),
+                textAlign: TextAlign.left,
+                child: Text(
+                  name,
+                )),
           ],
         ),
       ],

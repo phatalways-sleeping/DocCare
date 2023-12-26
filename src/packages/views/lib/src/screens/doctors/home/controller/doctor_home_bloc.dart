@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:controllers/controllers.dart';
 import 'package:models/models.dart';
-import 'dart:async';
 import 'package:utility/utility.dart';
 
 part 'doctor_home_event.dart';
@@ -33,25 +32,33 @@ class DoctorHomeBloc extends Bloc<DoctorHomeEvent, DoctorHomeState> {
     Emitter<DoctorHomeState> emit,
   ) async {
     try {
+
       // remove this 2 lines when login is done and doctor id is passed from login screen
       final id = 'D001';
       _doctorRepositoryService!.initializeDoctorId(id);
+
+
+
       final List<dynamic> appointments =
           await _doctorRepositoryService!.getAppointmentsByDoctorId();
       final dynamic profileData =
           await _doctorRepositoryService!.getProfileData();
       final String doctorName = profileData['fullName'];
+
+
       // get doctor name after changing the doctor table in the database
       // final String doctorAvatarUrl = profileData['imgPath'];
       // just hard code for now
       final String doctorAvatarUrl =
           'https://pics.craiyon.com/2023-07-05/a8e9e1290f08447bb300681ce2b563e9.webp';
+
+
       int upcomingAppointmentIndex = -1;
-      String upcomingCustomerName = '';
-      //final DateTime DateTimeNow = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 0, 0, 0);
+      String upcomingCustomerName = '';      
       Map<String, List<dynamic>> appointmentMap = {};
       // get the index of the upcoming appointment, which is after current time and closest to current time
       // also map the appointments to each date
+
       for (int i = 0; i < appointments.length; i++) {
         if (appointments[i]['isCanceled'] == true) continue;
         DateTime tmp = DateTime.parse(appointments[i]['date']);
@@ -60,7 +67,7 @@ class DoctorHomeBloc extends Bloc<DoctorHomeEvent, DoctorHomeState> {
         int minute = (appointments[i]['period'].toInt() % 2) * 30;
         DateTime exactTime =
             DateTime(tmp.year, tmp.month, tmp.day, hour, minute, 0);
-            
+
         if (exactTime.isAfter(DateTime.now()) ||
             exactTime.isAtSameMomentAs(DateTime.now())) {
           if (upcomingAppointmentIndex == -1 ||
@@ -78,38 +85,17 @@ class DoctorHomeBloc extends Bloc<DoctorHomeEvent, DoctorHomeState> {
             tmp.month.toString() +
             '-' +
             tmp.day.toString();
-        // Check if the key exists in the appointmentMap
         if (appointmentMap.containsKey(convertedDate)) {
-          // If the key exists, add the appointment to the existing list
           appointmentMap[convertedDate]!.add(appointments[i]);
         } else {
-          // If the key doesn't exist, create a new list with the appointment and assign it to the key
           appointmentMap[convertedDate] = [appointments[i]];
         }
       }
-      // get the customer name of the upcoming appointment
       if (upcomingAppointmentIndex != -1) {
-        // GET THE CUSTOMER NAME AFTER CHANGING THE APPOINTMENT TABLE IN THE DATABASE
         upcomingCustomerName =
             appointments[upcomingAppointmentIndex]['customerName'];
       } else
         upcomingCustomerName = 'no appointment';
-      // this is for debuging later:
-
-      // print("this is for debug in doctor home bloc");
-      // print(appointments.toString());
-      // print(doctorName);
-      // print(doctorAvatarUrl);
-      // print(DateTime.parse(appointments[0]['date']));
-      // print(DateTime.parse(appointments[0]['date']).runtimeType);
-      // print('appointments');
-      // print(appointments);
-      // print('appointmentMap');
-      // print(appointmentMap);
-      // print('upcomingCustomerName');
-      // print(upcomingCustomerName);
-      // print('upcomingAppointmentIndex');
-      // print(upcomingAppointmentIndex);
 
       emit(
         DoctorHomeLoadedSuccess(
@@ -149,34 +135,6 @@ class DoctorHomeBloc extends Bloc<DoctorHomeEvent, DoctorHomeState> {
     emit(DoctorHomeInitial.from(state));
   }
 
-  // Future<void> _onPrescriptionCheckEvent(
-  //   PrescriptionCheckEvent event,
-  //   Emitter<DoctorHomeState> emit,
-  // ) async {
-  //   if (state is PrescriptionViewLoadingState) {
-  //     return;
-  //   }
-  //   if (state is! DoctorHomeViewState) {
-  //     return emit(DoctorHomeViewState.initial());
-  //   }
-  //   try {
-  //     emit(PrescriptionViewLoadingState.fromState(state));
-
-  //     await Future.delayed(const Duration(seconds: 1), () {}); // Mock delay
-
-  //     // throw Exception('Error');
-
-  //     emit(DoctorHomeViewState.initial());
-  //   } catch (error) {
-  //     emit(DoctorHomeViewState.initial());
-  //     await _notificationManagerService.show<void>(
-  //       NotificationType.error,
-  //       title: const Text('Error'),
-  //       message: const Text('An error occured while loading the prescription.'),
-  //     );
-  //   }
-  // }
-
   void _onDoctorHomeOpenDoctorScheduleViewEvent(
     DoctorHomeOpenDoctorScheduleViewEvent event,
     Emitter<DoctorHomeState> emit,
@@ -198,39 +156,24 @@ class DoctorHomeBloc extends Bloc<DoctorHomeEvent, DoctorHomeState> {
     DoctorHomeOpenCancelAppointmentViewEvent event,
     Emitter<DoctorHomeState> emit,
   ) async {
-   try {
-      // remove this 2 lines when login is done and doctor id is passed from login screen
-      if (state.upcomingAppointmentIndex != 1)
-       await _doctorRepositoryService!.cancelAppointment(
-        Appointment(
-          customerID : state.appointments[state.upcomingAppointmentIndex]['customerID'],
-          doctorID : state.appointments[state.upcomingAppointmentIndex]['doctorID'],
-          period : state.appointments[state.upcomingAppointmentIndex]['period'],
-          date : state.appointments[state.upcomingAppointmentIndex]['date'],
-          rating : state.appointments[state.upcomingAppointmentIndex]['rating'],
-          customerComment : state.appointments[state.upcomingAppointmentIndex]['customerComment'],
-          prescriptionID : state.appointments[state.upcomingAppointmentIndex]['prescriptionID'],
-          dateDone : state.appointments[state.upcomingAppointmentIndex]['dateDone'],
-          done : state.appointments[state.upcomingAppointmentIndex]['done'],
-          note : state.appointments[state.upcomingAppointmentIndex]['note'],
-          diagnosis : state.appointments[state.upcomingAppointmentIndex]['diagnosis'],
-          isCanceled : true,
-        ));
-      // get doctor name after changing the doctor table in the database
-      // final String doctorAvatarUrl = profileData['imgPath'];
-      // just hard code for now
-      
-      emit(
-        DoctorHomeLoadedSuccess(
-          doctorName: state.doctorName,
-          doctorAvatarUrl: state.doctorAvatarUrl,
-          appointments: state.appointments,
-          upcomingAppointmentIndex: state.upcomingAppointmentIndex,
-          upcomingCustomerName: state.upcomingCustomerName,
-          appointmentInDate: state.appointmentInDate,
-          selectedDate: state.selectedDate,
-        ),
+    try {
+      Appointment appointment = Appointment(
+        customerID: event.appointment['customerID'],
+        doctorID: event.appointment['doctorID'],
+        period: event.appointment['period'],
+        date: DateTime.parse(event.appointment['date']),
+        rating: event.appointment['rating'],
+        customerComment: event.appointment['customerComment'],
+        prescriptionID: event.appointment['prescriptionID'],
+        dateDone: event.appointment['dateDone'],
+        done: event.appointment['done'],
+        note: event.appointment['note'],
+        diagnosis: event.appointment['diagnosis'],
+        isCanceled: true,
+        customerName: event.appointment['customerName'],
       );
+      await _doctorRepositoryService!.cancelAppointment(appointment);
+      emit(DoctorHomeInitial.from(state));
     } catch (e) {
       await _notificationManagerService.show<void>(
         _navigatorKey.currentContext!,
@@ -250,6 +193,4 @@ class DoctorHomeBloc extends Bloc<DoctorHomeEvent, DoctorHomeState> {
       );
     }
   }
-
-
 }

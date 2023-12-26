@@ -27,9 +27,13 @@ final class DoctorHomeOpenDoctorScheduleViewEvent extends DoctorHomeEvent {
 }
 
 final class DoctorHomeOpenCancelAppointmentViewEvent extends DoctorHomeEvent {
-  const DoctorHomeOpenCancelAppointmentViewEvent();
+
+  const DoctorHomeOpenCancelAppointmentViewEvent({
+    required this.appointment,}
+  );
+  final dynamic appointment;
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [appointment];
 }
 final class DoctorHomeLoadEvent extends DoctorHomeEvent {
   const DoctorHomeLoadEvent();

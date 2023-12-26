@@ -48,7 +48,7 @@ class DCPopupDoctorCancel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //Center everything in the middle column using Alert Dialog
-
+    //onCancelButtonClicked?.call(context);
     return BasePopup(
       message: [
         DefaultTextStyle.merge(
@@ -92,9 +92,9 @@ class DCPopupDoctorCancel extends StatelessWidget {
         ),
       ),
       onCancelButtonClicked: (context) =>
-          onCancelButtonClicked ?? Navigator.of(context).pop(),
+          onCancelButtonClicked == null ? Navigator.of(context).pop() : onCancelButtonClicked?.call(context),
       onConfirmButtonClicked: (context) =>
-          onConfirmButtonClicked ?? Navigator.of(context).pop(),
+          onConfirmButtonClicked == null ? Navigator.of(context).pop() : onConfirmButtonClicked?.call(context),
       iconBackgroundColor:
           const Color.fromRGBO(231, 248, 242, 1), //Add to color scheme later
     );

@@ -143,7 +143,7 @@ void runDocCare() => runApp(
                 );
               case '/doctor/home':
                 return MaterialPageRoute(
-                  builder: (context) => const SizedBox.shrink(),
+                  builder: (context) => DCDoctorHomeFlow(navigatorKey: GlobalKey<NavigatorState>()),
                 );
               case '/doctor/message':
                 return MaterialPageRoute(

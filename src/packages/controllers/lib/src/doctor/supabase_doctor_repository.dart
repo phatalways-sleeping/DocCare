@@ -56,7 +56,6 @@ class SupabaseDoctorRepository implements DoctorRepositoryService {
     for (final appointment in response) {
       result.add(appointment.toJson());
     }
-    print(result);
     return result;
   }
 

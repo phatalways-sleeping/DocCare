@@ -144,7 +144,11 @@ class DCDoctorCalendarColumn extends StatelessWidget {
             padding: const EdgeInsets.only(bottom: 10),
             child: BlocBuilder<DoctorHomeBloc, DoctorHomeState>(
               builder: (context, state) {
-                String convertedDate = date.year.toString() + '-' + date.month.toString() + '-' + date.day.toString();
+                String convertedDate = date.year.toString() +
+                    '-' +
+                    date.month.toString() +
+                    '-' +
+                    date.day.toString();
                 return DCDoctorCalendarButton(
                   date: date,
                   onPressed: (context) {
@@ -178,7 +182,6 @@ class DCDoctorCalendarButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        // if (available && !date.isBefore(DateTime.now()))
         {
           onPressed(context);
         }
@@ -186,19 +189,12 @@ class DCDoctorCalendarButton extends StatelessWidget {
       highlightColor: Colors.white,
       splashColor: Colors.white,
       child:
-          // BlocBuilder<DoctorHomeBloc, DoctorHomeState>(
-          //   buildWhen: (previous, current) =>
-          //       previous.date != current.dateSelected,
-          //   builder: (context, state) {
-          //     final dateSelected = state.dateSelected;
-          //     final withoutDoctor = state.doctorData.isEmpty;
-          //    return
           Container(
         width: 50,
         height: 50,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: date.isBefore(DateTime.now().subtract(Duration(days: 1))) 
+          color: date.isBefore(DateTime.now().subtract(Duration(days: 1)))
               ? available
                   ? const Color(0xFFFFD8DF).withOpacity(0.4)
                   : null

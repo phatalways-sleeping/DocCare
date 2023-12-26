@@ -177,7 +177,7 @@ class BasePopup extends StatelessWidget {
                       }
                       if (index.isEven || onConfirmButtonClicked == null) {
                         onCancelButtonClicked?.call(context);
-                      }
+                     }
                     },
                   ),
                 ),

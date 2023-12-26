@@ -1,17 +1,13 @@
 import 'package:components/components.dart';
 import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
-//import 'package:flutter_bloc/flutter_bloc.dart';
-//import 'package:screens/src/doctor_home/new_doctor_home/controller/doctor_home_bloc.dart';
 import 'package:views/src/screens/doctors/home/widgets/dc_appointment_item.dart';
-//import 'package:views/src/screens/users/prescription/widgets/dc_prescription_item.dart';
 
 class DCDoctorAsyncItem extends StatefulWidget {
   const DCDoctorAsyncItem({
     required this.future,
     required this.isDone,
     required this.isPast,
-    //this.medicine = false,
     super.key,
   });
 
@@ -22,6 +18,7 @@ class DCDoctorAsyncItem extends StatefulWidget {
   @override
   State<DCDoctorAsyncItem> createState() => _DCDoctorAsyncItemState();
 }
+
 String mapPeriod(String period) {
   switch (period) {
     case '1':
@@ -34,7 +31,7 @@ String mapPeriod(String period) {
       return '9:00 AM';
     case '5':
       return '9:30 AM';
-    case '6': 
+    case '6':
       return '10:00 AM';
     case '7':
       return '10:30 AM';
@@ -56,13 +53,13 @@ String mapPeriod(String period) {
       return '2:30 PM';
     case '16':
       return '3:00 PM';
-    case '17': 
+    case '17':
       return '3:30 PM';
     case '18':
       return '4:00 PM';
     case '19':
       return '4:30 PM';
-   
+
     default:
       return '5:00 PM';
   }
@@ -79,13 +76,11 @@ class _DCDoctorAsyncItemState extends State<DCDoctorAsyncItem> {
             snapshot.data!.isEmpty ||
                 (snapshot.data!.first.containsKey('customerName') &&
                     snapshot.data!.first.containsKey('period') &&
-                    snapshot.data!.first.containsKey('diagnosis')
-                    ),
+                    snapshot.data!.first.containsKey('diagnosis')),
             'Appointment data must contain customerName, period, diagnosis',
           );
 
           final children = snapshot.data!
-              
               .map(
                 (e) => DCAppointmentItem(
                   isPast: widget.isPast,
@@ -94,15 +89,17 @@ class _DCDoctorAsyncItemState extends State<DCDoctorAsyncItem> {
                     mapPeriod(e['period'].toString()),
                   ),
                   color: context.colorScheme.error,
-                  
+
                   onSelected: (context) => {},
-                  // context.read<DoctorHomeBloc>().add(
-                  //       MedicineCheckEvent(
-                  //         medineName: e['customerName'] as String,
-                  //       ),
-                  //     ),}
-                  // to do: navigate to prescription screen
-                  onPressed: (context) {},
+                  onPressed: (context) {
+                    print(e['done'].runtimeType);
+                    if (e['done'] == true) {
+                      return;
+                    }
+                    // pass the parameter: 
+                    // e['customerID'],...
+                    Navigator.of(context, rootNavigator: true).pushNamed('/doctor/prescribe');
+                  },
                   bottomRight: Text(
                     '${e['diagnosis']}',
                   ),

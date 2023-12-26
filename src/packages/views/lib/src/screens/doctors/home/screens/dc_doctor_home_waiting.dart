@@ -3,21 +3,16 @@
 import 'package:components/components.dart';
 import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:views/src/screens/doctors/home/controller/doctor_home_bloc.dart';
-import 'package:views/src/screens/doctors/home/widgets/dc_doctor_calendar.dart';
-import 'package:views/src/screens/doctors/home/widgets/circle_image_with_text.dart';
-import 'package:views/src/screens/doctors/home/widgets/appointment_detail.dart';
-import 'package:intl/intl.dart';
 
-class DCDoctorHomeScreen extends StatefulWidget {
-  const DCDoctorHomeScreen({
+class DCDoctorHomeWaitingScreen extends StatefulWidget {
+  const DCDoctorHomeWaitingScreen({
     super.key,
   });
 
   @override
-  _DCDoctorHomeScreenState createState() => _DCDoctorHomeScreenState();
+  _DCDoctorHomeWaitingScreenState createState() =>
+      _DCDoctorHomeWaitingScreenState();
 }
 
 String mapMonth(int month) {
@@ -95,7 +90,7 @@ String mapPeriod(String period) {
   }
 }
 
-class _DCDoctorHomeScreenState extends State<DCDoctorHomeScreen> {
+class _DCDoctorHomeWaitingScreenState extends State<DCDoctorHomeWaitingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -115,20 +110,12 @@ class _DCDoctorHomeScreenState extends State<DCDoctorHomeScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            BlocBuilder<DoctorHomeBloc, DoctorHomeState>(
-              buildWhen: (previous, current) {
-                if (current.runtimeType != previous.runtimeType) {
-                  return true;
-                }
-                return false;
-              },
-              builder: (context, state) {
-                return CircleImageWithText(
-                  imagePath: state.doctorAvatarUrl,
-                  welcomeText: 'Welcome Back,',
-                  name: 'Doctor ' + state.doctorName,
-                );
-              },
+            SizedBox(
+              height: 30,
+              width: 30,
+              child: CircularProgressIndicator(
+                color: context.colorScheme.secondary,
+              ),
             ),
             SizedBox(height: 20),
             DefaultTextStyle.merge(
@@ -142,34 +129,12 @@ class _DCDoctorHomeScreenState extends State<DCDoctorHomeScreen> {
                   'Upcoming Appointment',
                 )),
             SizedBox(height: 8),
-            BlocBuilder<DoctorHomeBloc, DoctorHomeState>(
-              buildWhen: (previous, current) {
-                if (current.runtimeType != previous.runtimeType) {
-                  return true;
-                }
-                return false;
-              },
-              builder: (context, state) {
-                DateTime upcomingAppointmentDate =
-                    state.upcomingAppointmentIndex != -1
-                        ? DateTime.parse(
-                            state.appointments[state.upcomingAppointmentIndex]
-                                ['date'])
-                        : DateTime.now();
-                String formattedDate =
-                    DateFormat('MMM, dd, yyyy').format(upcomingAppointmentDate);
-                return AppointmentDetailsWidget(
-                  customerName: state.upcomingCustomerName,
-                  day: '$formattedDate',
-                  time: state.upcomingAppointmentIndex == -1
-                      ? '0'
-                      : mapPeriod(state
-                          .appointments[state.upcomingAppointmentIndex]
-                              ['period']
-                          .toString()),
-                  isNull: state.upcomingAppointmentIndex == -1 ? true : false,
-                );
-              },
+            SizedBox(
+              height: 30,
+              width: 30,
+              child: CircularProgressIndicator(
+                color: context.colorScheme.secondary,
+              ),
             ),
             SizedBox(height: 10),
             Row(
@@ -192,18 +157,13 @@ class _DCDoctorHomeScreenState extends State<DCDoctorHomeScreen> {
               ],
             ),
             SizedBox(height: 20),
-            BlocBuilder<DoctorHomeBloc, DoctorHomeState>(
-              buildWhen: (previous, current) {
-                if (current.runtimeType != previous.runtimeType) {
-                  return true;
-                }
-                return false;
-              },
-              builder: (context, state) {
-                return DCDoctorCalendar();
-              },
+            SizedBox(
+              height: 30,
+              width: 30,
+              child: CircularProgressIndicator(
+                color: context.colorScheme.secondary,
+              ),
             ),
-            SizedBox(height: 40),
           ],
         ),
       ),
