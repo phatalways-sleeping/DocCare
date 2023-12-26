@@ -5,12 +5,13 @@ part 'statistics.g.dart';
 
 @JsonSerializable()
 final class Statistics extends Equatable {
-  const Statistics(
-      {required this.id,
-      required this.value,
-      required this.categoryName,
-      required this.prescriptionID,
-      this.note});
+  const Statistics({
+    required this.id,
+    required this.value,
+    required this.categoryName,
+    required this.prescriptionID,
+    this.note,
+  });
 
   factory Statistics.fromJson(Map<String, dynamic> json) =>
       _$StatisticsFromJson(json);
@@ -18,7 +19,7 @@ final class Statistics extends Equatable {
   Map<String, dynamic> toJson() => _$StatisticsToJson(this);
 
   @JsonKey(required: true)
-  final int id;
+  final String id;
   @JsonKey(required: true)
   final String value;
   @JsonKey(required: true)
@@ -38,7 +39,7 @@ final class Statistics extends Equatable {
       ];
 
   Statistics copyWith({
-    int? id,
+    String? id,
     String? value,
     String? categoryName,
     String? prescriptionID,
