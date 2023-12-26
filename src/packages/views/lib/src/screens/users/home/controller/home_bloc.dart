@@ -37,25 +37,39 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     DataLoadingEvent event,
     Emitter<HomeState> emit,
   ) async {
+    var oldBloodPressure = '0';
+    var oldBloodSugar = '0';
+    var oldCholesterol = '0';
+    var oldHeartRate = '0';
+
+    var heartRate = '0';
+    var bloodPressure = '0';
+    var cholesterol = '0';
+    var bloodSugar = '0';
+
     final profileData = await _customerRepositoryService.getProfileData();
     final name = profileData['fullName'].toString();
 
     final prescriptionID =
         await _customerRepositoryService.getNewestPrescriptionID();
 
-    final statisticsData =
-        await _customerRepositoryService.getStatistics(prescriptionID[0]);
-    final heartRate = statisticsData['heart_rate'].toString();
-    final bloodPressure = statisticsData['blood_pressure'].toString();
-    final cholesterol = statisticsData['cholesterol'].toString();
-    final bloodSugar = statisticsData['blood_sugar'].toString();
+    if (prescriptionID.isNotEmpty) {
+      final statisticsData =
+          await _customerRepositoryService.getStatistics(prescriptionID[0]);
+      heartRate = statisticsData['heart_rate'].toString();
+      bloodPressure = statisticsData['blood_pressure'].toString();
+      cholesterol = statisticsData['cholesterol'].toString();
+      bloodSugar = statisticsData['blood_sugar'].toString();
+    }
 
-    final oldStatisticsData =
-        await _customerRepositoryService.getStatistics(prescriptionID[1]);
-    final oldHeartRate = oldStatisticsData['heart_rate'].toString();
-    final oldBloodPressure = oldStatisticsData['blood_pressure'].toString();
-    final oldCholesterol = oldStatisticsData['cholesterol'].toString();
-    final oldBloodSugar = oldStatisticsData['blood_sugar'].toString();
+    if (prescriptionID.length > 1) {
+      final oldStatisticsData =
+          await _customerRepositoryService.getStatistics(prescriptionID[1]);
+      oldHeartRate = oldStatisticsData['heart_rate'].toString();
+      oldBloodPressure = oldStatisticsData['blood_pressure'].toString();
+      oldCholesterol = oldStatisticsData['cholesterol'].toString();
+      oldBloodSugar = oldStatisticsData['blood_sugar'].toString();
+    }
 
     final appointmentsData =
         await _customerRepositoryService.getUpcomingAppointments();
