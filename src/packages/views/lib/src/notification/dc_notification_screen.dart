@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs
 
 import 'package:components/components.dart';
+import 'package:controllers/controllers.dart';
 import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,7 +18,9 @@ class _DCNotificationScreenState extends State<DCNotificationScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => NotificationBloc(),
+      create: (_) => NotificationBloc(
+        context.read<CustomerRepositoryService>(),
+      ),
       child: BlocBuilder<NotificationBloc, NotificationState>(
         builder: (context, state) {
           if (state is NotificationInitial) {

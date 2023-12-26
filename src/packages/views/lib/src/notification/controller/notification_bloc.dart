@@ -1,16 +1,22 @@
 // ignore_for_file: public_member_api_docs
 
 import 'package:bloc/bloc.dart';
+import 'package:controllers/controllers.dart';
 import 'package:equatable/equatable.dart';
+import 'package:intl/intl.dart';
 import 'package:meta/meta.dart';
 
 part 'notification_event.dart';
 part 'notification_state.dart';
 
 class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
-  NotificationBloc() : super(NotificationInitial.empty()) {
+  NotificationBloc(
+    this._customerRepositoryService,
+  ) : super(NotificationInitial.empty()) {
     on<LoadNotification>(_onLoadNotification);
   }
+
+  final CustomerRepositoryService _customerRepositoryService;
 
   Future<void> _onLoadNotification(
     LoadNotification event,
@@ -22,13 +28,43 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
     final currentMap = Map<int, List<String>>.from(state.notifications);
     final currentMapDates = List<DateTime>.from(state.dates);
 
-    for (var i = 0; i < 5; ++i) {
-      // Use unique keys for map entries - here I assume `i` provides uniqueness
-      currentMap[currentMap.length] = [
-        'Upcoming appointment in 15 minutes',
-        'Your next appointment with Dr. Johnny Sins will start in 15 minutes',
-      ];
-      currentMapDates.add(DateTime.now());
+    final currentTime = DateTime.now();
+    final data =
+        await _customerRepositoryService.getAppointmentStatusDoctorName();
+    for (final element in data) {
+      final time = DateFormat('HH:mm:ss').parse(element['time'].toString());
+      final dateTime = DateTime(
+        currentTime.year,
+        currentTime.month,
+        currentTime.day,
+        time.hour,
+        time.minute,
+        time.second, // Include seconds
+      );
+
+      final formattedDateTime = DateFormat('hh:mm a, d MMM y').format(dateTime);
+
+      if (element['status'] == false) {
+        final message = 'Your appointment with Dr. ${element['doctorName']} '
+            'at $formattedDateTime is cancelled.';
+        currentMap[currentMap.length] = [
+          'Appointment Cancelled',
+          message,
+        ];
+      } else {
+        final timeToAppointment = dateTime.difference(currentTime);
+        if (timeToAppointment.inMinutes <= 30) {
+          final message =
+              'Your next appointment with Dr. ${element['doctorName']} '
+              'will start in ${timeToAppointment.inMinutes} '
+              'minutes.';
+          currentMap[currentMap.length] = [
+            'Upcoming appointment in 15 minutes',
+            message,
+          ];
+        }
+      }
+      currentMapDates.add(dateTime);
     }
 
     emit(

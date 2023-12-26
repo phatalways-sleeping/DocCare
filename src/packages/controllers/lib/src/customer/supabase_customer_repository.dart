@@ -308,7 +308,6 @@ class SupabaseCustomerRepository implements CustomerRepositoryService {
 
     final data = response as List<dynamic>;
     final result = data.map((item) {
-      // Extract and convert the relevant value to a string.
       return item.toString();
     }).toList();
 
@@ -343,6 +342,27 @@ class SupabaseCustomerRepository implements CustomerRepositoryService {
         return {
           'name': result['detail'],
           'time': result['period_date'],
+        };
+      },
+    ).toList();
+    return results;
+  }
+
+  @override
+  Future<List<Map<String, dynamic>>> getAppointmentStatusDoctorName() async {
+    final response = await Supabase.instance.client.rpc(
+      'get_appointment_status_doctor_name',
+      params: {
+        'customer_id': _customerId,
+      },
+    ).onError((error, stackTrace) => []) as List<dynamic>;
+    final results = response.map(
+      (e) {
+        final result = e as Map<String, dynamic>;
+        return {
+          'time': result['period_date'],
+          'status': result['status'],
+          'doctorName': result['doctor_name'],
         };
       },
     ).toList();

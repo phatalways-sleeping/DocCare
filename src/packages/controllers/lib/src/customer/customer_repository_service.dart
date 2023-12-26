@@ -67,4 +67,6 @@ abstract interface class CustomerRepositoryService {
   );
 
   Future<List<Map<String, dynamic>>> getUpcomingAppointments();
+
+  Future<List<Map<String, dynamic>>> getAppointmentStatusDoctorName();
 }
