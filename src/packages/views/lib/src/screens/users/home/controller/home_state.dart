@@ -15,6 +15,7 @@ sealed class HomeState extends Equatable {
     required this.oldBloodSugar,
     required this.oldCholesterol,
     required this.oldHeartRate,
+    required this.currentPage,
   });
 
   final String name;
@@ -26,6 +27,7 @@ sealed class HomeState extends Equatable {
   final String oldBloodSugar;
   final String oldCholesterol;
   final String oldHeartRate;
+  final int currentPage;
 
   /// Map of appointment date to list of appointment details
   /// e.g. { 'Cardiology Consultation': ['10:00 AM'] }
@@ -43,6 +45,7 @@ sealed class HomeState extends Equatable {
         oldCholesterol,
         oldHeartRate,
         appointments,
+        currentPage,
       ];
 
   HomeState copyWith({
@@ -56,10 +59,24 @@ sealed class HomeState extends Equatable {
     String? oldCholesterol,
     String? oldHeartRate,
     Map<String, List<String>>? appointments,
+    int? currentPage,
   });
 }
 
 final class HomeInitial extends HomeState {
+  const HomeInitial.input({
+    required super.name,
+    required super.heartRate,
+    required super.bloodPressure,
+    required super.cholesterol,
+    required super.bloodSugar,
+    required super.oldBloodPressure,
+    required super.oldBloodSugar,
+    required super.oldCholesterol,
+    required super.oldHeartRate,
+    required super.appointments,
+    required super.currentPage,
+  });
   const HomeInitial({
     required super.name,
     required super.heartRate,
@@ -71,6 +88,7 @@ final class HomeInitial extends HomeState {
     required super.oldCholesterol,
     required super.oldHeartRate,
     required super.appointments,
+    required super.currentPage,
   });
 
   const HomeInitial.empty()
@@ -85,6 +103,7 @@ final class HomeInitial extends HomeState {
           oldCholesterol: '',
           oldHeartRate: '',
           appointments: const {},
+          currentPage: 0,
         );
 
   factory HomeInitial.from(HomeState state) => HomeInitial(
@@ -98,20 +117,8 @@ final class HomeInitial extends HomeState {
         oldBloodSugar: state.oldBloodSugar,
         oldCholesterol: state.oldCholesterol,
         oldHeartRate: state.oldHeartRate,
+        currentPage: state.currentPage,
       );
-
-  const HomeInitial.input({
-    required super.name,
-    required super.heartRate,
-    required super.bloodPressure,
-    required super.cholesterol,
-    required super.bloodSugar,
-    required super.oldBloodPressure,
-    required super.oldBloodSugar,
-    required super.oldCholesterol,
-    required super.oldHeartRate,
-    required super.appointments,
-  });
 
   @override
   HomeState copyWith({
@@ -125,6 +132,7 @@ final class HomeInitial extends HomeState {
     String? oldCholesterol,
     String? oldHeartRate,
     Map<String, List<String>>? appointments,
+    int? currentPage,
   }) {
     return HomeInitial(
       name: name ?? super.name,
@@ -137,6 +145,7 @@ final class HomeInitial extends HomeState {
       oldCholesterol: oldCholesterol ?? super.oldCholesterol,
       oldHeartRate: oldHeartRate ?? super.oldHeartRate,
       appointments: appointments ?? super.appointments,
+      currentPage: currentPage ?? super.currentPage,
     );
   }
 }
@@ -153,6 +162,7 @@ final class HomeLoading extends HomeState {
     required super.oldCholesterol,
     required super.oldHeartRate,
     required super.appointments,
+    required super.currentPage,
   });
 
   factory HomeLoading.from(HomeState state) => HomeLoading(
@@ -166,6 +176,7 @@ final class HomeLoading extends HomeState {
         oldCholesterol: state.oldCholesterol,
         oldHeartRate: state.oldHeartRate,
         appointments: state.appointments,
+        currentPage: state.currentPage,
       );
 
   const HomeLoading.input({
@@ -179,6 +190,7 @@ final class HomeLoading extends HomeState {
     required super.oldCholesterol,
     required super.oldHeartRate,
     required super.appointments,
+    required super.currentPage,
   });
 
   @override
@@ -193,6 +205,7 @@ final class HomeLoading extends HomeState {
     String? oldCholesterol,
     String? oldHeartRate,
     Map<String, List<String>>? appointments,
+    int? currentPage,
   }) {
     return HomeLoading(
       name: name ?? super.name,
@@ -205,6 +218,7 @@ final class HomeLoading extends HomeState {
       oldCholesterol: oldCholesterol ?? super.oldCholesterol,
       oldHeartRate: oldHeartRate ?? super.oldHeartRate,
       appointments: appointments ?? super.appointments,
+      currentPage: currentPage ?? super.currentPage,
     );
   }
 }
@@ -221,6 +235,7 @@ final class HomeSuccess extends HomeState {
     required super.oldCholesterol,
     required super.oldHeartRate,
     required super.appointments,
+    required super.currentPage,
   });
 
   factory HomeSuccess.from(HomeState state) => HomeSuccess(
@@ -234,6 +249,7 @@ final class HomeSuccess extends HomeState {
         oldCholesterol: state.oldCholesterol,
         oldHeartRate: state.oldHeartRate,
         appointments: state.appointments,
+        currentPage: state.currentPage,
       );
 
   const HomeSuccess.input({
@@ -247,6 +263,7 @@ final class HomeSuccess extends HomeState {
     required super.oldCholesterol,
     required super.oldHeartRate,
     required super.appointments,
+    required super.currentPage,
   });
 
   @override
@@ -261,6 +278,7 @@ final class HomeSuccess extends HomeState {
     String? oldCholesterol,
     String? oldHeartRate,
     Map<String, List<String>>? appointments,
+    int? currentPage,
   }) {
     return HomeSuccess(
       name: name ?? super.name,
@@ -273,6 +291,7 @@ final class HomeSuccess extends HomeState {
       oldCholesterol: oldCholesterol ?? super.oldCholesterol,
       oldHeartRate: oldHeartRate ?? super.oldHeartRate,
       appointments: appointments ?? super.appointments,
+      currentPage: currentPage ?? super.currentPage,
     );
   }
 }

@@ -1,3 +1,5 @@
+// ignore_for_file: public_member_api_docs
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
@@ -8,8 +10,6 @@ part 'notification_state.dart';
 class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
   NotificationBloc() : super(NotificationInitial.empty()) {
     on<LoadNotification>(_onLoadNotification);
-    on<DisplayNotification>(_onDisplayNotification);
-    on<NotificationBackButtonPressedEvent>(_onNotificationBackButtonPressed);
   }
 
   Future<void> _onLoadNotification(
@@ -39,17 +39,5 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
         ),
       ),
     );
-  }
-
-  void _onDisplayNotification(
-    DisplayNotification event,
-    Emitter<NotificationState> emit,
-  ) {}
-
-  void _onNotificationBackButtonPressed(
-    NotificationBackButtonPressedEvent event,
-    Emitter<NotificationState> emit,
-  ) {
-    //TODO(phucchuhoang): Implement navigate back to previous screen
   }
 }

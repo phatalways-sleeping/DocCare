@@ -8,6 +8,7 @@ import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:views/src/notification/dc_notification_screen.dart';
 import 'package:views/src/screens/users/home/controller/home_bloc.dart';
 import 'package:views/src/screens/users/home/widgets/medical_stat_display_widget.dart';
 import 'package:views/src/screens/users/home/widgets/reminder_widget.dart';
@@ -60,7 +61,8 @@ List<Widget> createAppointmentWidgets(Map<String, List<String>> appointments) {
           content: entry.key,
           timeLeft: formattedTimeLeft,
           appointmentTime: format.format(
-              todayAppointmentTime), // Format the DateTime object back to string
+            todayAppointmentTime,
+          ), // Format the DateTime object back to string
         ),
         const SizedBox(height: 8),
       ],
@@ -69,22 +71,25 @@ List<Widget> createAppointmentWidgets(Map<String, List<String>> appointments) {
 }
 
 class _DCCustomerHomeScreen extends State<DCCustomerHomeScreen> {
+  late PageController _pageController;
   Timer? _timer;
 
   @override
   void initState() {
     super.initState();
-    // Set up the timer
-    _timer = Timer.periodic(const Duration(minutes: 1), (Timer t) {
+    _pageController = PageController();
+    _timer = Timer.periodic(const Duration(minutes: 1), (timer) {
+      // context.read<HomeBloc>().add(const DataLoadingEvent());
       setState(() {
-        // This empty setState will trigger a rebuild every minute
+        // Update the time every minute
       });
     });
   }
 
   @override
   void dispose() {
-    _timer?.cancel(); // Cancel the timer when the widget is disposed
+    _pageController.dispose();
+    _timer?.cancel();
     super.dispose();
   }
 
@@ -104,15 +109,31 @@ class _DCCustomerHomeScreen extends State<DCCustomerHomeScreen> {
           return Scaffold(
             extendBody: true,
             resizeToAvoidBottomInset: true,
-            appBar: DCCustomerHeaderBar(
-              title: 'Home',
-              haveNotification: true,
-              onLeadingIconPressed: (context) {},
-              onActionsIconPressed: (context) {},
-            ),
+            appBar: state.currentPage == 0
+                ? DCCustomerHeaderBar(
+                    title: 'Home',
+                    haveNotification: true,
+                    onLeadingIconPressed: (context) {},
+                    onActionsIconPressed: (context) {
+                      _pageController.jumpToPage(1);
+                      context.read<HomeBloc>().add(const PageChangedEvent(1));
+                    },
+                  )
+                : DCCustomerHeaderBar(
+                    title: 'Notification',
+                    allowNavigateBack: true,
+                    onLeadingIconPressed: (context) {
+                      _pageController.jumpToPage(0);
+                      context.read<HomeBloc>().add(const PageChangedEvent(0));
+                    },
+                  ),
             drawer: const DCCustomerDrawer(),
-            body: (state is! HomeLoading)
-                ? CustomScrollView(
+            body: PageView(
+              controller: _pageController,
+              physics: const NeverScrollableScrollPhysics(),
+              children: [
+                if (state is! HomeLoading)
+                  CustomScrollView(
                     slivers: [
                       SliverPadding(
                         padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -225,7 +246,13 @@ class _DCCustomerHomeScreen extends State<DCCustomerHomeScreen> {
                       ),
                     ],
                   )
-                : Container(),
+                else
+                  Container(),
+
+                // Add the new page here
+                const DCNotificationScreen(),
+              ],
+            ),
             bottomNavigationBar: const DCCustomerNavigationBar(),
           );
         },

@@ -17,9 +17,21 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           ),
         ) {
     on<DataLoadingEvent>(_onDataLoadingEvent);
+    on<PageChangedEvent>(_onPageChangedEvent);
   }
 
   final CustomerRepositoryService _customerRepositoryService;
+
+  void _onPageChangedEvent(
+    PageChangedEvent event,
+    Emitter<HomeState> emit,
+  ) {
+    emit(
+      state.copyWith(
+        currentPage: event.page,
+      ),
+    );
+  }
 
   Future<void> _onDataLoadingEvent(
     DataLoadingEvent event,
@@ -59,6 +71,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
     emit(
       HomeInitial.input(
+        currentPage: 0,
         name: name,
         heartRate: heartRate,
         bloodPressure: bloodPressure,
