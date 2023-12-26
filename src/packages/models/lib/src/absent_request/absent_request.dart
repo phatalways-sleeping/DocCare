@@ -31,7 +31,6 @@ final class AbsentRequest extends Equatable {
   final String? reason;
   @JsonKey(required: true)
   final bool isApproved;
-
   @override
   List<Object?> get props => [
         this.doctorID,

@@ -9,7 +9,19 @@ part of 'appointment.dart';
 Appointment _$AppointmentFromJson(Map<String, dynamic> json) {
   $checkKeys(
     json,
-    requiredKeys: const ['customerID', 'doctorID', 'period', 'date'],
+    requiredKeys: const [
+      'customerID',
+      'doctorID',
+      'period',
+      'date',
+      'rating',
+      'customerComment',
+      'prescriptionID',
+      'dateDone',
+      'done',
+      'note',
+      'diagnosis',
+    ],
   );
   return Appointment(
     customerID: json['customerID'] as String,

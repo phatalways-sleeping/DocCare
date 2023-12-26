@@ -77,7 +77,7 @@ class _DCChangePasswordScreenState extends State<DCChangePasswordScreen> {
         create: (_) => ChangePasswordBloc(
           widget.navigatorKey,
           NotificationManager.instance,
-          SupabaseAuthenticationRepository(),
+          context.read<AuthenticationRepositoryService>(),
         ),
         child: CustomScrollView(
           slivers: [

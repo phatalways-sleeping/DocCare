@@ -1,6 +1,9 @@
 // ignore_for_file: public_member_api_docs
 
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
+import 'package:controllers/controllers.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
@@ -9,15 +12,16 @@ part 'receptionist_absent_state.dart';
 
 class ReceptionistAbsentBloc
     extends Bloc<ReceptionistAbsentEvent, ReceptionistAbsentState> {
-  ReceptionistAbsentBloc() : super(const ReceptionistAbsentInitial()) {
+  ReceptionistAbsentBloc(
+    this._receptionistRepositoryService,
+  ) : super(const ReceptionistAbsentInitial()) {
     on<ReceptionistAbsentResetEvent>((event, emit) {
       emit(const ReceptionistAbsentInitial());
     });
     on<ReceptionistAbsentViewEvent>((event, emit) {
       emit(
         ReceptionistAbsentViewState(
-          doctorId: event.doctorId,
-          date: event.date,
+          data: event.data,
         ),
       );
     });
@@ -31,22 +35,29 @@ class ReceptionistAbsentBloc
             state: state as ReceptionistAbsentViewState,
           ),
         );
-
-        await Future.delayed(const Duration(seconds: 4), () {});
-
+        final castedState = state as ReceptionistAbsentLoadingState;
+        await _receptionistRepositoryService.responseAbsentRequest(
+          castedState.data['doctorId'] as String,
+          date: castedState.data['dateAbsent'] as DateTime,
+          isAccepted: event.approved,
+        );
         emit(
           ReceptionistAbsentSuccessState.fromState(
             state: state as ReceptionistAbsentLoadingState,
           ),
         );
+      } on TimeoutException catch (_) {
+        if (state is! ReceptionistAbsentLoadingState) {
+          return _handleInvalidState(emit);
+        }
+        emit(
+          ReceptionistAbsentErrorState.from(
+            errorMessage: 'Request timed out',
+          ),
+        );
       } catch (error) {
         if (state is! ReceptionistAbsentLoadingState) {
-          return emit(
-            ReceptionistAbsentErrorState.from(
-              errorMessage:
-                  'Invalid state, expected ReceptionistAbsentLoadingState',
-            ),
-          );
+          return _handleInvalidState(emit);
         }
         emit(
           ReceptionistAbsentErrorState.from(
@@ -56,4 +67,17 @@ class ReceptionistAbsentBloc
       }
     });
   }
+
+  final ReceptionistRepositoryService _receptionistRepositoryService;
+
+  void _handleInvalidState(Emitter<ReceptionistAbsentState> emit) {
+    emit(
+      ReceptionistAbsentErrorState.from(
+        errorMessage: 'Invalid state, expected ReceptionistAbsentLoadingState',
+      ),
+    );
+  }
+
+  Future<List<Map<String, dynamic>>> getPendingAbsentRequests() =>
+      _receptionistRepositoryService.getAbsentRequests();
 }
