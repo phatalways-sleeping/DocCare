@@ -1,7 +1,6 @@
 // ignore_for_file: public_member_api_docs
 
 import 'package:controllers/src/doctor/doctor_repository_service.dart';
-import 'package:flutter/widgets.dart';
 import 'package:services/services.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
@@ -32,10 +31,7 @@ class SupabaseDoctorRepository implements DoctorRepositoryService {
     supabase: Supabase.instance.client,
   );
 
-  final SupabaseAppointmentApiService _supabaseAppointmentApiService =
-      SupabaseAppointmentApiService(
-    supabase: Supabase.instance.client,
-  );
+
 
   final SupabaseStatisticsApiService _supabaseStatisticsApiService =
       SupabaseStatisticsApiService(
@@ -140,17 +136,7 @@ class SupabaseDoctorRepository implements DoctorRepositoryService {
   }
 
 
-  @override
-  Future<void> updateProfileData({
-    String? fullname,
-    String? email,
-    String? phone,
-    DateTime? birthday,
-    String? specialization,
-    int? startWorkingFrom,
-  }) {
-    // TODO: implement updateProfileData
-    throw UnimplementedError();
+
   Future<bool> isDoctorExist(String email) async {
     final doctor = await _supabaseDoctorApiService.getAllUserEmail().catchError(
           (error) => <String>[],

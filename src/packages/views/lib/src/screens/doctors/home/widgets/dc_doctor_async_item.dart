@@ -92,7 +92,6 @@ class _DCDoctorAsyncItemState extends State<DCDoctorAsyncItem> {
 
                   onSelected: (context) => {},
                   onPressed: (context) {
-                    print(e['done'].runtimeType);
                     if (e['done'] == true) {
                       return;
                     }
