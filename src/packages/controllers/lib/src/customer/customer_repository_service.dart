@@ -60,9 +60,16 @@ abstract interface class CustomerRepositoryService {
     DateTime? date,
   });
 
+  Future<List<Map<String, dynamic>>> getAvailablePeriodWithSpecialization({
+    required String specialization,
+    required DateTime date,
+  });
+
   Future<List<String>> getDoctorSpecialization();
   Future<List<Map<String, dynamic>>> getAvailablePeriod(
-      String doctorId, DateTime date);
+    String doctorId,
+    DateTime date,
+  );
   Future<void> bookAppointmentWithDoctor({
     required int period,
     required String customerid,
