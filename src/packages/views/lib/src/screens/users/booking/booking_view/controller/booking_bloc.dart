@@ -120,13 +120,16 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
       final doctorid = doctorData['id'] as String;
       final date = state.dateSelected;
       final customerComment = state.symptom;
-      await _customerRepositoryService.bookAppointmentWithDoctor(
-        period: time,
-        customerid: customerid,
-        doctorid: doctorid,
-        date: date!,
-        customerComment: customerComment,
-      );
+
+      if (doctorData.isNotEmpty) {
+        await _customerRepositoryService.bookAppointmentWithDoctor(
+          period: time,
+          customerid: customerid,
+          doctorid: doctorid,
+          date: date!,
+          customerComment: customerComment,
+        );
+      } else {}
       // Emit the success state
       // If user books without selecting a doctor, the doctorData will be passed
       // from the response of the booking API
