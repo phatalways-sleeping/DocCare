@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:controllers/controllers.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:meta/meta.dart';
 
 part 'booking_event.dart';
@@ -72,6 +73,28 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     );
   }
 
+  Future<List<String>> getAvailablePeriodWithSpecialization(
+    String specialization,
+    DateTime date,
+  ) async {
+    final availablePeriods =
+        await _customerRepositoryService.getAvailablePeriodWithSpecialization(
+      specialization: specialization,
+      date: date,
+    );
+
+    // Extract 'time' values from the list and format them with leading zeros
+    final appointmentTimes = availablePeriods.map(
+      (period) {
+        final time = period['time'] as String;
+        final formattedTime =
+            DateFormat('HH:mm a').format(DateTime.parse('2022-01-01 $time'));
+        return formattedTime;
+      },
+    ).toList();
+    return appointmentTimes;
+  }
+
   Future<List<String>> getDoctorSpecialization() =>
       _customerRepositoryService.getDoctorSpecialization();
 
@@ -97,13 +120,16 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
       final doctorid = doctorData['id'] as String;
       final date = state.dateSelected;
       final customerComment = state.symptom;
-      await _customerRepositoryService.bookAppointmentWithDoctor(
-        period: time,
-        customerid: customerid,
-        doctorid: doctorid,
-        date: date!,
-        customerComment: customerComment,
-      );
+
+      if (doctorData.isNotEmpty) {
+        await _customerRepositoryService.bookAppointmentWithDoctor(
+          period: time,
+          customerid: customerid,
+          doctorid: doctorid,
+          date: date!,
+          customerComment: customerComment,
+        );
+      } else {}
       // Emit the success state
       // If user books without selecting a doctor, the doctorData will be passed
       // from the response of the booking API

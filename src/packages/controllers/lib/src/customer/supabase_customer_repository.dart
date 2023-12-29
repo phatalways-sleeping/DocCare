@@ -326,6 +326,30 @@ class SupabaseCustomerRepository implements CustomerRepositoryService {
   }
 
   @override
+  Future<List<Map<String, dynamic>>> getAvailablePeriodWithSpecialization({
+    required String specialization,
+    required DateTime date,
+  }) async {
+    final response = await Supabase.instance.client
+        .rpc('get_doctor_with_specialization_available_periods', params: {
+      'p_specialization': specialization,
+      'p_date': date.toIso8601String(), // Convert DateTime to ISO8601 string
+    }) as List<dynamic>;
+
+    final results = response.map(
+      (e) {
+        final result = e as Map<String, dynamic>;
+        return {
+          'period_id': result['period_id'],
+          'time':
+              result['time'], // Update to match the column name in the function
+        };
+      },
+    ).toList();
+    return results;
+  }
+
+  @override
   Future<void> bookAppointmentWithDoctor({
     required int period,
     required String customerid,

@@ -217,7 +217,14 @@ class _DCBookingWithDoctorScreenState extends State<DCBookingWithDoctorScreen> {
                       height: 10,
                     ),
                     if (context.watch<BookingBloc>().state.dateSelected !=
-                        null) ...[
+                            null &&
+                        (context
+                                .watch<BookingBloc>()
+                                .state
+                                .doctorData
+                                .isNotEmpty ||
+                            context.watch<BookingBloc>().state.speciality !=
+                                null)) ...[
                       Text(
                         'Available Time',
                         style: context.textTheme.bodyBoldPoppins.copyWith(
@@ -228,13 +235,33 @@ class _DCBookingWithDoctorScreenState extends State<DCBookingWithDoctorScreen> {
                         height: 10,
                       ),
                       DCAsyncView(
-                        future: context
-                            .read<DoctorViewBloc>()
-                            .getAvailableAppointmentTimes(
-                              context.read<BookingBloc>().state.doctorData['id']
-                                  as String,
-                              context.watch<BookingBloc>().state.dateSelected!,
-                            ),
+                        future: (context
+                                .read<BookingBloc>()
+                                .state
+                                .doctorData
+                                .keys
+                                .isNotEmpty
+                            ? context
+                                .read<DoctorViewBloc>()
+                                .getAvailableAppointmentTimes(
+                                  context
+                                      .read<BookingBloc>()
+                                      .state
+                                      .doctorData['id'] as String,
+                                  context
+                                      .watch<BookingBloc>()
+                                      .state
+                                      .dateSelected!,
+                                )
+                            : context
+                                .read<BookingBloc>()
+                                .getAvailablePeriodWithSpecialization(
+                                  context.read<BookingBloc>().state.speciality!,
+                                  context
+                                      .watch<BookingBloc>()
+                                      .state
+                                      .dateSelected!,
+                                )),
                         type: DCAsyncViewType.availableTime,
                       ),
                       if (widget.inCustomerView) ...[
