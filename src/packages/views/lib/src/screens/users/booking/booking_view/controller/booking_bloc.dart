@@ -77,10 +77,12 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     String specialization,
     DateTime date,
   ) async {
+    final customerid = _customerRepositoryService.getCustomerId();
     final availablePeriods =
         await _customerRepositoryService.getAvailablePeriodWithSpecialization(
       specialization: specialization,
       date: date,
+      customerid: customerid,
     );
 
     // Extract 'time' values from the list and format them with leading zeros
@@ -117,10 +119,10 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
       // throw Exception();
       final time = convertTimeToPeriodId(state.timeSelected!);
       final customerid = _customerRepositoryService.getCustomerId();
-      final doctorid = doctorData['id'] as String;
+      final doctorid =
+          (doctorData['id'] != null ? doctorData['id'] as String : '');
       final date = state.dateSelected;
       final customerComment = state.symptom;
-
       if (doctorData.isNotEmpty) {
         await _customerRepositoryService.bookAppointmentWithDoctor(
           period: time,
@@ -129,7 +131,15 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
           date: date!,
           customerComment: customerComment,
         );
-      } else {}
+      } else {
+        await _customerRepositoryService.bookAppointmentWithoutDoctor(
+          period: time,
+          customerid: customerid,
+          date: date!,
+          customerComment: customerComment,
+          specialization: state.speciality!,
+        );
+      }
       // Emit the success state
       // If user books without selecting a doctor, the doctorData will be passed
       // from the response of the booking API
@@ -150,6 +160,9 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
         ),
       );
     } catch (err) {
+      print(err.toString());
+
+      print(err);
       emit(
         BookingFailure(
           doctorData: doctorData,

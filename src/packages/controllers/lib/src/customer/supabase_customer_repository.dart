@@ -304,12 +304,18 @@ class SupabaseCustomerRepository implements CustomerRepositoryService {
 
   @override
   Future<List<Map<String, dynamic>>> getAvailablePeriod(
-      String doctorId, DateTime date) async {
-    final response = await Supabase.instance.client
-        .rpc('get_doctor_available_day1', params: {
-      'p_doctorid': doctorId,
-      'p_date': date.toIso8601String(), // Convert DateTime to ISO8601 string
-    }) as List<dynamic>;
+    String doctorId,
+    DateTime date,
+    String customerid,
+  ) async {
+    final response = await Supabase.instance.client.rpc(
+      'get_doctor_available_day2',
+      params: {
+        'p_doctorid': doctorId,
+        'p_date': date.toIso8601String(), // Convert DateTime to ISO8601 string
+        'p_customerid': customerid,
+      },
+    ) as List<dynamic>;
 
     final results = response.map(
       (e) {
@@ -329,11 +335,13 @@ class SupabaseCustomerRepository implements CustomerRepositoryService {
   Future<List<Map<String, dynamic>>> getAvailablePeriodWithSpecialization({
     required String specialization,
     required DateTime date,
+    required String customerid,
   }) async {
     final response = await Supabase.instance.client
-        .rpc('get_doctor_with_specialization_available_periods', params: {
+        .rpc('get_doctor_with_specialization_available_periods2', params: {
       'p_specialization': specialization,
       'p_date': date.toIso8601String(), // Convert DateTime to ISO8601 string
+      'p_customerid': customerid,
     }) as List<dynamic>;
 
     final results = response.map(
@@ -363,6 +371,36 @@ class SupabaseCustomerRepository implements CustomerRepositoryService {
         'p_period': period,
         'p_customerid': customerid,
         'p_doctorid': doctorid,
+        'p_date': date.toIso8601String(),
+        'p_customer_comment': customerComment,
+        'p_prescriptionid': null,
+        'p_datedone': null,
+        'p_done': null,
+        'p_note': null,
+        'p_diagnosis': null,
+        'p_rating': null
+      },
+    ).onError(
+      (error, stackTrace) => debugPrint(
+        error.toString(),
+      ),
+    );
+  }
+
+  @override
+  Future<void> bookAppointmentWithoutDoctor({
+    required int period,
+    required String customerid,
+    required DateTime date,
+    required String specialization,
+    String? customerComment,
+  }) async {
+    await Supabase.instance.client.rpc(
+      'book_appointment_without_doctor_selection',
+      params: {
+        'p_specialization': specialization,
+        'p_periodid': period,
+        'p_customerid': customerid,
         'p_date': date.toIso8601String(),
         'p_customer_comment': customerComment,
         'p_prescriptionid': null,
