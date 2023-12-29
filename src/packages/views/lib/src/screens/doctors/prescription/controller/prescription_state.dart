@@ -141,7 +141,6 @@ final class PrescriptionMedicalInitial extends PrescriptionState {
 
   @override
   PrescriptionState copyWith({
-    String? name,
     String? heartRate,
     String? bloodPressure,
     String? choresterol,
@@ -285,7 +284,6 @@ final class PrescriptionMedicalSuccess extends PrescriptionState {
 
   @override
   PrescriptionState copyWith({
-    String? name,
     String? heartRate,
     String? bloodPressure,
     String? choresterol,
@@ -350,7 +348,6 @@ final class PrescriptionAddMedicine extends PrescriptionState {
 
   @override
   PrescriptionState copyWith({
-    String? name,
     String? heartRate,
     String? bloodPressure,
     String? choresterol,
@@ -415,7 +412,6 @@ final class PrescriptionSuccess extends PrescriptionState {
 
   @override
   PrescriptionState copyWith({
-    String? name,
     String? heartRate,
     String? bloodPressure,
     String? choresterol,
@@ -480,7 +476,6 @@ final class PrescriptionMedicineLoading extends PrescriptionState {
 
   @override
   PrescriptionState copyWith({
-    String? name,
     String? heartRate,
     String? bloodPressure,
     String? choresterol,

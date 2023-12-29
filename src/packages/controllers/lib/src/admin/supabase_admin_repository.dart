@@ -191,7 +191,7 @@ class SupabaseAdminRepository implements AdministratorRepositoryService {
     Map<String, List<int>> dayOfWeek,
   ) async {
     // debugPrint('Checkpoint 0');
-    final id = const Uuid().v7();
+    final id = const Uuid().v4();
     // debugPrint('Checkpoint 1');
     final response = await _createUser(email, password, 'doctor', id);
     final authUserId = response.user?.id;
@@ -235,7 +235,7 @@ class SupabaseAdminRepository implements AdministratorRepositoryService {
     DateTime birthday,
     String phone,
   ) async {
-    final id = const Uuid().v7();
+    final id = const Uuid().v4();
     final response = await _createUser(email, password, 'receptionist', id);
     final authUserId = response.user?.id;
     await supabase
@@ -276,6 +276,7 @@ class SupabaseAdminRepository implements AdministratorRepositoryService {
             'role': role,
             'id': id,
           },
+          emailConfirm: true,
         ),
       );
 

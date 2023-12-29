@@ -44,12 +44,3 @@ final class DoctorAbsentAgreementCheckboxEvent extends DoctorAbsentEvent {
   @override
   List<Object?> get props => [agreed];
 }
-
-final class DoctorAbsentArrangeAnotherDoctorEvent extends DoctorAbsentEvent {
-  const DoctorAbsentArrangeAnotherDoctorEvent(this.arrangeAnotherDoctor);
-
-  final bool arrangeAnotherDoctor;
-
-  @override
-  List<Object?> get props => [arrangeAnotherDoctor];
-}
