@@ -18,9 +18,11 @@ class DCDoctorViewScreen extends StatefulWidget {
 
 class _DCDoctorViewScreenState extends State<DCDoctorViewScreen> {
   final controller = ScrollController();
+  Future<List<Map<String, dynamic>>>? _future;
   bool showBottomNavBar = true;
   @override
   void initState() {
+    _future = context.read<DoctorViewBloc>().getAvaiableDoctors();
     controller.addListener(() {
       if (controller.offset >= controller.position.maxScrollExtent - 100 &&
           !controller.position.outOfRange) {
@@ -126,27 +128,22 @@ class _DCDoctorViewScreenState extends State<DCDoctorViewScreen> {
             const SizedBox(
               height: 10,
             ),
-            BlocBuilder<DoctorViewBloc, DoctorViewState>(
-              buildWhen: (previous, current) {
-                if (previous is DoctorViewSearchForName &&
-                    current is DoctorViewInitial) {
-                  return true;
-                }
-                if (previous is DoctorViewInitial &&
-                    current is DoctorViewSearchForName) {
-                  return true;
-                }
-                if (previous is DoctorViewSearchForName &&
-                    current is DoctorViewSearchForName) {
-                  if (previous.searchedName != current.searchedName) {
-                    return true;
-                  }
-                }
-                return false;
+            BlocConsumer<DoctorViewBloc, DoctorViewState>(
+              buildWhen: (previous, current) =>
+                  previous.filteredSpecialties != current.filteredSpecialties ||
+                  (
+                    (previous is DoctorViewSearchForName &&
+                            current is DoctorViewSearchForName) &&
+                        previous.searchedName != current.searchedName
+                  ),
+              listener: (context, state) {
+                setState(() {
+                  _future = context.read<DoctorViewBloc>().getAvaiableDoctors();
+                });
               },
               builder: (context, state) {
                 return FutureBuilder<List<Map<String, dynamic>>>(
-                  future: context.read<DoctorViewBloc>().getAvaiableDoctors(),
+                  future: _future,
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return CircularProgressIndicator(
@@ -156,31 +153,31 @@ class _DCDoctorViewScreenState extends State<DCDoctorViewScreen> {
 
                     if (snapshot.hasData) {
                       final content = snapshot.data ?? [];
-                      return ListView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: content.length,
-                        itemBuilder: (context, index) {
-                          final data = content[index];
-                          return Padding(
-                            padding: EdgeInsets.symmetric(
-                              vertical: context.height * 0.01,
-                            ),
-                            child: DCDoctorCard(
-                              name: data['name'] as String,
-                              speciality: data['speciality'] as String,
-                              rating: (data['rating'] as num).toDouble(),
-                              ratingCount: data['ratingCount'] as int,
-                              imgPath: data['imgPath'] as String,
-                              onPressed: (context) =>
-                                  context.read<DoctorViewBloc>().add(
-                                        DoctorViewChooseDoctorEvent(
-                                          doctor: data,
-                                        ),
-                                      ),
-                            ),
-                          );
-                        },
+                      debugPrint('content: rebuild');
+
+                      return Column(
+                        children: content
+                            .map(
+                              (e) => Padding(
+                                padding: EdgeInsets.symmetric(
+                                  vertical: context.height * 0.01,
+                                ),
+                                child: DCDoctorCard(
+                                  name: e['name'] as String,
+                                  speciality: e['speciality'] as String,
+                                  rating: (e['rating'] as num).toDouble(),
+                                  ratingCount: e['ratingCount'] as int,
+                                  imgPath: e['imgPath'] as String,
+                                  onPressed: (context) =>
+                                      context.read<DoctorViewBloc>().add(
+                                            DoctorViewChooseDoctorEvent(
+                                              doctor: e,
+                                            ),
+                                          ),
+                                ),
+                              ),
+                            )
+                            .toList(),
                       );
                     } else if (snapshot.hasError) {
                       return Center(
