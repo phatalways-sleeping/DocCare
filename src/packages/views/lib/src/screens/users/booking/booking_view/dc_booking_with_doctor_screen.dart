@@ -116,8 +116,8 @@ class _DCBookingWithDoctorScreenState extends State<DCBookingWithDoctorScreen> {
                 dateSelected: state.dateSelected!,
                 timeSelected: state.timeSelected!,
               ).then(
-                (value) => context.read<DoctorViewBloc>().add(
-                      const DoctorViewInitialEvent(),
+                (value) => context.read<BookingBloc>().add(
+                      const BookingBackToInitialEvent(),
                     ),
               );
             }
