@@ -44,7 +44,6 @@ class _DCAsyncViewState extends State<DCAsyncView> {
                   (e) {
                     return DCCircularItem(
                       title: e,
-                      subtitle: '', // Assuming no subtitle is needed
                       isSelected: item == e,
                       isAvailable: true,
                       onPressed: widget.type == DCAsyncViewType.availableTime

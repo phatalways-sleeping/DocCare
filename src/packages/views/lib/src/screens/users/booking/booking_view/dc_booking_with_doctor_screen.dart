@@ -180,7 +180,20 @@ class _DCBookingWithDoctorScreenState extends State<DCBookingWithDoctorScreen> {
                     const SizedBox(
                       height: 10,
                     ),
-                    const DCCalendar(),
+                    DCCalendar(
+                        workingShiftFuture: context
+                            .read<BookingBloc>()
+                            .getDoctorWorkingShift(
+                                doctorid: (context
+                                            .read<BookingBloc>()
+                                            .state
+                                            .doctorData['id'] !=
+                                        null
+                                    ? context
+                                        .read<BookingBloc>()
+                                        .state
+                                        .doctorData['id'] as String
+                                    : ''))),
                     const SizedBox(
                       height: 10,
                     ),

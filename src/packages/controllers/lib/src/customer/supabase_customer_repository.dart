@@ -416,4 +416,28 @@ class SupabaseCustomerRepository implements CustomerRepositoryService {
       ),
     );
   }
+
+  @override
+  Future<List<Map<String, dynamic>>> getDoctorWorkingShift({
+    required String doctorid,
+  }) async {
+    final response = await Supabase.instance.client.rpc(
+      'get_doctor_working_days',
+      params: {
+        'doctor_id': doctorid,
+      },
+    ) as List<dynamic>;
+
+    final results = response.map(
+      (e) {
+        final result = e as Map<String, dynamic>;
+        return {
+          'date':
+              result['date'], // Update to match the column name in the function
+        };
+      },
+    ).toList();
+
+    return results;
+  }
 }

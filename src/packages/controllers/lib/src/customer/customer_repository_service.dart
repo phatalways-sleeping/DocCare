@@ -87,4 +87,8 @@ abstract interface class CustomerRepositoryService {
     required String specialization,
     String? customerComment,
   });
+
+  Future<List<Map<String, dynamic>>> getDoctorWorkingShift({
+    required String doctorid,
+  });
 }

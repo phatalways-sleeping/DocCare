@@ -7,8 +7,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:views/src/screens/users/booking/booking_view/controller/booking_bloc.dart';
 
 class DCCalendar extends StatefulWidget {
-  const DCCalendar({super.key});
+  const DCCalendar({
+    required this.workingShiftFuture,
+    super.key,
+  });
 
+  final Future<List<DateTime>> workingShiftFuture;
   @override
   State<DCCalendar> createState() => _DCCalendarState();
 }
@@ -98,17 +102,46 @@ class _DCCalendarState extends State<DCCalendar> {
   final int daysInMonth = 30;
   final int firstDayOfWeek = 1; // 0 for Sunday, 1 for Monday, etc.
   final dates = buildCalendarData(mapDatesToWeekday(DateTime.now())).entries;
+  late Future<List<DateTime>> workingShiftFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    workingShiftFuture = widget.workingShiftFuture;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children:
-          ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((weekday) {
-        return DCCalendarColumn(
-          weekday: weekday,
-          dates: dates.firstWhere((element) => element.key == weekday).value,
-        );
-      }).toList(),
+    print("Dates: $dates"); // Print dates for debugging
+    print(
+        "Working Shift Future: $workingShiftFuture"); // Print workingShiftFuture for debugging
+    return FutureBuilder<List<DateTime>>(
+      future: workingShiftFuture,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          // Return a loading indicator or placeholder widget
+          return const CircularProgressIndicator();
+        } else if (snapshot.hasError) {
+          // Handle the error
+          return Text('Error: ${snapshot.error}');
+        } else {
+          // Process and display the data using DCCalendarColumn widget
+          final dates =
+              buildCalendarData(mapDatesToWeekday(DateTime.now())).entries;
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+                .map((weekday) {
+              return DCCalendarColumn(
+                workingShiftFuture: snapshot.data!, // Pass the snapshot data
+                weekday: weekday,
+                dates:
+                    dates.firstWhere((element) => element.key == weekday).value,
+              );
+            }).toList(),
+          );
+        }
+      },
     );
   }
 }
@@ -117,11 +150,13 @@ class DCCalendarColumn extends StatelessWidget {
   const DCCalendarColumn({
     required this.weekday,
     required this.dates,
+    required this.workingShiftFuture,
     super.key,
   });
 
   final String weekday;
   final List<DateTime> dates;
+  final List<DateTime> workingShiftFuture;
 
   @override
   Widget build(BuildContext context) {
@@ -149,10 +184,18 @@ class DCCalendarColumn extends StatelessWidget {
                       BookingSelectDateEvent(date: date),
                     );
               },
-              available: date.isAfter(
-                    DateTime.now(),
-                  ) ||
-                  (date.isBefore(DateTime.now()) && date.day.isEven),
+              available: (date.isAfter(DateTime.now()) &&
+                      (context.read<BookingBloc>().state.doctorData.isEmpty ||
+                          workingShiftFuture.any((shiftDate) =>
+                              shiftDate.year == date.year &&
+                              shiftDate.month == date.month &&
+                              shiftDate.day == date.day))) ||
+                  (date.isBefore(DateTime.now()) &&
+                      (context.read<BookingBloc>().state.doctorData.isEmpty ||
+                          workingShiftFuture.any((shiftDate) =>
+                              shiftDate.year == date.year &&
+                              shiftDate.month == date.month &&
+                              shiftDate.day == date.day))),
             ),
           ),
       ],

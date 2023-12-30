@@ -73,28 +73,48 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     );
   }
 
+  Future<List<DateTime>> getDoctorWorkingShift({
+    required String doctorid,
+  }) async {
+    try {
+      final response = await _customerRepositoryService.getDoctorWorkingShift(
+        doctorid: doctorid,
+      );
+      final workingDate = response.map((date) {
+        return DateTime.parse(date['date']! as String);
+      }).toList();
+      return workingDate;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Future<List<String>> getAvailablePeriodWithSpecialization(
     String specialization,
     DateTime date,
   ) async {
-    final customerid = _customerRepositoryService.getCustomerId();
-    final availablePeriods =
-        await _customerRepositoryService.getAvailablePeriodWithSpecialization(
-      specialization: specialization,
-      date: date,
-      customerid: customerid,
-    );
+    try {
+      final customerid = _customerRepositoryService.getCustomerId();
+      final availablePeriods =
+          await _customerRepositoryService.getAvailablePeriodWithSpecialization(
+        specialization: specialization,
+        date: date,
+        customerid: customerid,
+      );
 
-    // Extract 'time' values from the list and format them with leading zeros
-    final appointmentTimes = availablePeriods.map(
-      (period) {
-        final time = period['time'] as String;
-        final formattedTime =
-            DateFormat('HH:mm a').format(DateTime.parse('2022-01-01 $time'));
-        return formattedTime;
-      },
-    ).toList();
-    return appointmentTimes;
+      // Extract 'time' values from the list and format them with leading zeros
+      final appointmentTimes = availablePeriods.map(
+        (period) {
+          final time = period['time'] as String;
+          final formattedTime =
+              DateFormat('HH:mm a').format(DateTime.parse('2022-01-01 $time'));
+          return formattedTime;
+        },
+      ).toList();
+      return appointmentTimes;
+    } catch (e) {
+      rethrow;
+    }
   }
 
   Future<List<String>> getDoctorSpecialization() =>
