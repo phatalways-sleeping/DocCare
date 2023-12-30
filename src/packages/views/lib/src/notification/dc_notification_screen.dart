@@ -26,12 +26,27 @@ class _DCNotificationScreenState extends State<DCNotificationScreen> {
           if (state is NotificationInitial) {
             BlocProvider.of<NotificationBloc>(context)
                 .add(const LoadNotification());
-            return const Center(
-              child: CircularProgressIndicator(),
+            return Center(
+              child: CircularProgressIndicator(
+                color: context.colorScheme.secondary,
+              ),
             );
           } else if (state is NotificationLoading) {
-            return const Center(
-              child: CircularProgressIndicator(),
+            return Center(
+              child: CircularProgressIndicator(
+                color: context.colorScheme.secondary,
+              ),
+            );
+          } else if (state is NotificationError) {
+            return Center(
+              child: DCFilledButton(
+                onPressed: (context) {
+                  context
+                      .read<NotificationBloc>()
+                      .add(const LoadNotification());
+                },
+                child: const Text('Retry'),
+              ),
             );
           } else if (state is NotificationLoaded) {
             final notificationWidgets =
@@ -40,7 +55,7 @@ class _DCNotificationScreenState extends State<DCNotificationScreen> {
                 children: [
                   SizedBox(
                     width: context.width,
-                    height: context.height * 0.2,
+                    height: context.height * 0.18,
                     child: DCNotification(
                       heightFactor: 1,
                       title: Text(entry.value[0]),
@@ -48,8 +63,14 @@ class _DCNotificationScreenState extends State<DCNotificationScreen> {
                       notificationTime: state.dates[entry.key],
                       haveNotificationTime: true,
                       backgroundColor: context.colorScheme.quinary,
-                      textColor: context.colorScheme.background,
-                      onPressed: (context) {},
+                      titleStyle: context.textTheme.h6BoldPoppins.copyWith(
+                        fontSize: 23,
+                        color: context.colorScheme.background,
+                      ),
+                      messageStyle: context.textTheme.h6RegularPoppins.copyWith(
+                        fontSize: 15,
+                        color: context.colorScheme.background,
+                      ),
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -57,13 +78,26 @@ class _DCNotificationScreenState extends State<DCNotificationScreen> {
               );
             }).toList();
 
-            return CustomScrollView(
-              slivers: [
-                SliverList(
-                  delegate: SliverChildListDelegate(notificationWidgets),
+            if (notificationWidgets.isEmpty) {
+              return Container(
+                padding: EdgeInsets.only(top: context.height * 0.35),
+                alignment: Alignment.topCenter,
+                child: Text(
+                  'No notifications',
+                  style: context.textTheme.h6BoldPoppins.copyWith(
+                    fontSize: 24,
+                  ),
                 ),
-              ],
-            );
+              );
+            } else {
+              return CustomScrollView(
+                slivers: [
+                  SliverList(
+                    delegate: SliverChildListDelegate(notificationWidgets),
+                  ),
+                ],
+              );
+            }
           } else {
             return const Center(
               child: Text('Error'),

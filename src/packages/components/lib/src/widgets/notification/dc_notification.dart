@@ -9,8 +9,7 @@ class DCNotification extends StatelessWidget {
     required this.title,
     required this.message,
     required this.backgroundColor,
-    required this.textColor,
-    required this.onPressed,
+    this.textColor,
     this.notificationTime,
     this.haveNotificationTime = false,
     this.heightFactor = 0.12,
@@ -25,25 +24,25 @@ class DCNotification extends StatelessWidget {
           'If haveNotificationTime is true, notificationTime must not be null',
         ),
         assert(
-            heightFactor >= 0 &&
-                heightFactor <= 1.0 &&
-                widthFactor >= 0 &&
-                widthFactor <= 1.0,
-            'heightFactor must be between 0 and 1.0 and widthFactor must be between 0 and 1.0');
+          heightFactor >= 0 &&
+              heightFactor <= 1.0 &&
+              widthFactor >= 0 &&
+              widthFactor <= 1.0,
+          'heightFactor must be between 0 and 1.0 and widthFactor must be between 0 and 1.0',
+        );
 
   final Widget title;
   final Widget message;
   final DateTime? notificationTime;
   final bool haveNotificationTime;
   final Color backgroundColor;
-  final Color textColor;
+  final Color? textColor;
   final double heightFactor;
   final double widthFactor;
   final TextStyle? titleStyle;
   final TextStyle? messageStyle;
   final EdgeInsetsGeometry padding;
   final BorderRadius borderRadius;
-  final void Function(BuildContext context) onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -51,31 +50,15 @@ class DCNotification extends StatelessWidget {
     if (haveNotificationTime) {
       time = DateFormat('hh:mm a, d MMM y').format(notificationTime!);
     }
-
     return FractionallySizedBox(
       heightFactor: heightFactor,
       widthFactor: widthFactor,
-      child: ElevatedButton(
-        style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.resolveWith((states) {
-            if (states.contains(MaterialState.hovered)) {
-              return backgroundColor.withOpacity(0.8);
-            } else if (states.contains(MaterialState.pressed)) {
-              return backgroundColor.withOpacity(0.6);
-            } else {
-              return backgroundColor;
-            }
-          }),
-          padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-            padding,
-          ),
-          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-            RoundedRectangleBorder(
-              borderRadius: borderRadius,
-            ),
-          ),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: borderRadius,
+          color: backgroundColor,
         ),
-        onPressed: () => onPressed(context),
+        padding: padding,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -87,7 +70,7 @@ class DCNotification extends StatelessWidget {
               child: DefaultTextStyle.merge(
                 style: titleStyle ??
                     context.textTheme.h6BoldPoppins.copyWith(
-                      color: textColor,
+                      color: textColor ?? context.colorScheme.background,
                       fontSize: 20,
                     ),
                 child: title,
@@ -98,7 +81,7 @@ class DCNotification extends StatelessWidget {
               child: DefaultTextStyle.merge(
                 style: messageStyle ??
                     context.textTheme.h6RegularPoppins.copyWith(
-                      color: textColor,
+                      color: textColor ?? context.colorScheme.background,
                       fontSize: 14,
                     ),
                 child: message,
@@ -111,7 +94,7 @@ class DCNotification extends StatelessWidget {
                   DefaultTextStyle.merge(
                     style: messageStyle ??
                         context.textTheme.h6RegularPoppins.copyWith(
-                          color: textColor,
+                          color: textColor ?? context.colorScheme.background,
                           fontSize: 14,
                         ),
                     child: Text(time),

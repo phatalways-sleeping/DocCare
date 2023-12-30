@@ -29,8 +29,15 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
     final currentMapDates = List<DateTime>.from(state.dates);
 
     final currentTime = DateTime.now();
-    final data =
-        await _customerRepositoryService.getAppointmentStatusDoctorName();
+    final data = await _customerRepositoryService
+        .getAppointmentStatusDoctorName()
+        .timeout(
+      const Duration(seconds: 15),
+      onTimeout: () {
+        emit(NotificationError.from(state));
+        return [];
+      },
+    );
     for (final element in data) {
       final time = DateFormat('HH:mm:ss').parse(element['time'].toString());
       final dateTime = DateTime(
