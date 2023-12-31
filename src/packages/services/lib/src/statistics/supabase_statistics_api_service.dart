@@ -27,7 +27,7 @@ class SupabaseStatisticsApiService implements StatisticsAPIService<Statistics> {
       .select<PostgrestList>()
       .then(
         (value) => value.isEmpty
-            ? throw Exception('No statistics found')
+            ? <Statistics>[]
             : value.map(Statistics.fromJson).toList(),
       )
       .onError((error, stackTrace) => throw Exception(error));
@@ -89,9 +89,6 @@ class SupabaseStatisticsApiService implements StatisticsAPIService<Statistics> {
           .from('statistics')
           .update({
             'prescriptionID': prescriptionID,
-          })
-          .eq('id', id)
-          .onError((error, stackTrace) => throw Exception(error));
 
   @override
   Future<void> deleteStatistics(int id) => supabase

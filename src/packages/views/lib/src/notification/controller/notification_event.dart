@@ -1,3 +1,5 @@
+// ignore_for_file: public_member_api_docs
+
 part of 'notification_bloc.dart';
 
 @immutable
@@ -10,12 +12,4 @@ sealed class NotificationEvent extends Equatable {
 
 final class LoadNotification extends NotificationEvent {
   const LoadNotification();
-}
-
-final class DisplayNotification extends NotificationEvent {
-  const DisplayNotification();
-}
-
-final class NotificationBackButtonPressedEvent extends NotificationEvent {
-  const NotificationBackButtonPressedEvent();
 }

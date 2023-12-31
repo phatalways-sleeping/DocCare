@@ -29,7 +29,7 @@ sealed class NotificationState extends Equatable {
 }
 
 final class NotificationInitial extends NotificationState {
-  NotificationInitial.empty()
+  const NotificationInitial.empty()
       : super(
           notifications: const {},
           dates: const [],
@@ -45,7 +45,7 @@ final class NotificationInitial extends NotificationState {
     Map<int, List<String>>? notifications,
     List<DateTime>? dates,
   }) {
-    return NotificationInitial.empty();
+    return const NotificationInitial.empty();
   }
 }
 
@@ -97,6 +97,33 @@ final class NotificationLoaded extends NotificationState {
     List<DateTime>? dates,
   }) {
     return NotificationLoaded(
+      notifications: notifications ?? super.notifications,
+      dates: dates ?? super.dates,
+    );
+  }
+}
+
+final class NotificationError extends NotificationState {
+  const NotificationError({
+    required super.notifications,
+    required super.dates,
+  });
+
+  factory NotificationError.from(
+    NotificationState notificationInitial,
+  ) {
+    return NotificationError(
+      notifications: notificationInitial.notifications,
+      dates: notificationInitial.dates,
+    );
+  }
+
+  @override
+  NotificationState copyWith({
+    Map<int, List<String>>? notifications,
+    List<DateTime>? dates,
+  }) {
+    return NotificationError(
       notifications: notifications ?? super.notifications,
       dates: dates ?? super.dates,
     );

@@ -26,6 +26,11 @@ class SupabaseCustomerRepository implements CustomerRepositoryService {
     supabase: Supabase.instance.client,
   );
 
+  final SupabaseStatisticsApiService _supabaseStatisticsApiService =
+      SupabaseStatisticsApiService(
+    supabase: Supabase.instance.client,
+  );
+
   @override
   Future<String> createCustomer(
     String fullName,
@@ -289,6 +294,78 @@ class SupabaseCustomerRepository implements CustomerRepositoryService {
       },
     ).toList();
 
+    return results;
+  }
+
+  @override
+  Future<List<String>> getNewestPrescriptionID() async {
+    final response = await Supabase.instance.client.rpc(
+      'get_newest_appointment_ids',
+      params: {
+        'customer_id': _customerId,
+      },
+    );
+
+    final data = response as List<dynamic>;
+    final result = data.map((item) {
+      return item.toString();
+    }).toList();
+
+    return result;
+  }
+
+  @override
+  Future<Map<String, dynamic>> getStatistics(
+    String prescriptionId,
+  ) async {
+    final response = await _supabaseStatisticsApiService.getStatisticsList(
+      prescriptionId,
+    );
+    final listStatistics = <String, String>{};
+    for (final element in response) {
+      listStatistics[element.categoryName] = element.value;
+    }
+    return listStatistics;
+  }
+
+  @override
+  Future<List<Map<String, dynamic>>> getUpcomingAppointments() async {
+    final response = await Supabase.instance.client.rpc(
+      'get_upcoming_appointments',
+      params: {
+        'customer_id': _customerId,
+      },
+    ).onError((error, stackTrace) => []) as List<dynamic>;
+    final results = response.map(
+      (e) {
+        final result = e as Map<String, dynamic>;
+        return {
+          'name': result['detail'],
+          'time': result['period_date'],
+        };
+      },
+    ).toList();
+    return results;
+  }
+
+  @override
+  Future<List<Map<String, dynamic>>> getAppointmentStatusDoctorName() async {
+    final response = await Supabase.instance.client.rpc(
+      'get_appointment_status_doctor_name',
+      params: {
+        'customer_id': _customerId,
+      },
+    ).onError((error, stackTrace) => []) as List<dynamic>;
+    final results = response.map(
+      (e) {
+        final result = e as Map<String, dynamic>;
+        return {
+          'time': result['period_date'],
+          'status': result['status'],
+          'doctorName': result['doctor_name'],
+        };
+      },
+    ).toList();
     return results;
   }
 }

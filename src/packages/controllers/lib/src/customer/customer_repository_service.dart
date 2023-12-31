@@ -36,6 +36,8 @@ abstract interface class CustomerRepositoryService {
     required bool isDone,
   });
 
+  Future<List<String>> getNewestPrescriptionID();
+
   Future<List<Map<String, dynamic>>> getCurrentPrescriptions();
 
   Future<List<Map<String, dynamic>>> getPastPrescriptions();
@@ -59,4 +61,12 @@ abstract interface class CustomerRepositoryService {
     DateTime? date,
     required int period,
   });
+
+  Future<Map<String, dynamic>> getStatistics(
+    String prescriptionId,
+  );
+
+  Future<List<Map<String, dynamic>>> getUpcomingAppointments();
+
+  Future<List<Map<String, dynamic>>> getAppointmentStatusDoctorName();
 }
