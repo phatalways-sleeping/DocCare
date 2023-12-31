@@ -1,3 +1,5 @@
+// ignore_for_file: public_member_api_docs
+
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -12,6 +14,11 @@ final class Appointment extends Equatable {
     required this.date,
     this.rating,
     this.customerComment,
+    this.prescriptionID,
+    this.dateDone,
+    this.done,
+    this.note,
+    this.diagnosis,
   });
 
   factory Appointment.fromJson(Map<String, dynamic> json) =>
@@ -31,10 +38,31 @@ final class Appointment extends Equatable {
   final int? rating;
   @JsonKey()
   final String? customerComment;
+  @JsonKey()
+  final String? prescriptionID;
+  @JsonKey()
+  final DateTime? dateDone;
+  @JsonKey()
+  final bool? done;
+  @JsonKey()
+  final String? note;
+  @JsonKey()
+  final String? diagnosis;
 
   @override
-  List<Object?> get props =>
-      [customerID, doctorID, period, date, rating, customerComment];
+  List<Object?> get props => [
+        customerID,
+        doctorID,
+        period,
+        date,
+        rating,
+        customerComment,
+        prescriptionID,
+        dateDone,
+        done,
+        note,
+        diagnosis,
+      ];
 
   Appointment copyWith({
     String? customerID,
@@ -43,6 +71,11 @@ final class Appointment extends Equatable {
     DateTime? date,
     int? rating,
     String? customerComment,
+    String? prescriptionID,
+    DateTime? dateDone,
+    bool? done,
+    String? note,
+    String? diagnosis,
   }) {
     return Appointment(
       customerID: customerID ?? this.customerID,

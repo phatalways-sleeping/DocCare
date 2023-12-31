@@ -19,17 +19,23 @@ import 'package:views/src/screens/users/booking/flows/dc_schedule_view_screen.da
 import 'package:views/src/screens/users/home/dc_customer_home_screen.dart';
 import 'package:views/src/screens/users/prescription/dc_customer_view_prescription_flow.dart';
 
-void runDocCare() => runApp(
+void runDocCare(String supabaseUrl, String serviceRoleKey) => runApp(
       MultiRepositoryProvider(
         providers: [
           RepositoryProvider<AuthenticationRepositoryService>(
-            create: (context) => SupabaseAuthenticationRepository(),
+            create: (context) => SupabaseAuthenticationRepository(
+              supabaseUrl,
+              serviceRoleKey,
+            ),
           ),
           RepositoryProvider<StorageRepositoryService>(
             create: (context) => SupabaseStorageRepository(),
           ),
           RepositoryProvider<AdministratorRepositoryService>(
-            create: (context) => SupabaseAdminRepository(),
+            create: (context) => SupabaseAdminRepository(
+              supabaseUrl,
+              serviceRoleKey,
+            ),
           ),
           RepositoryProvider<CustomerRepositoryService>(
             create: (context) => SupabaseCustomerRepository(),
@@ -158,7 +164,6 @@ void runDocCare() => runApp(
                     navigatorKey: GlobalKey<NavigatorState>(
                       debugLabel: 'prescribe-doctor',
                     ),
-                    customerName: 'John Doe', // Later we replace
                   ),
                 );
               case '/doctor/absent-request':

@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs
 
+import 'package:controllers/controllers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:views/src/screens/admin/management/v2/create/controllers/create_staff/create_staff_bloc.dart';
@@ -19,7 +20,9 @@ class DCAdminCreateStaffFlow extends StatelessWidget {
           create: (context) => ScreenBloc(),
         ),
         BlocProvider<StaffCreationBloc>(
-          create: (context) => StaffCreationBloc(),
+          create: (context) => StaffCreationBloc(
+            context.read<AdministratorRepositoryService>(),
+          ),
         ),
       ],
       child: BlocBuilder<ScreenBloc, ScreenState>(

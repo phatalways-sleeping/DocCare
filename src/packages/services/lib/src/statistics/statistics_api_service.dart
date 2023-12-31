@@ -21,7 +21,5 @@ abstract interface class StatisticsAPIService<T extends Statistics> {
 
   Future<void> updateStatisticsPrescriptionID(int id, String prescriptionID);
 
-  Future<void> updateStatisticsNote(int id, String note);
-
   Stream<T> streamStatistics(int id);
 }

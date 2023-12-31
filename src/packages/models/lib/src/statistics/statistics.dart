@@ -26,8 +26,6 @@ final class Statistics extends Equatable {
   final String categoryName;
   @JsonKey(required: true)
   final String prescriptionID;
-  @JsonKey()
-  final String? note;
 
   @override
   List<Object?> get props => [
@@ -43,14 +41,12 @@ final class Statistics extends Equatable {
     String? value,
     String? categoryName,
     String? prescriptionID,
-    String? note,
   }) {
     return Statistics(
       id: id ?? this.id,
       value: value ?? this.value,
       categoryName: categoryName ?? this.categoryName,
       prescriptionID: prescriptionID ?? this.prescriptionID,
-      note: note ?? this.note,
     );
   }
 }

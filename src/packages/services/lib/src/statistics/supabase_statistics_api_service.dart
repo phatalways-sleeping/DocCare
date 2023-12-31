@@ -60,7 +60,6 @@ class SupabaseStatisticsApiService implements StatisticsAPIService<Statistics> {
         'value': statistics.value,
         'categoryName': statistics.categoryName,
         'prescriptionID': statistics.prescriptionID,
-        'note': statistics.note,
       })
       .eq('id', id)
       .onError((error, stackTrace) => throw Exception(error));
@@ -90,18 +89,6 @@ class SupabaseStatisticsApiService implements StatisticsAPIService<Statistics> {
           .from('statistics')
           .update({
             'prescriptionID': prescriptionID,
-          })
-          .eq('id', id)
-          .onError((error, stackTrace) => throw Exception(error));
-
-  @override
-  Future<void> updateStatisticsNote(int id, String note) => supabase
-      .from('statistics')
-      .update({
-        'note': note,
-      })
-      .eq('id', id)
-      .onError((error, stackTrace) => throw Exception(error));
 
   @override
   Future<void> deleteStatistics(int id) => supabase
