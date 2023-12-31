@@ -112,9 +112,6 @@ class _DCCalendarState extends State<DCCalendar> {
 
   @override
   Widget build(BuildContext context) {
-    print("Dates: $dates"); // Print dates for debugging
-    print(
-        "Working Shift Future: $workingShiftFuture"); // Print workingShiftFuture for debugging
     return FutureBuilder<List<DateTime>>(
       future: workingShiftFuture,
       builder: (context, snapshot) {
