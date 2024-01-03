@@ -104,15 +104,25 @@ class _DCProfileScreenState extends State<DCProfileScreen> {
                     context,
                     link,
                   ),
-                  icon: SvgPicture.string(
-                    DCSVGIcons.logout,
-                    width: 25,
-                    height: 25,
-                    colorFilter: const ColorFilter.mode(
-                      Colors.orange,
-                      BlendMode.srcIn,
-                    ),
-                  ),
+                  icon: (role == 'receptionist')
+                      ? SvgPicture.string(
+                          DCSVGIcons.logout,
+                          width: 25,
+                          height: 25,
+                          colorFilter: const ColorFilter.mode(
+                            Colors.orange,
+                            BlendMode.srcIn,
+                          ),
+                        )
+                      : SvgPicture.string(
+                          DCSVGIcons.back,
+                          width: 30,
+                          height: 20,
+                          colorFilter: ColorFilter.mode(
+                            context.colorScheme.onBackground,
+                            BlendMode.srcIn,
+                          ),
+                        ),
                 ),
               ),
               extendBodyBehindAppBar: true,
@@ -156,15 +166,25 @@ class _DCProfileScreenState extends State<DCProfileScreen> {
                         );
                   }
                 },
-                icon: SvgPicture.string(
-                  DCSVGIcons.logout,
-                  width: 25,
-                  height: 25,
-                  colorFilter: const ColorFilter.mode(
-                    Colors.orange,
-                    BlendMode.srcIn,
-                  ),
-                ),
+                icon: (role == 'receptionist')
+                    ? SvgPicture.string(
+                        DCSVGIcons.logout,
+                        width: 25,
+                        height: 25,
+                        colorFilter: const ColorFilter.mode(
+                          Colors.orange,
+                          BlendMode.srcIn,
+                        ),
+                      )
+                    : SvgPicture.string(
+                        DCSVGIcons.back,
+                        width: 30,
+                        height: 20,
+                        colorFilter: ColorFilter.mode(
+                          context.colorScheme.onBackground,
+                          BlendMode.srcIn,
+                        ),
+                      ),
               ),
             ),
             bottomNavigationBar: (role == 'receptionist')

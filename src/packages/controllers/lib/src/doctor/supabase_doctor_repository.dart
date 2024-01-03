@@ -40,6 +40,11 @@ class SupabaseDoctorRepository implements DoctorRepositoryService {
     supabase: Supabase.instance.client,
   );
 
+  final SupabaseDoctorApiService _supabaseDoctorApiService =
+      SupabaseDoctorApiService(
+    supabase: Supabase.instance.client,
+  );
+
   @override
   void initializeDoctorId(String id) {
     _doctorId = id;
@@ -74,9 +79,16 @@ class SupabaseDoctorRepository implements DoctorRepositoryService {
   }
 
   @override
-  Future<Map<String, dynamic>> getProfileData() {
-    // TODO: implement getProfileData
-    throw UnimplementedError();
+  Future<Map<String, dynamic>> getProfileData() async {
+    final doctor = await _supabaseDoctorApiService.getUser(_doctorId);
+    return {
+      'fullName': doctor.fullname,
+      'email': doctor.email,
+      'phone': doctor.phone,
+      'birthday': doctor.birthday,
+      'specialization': doctor.specializationId,
+      'startWorkingFrom': doctor.startWorkingFrom,
+    };
   }
 
   @override
@@ -87,9 +99,21 @@ class SupabaseDoctorRepository implements DoctorRepositoryService {
     DateTime? birthday,
     String? specialization,
     int? startWorkingFrom,
-  }) {
-    // TODO: implement updateProfileData
-    throw UnimplementedError();
+  }) async {
+    final doctor = await _supabaseDoctorApiService.getUser(_doctorId);
+    await _supabaseDoctorApiService
+        .updateUser(
+          _doctorId,
+          doctor.copyWith(
+            fullname: fullname ?? doctor.fullname,
+            email: email ?? doctor.email,
+            phone: phone ?? doctor.phone,
+            birthday: birthday ?? doctor.birthday,
+            specializationId: specialization ?? doctor.specializationId,
+            startWorkingFrom: startWorkingFrom ?? doctor.startWorkingFrom,
+          ),
+        )
+        .onError((error, stackTrace) => throw Exception('Error updating user'));
   }
 
   @override
