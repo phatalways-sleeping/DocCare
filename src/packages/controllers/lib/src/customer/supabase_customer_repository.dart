@@ -363,10 +363,11 @@ class SupabaseCustomerRepository implements CustomerRepositoryService {
     required String customerid,
     required String doctorid,
     required DateTime date,
+    required String customername,
     String? customerComment,
   }) async {
     await Supabase.instance.client.rpc(
-      'add_appointment_with_doctor_record',
+      'add_appointment_with_doctor_record2',
       params: {
         'p_period': period,
         'p_customerid': customerid,
@@ -378,7 +379,9 @@ class SupabaseCustomerRepository implements CustomerRepositoryService {
         'p_done': null,
         'p_note': null,
         'p_diagnosis': null,
-        'p_rating': null
+        'p_rating': null,
+        'p_iscanceled': false,
+        'p_customername': customername,
       },
     ).onError(
       (error, stackTrace) => debugPrint(
@@ -393,6 +396,7 @@ class SupabaseCustomerRepository implements CustomerRepositoryService {
     required String customerid,
     required DateTime date,
     required String specialization,
+    required String customername,
     String? customerComment,
   }) async {
     await Supabase.instance.client.rpc(
@@ -408,7 +412,9 @@ class SupabaseCustomerRepository implements CustomerRepositoryService {
         'p_done': null,
         'p_note': null,
         'p_diagnosis': null,
-        'p_rating': null
+        'p_rating': null,
+        'p_iscanceled': false,
+        'p_customername': customername,
       },
     ).onError(
       (error, stackTrace) => debugPrint(
@@ -439,5 +445,43 @@ class SupabaseCustomerRepository implements CustomerRepositoryService {
     ).toList();
 
     return results;
+  }
+
+  @override
+  Future<bool> checkExistingAppointment({
+    required int period,
+    required String doctorid,
+    required DateTime date,
+  }) async {
+    final checkExisting = await Supabase.instance.client.rpc(
+      'check_appointment_existing',
+      params: {
+        'p_periodid': period,
+        'p_doctorid': doctorid,
+        'p_date':
+            date.toIso8601String(), // Ensure date is converted to a string
+      },
+    ) as int;
+
+    // Check if the stored procedure returned 1 (true) or 0 (false)
+    return checkExisting == 1;
+  }
+
+  @override
+  Future<String> getHighestRatingDoctor({
+    required String speciality,
+    required DateTime date,
+    required int period,
+  }) async {
+    final doctorID = await Supabase.instance.client.rpc(
+      'get_highest_rating_doctor',
+      params: {
+        'p_specialization': speciality,
+        'p_date': date.toIso8601String(),
+        'p_periodid': period,
+      },
+    ) as String;
+
+    return doctorID;
   }
 }

@@ -227,8 +227,6 @@ class DCCalendarButton extends StatelessWidget {
             previous.dateSelected != current.dateSelected,
         builder: (context, state) {
           final dateSelected = state.dateSelected;
-          print(dateSelected);
-          print(date);
           final withoutDoctor = state.doctorData.isEmpty;
           return Container(
             width: 50,
@@ -245,9 +243,8 @@ class DCCalendarButton extends StatelessWidget {
                           ? context.colorScheme.secondary
                           : null,
               border: (dateSelected != null &&
-                      dateSelected.year == date.year &&
-                      dateSelected.month == date.month &&
-                      dateSelected.day == date.day)
+                      dateSelected.day == date.day &&
+                      dateSelected.month == date.month)
                   ? Border.all(
                       color: const Color(0xFF6B4EFF),
                       width: 2,

@@ -77,6 +77,7 @@ abstract interface class CustomerRepositoryService {
     required String customerid,
     required String doctorid,
     required DateTime date,
+    required String customername,
     String? customerComment,
   });
 
@@ -85,10 +86,23 @@ abstract interface class CustomerRepositoryService {
     required String customerid,
     required DateTime date,
     required String specialization,
+    required String customername,
     String? customerComment,
   });
 
   Future<List<Map<String, dynamic>>> getDoctorWorkingShift({
     required String doctorid,
+  });
+
+  Future<bool> checkExistingAppointment({
+    required int period,
+    required String doctorid,
+    required DateTime date,
+  });
+
+  Future<String> getHighestRatingDoctor({
+    required String speciality,
+    required DateTime date,
+    required int period,
   });
 }

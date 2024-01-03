@@ -43,7 +43,8 @@ class _DCAsyncViewState extends State<DCAsyncView> {
                 children: data.map(
                   (e) {
                     return DCCircularItem(
-                      title: e,
+                      title: e.split(' ').first,
+                      subtitle: e.split(' ').last,
                       isSelected: item == e,
                       isAvailable: true,
                       onPressed: widget.type == DCAsyncViewType.availableTime

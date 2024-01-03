@@ -62,6 +62,7 @@ class _DCBookingWithDoctorScreenState extends State<DCBookingWithDoctorScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: context.watch<BookingBloc>().state is BookingSuccess
           ? null
           : context.watch<BookingBloc>().state.doctorData.keys.isEmpty
@@ -83,9 +84,13 @@ class _DCBookingWithDoctorScreenState extends State<DCBookingWithDoctorScreen> {
                           ),
                 ),
       drawer: widget.inCustomerView ? const DCCustomerDrawer() : null,
-      bottomNavigationBar: const DCCustomerNavigationBar(
-        selectedIndex: 3,
-      ),
+      bottomNavigationBar:
+          (context.watch<BookingBloc>().state.doctorData.isNotEmpty ||
+                  context.watch<BookingBloc>().state.dateSelected != null)
+              ? null
+              : const DCCustomerNavigationBar(
+                  selectedIndex: 3,
+                ),
       extendBody: true,
       body: BlocConsumer<BookingBloc, BookingState>(
         listener: (context, state) async {

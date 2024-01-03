@@ -73,6 +73,21 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     );
   }
 
+  Future<bool> checkAppointmentExisting() async {
+    try {
+      final result = await _customerRepositoryService.checkExistingAppointment(
+        date: state.dateSelected!,
+        period: convertTimeToPeriodId(state.timeSelected!),
+        doctorid: (state.doctorData['id'] != null
+            ? state.doctorData['id'] as String
+            : ''),
+      );
+      return result;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Future<List<DateTime>> getDoctorWorkingShift({
     required String doctorid,
   }) async {
@@ -137,27 +152,59 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
       //await Future.delayed(const Duration(seconds: 5), () {});
       // Mocking error
       // throw Exception();
+      final customerDetail = await _customerRepositoryService.getProfileData();
       final time = convertTimeToPeriodId(state.timeSelected!);
       final customerid = _customerRepositoryService.getCustomerId();
       final doctorid =
           (doctorData['id'] != null ? doctorData['id'] as String : '');
       final date = state.dateSelected;
       final customerComment = state.symptom;
+
       if (doctorData.isNotEmpty) {
+        final existAppointment =
+            await _customerRepositoryService.checkExistingAppointment(
+          period: time,
+          doctorid: doctorData['id'] as String,
+          date: date!,
+        );
+        if (!existAppointment) {
+          throw Error();
+        }
+
         await _customerRepositoryService.bookAppointmentWithDoctor(
           period: time,
           customerid: customerid,
           doctorid: doctorid,
-          date: date!,
+          date: date,
           customerComment: customerComment,
+          customername: customerDetail['fullName'] as String,
         );
       } else {
-        await _customerRepositoryService.bookAppointmentWithoutDoctor(
+        final highestRatingDoctorId =
+            await _customerRepositoryService.getHighestRatingDoctor(
+          speciality: state.speciality!,
+          date: date!,
+          period: time,
+        );
+
+        final existAppointment =
+            await _customerRepositoryService.checkExistingAppointment(
+          period: time,
+          doctorid: highestRatingDoctorId,
+          date: date,
+        );
+        print(highestRatingDoctorId);
+        if (!existAppointment) {
+          throw Error();
+        }
+
+        await _customerRepositoryService.bookAppointmentWithDoctor(
           period: time,
           customerid: customerid,
-          date: date!,
+          doctorid: highestRatingDoctorId,
+          date: date,
           customerComment: customerComment,
-          specialization: state.speciality!,
+          customername: customerDetail['fullName'] as String,
         );
       }
       // Emit the success state
