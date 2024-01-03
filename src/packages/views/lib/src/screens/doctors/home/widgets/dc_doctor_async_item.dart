@@ -109,7 +109,11 @@ class _DCDoctorAsyncItemState extends State<DCDoctorAsyncItem> {
                       'customerID': e['customerID'].toString(),
                       'customerName': e['customerName'].toString(),
                       'date': DateTime.parse(e['date'].toString()),
-                      'period': int.parse(e['period'].toString()),
+                      'period': (e['period'].toString()),
+                      'doctorID': e['doctorID'].toString(),
+                      'rating': e['rating'].toString(),
+                      'customerComment': e['customerComment'].toString(),
+                      'dateDone': (e['dateDone'].toString()),
                     };
 
                     Navigator.of(context, rootNavigator: true)

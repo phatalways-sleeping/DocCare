@@ -138,10 +138,23 @@ class SupabaseDoctorRepository implements DoctorRepositoryService {
       doctorID: _doctorId,
       period: int.parse(period),
       date: date,
+      rating:
+          (customerData['rating'] == 'null' || customerData['rating'] == null)
+              ? null
+              : int.parse(customerData['rating'].toString()),
+      customerComment: (customerData['customerComment'] == 'null' ||
+              customerData['customerComment'] == null)
+          ? null
+          : customerData['customerComment'].toString(),
       prescriptionID: prescriptionID,
+      dateDone: (customerData['dateDone'] == 'null' ||
+              customerData['dateDone'] == null)
+          ? null
+          : DateTime.parse(customerData['dateDone'].toString()),
       done: true,
       note: doctorNote[1],
       diagnosis: doctorNote[0],
+      isCanceled: false,
       customerName: customerName,
     );
 

@@ -43,12 +43,13 @@ class _DCDoctorPrescibeMedicineFlowState
               const RetrieveMedicineEvent(),
             );
           }
-        },
-        builder: (context, state) {
           if (state is PrescriptionSuccess) {
             Navigator.of(context, rootNavigator: true)
                 .pushNamed('/doctor/home');
           }
+        },
+        builder: (context, state) {
+          if (state is PrescriptionSuccess) return Container();
           final screen = state is PrescriptionMedicalLoading
               ? const Center(child: CircularProgressIndicator())
               : state is PrescriptionMedicalInitial
@@ -72,6 +73,10 @@ class _DCDoctorPrescibeMedicineFlowState
               title: '',
               allowNavigateBack: true,
               onLeadingIconPressed: (context) {
+                if (state is PrescriptionMedicalInitial) {
+                  Navigator.of(context, rootNavigator: true)
+                      .pushNamed('/doctor/home');
+                }
                 BlocProvider.of<PrescriptionBloc>(context).add(
                   const PrescriptionBackEvent(),
                 );
