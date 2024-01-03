@@ -54,7 +54,7 @@ void runDocCare(String supabaseUrl, String serviceRoleKey) => runApp(
           theme: ThemeData(
             colorScheme: const DocCareLightColorScheme(),
           ),
-          initialRoute: '/splash',
+          initialRoute: '/doctor/home',
           onGenerateRoute: (settings) {
             switch (settings.name) {
               case '/splash':
@@ -162,6 +162,7 @@ void runDocCare(String supabaseUrl, String serviceRoleKey) => runApp(
               case '/doctor/prescribe':
                 return MaterialPageRoute(
                   builder: (context) => DCDoctorPrescibeMedicineFlow(
+                    arguments: settings.arguments as Map<String, dynamic>,
                     navigatorKey: GlobalKey<NavigatorState>(
                       debugLabel: 'prescribe-doctor',
                     ),

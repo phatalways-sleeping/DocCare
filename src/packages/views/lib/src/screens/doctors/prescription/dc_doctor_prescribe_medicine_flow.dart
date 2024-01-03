@@ -13,9 +13,11 @@ import 'package:views/src/screens/doctors/prescription/dc_prescription_screen.da
 class DCDoctorPrescibeMedicineFlow extends StatefulWidget {
   const DCDoctorPrescibeMedicineFlow({
     required this.navigatorKey,
+    required this.arguments,
     super.key,
   });
 
+  final Map<String, dynamic> arguments;
   final GlobalKey<NavigatorState> navigatorKey;
 
   @override
@@ -27,6 +29,7 @@ class _DCDoctorPrescibeMedicineFlowState
     extends State<DCDoctorPrescibeMedicineFlow> {
   @override
   Widget build(BuildContext context) {
+    print(widget.arguments['customerName'].toString());
     return BlocProvider(
       create: (_) => PrescriptionBloc(
         widget.navigatorKey,

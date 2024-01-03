@@ -105,8 +105,16 @@ class _DCDoctorAsyncItemState extends State<DCDoctorAsyncItem> {
                     }
                     // pass the parameter:
                     // e['customerID'],...
+                    final data = {
+                      'customerID': e['customerID'].toString(),
+                      'customerName': e['customerName'].toString(),
+                      'date': DateTime.parse(e['date'].toString()),
+                      'period': int.parse(e['period'].toString()),
+                    };
+                    
                     Navigator.of(context, rootNavigator: true)
-                        .pushNamed('/doctor/prescribe');
+                        .pushNamed('/doctor/prescribe', arguments: data);
+
                   },
                   bottomRight: Text(
                     '${e['diagnosis']}',
