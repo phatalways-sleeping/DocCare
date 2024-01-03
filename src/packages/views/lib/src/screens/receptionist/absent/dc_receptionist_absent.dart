@@ -61,9 +61,9 @@ class _DCReceptionistAbsentScreenState
           } else if (state is ReceptionistAbsentErrorState) {}
         },
         builder: (context, state) => Scaffold(
-          appBar: const DCReceptionistHeaderBar(
-            haveLogout: true,
-          ),
+          appBar: const DCReceptionistHeaderBar(),
+          drawer: const DCReceptionistDrawer(),
+          bottomNavigationBar: const DCReceptionistNavigationBar(),
           body: Stack(
             children: [
               SingleChildScrollView(

@@ -6,6 +6,7 @@ export 'button/dc_outlined_button.dart';
 export 'drawer/dc_admin_drawer.dart';
 export 'drawer/dc_customer_drawer.dart';
 export 'drawer/dc_doctor_drawer.dart';
+export 'drawer/dc_receptionist_drawer.dart';
 export 'header_bar/dc_admin_header_bar.dart';
 export 'header_bar/dc_customer_header_bar.dart';
 export 'header_bar/dc_doctor_header_bar.dart';

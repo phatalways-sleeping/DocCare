@@ -33,7 +33,7 @@ class _DCProfileScreenState extends State<DCProfileScreen> {
         : role == 'doctor'
             ? '/doctor/home'
             : role == 'receptionist'
-                ? '/receptionist/home'
+                ? '/receptionist/absent-request'
                 : '/admin/home';
     return BlocProvider(
       create: (context) => ProfileBloc(
@@ -166,17 +166,7 @@ class _DCProfileScreenState extends State<DCProfileScreen> {
                         );
                   }
                 },
-                icon: (role == 'receptionist')
-                    ? SvgPicture.string(
-                        DCSVGIcons.logout,
-                        width: 25,
-                        height: 25,
-                        colorFilter: const ColorFilter.mode(
-                          Colors.orange,
-                          BlendMode.srcIn,
-                        ),
-                      )
-                    : SvgPicture.string(
+                icon: SvgPicture.string(
                         DCSVGIcons.back,
                         width: 30,
                         height: 20,
@@ -187,11 +177,6 @@ class _DCProfileScreenState extends State<DCProfileScreen> {
                       ),
               ),
             ),
-            bottomNavigationBar: (role == 'receptionist')
-                ? const DCReceptionistNavigationBar(
-                    selectedIndex: 1,
-                  )
-                : null,
             body: Stack(
               children: [
                 SingleChildScrollView(

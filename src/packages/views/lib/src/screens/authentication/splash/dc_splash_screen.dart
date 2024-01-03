@@ -96,7 +96,7 @@ class _DCSplashScreenState extends State<DCSplashScreen>
                               .pushReplacementNamed('/admin/staff/create');
                         case 'receptionist':
                           Navigator.of(context, rootNavigator: true)
-                              .pushReplacementNamed('/receptionist/home');
+                              .pushReplacementNamed('/receptionist/absent-request');
                       }
                     }
                   },

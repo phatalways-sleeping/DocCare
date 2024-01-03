@@ -38,17 +38,13 @@ class DCReceptionistNavigationBar extends StatelessWidget {
           switch (index) {
             case 0:
               Navigator.of(context, rootNavigator: true).pushReplacementNamed(
-                '/receptionist/home',
+                '/receptionist/absent-request',
               );
             case 1:
               Navigator.of(context, rootNavigator: true).pushReplacementNamed(
-                '/receptionist/profile',
-              );
-            case 2:
-              Navigator.of(context, rootNavigator: true).pushReplacementNamed(
                 '/receptionist/booking',
               );
-            case 3:
+            case 2:
               Navigator.of(context, rootNavigator: true).pushReplacementNamed(
                 '/receptionist/message',
               );
@@ -77,23 +73,6 @@ class DCReceptionistNavigationBar extends StatelessWidget {
                   ),
           ),
           label: 'Home',
-        ),
-        BottomNavigationBarItem(
-          icon: SvgPicture.string(
-            DCSVGIcons.profile,
-            height: iconSize,
-            width: iconSize,
-            colorFilter: selectedIndex == 1
-                ? ColorFilter.mode(
-                    selectedItemColor ?? context.colorScheme.onPrimary,
-                    BlendMode.srcIn,
-                  )
-                : ColorFilter.mode(
-                    unselectedItemColor ?? context.colorScheme.quinary,
-                    BlendMode.srcIn,
-                  ),
-          ),
-          label: 'Profile',
         ),
         BottomNavigationBarItem(
           icon: SvgPicture.string(
