@@ -90,7 +90,8 @@ void runDocCare(String supabaseUrl, String serviceRoleKey) => runApp(
                 );
               case '/home':
                 return MaterialPageRoute(
-                    builder: (context) => const DCCustomerHomeScreen());
+                  builder: (context) => const DCCustomerHomeScreen(),
+                );
               case '/profile':
                 return MaterialPageRoute(
                   builder: (context) => DCProfileScreen(
@@ -149,7 +150,9 @@ void runDocCare(String supabaseUrl, String serviceRoleKey) => runApp(
                 );
               case '/doctor/home':
                 return MaterialPageRoute(
-                  builder: (context) => DCDoctorHomeFlow(navigatorKey: GlobalKey<NavigatorState>()),
+                  builder: (context) => DCDoctorHomeFlow(
+                    navigatorKey: GlobalKey<NavigatorState>(),
+                  ),
                 );
               case '/doctor/message':
                 return MaterialPageRoute(
@@ -162,7 +165,7 @@ void runDocCare(String supabaseUrl, String serviceRoleKey) => runApp(
               case '/doctor/prescribe':
                 return MaterialPageRoute(
                   builder: (context) => DCDoctorPrescibeMedicineFlow(
-                    arguments: settings.arguments as Map<String, dynamic>,
+                    arguments: settings.arguments! as Map<String, dynamic>,
                     navigatorKey: GlobalKey<NavigatorState>(
                       debugLabel: 'prescribe-doctor',
                     ),

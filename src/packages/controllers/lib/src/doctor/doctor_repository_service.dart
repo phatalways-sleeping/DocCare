@@ -5,16 +5,6 @@ import 'package:models/models.dart';
 abstract interface class DoctorRepositoryService {
   void initializeDoctorId(String id);
 
-  void initializeDate(DateTime date);
-
-  void initializeCustomerId(String id);
-
-  void initializeCustomerName(String name);
-
-  String get getCustomerName;
-
-  void initializePeriod(String period);
-
   void clear();
 
   Future<Map<String, dynamic>> getProfileData();
@@ -35,6 +25,7 @@ abstract interface class DoctorRepositoryService {
 
   Future<void> addPrescriptionToDatabase({
     required String prescriptionID,
+    required Map<String, dynamic> customerData,
     required List<String> doctorNote,
     required Map<String, List<String>> medicines,
     required String heartRate,
@@ -44,7 +35,7 @@ abstract interface class DoctorRepositoryService {
   });
 
   Future<List<String>> getAvailableMedicine();
-  
+
   Future<void> sendAbsentRequest({
     required String reasons,
     required DateTime date,

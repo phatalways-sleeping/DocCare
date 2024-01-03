@@ -29,12 +29,12 @@ class _DCDoctorPrescibeMedicineFlowState
     extends State<DCDoctorPrescibeMedicineFlow> {
   @override
   Widget build(BuildContext context) {
-    print(widget.arguments['customerName'].toString());
     return BlocProvider(
       create: (_) => PrescriptionBloc(
         widget.navigatorKey,
         NotificationManager.instance,
         context.read<DoctorRepositoryService>(),
+        widget.arguments,
       ),
       child: BlocConsumer<PrescriptionBloc, PrescriptionState>(
         listener: (context, state) {
@@ -45,19 +45,20 @@ class _DCDoctorPrescibeMedicineFlowState
           }
         },
         builder: (context, state) {
+          if (state is PrescriptionSuccess) {
+            Navigator.of(context, rootNavigator: true)
+                .pushNamed('/doctor/home');
+          }
           final screen = state is PrescriptionMedicalLoading
               ? const Center(child: CircularProgressIndicator())
               : state is PrescriptionMedicalInitial
                   ? DCMedicalStatScreen(
-                      customerName: context
-                          .read<DoctorRepositoryService>()
-                          .getCustomerName,
+                      customerName: widget.arguments['customerName'] as String,
                     )
                   : state is PrescriptionMedicalSuccess
                       ? DCPrescriptionScreen(
-                          customerName: context
-                              .read<DoctorRepositoryService>()
-                              .getCustomerName,
+                          customerName:
+                              widget.arguments['customerName'] as String,
                         )
                       : state is PrescriptionAddMedicine
                           ? const DCAddMedicineScreen()

@@ -111,10 +111,9 @@ class _DCDoctorAsyncItemState extends State<DCDoctorAsyncItem> {
                       'date': DateTime.parse(e['date'].toString()),
                       'period': int.parse(e['period'].toString()),
                     };
-                    
+
                     Navigator.of(context, rootNavigator: true)
                         .pushNamed('/doctor/prescribe', arguments: data);
-
                   },
                   bottomRight: Text(
                     '${e['diagnosis']}',

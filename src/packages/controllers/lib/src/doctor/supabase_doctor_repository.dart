@@ -21,17 +21,10 @@ class SupabaseDoctorRepository implements DoctorRepositoryService {
     supabase: Supabase.instance.client,
   );
 
-  late String _customerId;
-  late String _period;
-  late String _date;
-  late String customerName;
-
   final SupabaseIntakeAPIService _supabaseIntakeApiService =
       SupabaseIntakeAPIService(
     supabase: Supabase.instance.client,
   );
-
-
 
   final SupabaseStatisticsApiService _supabaseStatisticsApiService =
       SupabaseStatisticsApiService(
@@ -51,29 +44,6 @@ class SupabaseDoctorRepository implements DoctorRepositoryService {
   @override
   void initializeDoctorId(String id) {
     _doctorId = id;
-  }
-
-  @override
-  void initializeDate(DateTime date) {
-    _date = date.toIso8601String();
-  }
-
-  @override
-  void initializeCustomerId(String id) {
-    _customerId = id;
-  }
-
-  @override
-  void initializeCustomerName(String name) {
-    customerName = name;
-  }
-
-  @override
-  String get getCustomerName => customerName;
-
-  @override
-  void initializePeriod(String period) {
-    _period = period;
   }
 
   @override
@@ -97,8 +67,8 @@ class SupabaseDoctorRepository implements DoctorRepositoryService {
   @override
   Future<List<dynamic>> getAppointmentsByDoctorId() async {
     final response = await _supabaseAppointmentApiService
-    .getAppointmentsByDoctorId(_doctorId)
-    .onError((error, stackTrace) => throw Exception(error));
+        .getAppointmentsByDoctorId(_doctorId)
+        .onError((error, stackTrace) => throw Exception(error));
 
     final result = <dynamic>[];
     for (final appointment in response) {
@@ -106,9 +76,6 @@ class SupabaseDoctorRepository implements DoctorRepositoryService {
     }
     return result;
   }
-
-
-
 
   @override
   Future<void> updateProfileData({
@@ -135,14 +102,14 @@ class SupabaseDoctorRepository implements DoctorRepositoryService {
         .onError((error, stackTrace) => throw Exception('Error updating user'));
   }
 
-
-
+  @override
   Future<bool> isDoctorExist(String email) async {
     final doctor = await _supabaseDoctorApiService.getAllUserEmail().catchError(
           (error) => <String>[],
         );
     return doctor.contains(email);
   }
+
   @override
   Future<void> cancelAppointment(Appointment appointment) async {
     final updatedAppointment = await _supabaseAppointmentApiService
@@ -153,6 +120,7 @@ class SupabaseDoctorRepository implements DoctorRepositoryService {
   @override
   Future<void> addPrescriptionToDatabase({
     required String prescriptionID,
+    required Map<String, dynamic> customerData,
     required List<String> doctorNote,
     required Map<String, List<String>> medicines,
     required String heartRate,
@@ -160,15 +128,21 @@ class SupabaseDoctorRepository implements DoctorRepositoryService {
     required String bloodSugar,
     required String choresterol,
   }) async {
+    final customerId = customerData['customerID'] as String;
+    final date = customerData['date'] as DateTime;
+    final period = customerData['period'].toString();
+    final customerName = customerData['customerName'] as String;
+
     final appointment = Appointment(
-      customerID: _customerId,
+      customerID: customerId,
       doctorID: _doctorId,
-      period: int.parse(_period),
-      date: DateTime.parse(_date),
+      period: int.parse(period),
+      date: date,
       prescriptionID: prescriptionID,
-      done: false,
+      done: true,
       note: doctorNote[1],
       diagnosis: doctorNote[0],
+      customerName: customerName,
     );
 
     await _supabaseAppointmentApiService.updateAppointment(appointment);
@@ -235,6 +209,7 @@ class SupabaseDoctorRepository implements DoctorRepositoryService {
     return result;
   }
 
+  @override
   Future<void> sendAbsentRequest({
     required String reasons,
     required DateTime date,
@@ -256,7 +231,4 @@ class SupabaseDoctorRepository implements DoctorRepositoryService {
           ),
         );
   }
-
-  
-  
 }
