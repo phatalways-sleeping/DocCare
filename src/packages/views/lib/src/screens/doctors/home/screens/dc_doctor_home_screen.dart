@@ -152,9 +152,10 @@ class _DCDoctorHomeScreenState extends State<DCDoctorHomeScreen> {
               builder: (context, state) {
                 DateTime upcomingAppointmentDate =
                     state.upcomingAppointmentIndex != -1
-                        ? DateTime.parse(
-                            state.appointments[state.upcomingAppointmentIndex]
-                                ['date'])
+                        ? DateTime.parse(state
+                            .appointments[state.upcomingAppointmentIndex]
+                                ['date']
+                            .toString())
                         : DateTime.now();
                 String formattedDate =
                     DateFormat('MMM, dd, yyyy').format(upcomingAppointmentDate);

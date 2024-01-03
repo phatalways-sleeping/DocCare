@@ -32,19 +32,15 @@ class DoctorHomeBloc extends Bloc<DoctorHomeEvent, DoctorHomeState> {
     Emitter<DoctorHomeState> emit,
   ) async {
     try {
-
       // remove this 2 lines when login is done and doctor id is passed from login screen
       final id = 'D001';
       _doctorRepositoryService!.initializeDoctorId(id);
-
-
 
       final List<dynamic> appointments =
           await _doctorRepositoryService!.getAppointmentsByDoctorId();
       final dynamic profileData =
           await _doctorRepositoryService!.getProfileData();
-      final String doctorName = profileData['fullName'];
-
+      final String doctorName = profileData['fullName'].toString();
 
       // get doctor name after changing the doctor table in the database
       // final String doctorAvatarUrl = profileData['imgPath'];
@@ -52,19 +48,19 @@ class DoctorHomeBloc extends Bloc<DoctorHomeEvent, DoctorHomeState> {
       final String doctorAvatarUrl =
           'https://pics.craiyon.com/2023-07-05/a8e9e1290f08447bb300681ce2b563e9.webp';
 
-
       int upcomingAppointmentIndex = -1;
-      String upcomingCustomerName = '';      
+      String upcomingCustomerName = '';
       Map<String, List<dynamic>> appointmentMap = {};
       // get the index of the upcoming appointment, which is after current time and closest to current time
       // also map the appointments to each date
 
       for (int i = 0; i < appointments.length; i++) {
         if (appointments[i]['isCanceled'] == true) continue;
-        DateTime tmp = DateTime.parse(appointments[i]['date']);
+        DateTime tmp = DateTime.parse(appointments[i]['date'].toString());
         //tmp = DateTime(tmp.year, tmp.month, tmp.day, 0, 0, 0);
-        int hour = (appointments[i]['period'].toInt() / 2).toInt() + 7;
-        int minute = (appointments[i]['period'].toInt() % 2) * 30;
+        int hour =
+            (int.parse(appointments[i]['period'].toString()) / 2).toInt() + 7;
+        int minute = (int.parse(appointments[i]['period'].toString()) % 2) * 30;
         DateTime exactTime =
             DateTime(tmp.year, tmp.month, tmp.day, hour, minute, 0);
 
@@ -72,11 +68,13 @@ class DoctorHomeBloc extends Bloc<DoctorHomeEvent, DoctorHomeState> {
             exactTime.isAtSameMomentAs(DateTime.now())) {
           if (upcomingAppointmentIndex == -1 ||
               tmp.isBefore(DateTime.parse(
-                  appointments[upcomingAppointmentIndex]['date'])) ||
+                  appointments[upcomingAppointmentIndex]['date'].toString())) ||
               (tmp.isAtSameMomentAs(DateTime.parse(
-                      appointments[upcomingAppointmentIndex]['date'])) &&
-                  appointments[i]['period'] <
-                      appointments[upcomingAppointmentIndex]['period'])) {
+                      appointments[upcomingAppointmentIndex]['date']
+                          .toString())) &&
+                  int.parse(appointments[i]['period'].toString()) <
+                      int.parse(appointments[upcomingAppointmentIndex]['period']
+                          .toString()))) {
             upcomingAppointmentIndex = i;
           }
         }
@@ -93,7 +91,7 @@ class DoctorHomeBloc extends Bloc<DoctorHomeEvent, DoctorHomeState> {
       }
       if (upcomingAppointmentIndex != -1) {
         upcomingCustomerName =
-            appointments[upcomingAppointmentIndex]['customerName'];
+            appointments[upcomingAppointmentIndex]['customerName'].toString();
       } else
         upcomingCustomerName = 'no appointment';
 
@@ -158,19 +156,19 @@ class DoctorHomeBloc extends Bloc<DoctorHomeEvent, DoctorHomeState> {
   ) async {
     try {
       Appointment appointment = Appointment(
-        customerID: event.appointment['customerID'],
-        doctorID: event.appointment['doctorID'],
-        period: event.appointment['period'],
-        date: DateTime.parse(event.appointment['date']),
-        rating: event.appointment['rating'],
-        customerComment: event.appointment['customerComment'],
-        prescriptionID: event.appointment['prescriptionID'],
-        dateDone: event.appointment['dateDone'],
-        done: event.appointment['done'],
-        note: event.appointment['note'],
-        diagnosis: event.appointment['diagnosis'],
+        customerID: event.appointment['customerID'].toString(),
+        doctorID: event.appointment['doctorID'].toString(),
+        period: int.parse(event.appointment['period'].toString()),
+        date: DateTime.parse(event.appointment['date'].toString()),
+        rating: int.parse(event.appointment['rating'].toString()),
+        customerComment: event.appointment['customerComment'].toString(),
+        prescriptionID: event.appointment['prescriptionID'].toString(),
+        dateDone: DateTime.parse(event.appointment['dateDone'].toString()),
+        done: event.appointment['done'].toString() == 'true' ? true : false,
+        note: event.appointment['note'].toString(),
+        diagnosis: event.appointment['diagnosis'].toString(),
         isCanceled: true,
-        customerName: event.appointment['customerName'],
+        customerName: event.appointment['customerName'].toString(),
       );
       await _doctorRepositoryService!.cancelAppointment(appointment);
       emit(DoctorHomeInitial.from(state));

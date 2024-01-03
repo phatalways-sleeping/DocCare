@@ -74,9 +74,18 @@ class _DCDoctorAsyncItemState extends State<DCDoctorAsyncItem> {
         if (snapshot.hasData) {
           assert(
             snapshot.data!.isEmpty ||
-                (snapshot.data!.first.containsKey('customerName') &&
-                    snapshot.data!.first.containsKey('period') &&
-                    snapshot.data!.first.containsKey('diagnosis')),
+                ((snapshot.data!.first.containsKey('customerName').toString() ==
+                            'true'
+                        ? true
+                        : false) &&
+                    (snapshot.data!.first.containsKey('period').toString() ==
+                            'true'
+                        ? true
+                        : false) &&
+                    (snapshot.data!.first.containsKey('diagnosis').toString() ==
+                            'true'
+                        ? true
+                        : false)),
             'Appointment data must contain customerName, period, diagnosis',
           );
 
@@ -89,15 +98,15 @@ class _DCDoctorAsyncItemState extends State<DCDoctorAsyncItem> {
                     mapPeriod(e['period'].toString()),
                   ),
                   color: context.colorScheme.error,
-
                   onSelected: (context) => {},
                   onPressed: (context) {
                     if (e['done'] == true) {
                       return;
                     }
-                    // pass the parameter: 
+                    // pass the parameter:
                     // e['customerID'],...
-                    Navigator.of(context, rootNavigator: true).pushNamed('/doctor/prescribe');
+                    Navigator.of(context, rootNavigator: true)
+                        .pushNamed('/doctor/prescribe');
                   },
                   bottomRight: Text(
                     '${e['diagnosis']}',
