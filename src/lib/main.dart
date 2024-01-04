@@ -93,10 +93,6 @@ class _MyAppState extends State<MyApp> {
           create: (context) {
             final doctorRepository = SupabaseDoctorRepository();
             doctorRepository.initializeDoctorId('D001');
-            doctorRepository.initializeCustomerId('C001');
-            doctorRepository.initializeCustomerName('Nguyen Van A');
-            doctorRepository.initializePeriod('1');
-            doctorRepository.initializeDate(DateTime(2023, 12, 25));
             return doctorRepository;
           },
         ),

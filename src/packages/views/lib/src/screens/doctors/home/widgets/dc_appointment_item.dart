@@ -146,15 +146,16 @@ class DCAppointmentItem extends StatelessWidget {
                   ),
                   child: isPast == false
                       ? null
-                      : RoundCheckBox(
-                          checkedColor: context.colorScheme.quinary,
-                          isChecked: isDone,
-                          animationDuration: const Duration(
-                            milliseconds: 200,
-                          ),
-                          size: 30,
-                          onTap: (selected) => onSelected(context),
-                        ),
+                      : null
+                      // : RoundCheckBox(
+                      //     checkedColor: context.colorScheme.quinary,
+                      //     isChecked: isDone,
+                      //     animationDuration: const Duration(
+                      //       milliseconds: 200,
+                      //     ),
+                      //     size: 30,
+                      //     onTap: (selected) => onSelected(context),
+                      //   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(
@@ -171,6 +172,7 @@ class DCAppointmentItem extends StatelessWidget {
                         ),
                         textAlign: TextAlign.start,
                         child: bottomRight,
+                        maxLines: 1,
                       ),
                     ],
                   ),

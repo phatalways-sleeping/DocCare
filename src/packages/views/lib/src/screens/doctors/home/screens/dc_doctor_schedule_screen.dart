@@ -137,6 +137,11 @@ class _DCDoctorScheduleScreenState extends State<DCDoctorScheduleScreen> {
                         appointment['done'] == false ||
                         appointment['done'] == null)
                     .toList();
+
+                // Sort appointments by 'period'
+                appointmentsNotDone?.sort((a, b) =>
+                    (int.parse(a['period'].toString())).compareTo(int.parse(b['period'].toString())));
+
                 // Convert the list of appointments to a future
                 final futureAppointments =
                     Future.value(appointmentsNotDone ?? []);
@@ -186,7 +191,9 @@ class _DCDoctorScheduleScreenState extends State<DCDoctorScheduleScreen> {
                 final appointmentsDone = appointmentsForDate
                     ?.where((appointment) => appointment['done'] == true)
                     .toList();
-                //
+
+                appointmentsDone?.sort((a, b) =>
+                    (int.parse(a['period'].toString())).compareTo(int.parse(b['period'].toString())));
                 // Convert the list of appointments to a future
                 final futureAppointments = Future.value(appointmentsDone ?? []);
                 return state.appointmentInDate.containsKey(convertedDate)

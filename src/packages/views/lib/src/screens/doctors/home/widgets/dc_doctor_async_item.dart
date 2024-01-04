@@ -120,7 +120,8 @@ class _DCDoctorAsyncItemState extends State<DCDoctorAsyncItem> {
                         .pushNamed('/doctor/prescribe', arguments: data);
                   },
                   bottomRight: Text(
-                    '${e['diagnosis']}',
+                    //'${e['diagnosis']}',
+                    '',
                   ),
                   isDone: widget.isDone,
                 ),
