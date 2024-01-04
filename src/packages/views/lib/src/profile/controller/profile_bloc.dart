@@ -1,12 +1,15 @@
 // ignore_for_file: public_member_api_docs
 
 import 'dart:async';
+import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:controllers/controllers.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:meta/meta.dart';
+import 'package:services/services.dart';
 import 'package:utility/utility.dart';
 
 part 'profile_event.dart';
@@ -18,6 +21,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     this._notificationManagerService, {
     required String role,
     required this.authenticationRepositoryService,
+    required this.storageRepositoryService,
     this.customerRepositoryService,
     this.doctorRepositoryService,
     this.receptionistRepositoryService,
@@ -44,6 +48,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
             birthday: data['birthday']! as DateTime,
             specialization: (data['specialization'] as String?) ?? '',
             startWorkingFrom: (data['startWorkingFrom'] as int?) ?? 0,
+            imageUrl: role == 'doctor' ? data['imageUrl'] as String? : null,
           );
         },
       );
@@ -63,11 +68,13 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       emit(ProfileLoadedSuccess.fromState(state));
     });
     on<ProfileSubmitted>(_onProfileSaveEvent);
+    on<ProfileAvatarChanged>(_onProfileAvatarChanged);
   }
 
   final CustomerRepositoryService? customerRepositoryService;
   final DoctorRepositoryService? doctorRepositoryService;
   final ReceptionistRepositoryService? receptionistRepositoryService;
+  final StorageRepositoryService storageRepositoryService;
   final AuthenticationRepositoryService authenticationRepositoryService;
 
   final GlobalKey<NavigatorState> _navigatorKey;
@@ -77,6 +84,22 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   void onTransition(Transition<ProfileEvent, ProfileState> transition) {
     debugPrint(transition.toString());
     super.onTransition(transition);
+  }
+
+  void _onProfileAvatarChanged(
+    ProfileAvatarChanged event,
+    Emitter<ProfileState> emit,
+  ) async {
+    final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (image == null) {
+      return;
+    }
+    emit(
+      state.copyWith(
+        imageFile: image,
+        hasChanged: true,
+      ),
+    );
   }
 
   void _onProfileFullNameChanged(
@@ -245,6 +268,42 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
           birthday: state.birthday,
         );
       } else if (state.role == 'doctor') {
+        String? newImageUrl;
+        if (state.hasChanged && state.imageFile != null) {
+          final fileExtension = state.imageFile!.path.split('.').last;
+          final fileName = '${state.fullName}_${state.email}.$fileExtension';
+          final response = await storageRepositoryService
+              .storeFile(
+            fileName,
+            File(state.imageFile!.path),
+          )
+              .then((value) {
+            debugPrint(value.success.toString());
+            return value;
+          });
+          if (response.success) {
+            newImageUrl = response.data;
+          } else {
+            await _notificationManagerService.show<void>(
+              _navigatorKey.currentContext!,
+              NotificationType.error,
+              message: const Text(
+                'An error occurred while updating profile',
+                style: TextStyle(
+                  fontSize: 13,
+                ),
+              ),
+              title: const Text(
+                'Opps! Something went wrong',
+                style: TextStyle(
+                  fontSize: 16,
+                ),
+              ),
+            );
+            emit(ProfileLoadedSuccess.fromState(state));
+            return;
+          }
+        }
         await doctorRepositoryService!.updateProfileData(
           fullname: state.fullName,
           email: state.email,
@@ -252,6 +311,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
           birthday: state.birthday,
           specialization: state.specialization,
           startWorkingFrom: state.startWorkingFrom,
+          imageUrl: newImageUrl,
         );
       } else if (state.role == 'receptionist') {
         await receptionistRepositoryService!.updateProfileData(

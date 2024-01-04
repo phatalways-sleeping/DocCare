@@ -202,18 +202,20 @@ class FirebaseStorageApiService implements StorageApiService {
   }
 
   @override
-  Future<Response<void>> storeFile(
+  Future<Response<String>> storeFile(
     String bucket,
     String path,
     File file,
   ) {
     try {
       return storage.ref().child(path).putFile(file).then(
-            (_) => const Response<void>.success(),
+            (value) async => Response<String>.success(
+              data: await value.ref.getDownloadURL(),
+            ),
           );
     } on FirebaseException catch (e) {
       return Future.value(
-        Response<void>.failure(
+        Response<String>.failure(
           message: e.message,
         ),
       );

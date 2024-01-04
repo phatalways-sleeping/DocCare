@@ -84,6 +84,15 @@ final class ProfilePasswordChanged extends ProfileEvent {
   List<Object?> get props => [password, confirmPassword];
 }
 
+final class ProfileAvatarChanged extends ProfileEvent {
+  const ProfileAvatarChanged(this.avatar);
+
+  final XFile avatar;
+
+  @override
+  List<Object?> get props => [avatar];
+}
+
 final class ProfileSubmitted extends ProfileEvent {
   const ProfileSubmitted();
 }

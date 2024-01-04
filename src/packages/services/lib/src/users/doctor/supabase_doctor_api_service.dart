@@ -185,4 +185,15 @@ class SupabaseDoctorApiService
           .onError(
             (error, stackTrace) => throw Exception(error),
           );
+
+  @override
+  Future<void> updateImageUrl(String id, String? imageUrl) => supabase
+      .from('doctor')
+      .update({
+        'imageUrl': imageUrl,
+      })
+      .eq('id', id)
+      .onError(
+        (error, stackTrace) => throw Exception(error),
+      );
 }

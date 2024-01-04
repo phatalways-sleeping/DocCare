@@ -16,6 +16,7 @@ final class Doctor extends MedicalStaff {
     required this.startWorkingFrom,
     this.rating,
     this.numberOfRates,
+    this.imageUrl,
   });
 
 
@@ -31,6 +32,8 @@ final class Doctor extends MedicalStaff {
   final double? rating;
   @JsonKey()
   final int? numberOfRates;
+  @JsonKey()
+  final String? imageUrl;
 
   @override
   Doctor copyWith({
@@ -43,6 +46,7 @@ final class Doctor extends MedicalStaff {
     int? startWorkingFrom,
     double? rating,
     int? numberOfRates,
+    String? imageUrl,
   }) {
     return Doctor(
       id: id ?? this.id,
@@ -54,6 +58,7 @@ final class Doctor extends MedicalStaff {
       startWorkingFrom: startWorkingFrom ?? this.startWorkingFrom,
       rating: rating ?? this.rating,
       numberOfRates: numberOfRates ?? this.numberOfRates,
+      imageUrl: imageUrl ?? this.imageUrl,
     );
   }
 
@@ -64,5 +69,6 @@ final class Doctor extends MedicalStaff {
         startWorkingFrom,
         rating,
         numberOfRates,
+        imageUrl,
       ];
 }

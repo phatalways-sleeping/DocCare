@@ -247,7 +247,7 @@ class SupabaseStorageApiService implements StorageApiService {
   }
 
   @override
-  Future<Response<void>> storeFile(
+  Future<Response<String>> storeFile(
     String bucket,
     String path,
     File file, {
@@ -262,14 +262,21 @@ class SupabaseStorageApiService implements StorageApiService {
               upsert: fileOptions?.upsert ?? false,
             ),
           );
-      return Future.value(const Response<void>.success());
-    } on StorageException catch (e) {
+      final response = storage.from(bucket).getPublicUrl(path);
       return Future.value(
-        Response<void>.failure(
+        Response<String>.success(
+          data: response,
+        ),
+      );
+    } on StorageException catch (e) {
+      debugPrint(e.message);
+      return Future.value(
+        Response<String>.failure(
           message: e.message,
         ),
       );
     } catch (e) {
+      debugPrint(e.toString());
       return Future.value(
         const Response.unknown(action: 'storing a file'),
       );

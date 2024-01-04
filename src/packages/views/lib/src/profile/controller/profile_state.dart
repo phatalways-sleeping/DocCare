@@ -13,9 +13,13 @@ sealed class ProfileState extends Equatable {
     required this.specialization,
     required this.startWorkingFrom,
     this.hasChanged = false,
+    this.imageUrl,
+    this.imageFile,
   });
 
   final String role;
+
+  final String? imageUrl;
 
   final String fullName;
   final String email;
@@ -27,6 +31,8 @@ sealed class ProfileState extends Equatable {
 
   final bool hasChanged;
 
+  final XFile? imageFile;
+
   @override
   List<Object?> get props => [
         role,
@@ -37,6 +43,8 @@ sealed class ProfileState extends Equatable {
         specialization,
         startWorkingFrom,
         hasChanged,
+        imageUrl,
+        imageFile,
       ];
 
   ProfileState copyWith({
@@ -48,6 +56,8 @@ sealed class ProfileState extends Equatable {
     String? specialization,
     int? startWorkingFrom,
     bool? hasChanged,
+    String? imageUrl,
+    XFile? imageFile,
   });
 }
 
@@ -72,6 +82,8 @@ final class ProfileInitial extends ProfileState {
     String? specialization,
     int? startWorkingFrom,
     bool? hasChanged,
+    String? imageUrl,
+    XFile? imageFile,
   }) {
     return ProfileInitial(
       role: role ?? this.role,
@@ -90,6 +102,8 @@ final class ProfileLoadedSuccess extends ProfileState {
     required super.specialization,
     required super.startWorkingFrom,
     super.hasChanged = false,
+    super.imageUrl,
+    super.imageFile,
   });
 
   factory ProfileLoadedSuccess.fromState(ProfileState state) {
@@ -102,6 +116,8 @@ final class ProfileLoadedSuccess extends ProfileState {
       specialization: state.specialization,
       startWorkingFrom: state.startWorkingFrom,
       hasChanged: state.hasChanged,
+      imageUrl: state.imageUrl,
+      imageFile: state.imageFile,
     );
   }
 
@@ -115,6 +131,8 @@ final class ProfileLoadedSuccess extends ProfileState {
     String? specialization,
     int? startWorkingFrom,
     bool? hasChanged,
+    String? imageUrl,
+    XFile? imageFile,
   }) {
     return ProfileLoadedSuccess(
       role: role ?? this.role,
@@ -125,6 +143,8 @@ final class ProfileLoadedSuccess extends ProfileState {
       specialization: specialization ?? this.specialization,
       startWorkingFrom: startWorkingFrom ?? this.startWorkingFrom,
       hasChanged: hasChanged ?? this.hasChanged,
+      imageUrl: imageUrl ?? this.imageUrl,
+      imageFile: imageFile?? this.imageFile,
     );
   }
 }
@@ -139,6 +159,8 @@ final class ProfileWaitingForConfirmState extends ProfileState {
     required super.specialization,
     required super.startWorkingFrom,
     super.hasChanged = false,
+    super.imageUrl,
+    super.imageFile,
   });
 
   factory ProfileWaitingForConfirmState.fromState(ProfileState state) {
@@ -151,6 +173,8 @@ final class ProfileWaitingForConfirmState extends ProfileState {
       specialization: state.specialization,
       startWorkingFrom: state.startWorkingFrom,
       hasChanged: state.hasChanged,
+      imageUrl: state.imageUrl,
+      imageFile: state.imageFile,
     );
   }
 
@@ -164,6 +188,8 @@ final class ProfileWaitingForConfirmState extends ProfileState {
     String? specialization,
     int? startWorkingFrom,
     bool? hasChanged,
+    String? imageUrl,
+    XFile? imageFile,
   }) {
     return ProfileWaitingForConfirmState(
       role: role ?? this.role,
@@ -174,6 +200,8 @@ final class ProfileWaitingForConfirmState extends ProfileState {
       specialization: specialization ?? this.specialization,
       startWorkingFrom: startWorkingFrom ?? this.startWorkingFrom,
       hasChanged: hasChanged ?? this.hasChanged,
+      imageUrl: imageUrl ?? this.imageUrl,
+      imageFile: imageFile?? this.imageFile,
     );
   }
 }
@@ -188,6 +216,8 @@ final class ProfileLoadingState extends ProfileState {
     required super.specialization,
     required super.startWorkingFrom,
     super.hasChanged = false,
+    super.imageUrl,
+    super.imageFile,
   });
 
   factory ProfileLoadingState.fromState(ProfileState state) {
@@ -200,6 +230,8 @@ final class ProfileLoadingState extends ProfileState {
       specialization: state.specialization,
       startWorkingFrom: state.startWorkingFrom,
       hasChanged: state.hasChanged,
+      imageUrl: state.imageUrl,
+      imageFile: state.imageFile,
     );
   }
 
@@ -213,6 +245,8 @@ final class ProfileLoadingState extends ProfileState {
     String? specialization,
     int? startWorkingFrom,
     bool? hasChanged,
+    String? imageUrl,
+    XFile? imageFile,
   }) {
     return ProfileLoadingState(
       role: role ?? this.role,
@@ -223,6 +257,8 @@ final class ProfileLoadingState extends ProfileState {
       specialization: specialization ?? this.specialization,
       startWorkingFrom: startWorkingFrom ?? this.startWorkingFrom,
       hasChanged: hasChanged ?? this.hasChanged,
+      imageUrl: imageUrl ?? this.imageUrl,
+      imageFile: imageFile?? this.imageFile,
     );
   }
 }
@@ -237,6 +273,8 @@ final class ProfileUpdatedSuccess extends ProfileState {
     required super.specialization,
     required super.startWorkingFrom,
     super.hasChanged = false,
+    super.imageUrl,
+    super.imageFile,
   });
 
   factory ProfileUpdatedSuccess.fromState(ProfileState state) {
@@ -249,6 +287,8 @@ final class ProfileUpdatedSuccess extends ProfileState {
       specialization: state.specialization,
       startWorkingFrom: state.startWorkingFrom,
       hasChanged: state.hasChanged,
+      imageUrl: state.imageUrl,
+      imageFile: state.imageFile,
     );
   }
 
@@ -262,6 +302,8 @@ final class ProfileUpdatedSuccess extends ProfileState {
     String? specialization,
     int? startWorkingFrom,
     bool? hasChanged,
+    String? imageUrl,
+    XFile? imageFile,
   }) {
     return ProfileUpdatedSuccess(
       role: role ?? this.role,
@@ -272,6 +314,8 @@ final class ProfileUpdatedSuccess extends ProfileState {
       specialization: specialization ?? this.specialization,
       startWorkingFrom: startWorkingFrom ?? this.startWorkingFrom,
       hasChanged: hasChanged ?? this.hasChanged,
+      imageUrl: imageUrl ?? this.imageUrl,
+      imageFile: imageFile?? this.imageFile,
     );
   }
 }
@@ -286,6 +330,8 @@ final class ProfileFailureState extends ProfileState {
     required super.specialization,
     required super.startWorkingFrom,
     super.hasChanged = false,
+    super.imageUrl,
+    super.imageFile,
   });
 
   factory ProfileFailureState.fromState(ProfileState state) {
@@ -298,6 +344,8 @@ final class ProfileFailureState extends ProfileState {
       specialization: state.specialization,
       startWorkingFrom: state.startWorkingFrom,
       hasChanged: state.hasChanged,
+      imageUrl: state.imageUrl,
+      imageFile: state.imageFile,
     );
   }
 
@@ -311,6 +359,8 @@ final class ProfileFailureState extends ProfileState {
     String? specialization,
     int? startWorkingFrom,
     bool? hasChanged,
+    String? imageUrl,
+    XFile? imageFile,
   }) {
     return ProfileFailureState(
       role: role ?? this.role,
@@ -321,6 +371,8 @@ final class ProfileFailureState extends ProfileState {
       specialization: specialization ?? this.specialization,
       startWorkingFrom: startWorkingFrom ?? this.startWorkingFrom,
       hasChanged: hasChanged ?? this.hasChanged,
+      imageUrl: imageUrl ?? this.imageUrl,
+      imageFile: imageFile?? this.imageFile,
     );
   }
 }
@@ -335,6 +387,8 @@ final class ProfileChangePasswordState extends ProfileState {
     required super.specialization,
     required super.startWorkingFrom,
     super.hasChanged = false,
+    super.imageUrl,
+    super.imageFile,
   });
 
   factory ProfileChangePasswordState.fromState(ProfileState state) {
@@ -347,6 +401,8 @@ final class ProfileChangePasswordState extends ProfileState {
       specialization: state.specialization,
       startWorkingFrom: state.startWorkingFrom,
       hasChanged: state.hasChanged,
+      imageUrl: state.imageUrl,
+      imageFile: state.imageFile,
     );
   }
 
@@ -360,6 +416,8 @@ final class ProfileChangePasswordState extends ProfileState {
     String? specialization,
     int? startWorkingFrom,
     bool? hasChanged,
+    String? imageUrl,
+    XFile? imageFile,
   }) {
     return ProfileChangePasswordState(
       role: role ?? this.role,
@@ -370,7 +428,8 @@ final class ProfileChangePasswordState extends ProfileState {
       specialization: specialization ?? this.specialization,
       startWorkingFrom: startWorkingFrom ?? this.startWorkingFrom,
       hasChanged: hasChanged ?? this.hasChanged,
+      imageUrl: imageUrl ?? this.imageUrl,
+      imageFile: imageFile?? this.imageFile,
     );
   }
 }
-

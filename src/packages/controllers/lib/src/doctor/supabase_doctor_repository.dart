@@ -88,6 +88,7 @@ class SupabaseDoctorRepository implements DoctorRepositoryService {
       'birthday': doctor.birthday,
       'specialization': doctor.specializationId,
       'startWorkingFrom': doctor.startWorkingFrom,
+      'imageUrl': doctor.imageUrl,
     };
   }
 
@@ -99,6 +100,7 @@ class SupabaseDoctorRepository implements DoctorRepositoryService {
     DateTime? birthday,
     String? specialization,
     int? startWorkingFrom,
+    String? imageUrl,
   }) async {
     final doctor = await _supabaseDoctorApiService.getUser(_doctorId);
     await _supabaseDoctorApiService
@@ -111,6 +113,7 @@ class SupabaseDoctorRepository implements DoctorRepositoryService {
             birthday: birthday ?? doctor.birthday,
             specializationId: specialization ?? doctor.specializationId,
             startWorkingFrom: startWorkingFrom ?? doctor.startWorkingFrom,
+            imageUrl: imageUrl ?? doctor.imageUrl,
           ),
         )
         .onError((error, stackTrace) => throw Exception('Error updating user'));
