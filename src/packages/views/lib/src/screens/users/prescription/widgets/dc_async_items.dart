@@ -35,8 +35,6 @@ class _DCAsyncItemsState extends State<DCAsyncItems> {
       context.colorScheme.secondary,
     ];
 
-    var rng = Random();
-
     return FutureBuilder<List<Map<String, dynamic>>>(
       future: widget.future,
       builder: (context, snapshot) {
@@ -69,10 +67,12 @@ class _DCAsyncItemsState extends State<DCAsyncItems> {
                           e['date'].toString().substring(0, 10),
                         ),
                         //Color is random
-                        color: _colors[rng.nextInt(_colors.length)],
+                        color: _colors[
+                            (e['id'] as String).hashCode % _colors.length],
                         onSelected: (context) =>
                             context.read<PrescriptionBloc>().add(
                                   PrescriptionCheckEvent(
+                                    done: !widget.isDone,
                                     prescriptionId: e['id'] as String,
                                   ),
                                 ),
@@ -110,11 +110,14 @@ class _DCAsyncItemsState extends State<DCAsyncItems> {
                         bottomLeft: Text(
                           (e['timeOfTheDay'] as String).split(',').join(', '),
                         ),
-                        color: _colors[rng.nextInt(_colors.length)],
+                        color: _colors[(e['medicineName'] as String).hashCode %
+                            _colors.length],
                         onSelected: (context) =>
                             context.read<PrescriptionBloc>().add(
                                   MedicineCheckEvent(
-                                    medineName: e['medicineName'] as String,
+                                    prescriptionId: '',
+                                    medicineName: e['medicineName'] as String,
+                                    done: !widget.isDone,
                                   ),
                                 ),
                         onLongPressed: (context) => {},

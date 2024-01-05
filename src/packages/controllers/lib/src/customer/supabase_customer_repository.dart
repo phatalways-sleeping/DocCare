@@ -63,6 +63,35 @@ class SupabaseCustomerRepository implements CustomerRepositoryService {
   }
 
   @override
+  Future<void> updateAppointmentDone(bool done, String prescriptionID) async {
+    await Supabase.instance.client.rpc(
+      'update_appointment_done',
+      params: {
+        'customer_id': _customerId,
+        'prescription_id': prescriptionID,
+        'is_done': done,
+      },
+    ).onError((error, stackTrace) {
+      return [];
+    }) as List<dynamic>;
+  }
+
+  @override
+  Future<void> updateMedicineDone(
+      bool done, String prescriptionID, String medicineName) async {
+    await Supabase.instance.client.rpc(
+      'update_intake_done',
+      params: {
+        'prescription_id': prescriptionID,
+        'medicine_name': medicineName,
+        'is_done': done,
+      },
+    ).onError((error, stackTrace) {
+      return [];
+    }) as List<dynamic>;
+  }
+
+  @override
   Future<bool> isCustomerExist(String email) async {
     final customer =
         await _supabaseCustomerApiService.getAllUserEmail().catchError(

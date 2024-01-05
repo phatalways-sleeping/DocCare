@@ -94,11 +94,16 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
     try {
       emit(PrescriptionViewLoadingState.fromState(state));
 
-      await Future.delayed(const Duration(seconds: 2), () {}); // Mock delay
-
-      // throw Exception('Error');
+      await _customerRepositoryService
+          .updateAppointmentDone(
+            event.done,
+            event.prescriptionId,
+          )
+          .then((value) {});
 
       emit(PrescriptionViewState.initial());
+
+      // throw Exception('Error');
     } catch (error) {
       emit(PrescriptionViewState.initial());
       await _notificationManagerService.show<void>(
@@ -130,12 +135,25 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
       return;
     }
     if (state is! MedicinesViewState) {
-      return emit(PrescriptionViewState.initial());
+      var tmpPrescriptionId = event.prescriptionId;
+      return emit(
+        MedicinesViewState.fromState(
+          state,
+          prescriptionId: tmpPrescriptionId,
+        ),
+      );
     }
     try {
+      print('Check event');
       emit(MedicinesViewLoadingState.fromState(state));
 
-      await Future.delayed(const Duration(seconds: 2), () {}); // Mock delay
+      await _customerRepositoryService
+          .updateMedicineDone(
+            event.done,
+            state.prescriptionId,
+            event.medicineName,
+          )
+          .then((value) {});
 
       emit(MedicinesViewState.fromState(state));
     } catch (error) {
@@ -161,7 +179,7 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
     );
   }
 
-  void _onIntakeRatingEvent(
+  Future<void> _onIntakeRatingEvent(
     IntakeRatingEvent event,
     Emitter<PrescriptionState> emit,
   ) async {

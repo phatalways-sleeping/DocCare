@@ -157,7 +157,9 @@ class DCPrescriptionItem extends StatelessWidget {
                       milliseconds: 200,
                     ),
                     size: 30,
-                    onTap: (selected) => onSelected(context),
+                    onTap: (selected) {
+                      onSelected(context);
+                    },
                   ),
                 ),
                 Padding(

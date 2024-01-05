@@ -57,6 +57,10 @@ abstract interface class CustomerRepositoryService {
     String prescriptionId,
   );
 
+  Future<void> updateAppointmentDone(bool done, String prescriptionID);
+  Future<void> updateMedicineDone(
+      bool done, String prescriptionID, String medicineName);
+
   Future<List<Map<String, dynamic>>> getAvailableDoctors({
     List<String>? specialities,
     int? rating,

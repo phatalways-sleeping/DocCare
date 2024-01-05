@@ -32,18 +32,7 @@ class _DCCustomerViewPrescriptionFlowState
       ),
       child: BlocConsumer<PrescriptionBloc, PrescriptionState>(
         key: widget.navigatorKey,
-        listener: (context, state) {
-          //No provider at the time listener is called. To be fixed
-
-          // if (state is IntakeViewState) {
-          //   showDialog(
-          //     context: context,
-          //     builder: (context) => DCPopUpRating(
-          //       prescriptionId: state.prescriptionId,
-          //     ),
-          //   );
-          // }
-        },
+        listener: (context, state) {},
         builder: (context, state) {
           if (state is PrescriptionViewState ||
               state is IntakeViewState ||
