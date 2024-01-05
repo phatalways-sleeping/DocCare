@@ -282,7 +282,7 @@ class _DCPopupIntakeRatingState extends State<DCPopupIntakeRating> {
               icon: ratings[index],
             ),
           ),
-        )
+        ),
       ],
       buttonsText: [
         widget.reviewButtonText ?? 'Review',

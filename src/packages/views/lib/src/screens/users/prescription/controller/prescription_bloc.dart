@@ -144,7 +144,6 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
       );
     }
     try {
-      print('Check event');
       emit(MedicinesViewLoadingState.fromState(state));
 
       await _customerRepositoryService
@@ -184,7 +183,7 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
     Emitter<PrescriptionState> emit,
   ) async {
     if (state is! IntakeViewState) {
-      return emit(PrescriptionViewState.initial());
+      return emit(IntakeViewState.fromState(state, event.prescriptionId));
     }
 
     final results = await _customerRepositoryService

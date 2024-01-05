@@ -31,14 +31,17 @@ class _DCAsyncPopUpState extends State<DCAsyncPopUp> {
               snapshot.data!['medicines'] as List<Map<String, dynamic>>;
 
           for (var medicine in medicines) {
+            var TOD = medicine['timeOfTheDay'].split('/').join(',').toString();
+            TOD = TOD.substring(0, TOD.length - 1);
+
             medicineMessage += medicine['medicineName'].toString() +
                 ': ' +
                 medicine['quantity'].toString() +
                 ' pill' +
                 (int.parse(medicine['quantity'].toString()) > 1 ? 's' : '') +
-                ', ' +
-                medicine['timeOfTheDay'].toString() +
-                ', ' +
+                ' - ' +
+                TOD +
+                ' - ' +
                 (medicine['toBeTaken'].toString() == '0'
                     ? 'before eating'
                     : 'after eating') +

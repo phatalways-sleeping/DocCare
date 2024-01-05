@@ -90,7 +90,12 @@ class _DCAsyncItemsState extends State<DCAsyncItems> {
                           );
 
                           if (results != null) {
-                            print(results);
+                            context.read<PrescriptionBloc>().add(
+                                  IntakeRatingEvent(
+                                    prescriptionId: e['id'] as String,
+                                    rating: results,
+                                  ),
+                                );
                           }
                         },
                         onPressed: (context) =>
@@ -108,7 +113,7 @@ class _DCAsyncItemsState extends State<DCAsyncItems> {
                     : DCPrescriptionItem(
                         title: '${e['medicineName']}',
                         bottomLeft: Text(
-                          (e['timeOfTheDay'] as String).split(',').join(', '),
+                          (e['timeOfTheDay'] as String).split('/').join(', '),
                         ),
                         color: _colors[(e['medicineName'] as String).hashCode %
                             _colors.length],

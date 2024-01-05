@@ -158,6 +158,7 @@ class SupabaseCustomerRepository implements CustomerRepositoryService {
 
   @override
   Future<List<Map<String, dynamic>>> getCurrentPrescriptions() async {
+    print(_customerId);
     final response = await Supabase.instance.client.rpc(
       'get_prescriptions',
       params: {
@@ -236,6 +237,7 @@ class SupabaseCustomerRepository implements CustomerRepositoryService {
       },
     ).onError(
       (error, stackTrace) {
+        print(error);
         return [];
       },
     ) as List<dynamic>;
@@ -274,6 +276,7 @@ class SupabaseCustomerRepository implements CustomerRepositoryService {
     String date,
     int rating,
   ) async {
+    print('Rating');
     // Prescription relation has not been added with rating yet
     // Currently, rating is in appointment table with
     // primary key is customer_id and doctor_id and date and period
@@ -286,7 +289,8 @@ class SupabaseCustomerRepository implements CustomerRepositoryService {
           date,
           rating,
         )
-        .onError((error, stackTrace) => debugPrint(error.toString()));
+        .onError((error, stackTrace) =>
+            {print(error), debugPrint(error.toString())});
   }
 
   @override
