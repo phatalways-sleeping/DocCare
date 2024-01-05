@@ -153,10 +153,19 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
       //await Future.delayed(const Duration(seconds: 5), () {});
       // Mocking error
       // throw Exception();
-      final customerDetail = await _customerRepositoryService.getProfileData();
+      var customerName = '';
+      if (_customerRepositoryService.getCustomerId() != null) {
+        final customerDetail =
+            await _customerRepositoryService.getProfileData();
+
+        customerName = customerDetail['fullName'] as String;
+      }
       final time = convertTimeToPeriodId(state.timeSelected!);
       var customerid = _customerRepositoryService.getCustomerId();
-      customerid ??= const Uuid().v1();
+      if (customerid == null) {
+        customerid = const Uuid().v1();
+        await _customerRepositoryService.addOfflineCustomer(id: customerid);
+      }
 
       final doctorid =
           (doctorData['id'] != null ? doctorData['id'] as String : '');
@@ -180,9 +189,11 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
           doctorid: doctorid,
           date: date,
           customerComment: customerComment,
-          customername: customerDetail['fullName'] as String,
+          customername: customerName,
         );
       } else {
+        final customerDetail =
+            await _customerRepositoryService.getProfileData();
         final highestRatingDoctorId =
             await _customerRepositoryService.getHighestRatingDoctor(
           speciality: state.speciality!,
@@ -196,7 +207,6 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
           doctorid: highestRatingDoctorId,
           date: date,
         );
-        print(highestRatingDoctorId);
         if (!existAppointment) {
           throw Error();
         }
@@ -230,9 +240,6 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
         ),
       );
     } catch (err) {
-      print(err.toString());
-
-      print(err);
       emit(
         BookingFailure(
           doctorData: doctorData,

@@ -109,4 +109,8 @@ abstract interface class CustomerRepositoryService {
     required DateTime date,
     required int period,
   });
+
+  Future<void> addOfflineCustomer({
+    required String id,
+  });
 }

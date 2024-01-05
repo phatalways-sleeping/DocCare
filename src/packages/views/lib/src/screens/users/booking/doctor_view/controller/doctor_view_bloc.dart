@@ -3,8 +3,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:controllers/controllers.dart';
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
 import 'package:intl/intl.dart';
+import 'package:meta/meta.dart';
 
 part 'doctor_view_event.dart';
 part 'doctor_view_state.dart';
@@ -33,9 +33,10 @@ class DoctorViewBloc extends Bloc<DoctorViewEvent, DoctorViewState> {
     String doctorID,
     DateTime date,
   ) async {
-    final customerid = _customerRepositoryService.getCustomerId();
+    var customerid = _customerRepositoryService.getCustomerId();
+    customerid ??= '';
     final availablePeriods = await _customerRepositoryService
-        .getAvailablePeriod(doctorID, date, customerid!);
+        .getAvailablePeriod(doctorID, date, customerid);
 
     // Extract 'time' values from the list and format them with leading zeros
     final appointmentTimes = availablePeriods.map(

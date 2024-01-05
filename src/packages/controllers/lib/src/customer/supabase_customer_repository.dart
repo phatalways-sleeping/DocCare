@@ -7,7 +7,7 @@ import 'package:uuid/uuid.dart';
 
 class SupabaseCustomerRepository implements CustomerRepositoryService {
   SupabaseCustomerRepository();
-  late String _customerId;
+  String? _customerId;
 
   String? getCustomerId() {
     return _customerId;
@@ -73,7 +73,7 @@ class SupabaseCustomerRepository implements CustomerRepositoryService {
 
   @override
   Future<Map<String, dynamic>> getProfileData() async {
-    final customer = await _supabaseCustomerApiService.getUser(_customerId);
+    final customer = await _supabaseCustomerApiService.getUser(_customerId!);
     return {
       'fullName': customer.fullname,
       'email': customer.email,
@@ -89,10 +89,10 @@ class SupabaseCustomerRepository implements CustomerRepositoryService {
     String? phone,
     DateTime? birthday,
   }) async {
-    final customer = await _supabaseCustomerApiService.getUser(_customerId);
+    final customer = await _supabaseCustomerApiService.getUser(_customerId!);
     await _supabaseCustomerApiService
         .updateUser(
-          _customerId,
+          _customerId!,
           customer.copyWith(
             fullname: fullname ?? customer.fullname,
             email: email ?? customer.email,
@@ -331,6 +331,7 @@ class SupabaseCustomerRepository implements CustomerRepositoryService {
     return results;
   }
 
+  @override
   Future<List<Map<String, dynamic>>> getDoctorAvailablePeriod(
     String doctorId,
     DateTime date,
@@ -509,5 +510,28 @@ class SupabaseCustomerRepository implements CustomerRepositoryService {
     ) as String;
 
     return doctorID;
+  }
+
+  @override
+  Future<void> addOfflineCustomer({
+    required String id,
+  }) async {
+    try {
+      final email = const Uuid().v1();
+      final name = const Uuid().v1();
+      final phone = const Uuid().v1();
+      await Supabase.instance.client.rpc(
+        'add_customer',
+        params: {
+          'p_id': id,
+          'p_email': email,
+          'p_fullname': name,
+          'p_phone': phone,
+          'p_birthday': DateTime.now().toIso8601String(),
+        },
+      );
+    } on AuthException catch (e) {
+      throw Exception(e);
+    }
   }
 }
