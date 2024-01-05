@@ -53,6 +53,9 @@ class _DCAsyncPopUpState extends State<DCAsyncPopUp> {
             medicineMessage.length - 1,
           );
 
+          var rating = snapshot.data!['rating'];
+          print(rating);
+
           return DCPopupIntakeRating(
             title: 'Prescription',
             diagnosisMessage: snapshot.data!['diagnosis'].toString(),
@@ -61,6 +64,7 @@ class _DCAsyncPopUpState extends State<DCAsyncPopUp> {
             noteMessage: snapshot.data!['note'].toString(),
             doctorName: snapshot.data!['doctorName'].toString(),
             onConfirmButtonClicked: (context) => {Navigator.pop(context)},
+            showReview: rating == null,
           );
         } else if (snapshot.hasError) {
           return ElevatedButton(

@@ -237,7 +237,6 @@ class SupabaseCustomerRepository implements CustomerRepositoryService {
       },
     ).onError(
       (error, stackTrace) {
-        print(error);
         return [];
       },
     ) as List<dynamic>;

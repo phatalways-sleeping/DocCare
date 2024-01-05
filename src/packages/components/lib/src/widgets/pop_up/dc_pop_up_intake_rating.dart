@@ -36,6 +36,7 @@ class DCPopupIntakeRating extends StatefulWidget {
     this.onConfirmButtonClicked,
     this.onReviewButtonClicked,
     this.buttonsTextSize,
+    this.showReview = true,
     this.totalRating = 0,
   });
 
@@ -107,6 +108,9 @@ class DCPopupIntakeRating extends StatefulWidget {
 
   // The color of the review text
   final Color? reviewButtonTextColor;
+
+  // Whether to show the review button or not
+  final bool? showReview;
 
   /// The function to be called when the confirm button is clicked
   final void Function(BuildContext context)? onConfirmButtonClicked;
@@ -246,64 +250,82 @@ class _DCPopupIntakeRatingState extends State<DCPopupIntakeRating> {
           textAlign: TextAlign.left,
           child: Text(widget.noteMessage),
         ),
-        DefaultTextStyle.merge(
-          style: context.textTheme.h4BoldPoppins.copyWith(
-            fontSize: widget.noteMessageTextSize ?? 20,
-            fontWeight: FontWeight.bold,
-            color: context.colorScheme.onBackground,
-          ),
-          textAlign: TextAlign.left,
-          child: const Text('Review'),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: List.generate(
-            ratings.length,
-            (index) => IconButton(
-              onPressed: () {
-                currentRating = index + 1;
-                setState(() {
-                  for (var i = 0; i <= index; i++) {
-                    ratings[i] = SvgPicture.string(
-                      DCSVGIcons.yellowStar,
-                      fit: BoxFit.cover,
-                    );
-                  }
-
-                  for (var i = index + 1; i < ratings.length; i++) {
-                    ratings[i] = SvgPicture.string(
-                      DCSVGIcons.greyStar,
-                      fit: BoxFit.cover,
-                    );
-                  }
-                });
-              },
-              splashRadius: 0.5,
-              icon: ratings[index],
+        if (widget.showReview ?? true)
+          DefaultTextStyle.merge(
+            style: context.textTheme.h4BoldPoppins.copyWith(
+              fontSize: widget.noteMessageTextSize ?? 20,
+              fontWeight: FontWeight.bold,
+              color: context.colorScheme.onBackground,
             ),
-          ),
-        ),
+            textAlign: TextAlign.left,
+            child: const Text('Review'),
+          )
+        else
+          const SizedBox(),
+        if (widget.showReview ?? true)
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: List.generate(
+              ratings.length,
+              (index) => IconButton(
+                onPressed: () {
+                  currentRating = index + 1;
+                  setState(() {
+                    for (var i = 0; i <= index; i++) {
+                      ratings[i] = SvgPicture.string(
+                        DCSVGIcons.yellowStar,
+                        fit: BoxFit.cover,
+                      );
+                    }
+
+                    for (var i = index + 1; i < ratings.length; i++) {
+                      ratings[i] = SvgPicture.string(
+                        DCSVGIcons.greyStar,
+                        fit: BoxFit.cover,
+                      );
+                    }
+                  });
+                },
+                splashRadius: 0.5,
+                icon: ratings[index],
+              ),
+            ),
+          )
+        else
+          const SizedBox(),
       ],
-      buttonsText: [
-        widget.reviewButtonText ?? 'Review',
-        widget.confirmButtonText ?? 'Done',
-      ],
-      buttonsColor: [
-        widget.reviewButtonColor ?? context.colorScheme.senary,
-        widget.confirmButtonColor ?? context.colorScheme.senary,
-      ],
+      buttonsText: (widget.showReview ?? true)
+          ? [
+              widget.reviewButtonText ?? 'Review',
+              widget.confirmButtonText ?? 'Done',
+            ]
+          : [widget.confirmButtonText ?? 'Done'],
+      buttonsColor: (widget.showReview ?? true)
+          ? [
+              widget.reviewButtonColor ?? context.colorScheme.senary,
+              widget.confirmButtonColor ?? context.colorScheme.senary,
+            ]
+          : [
+              widget.confirmButtonColor ?? context.colorScheme.senary,
+            ],
       buttonsWidth: widget.buttonsWidth,
       buttonsHeight: widget.buttonsHeight,
       buttonsTextSize: widget.buttonsTextSize ?? 16,
-      buttonsTextColors: [
-        widget.reviewButtonTextColor ?? context.colorScheme.onBackground,
-        widget.confirmButtonTextColor ?? context.colorScheme.onBackground,
-      ],
+      buttonsTextColors: (widget.showReview ?? true)
+          ? [
+              widget.reviewButtonTextColor ?? context.colorScheme.onBackground,
+              widget.confirmButtonTextColor ?? context.colorScheme.onBackground,
+            ]
+          : [
+              widget.confirmButtonTextColor ?? context.colorScheme.onBackground,
+            ],
       onConfirmButtonClicked: widget.onConfirmButtonClicked,
       onCancelButtonClicked: widget.onReviewButtonClicked ??
-          (context) {
-            Navigator.pop(context, currentRating);
-          },
+          ((widget.showReview ?? true)
+              ? (context) {
+                  Navigator.pop(context, currentRating);
+                }
+              : Navigator.pop),
     );
   }
 }

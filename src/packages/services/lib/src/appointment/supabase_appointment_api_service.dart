@@ -64,7 +64,6 @@ class SupabaseAppointmentApiService
               : value.map(Appointment.fromJson).toList())
           .onError(
         (error, stackTrace) {
-          print(error);
           throw Exception(error);
         },
       );
