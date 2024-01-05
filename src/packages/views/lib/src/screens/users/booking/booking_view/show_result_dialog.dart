@@ -34,9 +34,9 @@ Future<void> showSuccessfulWithDoctorDialog({
             children: [
               if (doctorData.isNotEmpty)
                 DCDoctorCard(
-                  imgPath: doctorData['imgPath'] as String,
-                  name: doctorData['name'] as String,
-                  speciality: doctorData['speciality'] as String,
+                  imgPath: (doctorData['imageUrl'] as String?) ?? '',
+                  name: (doctorData['name'] as String?) ?? '',
+                  speciality: (doctorData['speciality'] as String?) ?? '',
                   rating: (doctorData['rating'] as num).toDouble(),
                   ratingCount: doctorData['ratingCount'] as int,
                   onPressed: (context) {},

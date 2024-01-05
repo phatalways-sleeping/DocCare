@@ -6,6 +6,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:meta/meta.dart';
+import 'package:uuid/uuid.dart';
 
 part 'booking_event.dart';
 part 'booking_state.dart';
@@ -114,7 +115,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
           await _customerRepositoryService.getAvailablePeriodWithSpecialization(
         specialization: specialization,
         date: date,
-        customerid: customerid,
+        customerid: customerid!,
       );
 
       // Extract 'time' values from the list and format them with leading zeros
@@ -154,7 +155,9 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
       // throw Exception();
       final customerDetail = await _customerRepositoryService.getProfileData();
       final time = convertTimeToPeriodId(state.timeSelected!);
-      final customerid = _customerRepositoryService.getCustomerId();
+      var customerid = _customerRepositoryService.getCustomerId();
+      customerid ??= const Uuid().v1();
+
       final doctorid =
           (doctorData['id'] != null ? doctorData['id'] as String : '');
       final date = state.dateSelected;

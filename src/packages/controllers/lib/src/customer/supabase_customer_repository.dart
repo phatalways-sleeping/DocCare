@@ -9,7 +9,7 @@ class SupabaseCustomerRepository implements CustomerRepositoryService {
   SupabaseCustomerRepository();
   late String _customerId;
 
-  String getCustomerId() {
+  String? getCustomerId() {
     return _customerId;
   }
 
@@ -324,6 +324,32 @@ class SupabaseCustomerRepository implements CustomerRepositoryService {
           'period_id': result['period_id'],
           'time':
               result['time'], // Update to match the column name in the function
+        };
+      },
+    ).toList();
+
+    return results;
+  }
+
+  Future<List<Map<String, dynamic>>> getDoctorAvailablePeriod(
+    String doctorId,
+    DateTime date,
+  ) async {
+    final response = await Supabase.instance.client.rpc(
+      'get_doctor_available_day3',
+      params: {
+        'p_doctorid': doctorId,
+        'p_date': date.toIso8601String(),
+      },
+    ) as List<dynamic>;
+
+    final results = response.map(
+      (e) {
+        final result = e as Map<String, dynamic>;
+        return {
+          'period_id': result['period_id'],
+          'time': result[
+              'available_time'], // Update to match the column name in the function
         };
       },
     ).toList();

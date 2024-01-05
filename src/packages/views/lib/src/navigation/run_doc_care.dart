@@ -175,6 +175,7 @@ void runDocCare() => runApp(
                     navigatorKey: GlobalKey<NavigatorState>(
                       debugLabel: 'schedule/receptionist',
                     ),
+                    inCustomerView: false,
                   ),
                 );
 

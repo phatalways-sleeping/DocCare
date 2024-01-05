@@ -88,9 +88,13 @@ class _DCBookingWithDoctorScreenState extends State<DCBookingWithDoctorScreen> {
           (context.watch<BookingBloc>().state.doctorData.isNotEmpty ||
                   context.watch<BookingBloc>().state.dateSelected != null)
               ? null
-              : const DCCustomerNavigationBar(
-                  selectedIndex: 3,
-                ),
+              : (widget.inCustomerView
+                  ? const DCCustomerNavigationBar(
+                      selectedIndex: 3,
+                    )
+                  : const DCReceptionistNavigationBar(
+                      selectedIndex: 3,
+                    )),
       extendBody: true,
       body: BlocConsumer<BookingBloc, BookingState>(
         listener: (context, state) async {
@@ -147,9 +151,9 @@ class _DCBookingWithDoctorScreenState extends State<DCBookingWithDoctorScreen> {
                           return const SizedBox.shrink();
                         }
                         return DCDoctorCard(
-                          imgPath: state['imgPath'] as String,
-                          name: state['name'] as String,
-                          speciality: state['speciality'] as String,
+                          imgPath: (state['imageUrl'] as String?) ?? '',
+                          name: (state['name'] as String?) ?? '',
+                          speciality: (state['speciality'] as String?) ?? '',
                           rating: (state['rating'] as num).toDouble(),
                           ratingCount: state['ratingCount'] as int,
                           onPressed: (context) {},

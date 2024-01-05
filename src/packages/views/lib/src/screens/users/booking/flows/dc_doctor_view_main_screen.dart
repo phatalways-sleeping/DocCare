@@ -42,8 +42,10 @@ class _DCDoctorViewMainScreenState extends State<DCDoctorViewMainScreen> {
               return [
                 if (state is DoctorViewInitial ||
                     state is DoctorViewSearchForName)
-                  const MaterialPage(
-                    child: DCDoctorViewScreen(),
+                  MaterialPage(
+                    child: DCDoctorViewScreen(
+                      inCustomerView: widget.inCustomerView,
+                    ),
                   ),
                 if (state is DoctorViewFilter)
                   const MaterialPage(

@@ -82,6 +82,8 @@ class _DCReceptionistAbsentScreenState
             appBar: const DCReceptionistHeaderBar(
               haveLogout: true,
             ),
+            bottomNavigationBar: const DCReceptionistNavigationBar(),
+            extendBody: true,
             body: Stack(
               children: [
                 SingleChildScrollView(

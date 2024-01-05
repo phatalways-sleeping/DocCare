@@ -35,7 +35,7 @@ class DoctorViewBloc extends Bloc<DoctorViewEvent, DoctorViewState> {
   ) async {
     final customerid = _customerRepositoryService.getCustomerId();
     final availablePeriods = await _customerRepositoryService
-        .getAvailablePeriod(doctorID, date, customerid);
+        .getAvailablePeriod(doctorID, date, customerid!);
 
     // Extract 'time' values from the list and format them with leading zeros
     final appointmentTimes = availablePeriods.map(

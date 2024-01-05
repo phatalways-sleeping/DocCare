@@ -1,3 +1,5 @@
+// ignore_for_file: public_member_api_docs
+
 import 'dart:math';
 
 import 'package:components/components.dart';
@@ -10,8 +12,12 @@ import 'package:views/src/screens/users/booking/doctor_view/view/dc_doctor_card.
 import 'package:views/src/screens/users/booking/doctor_view/view/dc_search_bar.dart';
 
 class DCDoctorViewScreen extends StatefulWidget {
-  const DCDoctorViewScreen({super.key});
+  const DCDoctorViewScreen({
+    super.key,
+    this.inCustomerView = true,
+  });
 
+  final bool inCustomerView;
   @override
   State<DCDoctorViewScreen> createState() => _DCDoctorViewScreenState();
 }
@@ -131,11 +137,9 @@ class _DCDoctorViewScreenState extends State<DCDoctorViewScreen> {
             BlocConsumer<DoctorViewBloc, DoctorViewState>(
               buildWhen: (previous, current) =>
                   previous.filteredSpecialties != current.filteredSpecialties ||
-                  (
-                    (previous is DoctorViewSearchForName &&
-                            current is DoctorViewSearchForName) &&
-                        previous.searchedName != current.searchedName
-                  ),
+                  ((previous is DoctorViewSearchForName &&
+                          current is DoctorViewSearchForName) &&
+                      previous.searchedName != current.searchedName),
               listener: (context, state) {
                 setState(() {
                   _future = context.read<DoctorViewBloc>().getAvaiableDoctors();
@@ -207,9 +211,13 @@ class _DCDoctorViewScreenState extends State<DCDoctorViewScreen> {
       drawer: const DCCustomerDrawer(),
       extendBody: true,
       bottomNavigationBar: showBottomNavBar
-          ? const DCCustomerNavigationBar(
-              selectedIndex: 2,
-            )
+          ? (widget.inCustomerView
+              ? const DCCustomerNavigationBar(
+                  selectedIndex: 2,
+                )
+              : const DCReceptionistNavigationBar(
+                  selectedIndex: 2,
+                ))
           : null,
     );
   }

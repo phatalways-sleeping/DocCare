@@ -7,7 +7,7 @@ abstract interface class CustomerRepositoryService {
     String phone,
     DateTime birthday,
   );
-  String getCustomerId();
+  String? getCustomerId();
 
   void initializeCustomerId(String id);
 
@@ -71,6 +71,10 @@ abstract interface class CustomerRepositoryService {
     String doctorId,
     DateTime date,
     String customerid,
+  );
+  Future<List<Map<String, dynamic>>> getDoctorAvailablePeriod(
+    String doctorId,
+    DateTime date,
   );
   Future<void> bookAppointmentWithDoctor({
     required int period,
