@@ -5,11 +5,14 @@ import 'package:controllers/controllers.dart';
 import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:utility/utility.dart';
 import 'package:views/src/profile/controller/profile_bloc.dart';
+import 'package:views/src/profile/widgets/dc_avatar.dart';
 import 'package:views/src/profile/widgets/show_confirmation_dialog.dart';
 import 'package:views/src/screens/admin/management/v2/config.dart';
 import 'package:views/src/widgets/dc_loading_view.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class DCProfileScreen extends StatefulWidget {
   const DCProfileScreen({
@@ -24,6 +27,8 @@ class DCProfileScreen extends StatefulWidget {
 }
 
 class _DCProfileScreenState extends State<DCProfileScreen> {
+  late final _picker = ImagePicker();
+
   @override
   Widget build(BuildContext context) {
     final role = context.read<AuthenticationRepositoryService>().role;
@@ -32,7 +37,7 @@ class _DCProfileScreenState extends State<DCProfileScreen> {
         : role == 'doctor'
             ? '/doctor/home'
             : role == 'receptionist'
-                ? '/receptionist/home'
+                ? '/receptionist/absent-request'
                 : '/admin/home';
     return BlocProvider(
       create: (context) => ProfileBloc(
@@ -40,6 +45,7 @@ class _DCProfileScreenState extends State<DCProfileScreen> {
         NotificationManager.instance,
         authenticationRepositoryService:
             context.read<AuthenticationRepositoryService>(),
+        storageRepositoryService: context.read<StorageRepositoryService>(),
         customerRepositoryService: role == 'customer'
             ? context.read<CustomerRepositoryService>()
             : null,
@@ -103,11 +109,25 @@ class _DCProfileScreenState extends State<DCProfileScreen> {
                     context,
                     link,
                   ),
-                  icon: Icon(
-                    Icons.arrow_back_outlined,
-                    color: context.colorScheme.tertiary,
-                    size: 30,
-                  ),
+                  icon: (role == 'receptionist')
+                      ? SvgPicture.string(
+                          DCSVGIcons.logout,
+                          width: 25,
+                          height: 25,
+                          colorFilter: const ColorFilter.mode(
+                            Colors.orange,
+                            BlendMode.srcIn,
+                          ),
+                        )
+                      : SvgPicture.string(
+                          DCSVGIcons.back,
+                          width: 30,
+                          height: 20,
+                          colorFilter: ColorFilter.mode(
+                            context.colorScheme.onBackground,
+                            BlendMode.srcIn,
+                          ),
+                        ),
                 ),
               ),
               extendBodyBehindAppBar: true,
@@ -133,6 +153,8 @@ class _DCProfileScreenState extends State<DCProfileScreen> {
           }
 
           return Scaffold(
+            resizeToAvoidBottomInset: true,
+            extendBody: true,
             appBar: AppBar(
               backgroundColor: context.colorScheme.background,
               elevation: 0,
@@ -149,10 +171,14 @@ class _DCProfileScreenState extends State<DCProfileScreen> {
                         );
                   }
                 },
-                icon: Icon(
-                  Icons.arrow_back_outlined,
-                  color: context.colorScheme.tertiary,
-                  size: 30,
+                icon: SvgPicture.string(
+                  DCSVGIcons.back,
+                  width: 30,
+                  height: 20,
+                  colorFilter: ColorFilter.mode(
+                    context.colorScheme.onBackground,
+                    BlendMode.srcIn,
+                  ),
                 ),
               ),
             ),
@@ -166,10 +192,7 @@ class _DCProfileScreenState extends State<DCProfileScreen> {
                   ),
                   child: Column(
                     children: [
-                      Image.asset(
-                        'assets/images/pic_3.png',
-                        fit: BoxFit.cover,
-                      ),
+                      const DCAvatarWidget(),
                       SizedBox(
                         height: context.height * 0.03,
                       ),
@@ -330,22 +353,64 @@ class _DCProfileScreenState extends State<DCProfileScreen> {
                         ),
                         gap,
                       ],
-                      DCFilledButton(
-                        onPressed: (context) => context.read<ProfileBloc>().add(
-                              const ProfilePasswordChangedClickEvent(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          DCFilledButton(
+                            backgroundColor: context.colorScheme.secondary,
+                            fixedSize: Size(
+                              context.width * 0.45,
+                              context.height * 0.05,
                             ),
-                        backgroundColor: context.colorScheme.secondary,
-                        fixedSize: Size(
-                          context.width * 0.94,
-                          context.height * 0.06,
-                        ),
-                        child: Text(
-                          'Change password',
-                          style: context.textTheme.bodyRegularPoppins.copyWith(
-                            color: context.colorScheme.tertiary,
-                            fontSize: 16,
+                            onPressed: (context) async {
+                              await _picker
+                                  .pickImage(
+                                source: ImageSource.gallery,
+                              )
+                                  .then(
+                                (value) {
+                                  if (value != null) {
+                                    context.read<ProfileBloc>().add(
+                                          ProfileAvatarChanged(
+                                            value,
+                                          ),
+                                        );
+                                  }
+                                },
+                              );
+                            },
+                            child: Text(
+                              'Change avatar',
+                              style:
+                                  context.textTheme.bodyRegularPoppins.copyWith(
+                                color: context.colorScheme.onSecondary,
+                                fontSize: 16,
+                              ),
+                            ),
                           ),
-                        ),
+                          DCFilledButton(
+                            onPressed: (context) =>
+                                context.read<ProfileBloc>().add(
+                                      const ProfilePasswordChangedClickEvent(),
+                                    ),
+                            backgroundColor: context.colorScheme.secondary,
+                            fixedSize: Size(
+                              context.width * 0.45,
+                              context.height * 0.05,
+                            ),
+                            child: Text(
+                              'Change password',
+                              style:
+                                  context.textTheme.bodyRegularPoppins.copyWith(
+                                color: context.colorScheme.tertiary,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: context.height * 0.08,
                       ),
                     ],
                   ),

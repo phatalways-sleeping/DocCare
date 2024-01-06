@@ -20,6 +20,7 @@ abstract interface class DoctorRepositoryService {
     DateTime? birthday,
     String? specialization,
     int? startWorkingFrom,
+    String? imageUrl,
   });
   Future<void> cancelAppointment(Appointment appointment);
 

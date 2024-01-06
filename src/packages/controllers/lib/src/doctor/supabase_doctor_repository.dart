@@ -41,6 +41,11 @@ class SupabaseDoctorRepository implements DoctorRepositoryService {
     supabase: Supabase.instance.client,
   );
 
+  final SupabaseDoctorApiService _supabaseDoctorApiService =
+      SupabaseDoctorApiService(
+    supabase: Supabase.instance.client,
+  );
+
   @override
   void initializeDoctorId(String id) {
     _doctorId = id;
@@ -50,6 +55,12 @@ class SupabaseDoctorRepository implements DoctorRepositoryService {
   void clear() {
     _doctorId = '';
   }
+  
+  @override
+  Future<List<dynamic>> getAppointmentsByDoctorId() async {
+    final response = await _supabaseAppointmentApiService
+        .getAppointmentsByDoctorId(_doctorId)
+        .onError((error, stackTrace) => throw Exception(error));
 
   @override
   Future<Map<String, dynamic>> getProfileData() async {
@@ -61,15 +72,8 @@ class SupabaseDoctorRepository implements DoctorRepositoryService {
       'birthday': doctor.birthday,
       'specialization': doctor.specializationId,
       'startWorkingFrom': doctor.startWorkingFrom,
+      'imageUrl': doctor.imageUrl,
     };
-  }
-
-  @override
-  Future<List<dynamic>> getAppointmentsByDoctorId() async {
-    final response = await _supabaseAppointmentApiService
-        .getAppointmentsByDoctorId(_doctorId)
-        .onError((error, stackTrace) => throw Exception(error));
-
     final result = <dynamic>[];
     for (final appointment in response) {
       result.add(appointment.toJson());
@@ -85,6 +89,7 @@ class SupabaseDoctorRepository implements DoctorRepositoryService {
     DateTime? birthday,
     String? specialization,
     int? startWorkingFrom,
+    String? imageUrl,
   }) async {
     final doctor = await _supabaseDoctorApiService.getUser(_doctorId);
     await _supabaseDoctorApiService
@@ -97,6 +102,7 @@ class SupabaseDoctorRepository implements DoctorRepositoryService {
             birthday: birthday ?? doctor.birthday,
             specializationId: specialization ?? doctor.specializationId,
             startWorkingFrom: startWorkingFrom ?? doctor.startWorkingFrom,
+            imageUrl: imageUrl ?? doctor.imageUrl,
           ),
         )
         .onError((error, stackTrace) => throw Exception('Error updating user'));

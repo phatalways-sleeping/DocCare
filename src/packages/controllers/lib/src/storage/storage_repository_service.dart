@@ -27,7 +27,7 @@ abstract interface class StorageRepositoryService {
   /// [storeFile] stores a file to the storage.
   /// This will create a new file if the file does not exist.
   /// This should not overwrite an existing file.
-  Future<Response<void>> storeFile(
+  Future<Response<String>> storeFile(
     String path,
     File file,
   );

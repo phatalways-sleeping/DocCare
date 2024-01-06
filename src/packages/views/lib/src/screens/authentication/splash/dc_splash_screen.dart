@@ -87,7 +87,7 @@ class _DCSplashScreenState extends State<DCSplashScreen>
                       switch (state.role) {
                         case 'doctor':
                           Navigator.of(context, rootNavigator: true)
-                              .pushReplacementNamed('/doctor/home');
+                              .pushReplacementNamed('/profile');
                         case 'customer':
                           Navigator.of(context, rootNavigator: true)
                               .pushReplacementNamed('/home');
@@ -96,7 +96,7 @@ class _DCSplashScreenState extends State<DCSplashScreen>
                               .pushReplacementNamed('/admin/staff/create');
                         case 'receptionist':
                           Navigator.of(context, rootNavigator: true)
-                              .pushReplacementNamed('/receptionist/home');
+                              .pushReplacementNamed('/receptionist/absent-request');
                       }
                     }
                   },

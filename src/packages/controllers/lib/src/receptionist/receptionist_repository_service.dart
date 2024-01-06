@@ -4,6 +4,8 @@ abstract interface class ReceptionistRepositoryService {
 
   void clear();
 
+  Future<bool> isReceptionistExist(String email);
+
   Future<Map<String, dynamic>> getProfileData();
 
   Future<void> updateProfileData({

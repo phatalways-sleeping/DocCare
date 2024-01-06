@@ -75,7 +75,7 @@ class FirebaseStorageRepository implements StorageRepositoryService {
       );
 
   @override
-  Future<Response<void>> storeFile(
+  Future<Response<String>> storeFile(
     String path,
     File file,
   ) =>

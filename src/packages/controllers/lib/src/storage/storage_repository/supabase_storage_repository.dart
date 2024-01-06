@@ -146,7 +146,7 @@ class SupabaseStorageRepository
   }
 
   @override
-  Future<Response<void>> storeFile(
+  Future<Response<String>> storeFile(
     String path,
     File file, {
     FileOptions? fileOptions,
