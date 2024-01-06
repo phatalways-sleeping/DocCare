@@ -36,7 +36,7 @@ class DCPopupIntakeRating extends StatefulWidget {
     this.onConfirmButtonClicked,
     this.onReviewButtonClicked,
     this.buttonsTextSize,
-    this.showReview = true,
+    this.showReview = 0,
     this.totalRating = 0,
   });
 
@@ -110,7 +110,7 @@ class DCPopupIntakeRating extends StatefulWidget {
   final Color? reviewButtonTextColor;
 
   // Whether to show the review button or not
-  final bool? showReview;
+  final int? showReview;
 
   /// The function to be called when the confirm button is clicked
   final void Function(BuildContext context)? onConfirmButtonClicked;
@@ -126,7 +126,9 @@ class DCPopupIntakeRating extends StatefulWidget {
 }
 
 class _DCPopupIntakeRatingState extends State<DCPopupIntakeRating> {
-  List<SvgPicture> ratings = List.generate(
+  int currentRating = 0;
+
+  List<SvgPicture> ratings = List<SvgPicture>.generate(
     5,
     (index) => SvgPicture.string(
       DCSVGIcons.greyStar,
@@ -134,10 +136,21 @@ class _DCPopupIntakeRatingState extends State<DCPopupIntakeRating> {
     ),
   );
 
-  int currentRating = 0;
-
   @override
   Widget build(BuildContext context) {
+    ratings = List<SvgPicture>.generate(
+      5,
+      (index) => ((widget.showReview == null) || index >= widget.showReview!)
+          ? SvgPicture.string(
+              DCSVGIcons.greyStar,
+              fit: BoxFit.cover,
+            )
+          : SvgPicture.string(
+              DCSVGIcons.yellowStar,
+              fit: BoxFit.cover,
+            ),
+    );
+
     return BasePopup(
       popupPadding: 20,
       title: Column(
@@ -250,57 +263,51 @@ class _DCPopupIntakeRatingState extends State<DCPopupIntakeRating> {
           textAlign: TextAlign.left,
           child: Text(widget.noteMessage),
         ),
-        if (widget.showReview ?? true)
-          DefaultTextStyle.merge(
-            style: context.textTheme.h4BoldPoppins.copyWith(
-              fontSize: widget.noteMessageTextSize ?? 20,
-              fontWeight: FontWeight.bold,
-              color: context.colorScheme.onBackground,
-            ),
-            textAlign: TextAlign.left,
-            child: const Text('Review'),
-          )
-        else
-          const SizedBox(),
-        if (widget.showReview ?? true)
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: List.generate(
-              ratings.length,
-              (index) => IconButton(
-                onPressed: () {
-                  currentRating = index + 1;
-                  setState(() {
-                    for (var i = 0; i <= index; i++) {
-                      ratings[i] = SvgPicture.string(
-                        DCSVGIcons.yellowStar,
-                        fit: BoxFit.cover,
-                      );
-                    }
+        DefaultTextStyle.merge(
+          style: context.textTheme.h4BoldPoppins.copyWith(
+            fontSize: widget.noteMessageTextSize ?? 20,
+            fontWeight: FontWeight.bold,
+            color: context.colorScheme.onBackground,
+          ),
+          textAlign: TextAlign.left,
+          child: const Text('Review'),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: List.generate(
+            ratings.length,
+            (index) => IconButton(
+              onPressed: () {
+                currentRating = index + 1;
+                setState(() {
+                  for (var i = 0; i <= index; i++) {
+                    ratings[i] = SvgPicture.string(
+                      DCSVGIcons.yellowStar,
+                      fit: BoxFit.cover,
+                    );
+                  }
 
-                    for (var i = index + 1; i < ratings.length; i++) {
-                      ratings[i] = SvgPicture.string(
-                        DCSVGIcons.greyStar,
-                        fit: BoxFit.cover,
-                      );
-                    }
-                  });
-                },
-                splashRadius: 0.5,
-                icon: ratings[index],
-              ),
+                  for (var i = index + 1; i < ratings.length; i++) {
+                    ratings[i] = SvgPicture.string(
+                      DCSVGIcons.greyStar,
+                      fit: BoxFit.cover,
+                    );
+                  }
+                });
+              },
+              splashRadius: 0.5,
+              icon: ratings[index],
             ),
-          )
-        else
-          const SizedBox(),
+          ),
+        ),
       ],
-      buttonsText: (widget.showReview ?? true)
+      buttonsText: (widget.showReview == null)
           ? [
               widget.reviewButtonText ?? 'Review',
               widget.confirmButtonText ?? 'Done',
             ]
           : [widget.confirmButtonText ?? 'Done'],
-      buttonsColor: (widget.showReview ?? true)
+      buttonsColor: (widget.showReview == null)
           ? [
               widget.reviewButtonColor ?? context.colorScheme.senary,
               widget.confirmButtonColor ?? context.colorScheme.senary,
@@ -311,7 +318,7 @@ class _DCPopupIntakeRatingState extends State<DCPopupIntakeRating> {
       buttonsWidth: widget.buttonsWidth,
       buttonsHeight: widget.buttonsHeight,
       buttonsTextSize: widget.buttonsTextSize ?? 16,
-      buttonsTextColors: (widget.showReview ?? true)
+      buttonsTextColors: (widget.showReview == null)
           ? [
               widget.reviewButtonTextColor ?? context.colorScheme.onBackground,
               widget.confirmButtonTextColor ?? context.colorScheme.onBackground,
@@ -321,7 +328,7 @@ class _DCPopupIntakeRatingState extends State<DCPopupIntakeRating> {
             ],
       onConfirmButtonClicked: widget.onConfirmButtonClicked,
       onCancelButtonClicked: widget.onReviewButtonClicked ??
-          ((widget.showReview ?? true)
+          ((widget.showReview == null)
               ? (context) {
                   Navigator.pop(context, currentRating);
                 }
