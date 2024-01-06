@@ -1,3 +1,5 @@
+// ignore_for_file: public_member_api_docs
+
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -26,14 +28,16 @@ final class Statistics extends Equatable {
   final String categoryName;
   @JsonKey(required: true)
   final String prescriptionID;
+  @JsonKey(required: false)
+  final String? note;
 
   @override
   List<Object?> get props => [
-        this.id,
-        this.value,
-        this.categoryName,
-        this.prescriptionID,
-        this.note,
+        id,
+        value,
+        categoryName,
+        prescriptionID,
+        note,
       ];
 
   Statistics copyWith({

@@ -1,6 +1,8 @@
+// ignore_for_file: public_member_api_docs
+
 import 'package:models/models.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:services/src/statistics/statistics_api_service.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class SupabaseStatisticsApiService implements StatisticsAPIService<Statistics> {
   const SupabaseStatisticsApiService({
@@ -40,7 +42,8 @@ class SupabaseStatisticsApiService implements StatisticsAPIService<Statistics> {
       .then(
         (value) => value.isEmpty
             ? throw Exception(
-                'No statistics with prescriptionID = $prescriptionID found')
+                'No statistics with prescriptionID = $prescriptionID found',
+              )
             : value.map(Statistics.fromJson).toList(),
       )
       .onError((error, stackTrace) => throw Exception(error));
@@ -89,6 +92,9 @@ class SupabaseStatisticsApiService implements StatisticsAPIService<Statistics> {
           .from('statistics')
           .update({
             'prescriptionID': prescriptionID,
+          })
+          .eq('id', id)
+          .onError((error, stackTrace) => throw Exception(error));
 
   @override
   Future<void> deleteStatistics(int id) => supabase

@@ -37,15 +37,15 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     DataLoadingEvent event,
     Emitter<HomeState> emit,
   ) async {
-    var oldBloodPressure = '0';
-    var oldBloodSugar = '0';
-    var oldCholesterol = '0';
-    var oldHeartRate = '0';
+    var oldBloodPressure = 'N/A';
+    var oldBloodSugar = 'N/A';
+    var oldCholesterol = 'N/A';
+    var oldHeartRate = 'N/A';
 
-    var heartRate = '0';
-    var bloodPressure = '0';
-    var cholesterol = '0';
-    var bloodSugar = '0';
+    var heartRate = 'N/A';
+    var bloodPressure = 'N/A';
+    var cholesterol = 'N/A';
+    var bloodSugar = 'N/A';
 
     final profileData = await _customerRepositoryService.getProfileData();
     final name = profileData['fullName'].toString();
