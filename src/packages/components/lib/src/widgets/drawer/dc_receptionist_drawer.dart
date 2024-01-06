@@ -1,7 +1,9 @@
 import 'package:components/components.dart';
 import 'package:components/src/widgets/drawer/base_drawer.dart';
+import 'package:controllers/controllers.dart';
 import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 /// [DCReceptionistDrawer] is the drawer for the customer role
@@ -124,7 +126,8 @@ class _DCReceptionistDrawerState extends State<DCReceptionistDrawer>
       items: [
         DCDrawerItem(
           borderRadius: widget.borderRadiusOfEachItem,
-          onTap: (context) => Navigator.pushNamed(context, '/receptionist/profile'),
+          onTap: (context) =>
+              Navigator.pushNamed(context, '/receptionist/profile'),
           selected: profileSelected,
           title: Text(
             'Profile',
@@ -151,7 +154,14 @@ class _DCReceptionistDrawerState extends State<DCReceptionistDrawer>
         ),
         DCDrawerItem(
           borderRadius: widget.borderRadiusOfEachItem,
-          onTap: (context) => Navigator.pushNamed(context, '/sign-out'),
+          onTap: (context) async {
+            await context.read<AuthenticationRepositoryService>().logout().then(
+                  (value) => Navigator.of(context).pushNamedAndRemoveUntil(
+                    '/splash',
+                    (route) => false,
+                  ),
+                );
+          },
           selected: signOutSelected,
           title: Text(
             'Sign out',

@@ -17,7 +17,6 @@ void main() {
             haveNotificationTime: true,
             textColor: Colors.white,
             heightFactor: 0.16,
-            onPressed: (context) {},
           ),
         ),
       ));

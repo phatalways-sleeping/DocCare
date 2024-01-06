@@ -84,10 +84,10 @@ void runDocCare(String supabaseUrl, String serviceRoleKey) => runApp(
                     ),
                   ),
                 );
-              case '/sign-out':
-                return MaterialPageRoute(
-                  builder: (context) => const SizedBox.shrink(),
-                );
+              // case '/sign-out':
+              //   return MaterialPageRoute(
+              //     builder: (context) => const DCLogoutScreen(),
+              //   );
               case '/home':
                 return MaterialPageRoute(
                   builder: (context) => const DCCustomerHomeScreen(),
