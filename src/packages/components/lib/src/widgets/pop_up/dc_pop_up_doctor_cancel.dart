@@ -50,6 +50,7 @@ class DCPopupDoctorCancel extends StatelessWidget {
     //Center everything in the middle column using Alert Dialog
     //onCancelButtonClicked?.call(context);
     return BasePopup(
+      
       message: [
         DefaultTextStyle.merge(
           style: context.textTheme.h4BoldPoppins.copyWith(

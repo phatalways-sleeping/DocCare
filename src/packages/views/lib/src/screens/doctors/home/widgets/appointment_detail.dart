@@ -1,30 +1,32 @@
-import 'package:flutter/material.dart';
-import 'package:extensions/extensions.dart';
+// ignore_for_file: public_member_api_docs
+
 import 'package:components/components.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:components/src/widgets/pop_up/dc_pop_up_doctor_cancel.dart';
-import 'package:views/src/screens/doctors/home/controller/doctor_home_bloc.dart';
+import 'package:extensions/extensions.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:views/src/screens/doctors/home/controller/doctor_home_bloc.dart';
 
 class AppointmentDetailsWidget extends StatelessWidget {
+  const AppointmentDetailsWidget({
+    required this.customerName,
+    required this.day,
+    required this.time,
+    required this.isNull,
+    Key? key,
+  }) : super(key: key);
   final String customerName;
   final String day;
   final String time;
   final bool isNull;
 
-  const AppointmentDetailsWidget({
-    Key? key,
-    required this.customerName,
-    required this.day,
-    required this.time,
-    required this.isNull,
-  }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: double.infinity,
-      padding: EdgeInsets.all(20),
+      padding: const EdgeInsets.symmetric(
+        horizontal: 10,
+        vertical: 16,
+      ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
         color: context.colorScheme.secondary.withOpacity(0.8),
@@ -37,39 +39,50 @@ class AppointmentDetailsWidget extends StatelessWidget {
             children: [
               BlocBuilder<DoctorHomeBloc, DoctorHomeState>(
                 builder: (context, state) {
-                  return DCButton(
-                    text: 'Cancel',
-                    textSize: 10,
+                  return DCFilledButton(
                     backgroundColor: state.upcomingAppointmentIndex == -1
                         ? context.colorScheme.quinary
                         : context.colorScheme.error,
-                    heightFactor: 0.02,
-                    widthFactor: 0.2,
-                    onPressed: (acontext) {
+                    fixedSize: Size(
+                      context.width * 0.3,
+                      25,
+                    ),
+                    onPressed: (acontext) async {
                       if (state.upcomingAppointmentIndex == -1) {
                         return;
                       }
-                      showDialog(
+                      await showDialog<void>(
                         context: context,
                         builder: (acontext) => DCPopupDoctorCancel(
-                            boldMessage: 'Are you sure?',
-                            message: 'Your patients need you!',
-                            onCancelButtonClicked: (acontext) {
-                              // Close the dialog
-                              Navigator.of(context).pop();
-                            },
-                            onConfirmButtonClicked: (acontext) {
-                              //remove the appointment
-                              Navigator.of(context).pop();
+                          boldMessage: 'Are you sure?',
+                          message: 'Your patients need you!',
+                          cancelButtonText: 'Cancel',
+                          confirmButtonText: 'Confirm',
+                          onCancelButtonClicked: (acontext) {
+                            // Close the dialog
+                            Navigator.of(context).pop();
+                          },
+                          onConfirmButtonClicked: (acontext) {
+                            //remove the appointment
+                            Navigator.of(context).pop();
 
-                              BlocProvider.of<DoctorHomeBloc>(context).add(
-                                DoctorHomeOpenCancelAppointmentViewEvent(
-                                    appointment: state.appointments[
-                                        state.upcomingAppointmentIndex]),
-                              );
-                            }),
+                            BlocProvider.of<DoctorHomeBloc>(context).add(
+                              DoctorHomeOpenCancelAppointmentViewEvent(
+                                appointment: state.appointments[
+                                    state.upcomingAppointmentIndex],
+                              ),
+                            );
+                          },
+                        ),
                       );
                     },
+                    child: Text(
+                      'Cancel',
+                      style: context.textTheme.bodyRegularPoppins.copyWith(
+                        fontSize: 14,
+                        color: context.colorScheme.onError,
+                      ),
+                    ),
                   );
                 },
               ),
@@ -79,9 +92,9 @@ class AppointmentDetailsWidget extends StatelessWidget {
             children: [
               DefaultTextStyle.merge(
                 style: context.textTheme.h2BoldPoppins.copyWith(
-                  fontSize: 25,
+                  fontSize: 22,
                   fontWeight: FontWeight.bold,
-                  color: context.colorScheme.background,
+                  color: context.colorScheme.onSecondary,
                 ),
                 textAlign: TextAlign.left,
                 child: Text(
@@ -90,19 +103,19 @@ class AppointmentDetailsWidget extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: 15),
-          isNull == false
-              ? Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    AppointmentInfo(icon: true, text: day),
-                    SizedBox(width: 20),
-                    AppointmentInfo(icon: false, text: time),
-                  ],
-                )
-              : SizedBox(
-                  height: 20,
-                ),
+          SizedBox(height: context.height * 0.02),
+          if (isNull == false)
+            Row(
+              children: [
+                AppointmentInfo(icon: true, text: day),
+                const SizedBox(width: 20),
+                AppointmentInfo(icon: false, text: time),
+              ],
+            )
+          else
+            const SizedBox(
+              height: 20,
+            ),
         ],
       ),
     );
@@ -114,21 +127,20 @@ class AppointmentInfo extends StatelessWidget {
   final String text;
 
   const AppointmentInfo({
-    Key? key,
     required this.icon,
     required this.text,
+    Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(10),
+      padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
-        color: context.colorScheme.secondary,
+        color: context.colorScheme.secondary.withOpacity(0.5),
         border: Border.all(
-          color: context.colorScheme.onSecondary, // Change the color as needed
-          width: 0.1, // Set the width of the border
+          color: context.colorScheme.background, // Change the color as needed
         ),
       ),
       child: Row(
@@ -139,10 +151,13 @@ class AppointmentInfo extends StatelessWidget {
             width: 35,
             fit: BoxFit.cover,
           ),
-          SizedBox(width: 6),
+          const SizedBox(width: 6),
           Text(
             text,
-            style: TextStyle(fontSize: 14),
+            style: context.textTheme.bodyRegularPoppins.copyWith(
+              fontSize: 14,
+              color: context.colorScheme.onSecondary,
+            ),
           ),
         ],
       ),
