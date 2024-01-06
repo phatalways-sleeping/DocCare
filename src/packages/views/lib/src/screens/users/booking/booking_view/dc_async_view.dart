@@ -38,27 +38,32 @@ class _DCAsyncViewState extends State<DCAsyncView> {
               final item = widget.type == DCAsyncViewType.availableTime
                   ? state.timeSelected
                   : state.remindMeBefore;
-              return Wrap(
-                runSpacing: 5,
-                children: data.map(
-                  (e) {
-                    return DCCircularItem(
-                      title: e.split(' ').first,
-                      subtitle: e.split(' ').last,
-                      isSelected: item == e,
-                      isAvailable: true,
-                      onPressed: widget.type == DCAsyncViewType.availableTime
-                          ? (context) => context
-                              .read<BookingBloc>()
-                              .add(BookingSelectTimeEvent(time: e))
-                          : (context) => context.read<BookingBloc>().add(
-                                BookingSelectRemindMeBeforeEvent(
-                                  remindMeBefore: e,
+              return Center(
+                child: Wrap(
+                  runAlignment: WrapAlignment.center,
+                  alignment: WrapAlignment.spaceEvenly,
+                  spacing: 10,
+                  runSpacing: 10,
+                  children: data.map(
+                    (e) {
+                      return DCCircularItem(
+                        title: e.split(' ').first,
+                        subtitle: e.split(' ').last,
+                        isSelected: item == e,
+                        isAvailable: true,
+                        onPressed: widget.type == DCAsyncViewType.availableTime
+                            ? (context) => context
+                                .read<BookingBloc>()
+                                .add(BookingSelectTimeEvent(time: e))
+                            : (context) => context.read<BookingBloc>().add(
+                                  BookingSelectRemindMeBeforeEvent(
+                                    remindMeBefore: e,
+                                  ),
                                 ),
-                              ),
-                    );
-                  },
-                ).toList(),
+                      );
+                    },
+                  ).toList(),
+                ),
               );
             },
           );
@@ -73,8 +78,8 @@ class _DCAsyncViewState extends State<DCAsyncView> {
         }
         return Center(
           child: SizedBox(
-            height: 50,
-            width: 50,
+            height: 30,
+            width: 30,
             child: CircularProgressIndicator(
               color: context.colorScheme.secondary,
             ),

@@ -117,9 +117,14 @@ class _DCCalendarState extends State<DCCalendar> {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           // Return a loading indicator or placeholder widget
-          return const CircularProgressIndicator();
+          return Center(
+            child: CircularProgressIndicator(
+              color: context.colorScheme.secondary,
+            ),
+          );
         } else if (snapshot.hasError) {
-          // Handle the error
+        // Handle the error by displaying a text saying something went wrong,
+        // and a button to retry the request.
           return Text('Error: ${snapshot.error}');
         } else {
           // Process and display the data using DCCalendarColumn widget

@@ -62,7 +62,7 @@ class _DCBookingWithDoctorScreenState extends State<DCBookingWithDoctorScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       appBar: context.watch<BookingBloc>().state is BookingSuccess
           ? null
           : context.watch<BookingBloc>().state.doctorData.keys.isEmpty
@@ -156,7 +156,7 @@ class _DCBookingWithDoctorScreenState extends State<DCBookingWithDoctorScreen> {
                           speciality: (state['speciality'] as String?) ?? '',
                           rating: (state['rating'] as num).toDouble(),
                           ratingCount: state['ratingCount'] as int,
-                          onPressed: (context) {},
+                          onPressed: null,
                         );
                       },
                     ),
@@ -186,9 +186,8 @@ class _DCBookingWithDoctorScreenState extends State<DCBookingWithDoctorScreen> {
                       height: 10,
                     ),
                     DCCalendar(
-                        workingShiftFuture: context
-                            .read<BookingBloc>()
-                            .getDoctorWorkingShift(
+                      workingShiftFuture:
+                          context.read<BookingBloc>().getDoctorWorkingShift(
                                 doctorid: (context
                                             .read<BookingBloc>()
                                             .state
@@ -198,7 +197,9 @@ class _DCBookingWithDoctorScreenState extends State<DCBookingWithDoctorScreen> {
                                         .read<BookingBloc>()
                                         .state
                                         .doctorData['id'] as String
-                                    : ''))),
+                                    : ''),
+                              ),
+                    ),
                     const SizedBox(
                       height: 10,
                     ),
@@ -282,34 +283,8 @@ class _DCBookingWithDoctorScreenState extends State<DCBookingWithDoctorScreen> {
                                 )),
                         type: DCAsyncViewType.availableTime,
                       ),
-                      if (widget.inCustomerView) ...[
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          'Remind Me Before',
-                          style: context.textTheme.bodyBoldPoppins.copyWith(
-                            fontSize: 18,
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        DCAsyncView(
-                          future: Future.delayed(
-                            const Duration(seconds: 2),
-                            () => [
-                              '10 Mins',
-                              '20 Mins',
-                              '30 Mins',
-                              '40 Mins',
-                            ],
-                          ),
-                          type: DCAsyncViewType.reminder,
-                        ),
-                      ],
                       SizedBox(
-                        height: context.height * 0.04,
+                        height: context.height * 0.02,
                       ),
                     ],
                     if (context.watch<BookingBloc>().state.timeSelected !=
@@ -357,14 +332,16 @@ class _DCBookingWithDoctorScreenState extends State<DCBookingWithDoctorScreen> {
                             );
                           },
                           fixedSize: Size(
-                            context.width * 0.8,
+                            context.width * 0.94,
                             50,
                           ),
+                          backgroundColor: context.colorScheme.secondary,
                           child: Text(
                             'Continue',
-                            style: context.textTheme.bodyBoldPoppins.copyWith(
+                            style:
+                                context.textTheme.bodyRegularPoppins.copyWith(
                               fontSize: 18,
-                              color: context.colorScheme.onSurface,
+                              color: context.colorScheme.onSecondary,
                             ),
                           ),
                         ),
