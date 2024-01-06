@@ -160,17 +160,12 @@ class _DCAdminDrawerState extends State<DCAdminDrawer>
             ),
             textAlign: TextAlign.center,
           ),
-          prefixIcon: SvgPicture.string(
-            DCSVGIcons.person,
-            fit: BoxFit.cover,
-            height: widget.iconSize,
-            width: widget.iconSize,
-            colorFilter: generateReportSelected
-                ? ColorFilter.mode(
-                    widget.selectedBackgroundColor ??
-                        context.colorScheme.background,
-                    BlendMode.srcIn,
-                  )
+          prefixIcon: Icon(
+            Icons.add,
+            size: widget.iconSize,
+            color: generateReportSelected
+                ? widget.selectedBackgroundColor ??
+                    context.colorScheme.background
                 : null,
           ),
         ),
@@ -188,17 +183,12 @@ class _DCAdminDrawerState extends State<DCAdminDrawer>
             ),
             textAlign: TextAlign.center,
           ),
-          prefixIcon: SvgPicture.string(
-            DCSVGIcons.person,
-            fit: BoxFit.cover,
-            height: widget.iconSize,
-            width: widget.iconSize,
-            colorFilter: generateReportSelected
-                ? ColorFilter.mode(
-                    widget.selectedBackgroundColor ??
-                        context.colorScheme.background,
-                    BlendMode.srcIn,
-                  )
+          prefixIcon: Icon(
+            Icons.delete,
+            size: widget.iconSize,
+            color: generateReportSelected
+                ? widget.selectedBackgroundColor ??
+                    context.colorScheme.background
                 : null,
           ),
         ),

@@ -14,7 +14,6 @@ Statistics _$StatisticsFromJson(Map<String, dynamic> json) {
       'value',
       'categoryName',
       'prescriptionID',
-      'note'
     ],
   );
   return Statistics(

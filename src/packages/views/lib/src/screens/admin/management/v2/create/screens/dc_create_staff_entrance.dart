@@ -22,6 +22,7 @@ class _DCCreateStaffEntranceState extends State<DCCreateStaffEntrance> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const DCAdminHeaderBar(),
+      drawer: const DCAdminDrawer(),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(

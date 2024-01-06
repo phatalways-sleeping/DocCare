@@ -32,12 +32,8 @@ class _DCAdminGenerateReportScreenState
       appBar: DCCustomerHeaderBar(
         cornerRadius: 12,
         backgroundColor: context.colorScheme.background,
-        allowNavigateBack: true,
-        onLeadingIconPressed: (context) {
-          // TODO: handle navigate back to admin drawer screen
-          Navigator.of(context).pop();
-        },
       ),
+      drawer: const DCAdminDrawer(),
       body: BlocProvider(
         create: (_) => GenerateReportBloc(
           widget.navigatorKey,

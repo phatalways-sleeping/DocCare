@@ -72,12 +72,18 @@ List<Widget> createAppointmentWidgets(Map<String, List<String>> appointments) {
 
 class _DCCustomerHomeScreen extends State<DCCustomerHomeScreen> {
   late PageController _pageController;
+  int _currentPage = 0;
   Timer? _timer;
 
   @override
   void initState() {
     super.initState();
-    _pageController = PageController();
+    _pageController = PageController()
+      ..addListener(() {
+        setState(() {
+          _currentPage = _pageController.page!.round();
+        });
+      });
     _timer = Timer.periodic(const Duration(minutes: 1), (timer) {
       // context.read<HomeBloc>().add(const DataLoadingEvent());
       setState(() {
@@ -296,9 +302,8 @@ class _DCCustomerHomeScreen extends State<DCCustomerHomeScreen> {
                 const DCNotificationScreen(),
               ],
             ),
-            bottomNavigationBar: _pageController.page == 0
-                ? const DCCustomerNavigationBar()
-                : null,
+            bottomNavigationBar:
+                _currentPage == 0 ? const DCCustomerNavigationBar() : null,
           );
         },
       ),
