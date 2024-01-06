@@ -34,7 +34,7 @@ Future<void> showSuccessfulWithDoctorDialog({
             children: [
               if (doctorData.isNotEmpty)
                 DCDoctorCard(
-                  imgPath: (doctorData['imageUrl'] as String?) ?? '',
+                  imgPath: (doctorData['imgUrl'] as String?) ?? '',
                   name: (doctorData['name'] as String?) ?? '',
                   speciality: (doctorData['speciality'] as String?) ?? '',
                   rating: (doctorData['rating'] as num).toDouble(),
@@ -276,6 +276,9 @@ Future<void> showFailedDialog({
                     color: context.colorScheme.tertiary,
                   ),
                 ),
+              ),
+              const SizedBox(
+                height: 5,
               ),
             ],
           ),

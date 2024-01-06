@@ -290,7 +290,7 @@ class SupabaseCustomerRepository implements CustomerRepositoryService {
           'speciality': result['speciality'],
           'rating': result['ratings'],
           'ratingCount': result['ratingcount'],
-          'imgPath': result['imgPath'] ?? 'assets/images/doctor.png',
+          'imgUrl': result['imageurl'],
         };
       },
     ).toList();

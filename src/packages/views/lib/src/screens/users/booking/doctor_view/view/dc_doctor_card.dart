@@ -27,9 +27,7 @@ class DCDoctorCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: onPressed != null
-          ? () => onPressed!(context)
-          : null,
+      onPressed: onPressed != null ? () => onPressed!(context) : null,
       style: ButtonStyle(
         elevation: MaterialStateProperty.all<double>(2),
         fixedSize: MaterialStateProperty.all<Size>(

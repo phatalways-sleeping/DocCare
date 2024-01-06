@@ -151,7 +151,7 @@ class _DCBookingWithDoctorScreenState extends State<DCBookingWithDoctorScreen> {
                           return const SizedBox.shrink();
                         }
                         return DCDoctorCard(
-                          imgPath: (state['imageUrl'] as String?) ?? '',
+                          imgPath: (state['imgUrl'] as String?) ?? '',
                           name: (state['name'] as String?) ?? '',
                           speciality: (state['speciality'] as String?) ?? '',
                           rating: (state['rating'] as num).toDouble(),
@@ -244,18 +244,12 @@ class _DCBookingWithDoctorScreenState extends State<DCBookingWithDoctorScreen> {
                                 .isNotEmpty ||
                             context.watch<BookingBloc>().state.speciality !=
                                 null)) ...[
-                      Text(
-                        'Available Time',
-                        style: context.textTheme.bodyBoldPoppins.copyWith(
-                          fontSize: 18,
-                        ),
-                      ),
                       const SizedBox(
                         height: 10,
                       ),
-                      DCAsyncView(
+                      FutureBuilder<List<String>>(
                         future: (context
-                                .read<BookingBloc>()
+                                .watch<BookingBloc>()
                                 .state
                                 .doctorData
                                 .keys
@@ -264,7 +258,7 @@ class _DCBookingWithDoctorScreenState extends State<DCBookingWithDoctorScreen> {
                                 .read<DoctorViewBloc>()
                                 .getAvailableAppointmentTimes(
                                   context
-                                      .read<BookingBloc>()
+                                      .watch<BookingBloc>()
                                       .state
                                       .doctorData['id'] as String,
                                   context
@@ -275,13 +269,46 @@ class _DCBookingWithDoctorScreenState extends State<DCBookingWithDoctorScreen> {
                             : context
                                 .read<BookingBloc>()
                                 .getAvailablePeriodWithSpecialization(
-                                  context.read<BookingBloc>().state.speciality!,
+                                  context
+                                      .watch<BookingBloc>()
+                                      .state
+                                      .speciality!,
                                   context
                                       .watch<BookingBloc>()
                                       .state
                                       .dateSelected!,
                                 )),
-                        type: DCAsyncViewType.availableTime,
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.done) {
+                            if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+                              // Display available time
+                              return DCAsyncView(
+                                title: Text(
+                                  'Available Time',
+                                  style: context.textTheme.bodyBoldPoppins
+                                      .copyWith(
+                                    fontSize: 18,
+                                  ),
+                                ),
+                                future: Future.value(snapshot.data),
+                                type: DCAsyncViewType.availableTime,
+                              );
+                            } else {
+                              // Display caution text when no records are found
+                              return Text(
+                                'There is no left available slot',
+                                style:
+                                    context.textTheme.bodyBoldPoppins.copyWith(
+                                  fontSize: 18,
+                                ),
+                              );
+                            }
+                          } else {
+                            // Display a loading indicator while waiting for the result
+                            return CircularProgressIndicator();
+                          }
+                        },
                       ),
                       SizedBox(
                         height: context.height * 0.02,

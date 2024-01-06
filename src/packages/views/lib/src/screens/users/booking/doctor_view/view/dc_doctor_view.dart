@@ -154,6 +154,7 @@ class _DCDoctorViewScreenState extends State<DCDoctorViewScreen> {
                         color: context.colorScheme.secondary,
                       );
                     }
+                    print(snapshot.data);
 
                     if (snapshot.hasData) {
                       final content = snapshot.data ?? [];
@@ -171,7 +172,7 @@ class _DCDoctorViewScreenState extends State<DCDoctorViewScreen> {
                                   speciality: e['speciality'] as String,
                                   rating: (e['rating'] as num).toDouble(),
                                   ratingCount: e['ratingCount'] as int,
-                                  imgPath: e['imgPath'] as String,
+                                  imgPath: e['imgUrl'] as String? ?? '',
                                   onPressed: (context) =>
                                       context.read<DoctorViewBloc>().add(
                                             DoctorViewChooseDoctorEvent(

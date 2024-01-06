@@ -31,36 +31,21 @@ class _DCStorageImageState extends State<DCStorageImage> {
         ),
       ),
     );
-    final errorWidget = Center(
-      child: Icon(
-        Icons.error,
-        size: 30,
-        color: context.colorScheme.error,
-      ),
+    final errorWidget = Image.asset(
+      'assets/images/doctor_avatar_default.jpg',
+      height: widget.height ?? double.infinity,
+      fit: BoxFit.cover,
     );
-    return FutureBuilder<String>(
-      future: Future<String>.delayed(
-        Duration(seconds: 2),
-        () => widget.imgPath,
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(10),
+      child: Image.network(
+        widget.imgPath,
+        height: widget.height ?? double.infinity,
+        fit: BoxFit.cover,
+        loadingBuilder: (context, child, loadingProgress) =>
+            loadingProgress == null ? child : loadingWidget,
+        errorBuilder: (context, error, stackTrace) => errorWidget,
       ),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          return ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: Image.network(
-              snapshot.data!,
-              height: widget.height ?? double.infinity,
-              fit: BoxFit.cover,
-              loadingBuilder: (context, child, loadingProgress) =>
-                  loadingProgress == null ? child : loadingWidget,
-              errorBuilder: (context, error, stackTrace) => errorWidget,
-            ),
-          );
-        } else if (snapshot.hasError) {
-          return errorWidget;
-        }
-        return loadingWidget;
-      },
     );
   }
 }

@@ -179,7 +179,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
           doctorid: doctorData['id'] as String,
           date: date!,
         );
-        if (!existAppointment) {
+        if (existAppointment) {
           throw Error();
         }
 
@@ -207,7 +207,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
           doctorid: highestRatingDoctorId,
           date: date,
         );
-        if (!existAppointment) {
+        if (existAppointment) {
           throw Error();
         }
 

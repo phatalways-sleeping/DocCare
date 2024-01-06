@@ -15,11 +15,13 @@ class DCAsyncView extends StatefulWidget {
   const DCAsyncView({
     required this.future,
     required this.type,
+    this.title,
     super.key,
   });
 
   final Future<List<String>> future;
   final DCAsyncViewType type;
+  final Widget? title;
 
   @override
   State<DCAsyncView> createState() => _DCAsyncViewState();
@@ -38,7 +40,7 @@ class _DCAsyncViewState extends State<DCAsyncView> {
               final item = widget.type == DCAsyncViewType.availableTime
                   ? state.timeSelected
                   : state.remindMeBefore;
-              return Center(
+              final body = Center(
                 child: Wrap(
                   runAlignment: WrapAlignment.center,
                   alignment: WrapAlignment.spaceEvenly,
@@ -64,6 +66,13 @@ class _DCAsyncViewState extends State<DCAsyncView> {
                     },
                   ).toList(),
                 ),
+              );
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  widget.title!,
+                  body,
+                ],
               );
             },
           );
