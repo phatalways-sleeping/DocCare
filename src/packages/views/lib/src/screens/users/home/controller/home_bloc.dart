@@ -53,7 +53,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     final prescriptionID =
         await _customerRepositoryService.getNewestPrescriptionID();
 
-    if (prescriptionID.isNotEmpty) {
+    if (prescriptionID.isNotEmpty && prescriptionID[0] != 'null') {
       final statisticsData =
           await _customerRepositoryService.getStatistics(prescriptionID[0]);
       heartRate = statisticsData['heart_rate'].toString();
@@ -62,7 +62,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       bloodSugar = statisticsData['blood_sugar'].toString();
     }
 
-    if (prescriptionID.length > 1) {
+    if (prescriptionID.length > 1 && prescriptionID[1] != 'null') {
       final oldStatisticsData =
           await _customerRepositoryService.getStatistics(prescriptionID[1]);
       oldHeartRate = oldStatisticsData['heart_rate'].toString();
