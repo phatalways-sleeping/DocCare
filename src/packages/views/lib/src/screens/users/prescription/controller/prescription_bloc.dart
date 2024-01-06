@@ -180,7 +180,7 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
     Emitter<PrescriptionState> emit,
   ) async {
     if (state is! IntakeViewState) {
-      return emit(IntakeViewState.fromState(state, event.prescriptionId));
+      emit(IntakeViewState.fromState(state, event.prescriptionId));
     }
 
     final results = await _customerRepositoryService
