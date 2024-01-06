@@ -35,7 +35,6 @@ class DoctorHomeBloc extends Bloc<DoctorHomeEvent, DoctorHomeState> {
     Emitter<DoctorHomeState> emit,
   ) async {
     try {
-      
       // ignore: lines_longer_than_80_chars
       // remove this 2 lines when login is done and doctor id is passed from login screen
       const id = 'D001';
@@ -48,7 +47,7 @@ class DoctorHomeBloc extends Bloc<DoctorHomeEvent, DoctorHomeState> {
       final doctorName = profileData['fullName'].toString();
 
       // get doctor name after changing the doctor table in the database
-       final String doctorAvatarUrl = profileData['imageUrl'];
+      final doctorAvatarUrl = profileData['imageUrl'] as String;
       // just hard code for now
       // const doctorAvatarUrl =
       //     'https://pics.craiyon.com/2023-07-05/a8e9e1290f08447bb300681ce2b563e9.webp';
@@ -60,9 +59,9 @@ class DoctorHomeBloc extends Bloc<DoctorHomeEvent, DoctorHomeState> {
       // get the index of the upcoming appointment, which is after current time and closest to current time
       // also map the appointments to each date
       for (var i = 0; i < appointments.length; i++) {
-        
         print(appointments[i].runtimeType);
-        if (appointments[i]['customerName'] == null || appointments[i]['customerName'] == 'null') {
+        if (appointments[i]['customerName'] == null ||
+            appointments[i]['customerName'] == 'null') {
           appointments[i]['customerName'] = 'On-site Customer';
         }
         if (appointments[i]['isCanceled'] == true) continue;
@@ -106,14 +105,13 @@ class DoctorHomeBloc extends Bloc<DoctorHomeEvent, DoctorHomeState> {
           appointmentMap[convertedDate] = [appointments[i]];
         }
       }
-      
+
       if (upcomingAppointmentIndex != -1) {
         upcomingCustomerName =
             appointments[upcomingAppointmentIndex]['customerName'].toString();
       } else {
         upcomingCustomerName = 'no appointment';
       }
-      
 
       emit(
         DoctorHomeLoadedSuccess(
@@ -176,22 +174,38 @@ class DoctorHomeBloc extends Bloc<DoctorHomeEvent, DoctorHomeState> {
   ) async {
     try {
       final appointment = Appointment(
-        customerID:  event.appointment['customerID'].toString(),
+        customerID: event.appointment['customerID'].toString(),
         doctorID: event.appointment['doctorID'].toString(),
         period: int.parse(event.appointment['period'].toString()),
         date: DateTime.parse(event.appointment['date'].toString()),
-
-        rating: (event.appointment['rating'].toString() == 'null'  ? null : int.parse(event.appointment['rating'].toString())) ,
-        customerComment: (event.appointment['customerComment'].toString() == 'null' || event.appointment['customerComment'].toString() == '' ) ? null : event.appointment['customerComment'].toString(),
-        prescriptionID: event.appointment['prescriptionID'].toString() == 'null' ? null : event.appointment['prescriptionID'].toString(),
-        dateDone: event.appointment['dateDone'].toString() == 'null' ? null : DateTime.parse(event.appointment['dateDone'].toString()),
+        rating: (event.appointment['rating'].toString() == 'null'
+            ? null
+            : int.parse(event.appointment['rating'].toString())),
+        customerComment:
+            (event.appointment['customerComment'].toString() == 'null' ||
+                    event.appointment['customerComment'].toString() == '')
+                ? null
+                : event.appointment['customerComment'].toString(),
+        prescriptionID: event.appointment['prescriptionID'].toString() == 'null'
+            ? null
+            : event.appointment['prescriptionID'].toString(),
+        dateDone: event.appointment['dateDone'].toString() == 'null'
+            ? null
+            : DateTime.parse(event.appointment['dateDone'].toString()),
         done: event.appointment['done'].toString() == 'true' ? true : false,
-        note: event.appointment['note'].toString() == 'null' ? null : event.appointment['note'].toString(),
-        diagnosis: event.appointment['diagnosis'].toString() == 'null' ? null : event.appointment['diagnosis'].toString(),
+        note: event.appointment['note'].toString() == 'null'
+            ? null
+            : event.appointment['note'].toString(),
+        diagnosis: event.appointment['diagnosis'].toString() == 'null'
+            ? null
+            : event.appointment['diagnosis'].toString(),
         isCanceled: true,
-        customerName: event.appointment['customerName'].toString() ==  'On-site Customer' ? null : event.appointment['customerName'].toString(),
+        customerName:
+            event.appointment['customerName'].toString() == 'On-site Customer'
+                ? null
+                : event.appointment['customerName'].toString(),
       );
-    await _doctorRepositoryService!.cancelAppointment(appointment);
+      await _doctorRepositoryService!.cancelAppointment(appointment);
 
       emit(DoctorHomeInitial.from(state));
     } catch (e) {
