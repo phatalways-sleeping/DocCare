@@ -13,9 +13,11 @@ import 'package:views/src/screens/doctors/prescription/dc_prescription_screen.da
 class DCDoctorPrescibeMedicineFlow extends StatefulWidget {
   const DCDoctorPrescibeMedicineFlow({
     required this.navigatorKey,
+    required this.arguments,
     super.key,
   });
 
+  final Map<String, dynamic> arguments;
   final GlobalKey<NavigatorState> navigatorKey;
 
   @override
@@ -32,6 +34,7 @@ class _DCDoctorPrescibeMedicineFlowState
         widget.navigatorKey,
         NotificationManager.instance,
         context.read<DoctorRepositoryService>(),
+        widget.arguments,
       ),
       child: BlocConsumer<PrescriptionBloc, PrescriptionState>(
         listener: (context, state) {
@@ -40,21 +43,23 @@ class _DCDoctorPrescibeMedicineFlowState
               const RetrieveMedicineEvent(),
             );
           }
+          if (state is PrescriptionSuccess) {
+            Navigator.of(context, rootNavigator: true)
+                .pushNamed('/doctor/home');
+          }
         },
         builder: (context, state) {
+          if (state is PrescriptionSuccess) return Container();
           final screen = state is PrescriptionMedicalLoading
               ? const Center(child: CircularProgressIndicator())
               : state is PrescriptionMedicalInitial
                   ? DCMedicalStatScreen(
-                      customerName: context
-                          .read<DoctorRepositoryService>()
-                          .getCustomerName,
+                      customerName: widget.arguments['customerName'] as String,
                     )
                   : state is PrescriptionMedicalSuccess
                       ? DCPrescriptionScreen(
-                          customerName: context
-                              .read<DoctorRepositoryService>()
-                              .getCustomerName,
+                          customerName:
+                              widget.arguments['customerName'] as String,
                         )
                       : state is PrescriptionAddMedicine
                           ? const DCAddMedicineScreen()
@@ -68,6 +73,10 @@ class _DCDoctorPrescibeMedicineFlowState
               title: '',
               allowNavigateBack: true,
               onLeadingIconPressed: (context) {
+                if (state is PrescriptionMedicalInitial) {
+                  Navigator.of(context, rootNavigator: true)
+                      .pushNamed('/doctor/home');
+                }
                 BlocProvider.of<PrescriptionBloc>(context).add(
                   const PrescriptionBackEvent(),
                 );
