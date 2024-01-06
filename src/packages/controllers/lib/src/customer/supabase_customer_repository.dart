@@ -292,10 +292,7 @@ class SupabaseCustomerRepository implements CustomerRepositoryService {
     // So, we need to update rating in appointment table
     await _supabaseAppointmentApiService
         .updateRating(
-          period,
           _customerId!,
-          doctorId,
-          date,
           rating,
         )
         .onError((error, stackTrace) =>

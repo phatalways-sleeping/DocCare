@@ -22,19 +22,6 @@ Appointment _$AppointmentFromJson(Map<String, dynamic> json) {
       'note',
       'diagnosis',
     ],
-    requiredKeys: const [
-      'customerID',
-      'doctorID',
-      'period',
-      'date',
-      'rating',
-      'customerComment',
-      'prescriptionID',
-      'dateDone',
-      'done',
-      'note',
-      'diagnosis',
-    ],
   );
   return Appointment(
     customerID: json['customerID'] as String,

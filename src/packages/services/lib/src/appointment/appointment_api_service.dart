@@ -18,10 +18,7 @@ abstract interface class AppointmentApiService<Appointment> {
   Future<void> updateAppointment(Appointment appointment);
 
   Future<void> updateRating(
-    int period,
     String customerId,
-    String doctorId,
-    String date,
     int rating,
   );
 
