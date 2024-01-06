@@ -4,6 +4,7 @@ import 'package:components/components.dart';
 import 'package:controllers/controllers.dart';
 import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:views/src/screens/receptionist/absent/controller/receptionist_absent_bloc.dart';
@@ -64,14 +65,16 @@ class _DCReceptionistAbsentScreenState
           appBar: const DCReceptionistHeaderBar(),
           drawer: const DCReceptionistDrawer(),
           bottomNavigationBar: const DCReceptionistNavigationBar(),
+          extendBody: true,
           body: Stack(
             children: [
-              SingleChildScrollView(
-                padding: EdgeInsets.symmetric(
-                  horizontal: context.width * 0.03,
-                  vertical: context.height * 0.02,
-                ),
-                child: SafeArea(
+              SizedBox(
+                height: context.height,
+                child: SingleChildScrollView(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: context.width * 0.03,
+                    vertical: context.height * 0.02,
+                  ),
                   child: Column(
                     children: [
                       Padding(
@@ -122,29 +125,34 @@ class _DCReceptionistAbsentScreenState
                                 return const SizedBox.shrink();
                               }
                               final data = snapshot.data!;
-                              return ListView.separated(
-                                separatorBuilder: (context, index) =>
-                                    const SizedBox(
-                                  height: 10,
-                                ),
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemCount: data.length,
-                                itemBuilder: (context, index) {
-                                  return DoctorCard(
-                                    imgPath: data[index]['imgPath']! as String,
-                                    name: data[index]['name']! as String,
-                                    dateAbsent:
-                                        data[index]['dateAbsent']! as DateTime,
+                              final children = data.map(
+                                (e) => Padding(
+                                  padding: EdgeInsets.symmetric(
+                                    vertical: context.height * 0.01,
+                                  ),
+                                  child: DoctorCard(
+                                    imgPath: e['imgPath'] as String?,
+                                    name: e['name']! as String,
+                                    dateAbsent: e['dateAbsent']! as DateTime,
                                     onPressed: (context) => context
                                         .read<ReceptionistAbsentBloc>()
                                         .add(
                                           ReceptionistAbsentViewEvent(
-                                            data: data[index],
+                                            data: e,
                                           ),
                                         ),
-                                  );
-                                },
+                                  ),
+                                ),
+                              );
+                              return Padding(
+                                padding: children.isNotEmpty
+                                    ? const EdgeInsets.only(
+                                        bottom: 50,
+                                      )
+                                    : EdgeInsets.zero,
+                                child: Column(
+                                  children: children.toList(),
+                                ),
                               );
                             },
                           );

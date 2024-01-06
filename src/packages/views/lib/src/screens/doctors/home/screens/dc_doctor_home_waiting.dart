@@ -98,9 +98,7 @@ class _DCDoctorHomeWaitingScreenState extends State<DCDoctorHomeWaitingScreen> {
         title: 'DocCare',
       ),
       drawer: const DCDoctorDrawer(),
-      bottomNavigationBar: DCDoctorNavigationBar(
-        selectedIndex: 0,
-      ),
+      bottomNavigationBar: const DCDoctorNavigationBar(),
       extendBody: true,
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(
@@ -117,7 +115,7 @@ class _DCDoctorHomeWaitingScreenState extends State<DCDoctorHomeWaitingScreen> {
                 color: context.colorScheme.secondary,
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             DefaultTextStyle.merge(
                 style: context.textTheme.h2BoldPoppins.copyWith(
                   fontSize: 18,
@@ -125,10 +123,10 @@ class _DCDoctorHomeWaitingScreenState extends State<DCDoctorHomeWaitingScreen> {
                   color: context.colorScheme.onSecondary,
                 ),
                 textAlign: TextAlign.left,
-                child: Text(
+                child: const Text(
                   'Upcoming Appointment',
                 )),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             SizedBox(
               height: 30,
               width: 30,
@@ -136,7 +134,7 @@ class _DCDoctorHomeWaitingScreenState extends State<DCDoctorHomeWaitingScreen> {
                 color: context.colorScheme.secondary,
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Row(
               children: [
                 SvgPicture.string(
@@ -156,7 +154,7 @@ class _DCDoctorHomeWaitingScreenState extends State<DCDoctorHomeWaitingScreen> {
                 ),
               ],
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             SizedBox(
               height: 30,
               width: 30,

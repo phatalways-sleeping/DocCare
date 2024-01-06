@@ -74,4 +74,7 @@ class DoctorAbsentBloc extends Bloc<DoctorAbsentEvent, DoctorAbsentState> {
   }
 
   final DoctorRepositoryService _doctorRepositoryService;
+
+  Future<Map<String, dynamic>> getProfileData() async =>
+      _doctorRepositoryService.getProfileData();
 }

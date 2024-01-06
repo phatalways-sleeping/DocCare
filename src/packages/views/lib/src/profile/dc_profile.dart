@@ -32,13 +32,6 @@ class _DCProfileScreenState extends State<DCProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final role = context.read<AuthenticationRepositoryService>().role;
-    final link = role == 'customer'
-        ? '/home'
-        : role == 'doctor'
-            ? '/doctor/home'
-            : role == 'receptionist'
-                ? '/receptionist/absent-request'
-                : '/admin/home';
     return BlocProvider(
       create: (context) => ProfileBloc(
         widget.navigatorKey,
@@ -69,9 +62,7 @@ class _DCProfileScreenState extends State<DCProfileScreen> {
                         const ProfileSubmitted(),
                       );
                 } else {
-                  Navigator.of(context, rootNavigator: true).pushNamed(
-                    link,
-                  );
+                  Navigator.pop(context);
                 }
               },
             );
@@ -93,9 +84,7 @@ class _DCProfileScreenState extends State<DCProfileScreen> {
               },
             );
           } else if (state is ProfileUpdatedSuccess) {
-            await Navigator.of(context, rootNavigator: true).pushNamed(
-              link,
-            );
+            Navigator.pop(context);
           }
         },
         builder: (context, state) {
@@ -105,21 +94,10 @@ class _DCProfileScreenState extends State<DCProfileScreen> {
                 backgroundColor: context.colorScheme.background,
                 elevation: 0,
                 leading: IconButton(
-                  onPressed: () => Navigator.pushNamed(
+                  onPressed: () => Navigator.pop(
                     context,
-                    link,
                   ),
-                  icon: (role == 'receptionist')
-                      ? SvgPicture.string(
-                          DCSVGIcons.logout,
-                          width: 25,
-                          height: 25,
-                          colorFilter: const ColorFilter.mode(
-                            Colors.orange,
-                            BlendMode.srcIn,
-                          ),
-                        )
-                      : SvgPicture.string(
+                  icon: SvgPicture.string(
                           DCSVGIcons.back,
                           width: 30,
                           height: 20,
@@ -161,9 +139,8 @@ class _DCProfileScreenState extends State<DCProfileScreen> {
               leading: IconButton(
                 onPressed: () {
                   if (!state.hasChanged) {
-                    Navigator.pushNamed(
+                    Navigator.pop(
                       context,
-                      link,
                     );
                   } else {
                     context.read<ProfileBloc>().add(

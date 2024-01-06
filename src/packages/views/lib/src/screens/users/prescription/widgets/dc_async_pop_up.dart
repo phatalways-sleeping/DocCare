@@ -1,11 +1,7 @@
 // ignore_for_file: public_member_api_docs
-import 'dart:math';
 import 'package:components/components.dart';
 import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:views/src/screens/users/prescription/controller/prescription_bloc.dart';
-import 'package:views/src/screens/users/prescription/widgets/dc_prescription_item.dart';
 
 class DCAsyncPopUp extends StatefulWidget {
   const DCAsyncPopUp({

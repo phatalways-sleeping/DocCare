@@ -127,7 +127,9 @@ class _DCReceptionistDrawerState extends State<DCReceptionistDrawer>
         DCDrawerItem(
           borderRadius: widget.borderRadiusOfEachItem,
           onTap: (context) =>
-              Navigator.pushNamed(context, '/receptionist/profile'),
+              Navigator.of(context, rootNavigator: true).pushNamed(
+            '/profile',
+          ),
           selected: profileSelected,
           title: Text(
             'Profile',

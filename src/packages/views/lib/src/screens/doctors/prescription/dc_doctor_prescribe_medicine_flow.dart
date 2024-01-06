@@ -74,8 +74,7 @@ class _DCDoctorPrescibeMedicineFlowState
               allowNavigateBack: true,
               onLeadingIconPressed: (context) {
                 if (state is PrescriptionMedicalInitial) {
-                  Navigator.of(context, rootNavigator: true)
-                      .pushNamed('/doctor/home');
+                  Navigator.pop(context);
                 }
                 BlocProvider.of<PrescriptionBloc>(context).add(
                   const PrescriptionBackEvent(),

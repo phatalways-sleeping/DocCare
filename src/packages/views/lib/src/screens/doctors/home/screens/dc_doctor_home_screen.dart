@@ -5,11 +5,11 @@ import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:views/src/screens/doctors/home/controller/doctor_home_bloc.dart';
-import 'package:views/src/screens/doctors/home/widgets/dc_doctor_calendar.dart';
-import 'package:views/src/screens/doctors/home/widgets/circle_image_with_text.dart';
-import 'package:views/src/screens/doctors/home/widgets/appointment_detail.dart';
 import 'package:intl/intl.dart';
+import 'package:views/src/screens/doctors/home/controller/doctor_home_bloc.dart';
+import 'package:views/src/screens/doctors/home/widgets/appointment_detail.dart';
+import 'package:views/src/screens/doctors/home/widgets/circle_image_with_text.dart';
+import 'package:views/src/screens/doctors/home/widgets/dc_doctor_calendar.dart';
 
 class DCDoctorHomeScreen extends StatefulWidget {
   const DCDoctorHomeScreen({
@@ -103,9 +103,7 @@ class _DCDoctorHomeScreenState extends State<DCDoctorHomeScreen> {
         title: 'DocCare',
       ),
       drawer: const DCDoctorDrawer(),
-      bottomNavigationBar: DCDoctorNavigationBar(
-        selectedIndex: 0,
-      ),
+      bottomNavigationBar: const DCDoctorNavigationBar(),
       extendBody: true,
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(
@@ -126,11 +124,11 @@ class _DCDoctorHomeScreenState extends State<DCDoctorHomeScreen> {
                 return CircleImageWithText(
                   imagePath: state.doctorAvatarUrl,
                   welcomeText: 'Welcome Back,',
-                  name: 'Doctor ' + state.doctorName,
+                  name: 'Doctor ${state.doctorName}',
                 );
               },
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             DefaultTextStyle.merge(
                 style: context.textTheme.h2BoldPoppins.copyWith(
                   fontSize: 18,
@@ -138,10 +136,10 @@ class _DCDoctorHomeScreenState extends State<DCDoctorHomeScreen> {
                   color: context.colorScheme.onSecondary,
                 ),
                 textAlign: TextAlign.left,
-                child: Text(
+                child: const Text(
                   'Upcoming Appointment',
                 )),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             BlocBuilder<DoctorHomeBloc, DoctorHomeState>(
               buildWhen: (previous, current) {
                 if (current.runtimeType != previous.runtimeType) {
@@ -150,14 +148,14 @@ class _DCDoctorHomeScreenState extends State<DCDoctorHomeScreen> {
                 return false;
               },
               builder: (context, state) {
-                DateTime upcomingAppointmentDate =
+                final upcomingAppointmentDate =
                     state.upcomingAppointmentIndex != -1
                         ? DateTime.parse(state
                             .appointments[state.upcomingAppointmentIndex]
                                 ['date']
                             .toString())
                         : DateTime.now();
-                String formattedDate =
+                final formattedDate =
                     DateFormat('MMM, dd, yyyy').format(upcomingAppointmentDate);
                 return AppointmentDetailsWidget(
                   customerName: state.upcomingCustomerName,
@@ -172,7 +170,7 @@ class _DCDoctorHomeScreenState extends State<DCDoctorHomeScreen> {
                 );
               },
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Row(
               children: [
                 SvgPicture.string(
@@ -192,7 +190,7 @@ class _DCDoctorHomeScreenState extends State<DCDoctorHomeScreen> {
                 ),
               ],
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             BlocBuilder<DoctorHomeBloc, DoctorHomeState>(
               buildWhen: (previous, current) {
                 if (current.runtimeType != previous.runtimeType) {
@@ -201,10 +199,10 @@ class _DCDoctorHomeScreenState extends State<DCDoctorHomeScreen> {
                 return false;
               },
               builder: (context, state) {
-                return DCDoctorCalendar();
+                return const DCDoctorCalendar();
               },
             ),
-            SizedBox(height: 40),
+            const SizedBox(height: 40),
           ],
         ),
       ),

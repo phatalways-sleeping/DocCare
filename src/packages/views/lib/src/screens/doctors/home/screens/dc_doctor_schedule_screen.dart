@@ -104,7 +104,7 @@ class _DCDoctorScheduleScreenState extends State<DCDoctorScheduleScreen> {
                 ),
               ],
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             DefaultTextStyle.merge(
               style: context.textTheme.h4BoldPoppins.copyWith(
                 fontSize: 20,
@@ -125,28 +125,29 @@ class _DCDoctorScheduleScreenState extends State<DCDoctorScheduleScreen> {
                 return false;
               },
               builder: (context, state) {
-                String convertedDate = state.selectedDate.year.toString() +
-                    '-' +
-                    state.selectedDate.month.toString() +
-                    '-' +
-                    state.selectedDate.day.toString();
+                final convertedDate =
+                    '${state.selectedDate.year}-${state.selectedDate.month}-${state.selectedDate.day}';
                 final appointmentsForDate =
                     state.appointmentInDate[convertedDate];
                 final appointmentsNotDone = appointmentsForDate
-                    ?.where((appointment) =>
-                        appointment['done'] == false ||
-                        appointment['done'] == null)
+                    ?.where(
+                      (appointment) =>
+                          appointment['done'] == false ||
+                          appointment['done'] == null,
+                    )
                     .toList();
 
                 // Sort appointments by 'period'
-                appointmentsNotDone?.sort((a, b) =>
-                    (int.parse(a['period'].toString())).compareTo(int.parse(b['period'].toString())));
+                appointmentsNotDone?.sort(
+                  (a, b) => int.parse(a['period'].toString())
+                      .compareTo(int.parse(b['period'].toString())),
+                );
 
                 // Convert the list of appointments to a future
                 final futureAppointments =
                     Future.value(appointmentsNotDone ?? []);
                 return state.appointmentInDate.containsKey(convertedDate)
-                    ? !appointmentsNotDone!.isEmpty
+                    ? appointmentsNotDone!.isNotEmpty
                         ? DCDoctorAsyncItem(
                             future: futureAppointments,
                             isDone: false,
@@ -180,11 +181,8 @@ class _DCDoctorScheduleScreenState extends State<DCDoctorScheduleScreen> {
                 return false;
               },
               builder: (context, state) {
-                String convertedDate = state.selectedDate.year.toString() +
-                    '-' +
-                    state.selectedDate.month.toString() +
-                    '-' +
-                    state.selectedDate.day.toString();
+                String convertedDate =
+                    '${state.selectedDate.year}-${state.selectedDate.month}-${state.selectedDate.day}';
                 final appointmentsForDate =
                     state.appointmentInDate[convertedDate];
                 // initial the appointmentsDone
@@ -192,12 +190,14 @@ class _DCDoctorScheduleScreenState extends State<DCDoctorScheduleScreen> {
                     ?.where((appointment) => appointment['done'] == true)
                     .toList();
 
-                appointmentsDone?.sort((a, b) =>
-                    (int.parse(a['period'].toString())).compareTo(int.parse(b['period'].toString())));
+                appointmentsDone?.sort(
+                  (a, b) => int.parse(a['period'].toString())
+                      .compareTo(int.parse(b['period'].toString())),
+                );
                 // Convert the list of appointments to a future
                 final futureAppointments = Future.value(appointmentsDone ?? []);
                 return state.appointmentInDate.containsKey(convertedDate)
-                    ? !appointmentsDone!.isEmpty
+                    ? appointmentsDone!.isNotEmpty
                         ? DCDoctorAsyncItem(
                             future: futureAppointments,
                             isDone: true,

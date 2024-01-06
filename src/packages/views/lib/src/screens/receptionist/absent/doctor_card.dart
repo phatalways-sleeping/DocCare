@@ -15,7 +15,7 @@ class DoctorCard extends StatelessWidget {
     super.key,
   });
 
-  final String imgPath;
+  final String? imgPath;
   final String name;
   final DateTime dateAbsent;
   final void Function(BuildContext context) onPressed;
@@ -25,35 +25,39 @@ class DoctorCard extends StatelessWidget {
     return ElevatedButton(
       onPressed: () => onPressed(context),
       style: ButtonStyle(
-        maximumSize: MaterialStateProperty.all(
+        elevation: MaterialStateProperty.all<double>(2),
+        fixedSize: MaterialStateProperty.all<Size>(
           Size(
-            double.infinity,
-            context.height * 0.14,
+            context.width * 0.94,
+            context.height * 0.15,
           ),
         ),
-        padding: MaterialStatePropertyAll(
+        surfaceTintColor: MaterialStateProperty.all<Color>(
+          Colors.transparent,
+        ),
+        padding: MaterialStateProperty.all<EdgeInsets>(
           EdgeInsets.symmetric(
             horizontal: context.width * 0.03,
-            vertical: context.height * 0.01,
+            vertical: 10,
           ),
         ),
-        backgroundColor: MaterialStateProperty.resolveWith((states) {
-          if (states.contains(MaterialState.pressed)) {
-            return context.colorScheme.tertiary.withOpacity(0.5);
-          } else {
-            return Colors.white;
-          }
-        }),
-        shape: MaterialStatePropertyAll(
+        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),
         ),
-        shadowColor: const MaterialStatePropertyAll(
-          Colors.black12,
+        side: MaterialStateProperty.all<BorderSide>(
+          BorderSide(
+            color: Colors.black.withOpacity(0.1),
+          ),
         ),
-        elevation: const MaterialStatePropertyAll(
-          8,
+        backgroundColor: MaterialStateProperty.resolveWith(
+          (states) {
+            if (states.contains(MaterialState.pressed)) {
+              return Colors.black.withOpacity(0.1);
+            }
+            return Colors.white;
+          },
         ),
       ),
       child: Row(

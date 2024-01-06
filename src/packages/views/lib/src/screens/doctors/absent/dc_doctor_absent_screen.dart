@@ -58,11 +58,9 @@ class _DCDoctorAbsentScreenState extends State<DCDoctorAbsentScreen> {
         builder: (context, state) => Stack(
           children: [
             Scaffold(
-              appBar: DCDoctorHeaderBar(
+              appBar: const DCDoctorHeaderBar(
                 allowNavigateBack: true,
-                onLeadingIconPressed: (context) {
-                  // TODO: Navigate back to home screen
-                },
+                onLeadingIconPressed: Navigator.pop,
               ),
               body: SafeArea(
                 child: SingleChildScrollView(
@@ -70,118 +68,132 @@ class _DCDoctorAbsentScreenState extends State<DCDoctorAbsentScreen> {
                     horizontal: context.width * 0.03,
                     vertical: context.height * 0.03,
                   ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      const DoctorCard(
-                        imgPath: 'https://picsum.photos/200',
-                        name: 'John Doe',
-                        speciality: 'Dentist',
-                        rating: 4,
-                      ),
-                      const SizedBox(
-                        height: 16,
-                      ),
-                      DCOutlinedWithHeadingTextFormField(
-                        borderRadius: 16,
-                        initialText: 'John Doe',
-                        headingColor: context.colorScheme.onSecondary,
-                        heading: const Text(
-                          'Full Name',
-                        ),
-                        textAlign: TextAlign.center,
-                        enabled: false,
-                      ),
-                      DCOutlinedWithHeadingTextFormField(
-                        controller: _controller1,
-                        borderRadius: 16,
-                        onChanged: (context, controller) {
-                          context.read<DoctorAbsentBloc>().add(
-                                DoctorAbsentDateInputEvent(
-                                  controller.text,
-                                ),
-                              );
-                        },
-                        headingColor: context.colorScheme.onSecondary,
-                        keyboardType: TextInputType.datetime,
-                        heading: const Text(
-                          'Absent Date',
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                      DCOutlinedWithHeadingTextFormField(
-                        controller: _controller2,
-                        onChanged: (context, controller) {
-                          context.read<DoctorAbsentBloc>().add(
-                                DoctorAbsentDescriptionInputEvent(
-                                  controller.text,
-                                ),
-                              );
-                        },
-                        borderRadius: 16,
-                        headingColor: context.colorScheme.onSecondary,
-                        keyboardType: TextInputType.text,
-                        heading: const Text(
-                          'Reasons',
-                        ),
-                        textAlign: TextAlign.start,
-                        minLines: 7,
-                        maxLines: 10,
-                        hintText: 'Explain the reasons for absence',
-                      ),
-                      BlocBuilder<DoctorAbsentBloc, DoctorAbsentState>(
-                        buildWhen: (previous, current) =>
-                            previous.agreeTerms != current.agreeTerms,
-                        builder: (context, state) {
-                          return Row(
-                            children: [
-                              Checkbox(
-                                value: state.agreeTerms,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(4),
-                                ),
-                                onChanged: (value) {
-                                  context.read<DoctorAbsentBloc>().add(
-                                        DoctorAbsentAgreementCheckboxEvent(
-                                          value ?? false,
-                                        ),
-                                      );
-                                },
-                              ),
-                              Text(
-                                'I agree to the terms and conditions',
-                                style: context.textTheme.bodyRegularPoppins
-                                    .copyWith(fontSize: 16),
-                              ),
-                            ],
-                          );
-                        },
-                      ),
-                      const SizedBox(
-                        height: 16,
-                      ),
-                      DCFilledButton(
-                        onPressed: (context) {
-                          context.read<DoctorAbsentBloc>().add(
-                                const DoctorAbsentButtonPressedEvent(),
-                              );
-                          _controller1.clear();
-                          _controller2.clear();
-                        },
-                        backgroundColor: context.colorScheme.secondary,
-                        fixedSize: Size(
-                          context.width * 0.94,
-                          context.height * 0.06,
-                        ),
-                        child: Text(
-                          'Submit',
-                          style: context.textTheme.bodyRegularPoppins.copyWith(
-                            fontSize: 18,
-                            color: context.colorScheme.onSecondary,
+                  child: FutureBuilder<Map<String, dynamic>>(
+                    future: context.read<DoctorAbsentBloc>().getProfileData(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasError) {
+                        Navigator.pop(context);
+                        return const SizedBox.shrink();
+                      }
+                      if (!snapshot.hasData) {
+                        return const SizedBox.shrink();
+                      }
+                      final profileData = snapshot.data!;
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          DoctorCard(
+                            imgPath: profileData['imageUrl'] as String,
+                            name: profileData['fullName'] as String,
+                            speciality: profileData['specialization'] as String,
+                            rating: (profileData['rating'] as double).toInt(),
                           ),
-                        ),
-                      ),
-                    ],
+                          const SizedBox(
+                            height: 16,
+                          ),
+                          DCOutlinedWithHeadingTextFormField(
+                            borderRadius: 16,
+                            initialText: profileData['fullName'] as String,
+                            headingColor: context.colorScheme.onSecondary,
+                            heading: const Text(
+                              'Full Name',
+                            ),
+                            textAlign: TextAlign.center,
+                            enabled: false,
+                          ),
+                          DCOutlinedWithHeadingTextFormField(
+                            controller: _controller1,
+                            borderRadius: 16,
+                            onChanged: (context, controller) {
+                              context.read<DoctorAbsentBloc>().add(
+                                    DoctorAbsentDateInputEvent(
+                                      controller.text,
+                                    ),
+                                  );
+                            },
+                            headingColor: context.colorScheme.onSecondary,
+                            keyboardType: TextInputType.datetime,
+                            heading: const Text(
+                              'Absent Date',
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          DCOutlinedWithHeadingTextFormField(
+                            controller: _controller2,
+                            onChanged: (context, controller) {
+                              context.read<DoctorAbsentBloc>().add(
+                                    DoctorAbsentDescriptionInputEvent(
+                                      controller.text,
+                                    ),
+                                  );
+                            },
+                            borderRadius: 16,
+                            headingColor: context.colorScheme.onSecondary,
+                            keyboardType: TextInputType.text,
+                            heading: const Text(
+                              'Reasons',
+                            ),
+                            textAlign: TextAlign.start,
+                            minLines: 7,
+                            maxLines: 10,
+                            hintText: 'Explain the reasons for absence',
+                          ),
+                          BlocBuilder<DoctorAbsentBloc, DoctorAbsentState>(
+                            buildWhen: (previous, current) =>
+                                previous.agreeTerms != current.agreeTerms,
+                            builder: (context, state) {
+                              return Row(
+                                children: [
+                                  Checkbox(
+                                    value: state.agreeTerms,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(4),
+                                    ),
+                                    onChanged: (value) {
+                                      context.read<DoctorAbsentBloc>().add(
+                                            DoctorAbsentAgreementCheckboxEvent(
+                                              value ?? false,
+                                            ),
+                                          );
+                                    },
+                                  ),
+                                  Text(
+                                    'I agree to the terms and conditions',
+                                    style: context.textTheme.bodyRegularPoppins
+                                        .copyWith(fontSize: 16),
+                                  ),
+                                ],
+                              );
+                            },
+                          ),
+                          const SizedBox(
+                            height: 16,
+                          ),
+                          DCFilledButton(
+                            onPressed: (context) {
+                              context.read<DoctorAbsentBloc>().add(
+                                    const DoctorAbsentButtonPressedEvent(),
+                                  );
+                              _controller1.clear();
+                              _controller2.clear();
+                            },
+                            backgroundColor: context.colorScheme.secondary,
+                            fixedSize: Size(
+                              context.width * 0.94,
+                              context.height * 0.06,
+                            ),
+                            child: Text(
+                              'Submit',
+                              style:
+                                  context.textTheme.bodyRegularPoppins.copyWith(
+                                fontSize: 18,
+                                color: context.colorScheme.onSecondary,
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    },
                   ),
                 ),
               ),

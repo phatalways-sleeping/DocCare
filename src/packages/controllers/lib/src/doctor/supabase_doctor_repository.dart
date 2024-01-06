@@ -75,6 +75,7 @@ class SupabaseDoctorRepository implements DoctorRepositoryService {
       'specialization': doctor.specializationId,
       'startWorkingFrom': doctor.startWorkingFrom,
       'imageUrl': doctor.imageUrl,
+      'rating': doctor.rating,
     };
   }
 

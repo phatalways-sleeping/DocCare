@@ -4,6 +4,7 @@ import 'package:components/components.dart';
 import 'package:controllers/controllers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:views/src/notification/dc_notification_screen.dart';
 import 'package:views/src/profile/dc_profile.dart';
 import 'package:views/src/screens/admin/management/v2/create/flows/dc_admin_create_staff_flow.dart';
 import 'package:views/src/screens/admin/management/v2/remove/screens/dc_staff_removal_screen.dart';
@@ -84,10 +85,6 @@ void runDocCare(String supabaseUrl, String serviceRoleKey) => runApp(
                     ),
                   ),
                 );
-              // case '/sign-out':
-              //   return MaterialPageRoute(
-              //     builder: (context) => const DCLogoutScreen(),
-              //   );
               case '/home':
                 return MaterialPageRoute(
                   builder: (context) => const DCCustomerHomeScreen(),
@@ -126,7 +123,7 @@ void runDocCare(String supabaseUrl, String serviceRoleKey) => runApp(
                 );
               case '/notification':
                 return MaterialPageRoute(
-                  builder: (context) => const SizedBox.shrink(),
+                  builder: (context) => const DCNotificationScreen(),
                 );
               case '/admin/home':
                 return MaterialPageRoute(
@@ -179,14 +176,6 @@ void runDocCare(String supabaseUrl, String serviceRoleKey) => runApp(
                 return MaterialPageRoute(
                   builder: (context) => const DCReceptionistAbsentScreen(),
                 );
-              case '/receptionist/profile':
-                return MaterialPageRoute(
-                  builder: (context) => DCProfileScreen(
-                    navigatorKey: GlobalKey<NavigatorState>(
-                      debugLabel: 'profile',
-                    ),
-                  ),
-                );
               case '/receptionist/booking':
                 return MaterialPageRoute(
                   builder: (context) => DCDoctorViewMainScreen(
@@ -199,7 +188,14 @@ void runDocCare(String supabaseUrl, String serviceRoleKey) => runApp(
 
               default:
                 return MaterialPageRoute(
-                  builder: (context) => const SizedBox.shrink(),
+                  builder: (context) => RestorationScope(
+                    restorationId: 'splash',
+                    child: DCSplashScreen(
+                      navigatorKey: GlobalKey<NavigatorState>(
+                        debugLabel: 'splash',
+                      ),
+                    ),
+                  ),
                 );
             }
           },

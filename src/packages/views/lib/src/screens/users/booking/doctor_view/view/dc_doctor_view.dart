@@ -209,7 +209,9 @@ class _DCDoctorViewScreenState extends State<DCDoctorViewScreen> {
           ],
         ),
       ),
-      drawer: const DCCustomerDrawer(),
+      drawer: widget.inCustomerView
+          ? const DCCustomerDrawer()
+          : const DCReceptionistDrawer(),
       extendBody: true,
       bottomNavigationBar: showBottomNavBar
           ? (widget.inCustomerView

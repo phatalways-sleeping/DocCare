@@ -296,7 +296,9 @@ class _DCCustomerHomeScreen extends State<DCCustomerHomeScreen> {
                 const DCNotificationScreen(),
               ],
             ),
-            bottomNavigationBar: const DCCustomerNavigationBar(),
+            bottomNavigationBar: _pageController.page == 0
+                ? const DCCustomerNavigationBar()
+                : null,
           );
         },
       ),

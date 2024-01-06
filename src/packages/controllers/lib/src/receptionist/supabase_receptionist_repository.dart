@@ -85,7 +85,7 @@ doctor:doctorID ( imageUrl )
           (e) => {
             'name': e['doctorName'] as String,
             'dateAbsent': DateTime.parse(e['date'] as String),
-            'imgPath': (e['doctor'] as Map<String, dynamic>)['imageUrl'] ?? 'https://picsum.photos/200',
+            'imgPath': (e['doctor'] as Map<String, dynamic>)['imageUrl'],
             'doctorId': e['doctorID'] as String,
             'reason': e['reason'] as String,
           },

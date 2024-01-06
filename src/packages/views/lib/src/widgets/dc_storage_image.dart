@@ -5,13 +5,13 @@ import 'package:flutter/material.dart';
 
 class DCStorageImage extends StatefulWidget {
   const DCStorageImage({
-    super.key,
     required this.imgPath,
+    super.key,
     this.height,
     this.width,
   });
 
-  final String imgPath;
+  final String? imgPath;
   final double? height;
   final double? width;
 
@@ -31,36 +31,26 @@ class _DCStorageImageState extends State<DCStorageImage> {
         ),
       ),
     );
-    final errorWidget = Center(
-      child: Icon(
-        Icons.error,
-        size: 30,
-        color: context.colorScheme.error,
-      ),
+    final errorWidget = Image.asset(
+      'assets/images/doctor_avatar_default.jpg',
+      height: widget.height ?? double.infinity,
+      fit: BoxFit.cover,
     );
-    return FutureBuilder<String>(
-      future: Future<String>.delayed(
-        const Duration(seconds: 2),
-        () => 'https://picsum.photos/200/300',
+
+    if (widget.imgPath == null) {
+      return errorWidget;
+    }
+
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(10),
+      child: Image.network(
+        widget.imgPath!,
+        height: widget.height ?? double.infinity,
+        fit: BoxFit.cover,
+        loadingBuilder: (context, child, loadingProgress) =>
+            loadingProgress == null ? child : loadingWidget,
+        errorBuilder: (context, error, stackTrace) => errorWidget,
       ),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          return ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: Image.network(
-              snapshot.data!,
-              height: widget.height ?? double.infinity,
-              fit: BoxFit.cover,
-              loadingBuilder: (context, child, loadingProgress) =>
-                  loadingProgress == null ? child : loadingWidget,
-              errorBuilder: (context, error, stackTrace) => errorWidget,
-            ),
-          );
-        } else if (snapshot.hasError) {
-          return errorWidget;
-        }
-        return loadingWidget;
-      },
     );
   }
 }

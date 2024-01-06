@@ -37,16 +37,19 @@ class DCReceptionistNavigationBar extends StatelessWidget {
         if (index != selectedIndex) {
           switch (index) {
             case 0:
-              Navigator.of(context, rootNavigator: true).pushReplacementNamed(
+              Navigator.of(context, rootNavigator: true).pushNamedAndRemoveUntil(
                 '/receptionist/absent-request',
+                (route) => false,
               );
             case 1:
-              Navigator.of(context, rootNavigator: true).pushReplacementNamed(
+              Navigator.of(context, rootNavigator: true).pushNamedAndRemoveUntil(
                 '/receptionist/booking',
+                (route) => false,
               );
             case 2:
-              Navigator.of(context, rootNavigator: true).pushReplacementNamed(
+              Navigator.of(context, rootNavigator: true).pushNamedAndRemoveUntil(
                 '/receptionist/message',
+                (route) => false,
               );
           }
         }
