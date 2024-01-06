@@ -490,8 +490,9 @@ class SupabaseCustomerRepository implements CustomerRepositoryService {
       },
     ) as int;
 
-    // Check if the stored procedure returned 1 (true) or 0 (false)
-    return checkExisting == 1;
+    print(checkExisting);
+    // Check if the stored procedure returned 1 (not exist) or 0 (exist)
+    return checkExisting == 0;
   }
 
   @override
