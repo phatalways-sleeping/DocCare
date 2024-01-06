@@ -8,8 +8,6 @@ import 'package:controllers/controllers.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:meta/meta.dart';
-import 'package:services/services.dart';
 import 'package:utility/utility.dart';
 
 part 'profile_event.dart';

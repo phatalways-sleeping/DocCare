@@ -9,13 +9,20 @@ part of 'statistics.dart';
 Statistics _$StatisticsFromJson(Map<String, dynamic> json) {
   $checkKeys(
     json,
-    requiredKeys: const ['id', 'value', 'categoryName', 'prescriptionID'],
+    requiredKeys: const [
+      'id',
+      'value',
+      'categoryName',
+      'prescriptionID',
+      'note'
+    ],
   );
   return Statistics(
     id: json['id'] as String,
     value: json['value'] as String,
     categoryName: json['categoryName'] as String,
     prescriptionID: json['prescriptionID'] as String,
+    note: json['note'] as String?,
   );
 }
 
@@ -25,4 +32,5 @@ Map<String, dynamic> _$StatisticsToJson(Statistics instance) =>
       'value': instance.value,
       'categoryName': instance.categoryName,
       'prescriptionID': instance.prescriptionID,
+      'note': instance.note,
     };

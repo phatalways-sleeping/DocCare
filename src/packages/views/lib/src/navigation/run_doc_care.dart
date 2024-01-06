@@ -54,7 +54,7 @@ void runDocCare(String supabaseUrl, String serviceRoleKey) => runApp(
           theme: ThemeData(
             colorScheme: const DocCareLightColorScheme(),
           ),
-          initialRoute: '/doctor/home',
+          initialRoute: '/splash',
           onGenerateRoute: (settings) {
             switch (settings.name) {
               case '/splash':

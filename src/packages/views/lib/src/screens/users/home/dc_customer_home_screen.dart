@@ -188,52 +188,95 @@ class _DCCustomerHomeScreen extends State<DCCustomerHomeScreen> {
                       ),
                       SliverPadding(
                         padding: const EdgeInsets.symmetric(horizontal: 8),
-                        sliver: SliverGrid(
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            crossAxisSpacing: 10,
-                            mainAxisSpacing: 10,
-                          ),
-                          delegate: SliverChildListDelegate(
-                            [
-                              CustomHealthCard(
-                                title: 'Blood Pressure',
-                                icon: DCSVGIcons.bloodDrop,
-                                color: context.colorScheme.surface,
-                                currentValue: state.bloodPressure,
-                                unit: 'mmHg',
-                                lastCheckupValue: state.oldBloodPressure,
+                        sliver: state.bloodPressure != 'N/A'
+                            ? SliverGrid(
+                                gridDelegate:
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  crossAxisSpacing: 10,
+                                  mainAxisSpacing: 10,
+                                ),
+                                delegate: SliverChildListDelegate(
+                                  [
+                                    CustomHealthCard(
+                                      title: 'Blood Pressure',
+                                      icon: DCSVGIcons.bloodDrop,
+                                      color: context.colorScheme.surface,
+                                      currentValue: state.bloodPressure,
+                                      unit: 'mmHg',
+                                      lastCheckupValue: state.oldBloodPressure,
+                                    ),
+                                    CustomHealthCard(
+                                      title: 'Heart Rate',
+                                      icon: DCSVGIcons.heart,
+                                      color: context.colorScheme.quartenary
+                                          .withOpacity(0.5),
+                                      currentValue: state.heartRate,
+                                      unit: 'beats/minute',
+                                      lastCheckupValue: state.oldHeartRate,
+                                    ),
+                                    CustomHealthCard(
+                                      title: 'Cholesterol',
+                                      icon: DCSVGIcons.cholesterol,
+                                      color: context.colorScheme.error,
+                                      currentValue: state.cholesterol,
+                                      unit: 'mg/dl',
+                                      lastCheckupValue: state.oldCholesterol,
+                                    ),
+                                    CustomHealthCard(
+                                      title: 'Glucose',
+                                      icon: DCSVGIcons.glucometer,
+                                      color: const Color.fromARGB(
+                                        255,
+                                        163,
+                                        241,
+                                        232,
+                                      ).withOpacity(0.9),
+                                      currentValue: state.bloodSugar,
+                                      unit: 'mg/dl',
+                                      lastCheckupValue: state.oldBloodSugar,
+                                    ),
+                                  ],
+                                ),
+                              )
+                            : SliverList(
+                                delegate: SliverChildListDelegate(
+                                  [
+                                    const SizedBox(
+                                      height: 40,
+                                    ),
+                                    Center(
+                                      child: Column(
+                                        children: [
+                                          SlideAnimatedBox(
+                                            begin: const Offset(0, 0.4),
+                                            end: Offset.zero,
+                                            child: Text(
+                                              'Welcome to DocCare!',
+                                              style: context
+                                                  .textTheme.h6BoldPoppins
+                                                  .copyWith(
+                                                fontSize: 30,
+                                              ),
+                                            ),
+                                          ),
+                                          SlideAnimatedBox(
+                                            duration: const Duration(
+                                              milliseconds: 800,
+                                            ),
+                                            begin: const Offset(0, 0.1),
+                                            end: Offset.zero,
+                                            child: Image.asset(
+                                              'assets/images/pic_1.png',
+                                              fit: BoxFit.contain,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
-                              CustomHealthCard(
-                                title: 'Heart Rate',
-                                icon: DCSVGIcons.heart,
-                                color: context.colorScheme.quartenary
-                                    .withOpacity(0.5),
-                                currentValue: state.heartRate,
-                                unit: 'beats/minute',
-                                lastCheckupValue: state.oldHeartRate,
-                              ),
-                              CustomHealthCard(
-                                title: 'Cholesterol',
-                                icon: DCSVGIcons.cholesterol,
-                                color: context.colorScheme.error,
-                                currentValue: state.cholesterol,
-                                unit: 'mg/dl',
-                                lastCheckupValue: state.oldCholesterol,
-                              ),
-                              CustomHealthCard(
-                                title: 'Glucose',
-                                icon: DCSVGIcons.glucometer,
-                                color: const Color.fromARGB(255, 163, 241, 232)
-                                    .withOpacity(0.9),
-                                currentValue: state.bloodSugar,
-                                unit: 'mg/dl',
-                                lastCheckupValue: state.oldBloodSugar,
-                              ),
-                            ],
-                          ),
-                        ),
                       ),
                       SliverList(
                         delegate: SliverChildListDelegate(

@@ -41,11 +41,6 @@ class SupabaseDoctorRepository implements DoctorRepositoryService {
     supabase: Supabase.instance.client,
   );
 
-  final SupabaseDoctorApiService _supabaseDoctorApiService =
-      SupabaseDoctorApiService(
-    supabase: Supabase.instance.client,
-  );
-
   @override
   void initializeDoctorId(String id) {
     _doctorId = id;
@@ -55,12 +50,14 @@ class SupabaseDoctorRepository implements DoctorRepositoryService {
   void clear() {
     _doctorId = '';
   }
-  
+
   @override
   Future<List<dynamic>> getAppointmentsByDoctorId() async {
     final response = await _supabaseAppointmentApiService
         .getAppointmentsByDoctorId(_doctorId)
         .onError((error, stackTrace) => throw Exception(error));
+    return response;
+  }
 
   @override
   Future<Map<String, dynamic>> getProfileData() async {
@@ -74,11 +71,6 @@ class SupabaseDoctorRepository implements DoctorRepositoryService {
       'startWorkingFrom': doctor.startWorkingFrom,
       'imageUrl': doctor.imageUrl,
     };
-    final result = <dynamic>[];
-    for (final appointment in response) {
-      result.add(appointment.toJson());
-    }
-    return result;
   }
 
   @override
@@ -121,6 +113,7 @@ class SupabaseDoctorRepository implements DoctorRepositoryService {
     final updatedAppointment = await _supabaseAppointmentApiService
         .updateAppointment(appointment)
         .onError((error, stackTrace) => throw Exception(error));
+    return updatedAppointment;
   }
 
   @override
