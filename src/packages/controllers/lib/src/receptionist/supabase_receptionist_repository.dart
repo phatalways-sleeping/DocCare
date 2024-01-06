@@ -13,11 +13,6 @@ class SupabaseReceptionistRepository implements ReceptionistRepositoryService {
 
   late String _receptionistId;
 
-  final AbsentRequestAPIService _absentRequestAPIService =
-      SupabaseAbsentRequestApiService(
-    supabase: Supabase.instance.client,
-  );
-
   @override
   void initializeReceptionistId(String id) {
     _receptionistId = id;
@@ -77,7 +72,7 @@ class SupabaseReceptionistRepository implements ReceptionistRepositoryService {
   Future<List<Map<String, dynamic>>> getAbsentRequests() async {
     const query = '''
 *, 
-doctor:doctorID ( imgPath )
+doctor:doctorID ( imageUrl )
 ''';
     final response = await Supabase.instance.client
         .from('absentRequest')
@@ -90,7 +85,7 @@ doctor:doctorID ( imgPath )
           (e) => {
             'name': e['doctorName'] as String,
             'dateAbsent': DateTime.parse(e['date'] as String),
-            'imgPath': e['doctor']['imgPath'] ?? 'https://picsum.photos/200',
+            'imgPath': (e['doctor'] as Map<String, dynamic>)['imageUrl'] ?? 'https://picsum.photos/200',
             'doctorId': e['doctorID'] as String,
             'reason': e['reason'] as String,
           },
