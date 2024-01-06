@@ -58,7 +58,7 @@ final class BookingInitial extends BookingState {
   }) {
     return BookingInitial(
       doctorData: state.doctorData.isEmpty ? const {} : state.doctorData,
-      symptom: state.symptom.isEmpty ? '' : state.symptom,
+      symptom: state.symptom,
       dateSelected: state.dateSelected,
       timeSelected: state.timeSelected,
       remindMeBefore: state.remindMeBefore,
@@ -113,7 +113,7 @@ final class BookingLoadingRequest extends BookingState {
   }) {
     return BookingLoadingRequest(
       doctorData: state.doctorData.isEmpty ? const {} : state.doctorData,
-      symptom: state.symptom.isEmpty ? '' : state.symptom,
+      symptom: state.symptom,
       dateSelected: state.dateSelected,
       timeSelected: state.timeSelected,
       remindMeBefore: state.remindMeBefore,

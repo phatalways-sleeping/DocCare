@@ -356,38 +356,39 @@ class _DCProfileScreenState extends State<DCProfileScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          DCFilledButton(
-                            backgroundColor: context.colorScheme.secondary,
-                            fixedSize: Size(
-                              context.width * 0.45,
-                              context.height * 0.05,
-                            ),
-                            onPressed: (context) async {
-                              await _picker
-                                  .pickImage(
-                                source: ImageSource.gallery,
-                              )
-                                  .then(
-                                (value) {
-                                  if (value != null) {
-                                    context.read<ProfileBloc>().add(
-                                          ProfileAvatarChanged(
-                                            value,
-                                          ),
-                                        );
-                                  }
-                                },
-                              );
-                            },
-                            child: Text(
-                              'Change avatar',
-                              style:
-                                  context.textTheme.bodyRegularPoppins.copyWith(
-                                color: context.colorScheme.onSecondary,
-                                fontSize: 16,
+                          if (role == 'doctor')
+                            DCFilledButton(
+                              backgroundColor: context.colorScheme.secondary,
+                              fixedSize: Size(
+                                context.width * 0.45,
+                                context.height * 0.05,
+                              ),
+                              onPressed: (context) async {
+                                await _picker
+                                    .pickImage(
+                                  source: ImageSource.gallery,
+                                )
+                                    .then(
+                                  (value) {
+                                    if (value != null) {
+                                      context.read<ProfileBloc>().add(
+                                            ProfileAvatarChanged(
+                                              value,
+                                            ),
+                                          );
+                                    }
+                                  },
+                                );
+                              },
+                              child: Text(
+                                'Change avatar',
+                                style: context.textTheme.bodyRegularPoppins
+                                    .copyWith(
+                                  color: context.colorScheme.onSecondary,
+                                  fontSize: 16,
+                                ),
                               ),
                             ),
-                          ),
                           DCFilledButton(
                             onPressed: (context) =>
                                 context.read<ProfileBloc>().add(
@@ -395,7 +396,9 @@ class _DCProfileScreenState extends State<DCProfileScreen> {
                                     ),
                             backgroundColor: context.colorScheme.secondary,
                             fixedSize: Size(
-                              context.width * 0.45,
+                              role == 'doctor'
+                                  ? context.width * 0.45
+                                  : context.width * 0.94,
                               context.height * 0.05,
                             ),
                             child: Text(

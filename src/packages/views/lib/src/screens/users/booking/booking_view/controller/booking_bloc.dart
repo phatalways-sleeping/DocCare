@@ -1,14 +1,39 @@
 // ignore_for_file: public_member_api_docs, avoid_redundant_argument_values
 
 import 'package:bloc/bloc.dart';
+import 'package:controllers/controllers.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:meta/meta.dart';
+import 'package:uuid/uuid.dart';
 
 part 'booking_event.dart';
 part 'booking_state.dart';
 
+int convertTimeToPeriodId(String time) {
+  try {
+    const startHour = 7;
+    const startMinute = 30;
+
+    final currentHour = int.parse(time.substring(0, 2));
+    final currentMinute = int.parse(time.substring(3, 5));
+
+    final periodId =
+        ((currentHour - startHour) * 60 + (currentMinute - startMinute)) ~/ 30 +
+            1;
+
+    return periodId; // Adjusted to match the previous logic
+  } catch (e) {
+    // Handle parsing errors
+    print("Error parsing time: $e");
+    throw Exception("Error parsing time");
+  }
+}
+
 class BookingBloc extends Bloc<BookingEvent, BookingState> {
-  BookingBloc({
+  BookingBloc(
+    this._customerRepositoryService, {
     Map<String, dynamic> doctorData = const {},
   }) : super(
           BookingInitial(
@@ -24,6 +49,8 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     on<BookingResetEvent>(_onBookingResetEvent);
     on<BookingBackToInitialEvent>(_onBookingBackToInitialEvent);
   }
+
+  final CustomerRepositoryService _customerRepositoryService;
 
   void _onBookingBackToInitialEvent(
     BookingBackToInitialEvent event,
@@ -47,6 +74,68 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     );
   }
 
+  Future<bool> checkAppointmentExisting() async {
+    try {
+      final result = await _customerRepositoryService.checkExistingAppointment(
+        date: state.dateSelected!,
+        period: convertTimeToPeriodId(state.timeSelected!),
+        doctorid: (state.doctorData['id'] != null
+            ? state.doctorData['id'] as String
+            : ''),
+      );
+      return result;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<List<DateTime>> getDoctorWorkingShift({
+    required String doctorid,
+  }) async {
+    try {
+      final response = await _customerRepositoryService.getDoctorWorkingShift(
+        doctorid: doctorid,
+      );
+      final workingDate = response.map((date) {
+        return DateTime.parse(date['date']! as String);
+      }).toList();
+      return workingDate;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<List<String>> getAvailablePeriodWithSpecialization(
+    String specialization,
+    DateTime date,
+  ) async {
+    try {
+      final customerid = _customerRepositoryService.getCustomerId();
+      final availablePeriods =
+          await _customerRepositoryService.getAvailablePeriodWithSpecialization(
+        specialization: specialization,
+        date: date,
+        customerid: customerid!,
+      );
+
+      // Extract 'time' values from the list and format them with leading zeros
+      final appointmentTimes = availablePeriods.map(
+        (period) {
+          final time = period['time'] as String;
+          final formattedTime =
+              DateFormat('HH:mm a').format(DateTime.parse('2022-01-01 $time'));
+          return formattedTime;
+        },
+      ).toList();
+      return appointmentTimes;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<List<String>> getDoctorSpecialization() =>
+      _customerRepositoryService.getDoctorSpecialization();
+
   Future<void> _onBookingConfirmEvent(
     BookingConfirmEvent event,
     Emitter<BookingState> emit,
@@ -56,27 +145,93 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
       BookingLoadingRequest.fromState(state: state),
     );
 
-    final oldDoctorData = state.doctorData;
+    final doctorData = state.doctorData;
 
     try {
       // Calling the domain layer
       // Mocking the API call
-      await Future.delayed(const Duration(seconds: 5), () {});
+      //await Future.delayed(const Duration(seconds: 5), () {});
       // Mocking error
       // throw Exception();
+      var customerName = '';
+      if (_customerRepositoryService.getCustomerId() != null) {
+        final customerDetail =
+            await _customerRepositoryService.getProfileData();
 
+        customerName = customerDetail['fullName'] as String;
+      }
+      final time = convertTimeToPeriodId(state.timeSelected!);
+      var customerid = _customerRepositoryService.getCustomerId();
+      if (customerid == null) {
+        customerid = const Uuid().v1();
+        await _customerRepositoryService.addOfflineCustomer(id: customerid);
+      }
+
+      final doctorid =
+          (doctorData['id'] != null ? doctorData['id'] as String : '');
+      final date = state.dateSelected;
+      final customerComment = state.symptom;
+
+      if (doctorData.isNotEmpty) {
+        final existAppointment =
+            await _customerRepositoryService.checkExistingAppointment(
+          period: time,
+          doctorid: doctorData['id'] as String,
+          date: date!,
+        );
+        if (existAppointment) {
+          throw Error();
+        }
+
+        await _customerRepositoryService.bookAppointmentWithDoctor(
+          period: time,
+          customerid: customerid,
+          doctorid: doctorid,
+          date: date,
+          customerComment: customerComment,
+          customername: customerName,
+        );
+      } else {
+        final customerDetail =
+            await _customerRepositoryService.getProfileData();
+        final highestRatingDoctorId =
+            await _customerRepositoryService.getHighestRatingDoctor(
+          speciality: state.speciality!,
+          date: date!,
+          period: time,
+        );
+
+        final existAppointment =
+            await _customerRepositoryService.checkExistingAppointment(
+          period: time,
+          doctorid: highestRatingDoctorId,
+          date: date,
+        );
+        if (existAppointment) {
+          throw Error();
+        }
+
+        await _customerRepositoryService.bookAppointmentWithDoctor(
+          period: time,
+          customerid: customerid,
+          doctorid: highestRatingDoctorId,
+          date: date,
+          customerComment: customerComment,
+          customername: customerDetail['fullName'] as String,
+        );
+      }
       // Emit the success state
       // If user books without selecting a doctor, the doctorData will be passed
       // from the response of the booking API
-      final doctorData = oldDoctorData.isEmpty
-          ? {
-              'name': 'Dr. John Doe',
-              'speciality': 'Dentist',
-              'imgPath': 'https://picsum.photos/200',
-              'rating': 4.5,
-              'ratingCount': 100,
-            }
-          : <String, dynamic>{};
+      // final doctorData = oldDoctorData.isEmpty
+      //     ? {
+      //         'name': 'Dr. John Doe',
+      //         'speciality': 'Dentist',
+      //         'imgPath': 'https://picsum.photos/200',
+      //         'rating': 4.5,
+      //         'ratingCount': 100,
+      //       }
+      //     : oldDoctorData;
       emit(
         BookingSuccess(
           doctorData: doctorData,
@@ -87,7 +242,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     } catch (err) {
       emit(
         BookingFailure(
-          doctorData: oldDoctorData,
+          doctorData: doctorData,
           error:
               'An error occurred while booking the appointment.\nPlease try again later.',
         ),
@@ -183,5 +338,12 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
         cascadeRemindMeBefore: false,
       ),
     );
+  }
+
+  @override
+  void onChange(Change<BookingState> change) {
+    // TODO: implement onChange
+    super.onChange(change);
+    print(change);
   }
 }

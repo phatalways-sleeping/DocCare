@@ -62,6 +62,7 @@ class _DCBookingWithDoctorScreenState extends State<DCBookingWithDoctorScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: context.watch<BookingBloc>().state is BookingSuccess
           ? null
           : context.watch<BookingBloc>().state.doctorData.keys.isEmpty
@@ -83,13 +84,17 @@ class _DCBookingWithDoctorScreenState extends State<DCBookingWithDoctorScreen> {
                           ),
                 ),
       drawer: widget.inCustomerView ? const DCCustomerDrawer() : null,
-      bottomNavigationBar: context.watch<BookingBloc>().state.doctorData.isEmpty
-          ? null
-          : context.watch<BookingBloc>().state.dateSelected == null
-              ? const DCCustomerNavigationBar(
-                  selectedIndex: 3,
-                )
-              : null,
+      bottomNavigationBar:
+          (context.watch<BookingBloc>().state.doctorData.isNotEmpty ||
+                  context.watch<BookingBloc>().state.dateSelected != null)
+              ? null
+              : (widget.inCustomerView
+                  ? const DCCustomerNavigationBar(
+                      selectedIndex: 3,
+                    )
+                  : const DCReceptionistNavigationBar(
+                      selectedIndex: 3,
+                    )),
       extendBody: true,
       body: BlocConsumer<BookingBloc, BookingState>(
         listener: (context, state) async {
@@ -116,8 +121,8 @@ class _DCBookingWithDoctorScreenState extends State<DCBookingWithDoctorScreen> {
                 dateSelected: state.dateSelected!,
                 timeSelected: state.timeSelected!,
               ).then(
-                (value) => context.read<DoctorViewBloc>().add(
-                      const DoctorViewInitialEvent(),
+                (value) => context.read<BookingBloc>().add(
+                      const BookingBackToInitialEvent(),
                     ),
               );
             }
@@ -146,12 +151,12 @@ class _DCBookingWithDoctorScreenState extends State<DCBookingWithDoctorScreen> {
                           return const SizedBox.shrink();
                         }
                         return DCDoctorCard(
-                          imgPath: state['imgPath'] as String,
-                          name: state['name'] as String,
-                          speciality: state['speciality'] as String,
-                          rating: state['rating'] as double,
+                          imgPath: (state['imgUrl'] as String?) ?? '',
+                          name: (state['name'] as String?) ?? '',
+                          speciality: (state['speciality'] as String?) ?? '',
+                          rating: (state['rating'] as num).toDouble(),
                           ratingCount: state['ratingCount'] as int,
-                          onPressed: (context) {},
+                          onPressed: null,
                         );
                       },
                     ),
@@ -180,7 +185,21 @@ class _DCBookingWithDoctorScreenState extends State<DCBookingWithDoctorScreen> {
                     const SizedBox(
                       height: 10,
                     ),
-                    const DCCalendar(),
+                    DCCalendar(
+                      workingShiftFuture:
+                          context.read<BookingBloc>().getDoctorWorkingShift(
+                                doctorid: (context
+                                            .read<BookingBloc>()
+                                            .state
+                                            .doctorData['id'] !=
+                                        null
+                                    ? context
+                                        .read<BookingBloc>()
+                                        .state
+                                        .doctorData['id'] as String
+                                    : ''),
+                              ),
+                    ),
                     const SizedBox(
                       height: 10,
                     ),
@@ -191,20 +210,9 @@ class _DCBookingWithDoctorScreenState extends State<DCBookingWithDoctorScreen> {
                         .keys
                         .isEmpty) ...[
                       DCSpecialityButton(
-                        future: Future.delayed(
-                          const Duration(seconds: 2),
-                          () => [
-                            'General Physician',
-                            'Dentist',
-                            'Cardiologist',
-                            'Dermatologist',
-                            'Gynecologist',
-                            'Neurologist',
-                            'Pediatrician',
-                            'Psychiatrist',
-                            'Urologist',
-                          ],
-                        ),
+                        future: context
+                            .read<BookingBloc>()
+                            .getDoctorSpecialization(),
                       ),
                       const SizedBox(
                         height: 10,
@@ -228,56 +236,53 @@ class _DCBookingWithDoctorScreenState extends State<DCBookingWithDoctorScreen> {
                       height: 10,
                     ),
                     if (context.watch<BookingBloc>().state.dateSelected !=
-                        null) ...[
-                      Text(
-                        'Available Time',
-                        style: context.textTheme.bodyBoldPoppins.copyWith(
-                          fontSize: 18,
-                        ),
-                      ),
+                            null &&
+                        (context
+                                .watch<BookingBloc>()
+                                .state
+                                .doctorData
+                                .isNotEmpty ||
+                            context.watch<BookingBloc>().state.speciality !=
+                                null)) ...[
                       const SizedBox(
                         height: 10,
                       ),
                       DCAsyncView(
-                        future: Future.delayed(
-                          const Duration(seconds: 2),
-                          () => [
-                            '10:00 AM',
-                            '10:30 AM',
-                            '11:00 AM',
-                            '11:30 AM',
-                          ],
+                        future: (
+                          context
+                                  .read<BookingBloc>()
+                                  .state
+                                  .doctorData
+                                  .keys
+                                  .isNotEmpty
+                              ? context
+                                  .read<DoctorViewBloc>()
+                                  .getAvailableAppointmentTimes(
+                                    context
+                                        .read<BookingBloc>()
+                                        .state
+                                        .doctorData['id'] as String,
+                                    context
+                                        .read<BookingBloc>()
+                                        .state
+                                        .dateSelected!,
+                                  )
+                              : context
+                                  .read<BookingBloc>()
+                                  .getAvailablePeriodWithSpecialization(
+                                    context
+                                        .read<BookingBloc>()
+                                        .state
+                                        .speciality!,
+                                    context
+                                        .read<BookingBloc>()
+                                        .state
+                                        .dateSelected!,
+                                  )
                         ),
-                        type: DCAsyncViewType.availableTime,
                       ),
-                      if (widget.inCustomerView) ...[
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          'Remind Me Before',
-                          style: context.textTheme.bodyBoldPoppins.copyWith(
-                            fontSize: 18,
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        DCAsyncView(
-                          future: Future.delayed(
-                            const Duration(seconds: 2),
-                            () => [
-                              '10 Mins',
-                              '20 Mins',
-                              '30 Mins',
-                              '40 Mins',
-                            ],
-                          ),
-                          type: DCAsyncViewType.reminder,
-                        ),
-                      ],
                       SizedBox(
-                        height: context.height * 0.04,
+                        height: context.height * 0.02,
                       ),
                     ],
                     if (context.watch<BookingBloc>().state.timeSelected !=
@@ -325,14 +330,16 @@ class _DCBookingWithDoctorScreenState extends State<DCBookingWithDoctorScreen> {
                             );
                           },
                           fixedSize: Size(
-                            context.width * 0.8,
+                            context.width * 0.94,
                             50,
                           ),
+                          backgroundColor: context.colorScheme.secondary,
                           child: Text(
                             'Continue',
-                            style: context.textTheme.bodyBoldPoppins.copyWith(
+                            style:
+                                context.textTheme.bodyRegularPoppins.copyWith(
                               fontSize: 18,
-                              color: context.colorScheme.onSurface,
+                              color: context.colorScheme.onSecondary,
                             ),
                           ),
                         ),

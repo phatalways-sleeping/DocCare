@@ -193,6 +193,7 @@ void runDocCare(String supabaseUrl, String serviceRoleKey) => runApp(
                     navigatorKey: GlobalKey<NavigatorState>(
                       debugLabel: 'schedule/receptionist',
                     ),
+                    inCustomerView: false,
                   ),
                 );
 

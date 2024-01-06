@@ -7,9 +7,9 @@ void main() {
     // Test the `copyWith` method
     test('copyWith', () {
       // Create a `Statistics` instance
-      final statistics = Statistics(
-        id: 1,
-        value: 100,
+      const statistics = Statistics(
+        id: '',
+        value: '',
         categoryName: 'categoryName',
         prescriptionID: '1',
         // note: 'note',
@@ -17,11 +17,10 @@ void main() {
 
       // Copy the `Statistics` instance
       final copy = statistics.copyWith(
-        id: 2,
-        value: 101,
+        id: '',
+        value: '',
         categoryName: 'categoryName2',
         prescriptionID: '2',
-        note: 'note2',
       );
 
       // Verify the copy
@@ -35,9 +34,9 @@ void main() {
     // Test the `fromJson` method
     test('fromJson', () {
       // Create a `Statistics` instance
-      final statistics = Statistics(
-        id: 1,
-        value: 100,
+      const statistics = Statistics(
+        id: '',
+        value: '',
         categoryName: 'categoryName',
         prescriptionID: '1',
         // note: 'note',
@@ -62,9 +61,9 @@ void main() {
     // Test the `toJson` method
     test('toJson', () {
       // Create a `Statistics` instance
-      final statistics = Statistics(
-        id: 1,
-        value: 100,
+      const statistics = Statistics(
+        id: '',
+        value: '',
         categoryName: 'categoryName',
         prescriptionID: '1',
         // note: 'note',

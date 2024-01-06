@@ -7,6 +7,7 @@ abstract interface class CustomerRepositoryService {
     String phone,
     DateTime birthday,
   );
+  String? getCustomerId();
 
   void initializeCustomerId(String id);
 
@@ -59,6 +60,55 @@ abstract interface class CustomerRepositoryService {
     int? rating,
     String? searchName,
     DateTime? date,
+  });
+
+  Future<List<Map<String, dynamic>>> getAvailablePeriodWithSpecialization({
+    required String specialization,
+    required DateTime date,
+    required String customerid,
+  });
+
+  Future<List<String>> getDoctorSpecialization();
+  Future<List<Map<String, dynamic>>> getAvailablePeriod(
+    String doctorId,
+    DateTime date,
+    String customerid,
+  );
+  Future<List<Map<String, dynamic>>> getDoctorAvailablePeriod(
+    String doctorId,
+    DateTime date,
+  );
+  Future<void> bookAppointmentWithDoctor({
+    required int period,
+    required String customerid,
+    required String doctorid,
+    required DateTime date,
+    required String customername,
+    String? customerComment,
+  });
+
+  Future<void> bookAppointmentWithoutDoctor({
+    required int period,
+    required String customerid,
+    required DateTime date,
+    required String specialization,
+    required String customername,
+    String? customerComment,
+  });
+
+  Future<List<Map<String, dynamic>>> getDoctorWorkingShift({
+    required String doctorid,
+  });
+
+  Future<bool> checkExistingAppointment({
+    required int period,
+    required String doctorid,
+    required DateTime date,
+  });
+
+  Future<String> getHighestRatingDoctor({
+    required String speciality,
+    required DateTime date,
     required int period,
   });
 
@@ -69,4 +119,8 @@ abstract interface class CustomerRepositoryService {
   Future<List<Map<String, dynamic>>> getUpcomingAppointments();
 
   Future<List<Map<String, dynamic>>> getAppointmentStatusDoctorName();
+
+  Future<void> addOfflineCustomer({
+    required String id,
+  });
 }

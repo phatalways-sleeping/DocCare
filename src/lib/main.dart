@@ -8,8 +8,7 @@ import 'package:src/firebase_options.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:env_flutter/env_flutter.dart';
 import 'package:views/screens.dart';
-import 'package:views/src/screens/doctors/prescription/dc_doctor_prescribe_medicine_flow.dart';
-import 'package:views/src/screens/doctors/home/dc_doctor_home_flow.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileNames: ['.env']);
@@ -131,8 +130,6 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    return DCDoctorHomeFlow(
-      navigatorKey: GlobalKey<NavigatorState>(),
-    );
+    return const SizedBox.shrink();
   }
 }

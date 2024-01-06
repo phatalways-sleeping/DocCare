@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs
 
+import 'package:controllers/controllers.dart';
 import 'package:flow_builder/flow_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,7 +30,9 @@ class _DCDoctorViewMainScreenState extends State<DCDoctorViewMainScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => DoctorViewBloc(),
+      create: (context) => DoctorViewBloc(
+        context.read<CustomerRepositoryService>(),
+      ),
       child: BlocBuilder<DoctorViewBloc, DoctorViewState>(
         builder: (context, state) {
           return FlowBuilder<DoctorViewState>(
@@ -39,8 +42,10 @@ class _DCDoctorViewMainScreenState extends State<DCDoctorViewMainScreen> {
               return [
                 if (state is DoctorViewInitial ||
                     state is DoctorViewSearchForName)
-                  const MaterialPage(
-                    child: DCDoctorViewScreen(),
+                  MaterialPage(
+                    child: DCDoctorViewScreen(
+                      inCustomerView: widget.inCustomerView,
+                    ),
                   ),
                 if (state is DoctorViewFilter)
                   const MaterialPage(
@@ -50,6 +55,7 @@ class _DCDoctorViewMainScreenState extends State<DCDoctorViewMainScreen> {
                   MaterialPage(
                     child: BlocProvider(
                       create: (context) => BookingBloc(
+                        context.read<CustomerRepositoryService>(),
                         doctorData: state.doctor,
                       ),
                       child: DCBookingWithDoctorScreen(

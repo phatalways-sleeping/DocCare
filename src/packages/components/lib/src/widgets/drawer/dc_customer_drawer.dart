@@ -155,7 +155,10 @@ class _DCCustomerDrawerState extends State<DCCustomerDrawer>
           borderRadius: widget.borderRadiusOfEachItem,
           onTap: (context) async {
             await context.read<AuthenticationRepositoryService>().logout().then(
-                  (value) => Navigator.of(context).pushNamedAndRemoveUntil(
+                  (value) => Navigator.of(
+                    context,
+                    rootNavigator: true,
+                  ).pushNamedAndRemoveUntil(
                     '/splash',
                     (route) => false,
                   ),

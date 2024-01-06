@@ -22,12 +22,12 @@ class DCDoctorCard extends StatelessWidget {
   final double rating;
   final int ratingCount;
 
-  final void Function(BuildContext context) onPressed;
+  final void Function(BuildContext context)? onPressed;
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () => onPressed(context),
+      onPressed: onPressed != null ? () => onPressed!(context) : null,
       style: ButtonStyle(
         elevation: MaterialStateProperty.all<double>(2),
         fixedSize: MaterialStateProperty.all<Size>(
@@ -66,7 +66,7 @@ class DCDoctorCard extends StatelessWidget {
       ),
       child: Row(
         children: [
-          const DCStorageImage(imgPath: 'assets/images/doctor.png'),
+          DCStorageImage(imgPath: imgPath),
           const SizedBox(
             width: 10,
           ),
@@ -76,14 +76,14 @@ class DCDoctorCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Text(
-                  'Dr. John Doe',
+                  name,
                   style: context.textTheme.bodyBoldPoppins.copyWith(
                     fontSize: 18,
                     color: Colors.black,
                   ),
                 ),
                 Text(
-                  'Dentist',
+                  speciality,
                   style: context.textTheme.bodyRegularPoppins.copyWith(
                     fontSize: 16,
                     color: Colors.black,
@@ -93,7 +93,7 @@ class DCDoctorCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     for (int i = 1; i <= 5; i++)
-                      if (i < rating)
+                      if (i <= rating)
                         Icon(
                           Icons.star,
                           size: context.width * 0.04,

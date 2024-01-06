@@ -1,14 +1,18 @@
 // ignore_for_file: public_member_api_docs
 
 import 'package:bloc/bloc.dart';
+import 'package:controllers/controllers.dart';
 import 'package:equatable/equatable.dart';
+import 'package:intl/intl.dart';
 import 'package:meta/meta.dart';
 
 part 'doctor_view_event.dart';
 part 'doctor_view_state.dart';
 
 class DoctorViewBloc extends Bloc<DoctorViewEvent, DoctorViewState> {
-  DoctorViewBloc() : super(const DoctorViewInitial()) {
+  DoctorViewBloc(
+    this._customerRepositoryService,
+  ) : super(const DoctorViewInitial()) {
     on<DoctorViewInitialEvent>(_onDoctorViewInitialEvent);
     on<DoctorViewFilterEvent>(_onDoctorViewFilterEvent);
     on<DoctorViewStartSearchForNameEvent>(_onDoctorViewStartSearchForNameEvent);
@@ -19,6 +23,46 @@ class DoctorViewBloc extends Bloc<DoctorViewEvent, DoctorViewState> {
     on<DoctorViewApplyFiltersEvent>(_onDoctorViewApplyFiltersEvent);
     on<DoctorViewChooseDoctorEvent>(_onDoctorViewChooseDoctorEvent);
   }
+
+  final CustomerRepositoryService _customerRepositoryService;
+
+  Future<List<String>> getDoctorSpecialization() =>
+      _customerRepositoryService.getDoctorSpecialization();
+
+  Future<List<String>> getAvailableAppointmentTimes(
+    String doctorID,
+    DateTime date,
+  ) async {
+    var customerid = _customerRepositoryService.getCustomerId();
+    customerid ??= '';
+    final availablePeriods = await _customerRepositoryService
+        .getAvailablePeriod(doctorID, date, customerid);
+
+    // Extract 'time' values from the list and format them with leading zeros
+    final appointmentTimes = availablePeriods.map(
+      (period) {
+        final time = period['time'] as String;
+        final formattedTime =
+            DateFormat('HH:mm a').format(DateTime.parse('2022-01-01 $time'));
+        return formattedTime;
+      },
+    ).toList();
+
+    return appointmentTimes;
+  }
+
+  Future<List<Map<String, dynamic>>> getAvaiableDoctors() =>
+      _customerRepositoryService.getAvailableDoctors(
+        rating: (state.filteredRating != 'All')
+            ? int.parse(state.filteredRating)
+            : null,
+        specialities: (state.filteredSpecialties != const ['All'])
+            ? state.filteredSpecialties
+            : null,
+        searchName: state is DoctorViewSearchForName
+            ? (state as DoctorViewSearchForName).searchedName
+            : null,
+      );
 
   void _onDoctorViewChooseDoctorEvent(
     DoctorViewChooseDoctorEvent event,
