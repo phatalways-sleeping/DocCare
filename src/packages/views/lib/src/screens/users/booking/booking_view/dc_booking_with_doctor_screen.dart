@@ -247,68 +247,39 @@ class _DCBookingWithDoctorScreenState extends State<DCBookingWithDoctorScreen> {
                       const SizedBox(
                         height: 10,
                       ),
-                      FutureBuilder<List<String>>(
-                        future: (context
-                                .watch<BookingBloc>()
-                                .state
-                                .doctorData
-                                .keys
-                                .isNotEmpty
-                            ? context
-                                .read<DoctorViewBloc>()
-                                .getAvailableAppointmentTimes(
-                                  context
-                                      .watch<BookingBloc>()
-                                      .state
-                                      .doctorData['id'] as String,
-                                  context
-                                      .watch<BookingBloc>()
-                                      .state
-                                      .dateSelected!,
-                                )
-                            : context
-                                .read<BookingBloc>()
-                                .getAvailablePeriodWithSpecialization(
-                                  context
-                                      .watch<BookingBloc>()
-                                      .state
-                                      .speciality!,
-                                  context
-                                      .watch<BookingBloc>()
-                                      .state
-                                      .dateSelected!,
-                                )),
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.done) {
-                            if (snapshot.hasData && snapshot.data!.isNotEmpty) {
-                              // Display available time
-                              return DCAsyncView(
-                                title: Text(
-                                  'Available Time',
-                                  style: context.textTheme.bodyBoldPoppins
-                                      .copyWith(
-                                    fontSize: 18,
-                                  ),
-                                ),
-                                future: Future.value(snapshot.data),
-                                type: DCAsyncViewType.availableTime,
-                              );
-                            } else {
-                              // Display caution text when no records are found
-                              return Text(
-                                'There is no left available slot',
-                                style:
-                                    context.textTheme.bodyBoldPoppins.copyWith(
-                                  fontSize: 18,
-                                ),
-                              );
-                            }
-                          } else {
-                            // Display a loading indicator while waiting for the result
-                            return CircularProgressIndicator();
-                          }
-                        },
+                      DCAsyncView(
+                        future: (
+                          context
+                                  .read<BookingBloc>()
+                                  .state
+                                  .doctorData
+                                  .keys
+                                  .isNotEmpty
+                              ? context
+                                  .read<DoctorViewBloc>()
+                                  .getAvailableAppointmentTimes(
+                                    context
+                                        .read<BookingBloc>()
+                                        .state
+                                        .doctorData['id'] as String,
+                                    context
+                                        .read<BookingBloc>()
+                                        .state
+                                        .dateSelected!,
+                                  )
+                              : context
+                                  .read<BookingBloc>()
+                                  .getAvailablePeriodWithSpecialization(
+                                    context
+                                        .read<BookingBloc>()
+                                        .state
+                                        .speciality!,
+                                    context
+                                        .read<BookingBloc>()
+                                        .state
+                                        .dateSelected!,
+                                  )
+                        ),
                       ),
                       SizedBox(
                         height: context.height * 0.02,

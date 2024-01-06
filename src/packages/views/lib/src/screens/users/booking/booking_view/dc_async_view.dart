@@ -1,27 +1,19 @@
 // ignore_for_file: public_member_api_docs
 
+import 'package:components/components.dart';
 import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:views/src/screens/users/booking/booking_view/controller/booking_bloc.dart';
 import 'package:views/src/screens/users/booking/booking_view/dc_circular_item.dart';
 
-enum DCAsyncViewType {
-  availableTime,
-  reminder,
-}
-
 class DCAsyncView extends StatefulWidget {
   const DCAsyncView({
     required this.future,
-    required this.type,
-    this.title,
     super.key,
   });
 
   final Future<List<String>> future;
-  final DCAsyncViewType type;
-  final Widget? title;
 
   @override
   State<DCAsyncView> createState() => _DCAsyncViewState();
@@ -35,46 +27,55 @@ class _DCAsyncViewState extends State<DCAsyncView> {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           final data = snapshot.data!;
-          return BlocBuilder<BookingBloc, BookingState>(
-            builder: (context, state) {
-              final item = widget.type == DCAsyncViewType.availableTime
-                  ? state.timeSelected
-                  : state.remindMeBefore;
-              final body = Center(
-                child: Wrap(
-                  runAlignment: WrapAlignment.center,
-                  alignment: WrapAlignment.spaceEvenly,
-                  spacing: 10,
-                  runSpacing: 10,
-                  children: data.map(
-                    (e) {
+          if (data.isEmpty) {
+            return Center(
+              child: Text(
+                'There is no available time',
+                style: context.textTheme.bodyRegularPoppins.copyWith(
+                  color: context.colorScheme.onBackground,
+                  fontSize: 14,
+                ),
+              ),
+            );
+          }
+          final body = Center(
+            child: Wrap(
+              runAlignment: WrapAlignment.center,
+              alignment: WrapAlignment.spaceEvenly,
+              spacing: 10,
+              runSpacing: 10,
+              children: data.map(
+                (e) {
+                  return BlocSelector<BookingBloc, BookingState, String?>(
+                    selector: (state) => state.timeSelected,
+                    builder: (context, state) {
                       return DCCircularItem(
                         title: e.split(' ').first,
                         subtitle: e.split(' ').last,
-                        isSelected: item == e,
+                        isSelected: state == e,
                         isAvailable: true,
-                        onPressed: widget.type == DCAsyncViewType.availableTime
-                            ? (context) => context
-                                .read<BookingBloc>()
-                                .add(BookingSelectTimeEvent(time: e))
-                            : (context) => context.read<BookingBloc>().add(
-                                  BookingSelectRemindMeBeforeEvent(
-                                    remindMeBefore: e,
-                                  ),
-                                ),
+                        onPressed: (context) => context.read<BookingBloc>().add(
+                              BookingSelectTimeEvent(time: e),
+                            ),
                       );
                     },
-                  ).toList(),
+                  );
+                },
+              ).toList(),
+            ),
+          );
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Available Time',
+                style: context.textTheme.bodyBoldPoppins.copyWith(
+                  fontSize: 18,
                 ),
-              );
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  widget.title!,
-                  body,
-                ],
-              );
-            },
+              ),
+              const SizedBox(height: 10),
+              body,
+            ],
           );
         } else if (snapshot.hasError) {
           return const Center(
