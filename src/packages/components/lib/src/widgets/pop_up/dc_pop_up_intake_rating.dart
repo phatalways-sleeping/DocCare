@@ -280,27 +280,25 @@ class _DCPopupIntakeRatingState extends State<DCPopupIntakeRating> {
           children: List.generate(
             ratings.length,
             (index) => IconButton(
-              onPressed: () {
-                print('Has pressed');
-                currentRating = index + 1;
-                setState(() {
-                  for (var i = 0; i <= index; i++) {
-                    ratings[i] = SvgPicture.string(
-                      DCSVGIcons.yellowStar,
-                      fit: BoxFit.cover,
-                    );
-                  }
-
-                  print('Current rating: $currentRating');
-
-                  for (var i = index + 1; i < ratings.length; i++) {
-                    ratings[i] = SvgPicture.string(
-                      DCSVGIcons.greyStar,
-                      fit: BoxFit.cover,
-                    );
-                  }
-                });
-              },
+              onPressed: (widget.showReview == null)
+                  ? () {
+                      currentRating = index + 1;
+                      setState(() {
+                        for (var i = 0; i <= index; i++) {
+                          ratings[i] = SvgPicture.string(
+                            DCSVGIcons.yellowStar,
+                            fit: BoxFit.cover,
+                          );
+                        }
+                        for (var i = index + 1; i < ratings.length; i++) {
+                          ratings[i] = SvgPicture.string(
+                            DCSVGIcons.greyStar,
+                            fit: BoxFit.cover,
+                          );
+                        }
+                      });
+                    }
+                  : () {},
               splashRadius: 0.5,
               icon: ratings[index],
             ),
