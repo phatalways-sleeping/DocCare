@@ -56,7 +56,12 @@ class SupabaseDoctorRepository implements DoctorRepositoryService {
     final response = await _supabaseAppointmentApiService
         .getAppointmentsByDoctorId(_doctorId)
         .onError((error, stackTrace) => throw Exception(error));
-    return response;
+
+    final result = <dynamic>[];
+    for (final appointment in response) {
+      result.add(appointment.toJson());
+    }
+    return result;
   }
 
   @override

@@ -35,6 +35,7 @@ class DoctorHomeBloc extends Bloc<DoctorHomeEvent, DoctorHomeState> {
     Emitter<DoctorHomeState> emit,
   ) async {
     try {
+      
       // ignore: lines_longer_than_80_chars
       // remove this 2 lines when login is done and doctor id is passed from login screen
       const id = 'D001';
@@ -47,10 +48,10 @@ class DoctorHomeBloc extends Bloc<DoctorHomeEvent, DoctorHomeState> {
       final doctorName = profileData['fullName'].toString();
 
       // get doctor name after changing the doctor table in the database
-      // final String doctorAvatarUrl = profileData['imgPath'];
+       final String doctorAvatarUrl = profileData['imageUrl'];
       // just hard code for now
-      const doctorAvatarUrl =
-          'https://pics.craiyon.com/2023-07-05/a8e9e1290f08447bb300681ce2b563e9.webp';
+      // const doctorAvatarUrl =
+      //     'https://pics.craiyon.com/2023-07-05/a8e9e1290f08447bb300681ce2b563e9.webp';
 
       var upcomingAppointmentIndex = -1;
       var upcomingCustomerName = '';
@@ -58,8 +59,9 @@ class DoctorHomeBloc extends Bloc<DoctorHomeEvent, DoctorHomeState> {
       // ignore: lines_longer_than_80_chars
       // get the index of the upcoming appointment, which is after current time and closest to current time
       // also map the appointments to each date
-
       for (var i = 0; i < appointments.length; i++) {
+        
+        print(appointments[i].runtimeType);
         if (appointments[i]['customerName'] == null || appointments[i]['customerName'] == 'null') {
           appointments[i]['customerName'] = 'On-site Customer';
         }
@@ -104,12 +106,14 @@ class DoctorHomeBloc extends Bloc<DoctorHomeEvent, DoctorHomeState> {
           appointmentMap[convertedDate] = [appointments[i]];
         }
       }
+      
       if (upcomingAppointmentIndex != -1) {
         upcomingCustomerName =
             appointments[upcomingAppointmentIndex]['customerName'].toString();
       } else {
         upcomingCustomerName = 'no appointment';
       }
+      
 
       emit(
         DoctorHomeLoadedSuccess(
