@@ -131,16 +131,19 @@ class _DCPopupIntakeRatingState extends State<DCPopupIntakeRating> {
   List<SvgPicture> ratings = List<SvgPicture>.generate(
     5,
     (index) => SvgPicture.string(
-      DCSVGIcons.greyStar,
+      DCSVGIcons.yellowStar,
       fit: BoxFit.cover,
     ),
   );
 
   @override
   Widget build(BuildContext context) {
+    currentRating =
+        (currentRating > 0) ? currentRating : widget.showReview ?? 0;
     ratings = List<SvgPicture>.generate(
       5,
-      (index) => ((widget.showReview == null) || index >= widget.showReview!)
+      (index) => ((widget.showReview == null && currentRating == 0) ||
+              index >= currentRating)
           ? SvgPicture.string(
               DCSVGIcons.greyStar,
               fit: BoxFit.cover,
@@ -278,6 +281,7 @@ class _DCPopupIntakeRatingState extends State<DCPopupIntakeRating> {
             ratings.length,
             (index) => IconButton(
               onPressed: () {
+                print('Has pressed');
                 currentRating = index + 1;
                 setState(() {
                   for (var i = 0; i <= index; i++) {
@@ -286,6 +290,8 @@ class _DCPopupIntakeRatingState extends State<DCPopupIntakeRating> {
                       fit: BoxFit.cover,
                     );
                   }
+
+                  print('Current rating: $currentRating');
 
                   for (var i = index + 1; i < ratings.length; i++) {
                     ratings[i] = SvgPicture.string(
