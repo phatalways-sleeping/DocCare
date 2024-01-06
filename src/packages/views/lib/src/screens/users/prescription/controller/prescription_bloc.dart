@@ -86,7 +86,7 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
     Emitter<PrescriptionState> emit,
   ) async {
     if (state is PrescriptionViewLoadingState) {
-      return;
+      return emit(PrescriptionViewLoadingState.fromState(state));
     }
     if (state is! PrescriptionViewState) {
       return emit(PrescriptionViewState.initial());
@@ -94,15 +94,12 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
     try {
       emit(PrescriptionViewLoadingState.fromState(state));
 
-      await _customerRepositoryService
-          .updateAppointmentDone(
-            event.done,
-            event.prescriptionId,
-          )
-          .then((value) {});
+      await _customerRepositoryService.updateAppointmentDone(
+        event.done,
+        event.prescriptionId,
+      );
 
       emit(PrescriptionViewState.initial());
-
       // throw Exception('Error');
     } catch (error) {
       emit(PrescriptionViewState.initial());

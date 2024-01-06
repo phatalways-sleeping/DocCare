@@ -71,9 +71,9 @@ class SupabaseCustomerRepository implements CustomerRepositoryService {
         'prescription_id': prescriptionID,
         'is_done': done,
       },
-    ).onError((error, stackTrace) {
-      return [];
-    }) as List<dynamic>;
+    ).onError(
+      (error, stackTrace) => throw Exception('Error updating done'),
+    );
   }
 
   @override
@@ -86,9 +86,9 @@ class SupabaseCustomerRepository implements CustomerRepositoryService {
         'medicine_name': medicineName,
         'is_done': done,
       },
-    ).onError((error, stackTrace) {
-      return [];
-    }) as List<dynamic>;
+    ).onError(
+      (error, stackTrace) => throw Exception('Error updating done'),
+    );
   }
 
   @override
