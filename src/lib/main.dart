@@ -9,7 +9,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:env_flutter/env_flutter.dart';
 import 'package:views/screens.dart';
 import 'package:views/src/screens/doctors/prescription/dc_doctor_prescribe_medicine_flow.dart';
-
+import 'package:views/src/screens/doctors/home/dc_doctor_home_flow.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileNames: ['.env']);
@@ -51,7 +51,7 @@ Future<void> main() async {
     }
   };
 
-  runApp(const MyApp());
+  //runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
@@ -93,10 +93,6 @@ class _MyAppState extends State<MyApp> {
           create: (context) {
             final doctorRepository = SupabaseDoctorRepository();
             doctorRepository.initializeDoctorId('D001');
-            doctorRepository.initializeCustomerId('C001');
-            doctorRepository.initializeCustomerName('Nguyen Van A');
-            doctorRepository.initializePeriod('1');
-            doctorRepository.initializeDate(DateTime(2023, 12, 25));
             return doctorRepository;
           },
         ),
@@ -135,7 +131,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    return DCDoctorPrescibeMedicineFlow(
+    return DCDoctorHomeFlow(
       navigatorKey: GlobalKey<NavigatorState>(),
     );
   }

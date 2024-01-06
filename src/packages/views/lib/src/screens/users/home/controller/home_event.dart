@@ -13,3 +13,12 @@ sealed class HomeEvent extends Equatable {
 final class DataLoadingEvent extends HomeEvent {
   const DataLoadingEvent();
 }
+
+final class PageChangedEvent extends HomeEvent {
+  const PageChangedEvent(this.page);
+
+  final int page;
+
+  @override
+  List<Object> get props => [page];
+}

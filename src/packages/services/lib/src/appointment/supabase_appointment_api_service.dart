@@ -40,7 +40,7 @@ class SupabaseAppointmentApiService
       supabase
           .from('appointment')
           .select<PostgrestList>()
-          .eq('doctorId', doctorId)
+          .eq('doctorID', doctorId)
           .then(
             (value) => value.isEmpty
                 ? throw Exception(

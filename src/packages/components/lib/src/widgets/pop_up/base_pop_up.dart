@@ -97,6 +97,7 @@ class BasePopup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      backgroundColor: context.colorScheme.background,
       contentPadding: EdgeInsets.all(popupPadding),
       title: DefaultTextStyle.merge(
         style: context.textTheme.h4ExtraBoldPoppins.copyWith(
@@ -177,7 +178,7 @@ class BasePopup extends StatelessWidget {
                       }
                       if (index.isEven || onConfirmButtonClicked == null) {
                         onCancelButtonClicked?.call(context);
-                      }
+                     }
                     },
                   ),
                 ),

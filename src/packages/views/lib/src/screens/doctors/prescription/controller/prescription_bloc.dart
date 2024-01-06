@@ -16,6 +16,7 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
     this._navigatorKey,
     this._notificationManagerService,
     this._doctorRepositoryService,
+    this._arguments,
   ) : super(
           const PrescriptionMedicalInitial.empty(),
         ) {
@@ -42,6 +43,7 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
   final NotificationManagerService _notificationManagerService;
   final GlobalKey<NavigatorState> _navigatorKey;
   final DoctorRepositoryService _doctorRepositoryService;
+  final Map<String, dynamic> _arguments;
 
   void _onHeartRateInputEvent(
     HeartRateInputEvent event,
@@ -444,6 +446,7 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
 
     await _doctorRepositoryService.addPrescriptionToDatabase(
       prescriptionID: prescriptionId,
+      customerData: _arguments,
       doctorNote: [diagnosis, medicineNote],
       medicines: state.medicines,
       heartRate: state.heartRate,
