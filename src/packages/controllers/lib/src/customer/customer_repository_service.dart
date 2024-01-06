@@ -24,7 +24,12 @@ abstract interface class CustomerRepositoryService {
     DateTime? birthday,
   });
 
-  Future<void> ratePrescription(String prescriptionId, int rating);
+  Future<void> ratePrescription(
+    int period,
+    String doctorId,
+    String date,
+    int rating,
+  );
 
   Future<void> togglePrescription(
     String prescriptionId, {
@@ -54,6 +59,10 @@ abstract interface class CustomerRepositoryService {
   Future<Map<String, dynamic>> getPrescriptionData(
     String prescriptionId,
   );
+
+  Future<void> updateAppointmentDone(bool done, String prescriptionID);
+  Future<void> updateMedicineDone(
+      bool done, String prescriptionID, String medicineName);
 
   Future<List<Map<String, dynamic>>> getAvailableDoctors({
     List<String>? specialities,

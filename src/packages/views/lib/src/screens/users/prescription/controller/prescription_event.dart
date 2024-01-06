@@ -20,12 +20,14 @@ final class PrescriptionResetEvent extends PrescriptionEvent {
 final class PrescriptionCheckEvent extends PrescriptionEvent {
   const PrescriptionCheckEvent({
     required this.prescriptionId,
+    required this.done,
   });
 
   final String prescriptionId;
+  final bool done;
 
   @override
-  List<Object?> get props => [prescriptionId];
+  List<Object?> get props => [prescriptionId, done];
 }
 
 final class PrescriptionOpenMedicinesViewEvent extends PrescriptionEvent {
@@ -41,13 +43,18 @@ final class PrescriptionOpenMedicinesViewEvent extends PrescriptionEvent {
 
 final class MedicineCheckEvent extends PrescriptionEvent {
   const MedicineCheckEvent({
-    required this.medineName,
+    required this.prescriptionId,
+    required this.medicineName,
+    required this.done,
   });
 
-  final String medineName;
+  final String medicineName;
+  final String prescriptionId;
+  final bool done;
 
   @override
-  List<Object?> get props => [medineName];
+  List<Object?> get props =>
+      [medicineName, prescriptionId, done, prescriptionId];
 }
 
 final class OpenIntakeViewEvent extends PrescriptionEvent {
@@ -62,11 +69,13 @@ final class OpenIntakeViewEvent extends PrescriptionEvent {
 
 final class IntakeRatingEvent extends PrescriptionEvent {
   const IntakeRatingEvent({
+    required this.prescriptionId,
     required this.rating,
   });
 
   final int rating;
+  final String prescriptionId;
 
   @override
-  List<Object?> get props => [rating];
+  List<Object?> get props => [rating, prescriptionId];
 }

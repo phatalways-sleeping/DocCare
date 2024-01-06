@@ -14,6 +14,7 @@ class DCPrescriptionItem extends StatelessWidget {
     required this.color,
     required this.onSelected,
     required this.onPressed,
+    required this.onLongPressed,
     this.isDone = true,
     super.key,
   });
@@ -23,6 +24,7 @@ class DCPrescriptionItem extends StatelessWidget {
   final Widget bottomRight;
   final void Function(BuildContext context) onSelected;
   final void Function(BuildContext context) onPressed;
+  final void Function(BuildContext context) onLongPressed;
 
   final Color color;
   final bool isDone;
@@ -67,6 +69,7 @@ class DCPrescriptionItem extends StatelessWidget {
         ),
       ),
       onPressed: () => onPressed(context),
+      onLongPress: () => onLongPressed(context),
       child: Row(
         children: [
           Container(
@@ -148,13 +151,15 @@ class DCPrescriptionItem extends StatelessWidget {
                     top: 3,
                   ),
                   child: RoundCheckBox(
-                    checkedColor: color,
+                    checkedColor: context.colorScheme.secondary,
                     isChecked: isDone,
                     animationDuration: const Duration(
                       milliseconds: 200,
                     ),
                     size: 30,
-                    onTap: (selected) => onSelected(context),
+                    onTap: (selected) {
+                      onSelected(context);
+                    },
                   ),
                 ),
                 Padding(

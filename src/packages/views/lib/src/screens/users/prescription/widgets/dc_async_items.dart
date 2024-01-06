@@ -1,10 +1,11 @@
 // ignore_for_file: public_member_api_docs
-
+import 'dart:math';
 import 'package:components/components.dart';
 import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:views/src/screens/users/prescription/controller/prescription_bloc.dart';
+import 'package:views/src/screens/users/prescription/widgets/dc_async_pop_up.dart';
 import 'package:views/src/screens/users/prescription/widgets/dc_prescription_item.dart';
 
 class DCAsyncItems extends StatefulWidget {
@@ -26,6 +27,14 @@ class DCAsyncItems extends StatefulWidget {
 class _DCAsyncItemsState extends State<DCAsyncItems> {
   @override
   Widget build(BuildContext context) {
+    //Color list
+    final List<Color> _colors = [
+      context.colorScheme.error,
+      context.colorScheme.secondary,
+      context.colorScheme.primary,
+      context.colorScheme.secondary,
+    ];
+
     return FutureBuilder<List<Map<String, dynamic>>>(
       future: widget.future,
       builder: (context, snapshot) {
@@ -57,19 +66,45 @@ class _DCAsyncItemsState extends State<DCAsyncItems> {
                         bottomLeft: Text(
                           e['date'].toString().substring(0, 10),
                         ),
-                        color: context.colorScheme.error,
+                        //Color is random
+                        color: _colors[
+                            (e['id'] as String).hashCode % _colors.length],
                         onSelected: (context) =>
                             context.read<PrescriptionBloc>().add(
                                   PrescriptionCheckEvent(
+                                    done: !widget.isDone,
                                     prescriptionId: e['id'] as String,
                                   ),
                                 ),
+                        onLongPressed: (context) async {
+                          //Move state to IntakeRating, has problem with how the dialog is shown
+                          final results = await showDialog<int>(
+                            context: context,
+                            builder: (bcontext) => DCAsyncPopUp(
+                              future: context
+                                  .read<PrescriptionBloc>()
+                                  .getCurrentPrescriptions(
+                                    e['id'] as String,
+                                  ),
+                            ),
+                          );
+
+                          if (results != null) {
+                            context.read<PrescriptionBloc>().add(
+                                  IntakeRatingEvent(
+                                    prescriptionId: e['id'] as String,
+                                    rating: results,
+                                  ),
+                                );
+                          }
+                        },
                         onPressed: (context) =>
                             context.read<PrescriptionBloc>().add(
                                   PrescriptionOpenMedicinesViewEvent(
                                     prescriptionId: e['id'] as String,
                                   ),
                                 ),
+
                         bottomRight: Text(
                           e['note'] as String,
                         ),
@@ -78,15 +113,19 @@ class _DCAsyncItemsState extends State<DCAsyncItems> {
                     : DCPrescriptionItem(
                         title: '${e['medicineName']}',
                         bottomLeft: Text(
-                          (e['timeOfTheDay'] as String).split(',').join(', '),
+                          (e['timeOfTheDay'] as String).split('/').join(', '),
                         ),
-                        color: context.colorScheme.error,
+                        color: _colors[(e['medicineName'] as String).hashCode %
+                            _colors.length],
                         onSelected: (context) =>
                             context.read<PrescriptionBloc>().add(
                                   MedicineCheckEvent(
-                                    medineName: e['medicineName'] as String,
+                                    prescriptionId: '',
+                                    medicineName: e['medicineName'] as String,
+                                    done: !widget.isDone,
                                   ),
                                 ),
+                        onLongPressed: (context) => {},
                         onPressed: (context) {},
                         bottomRight: Text(
                           '${e['quantity']} pills - ${e['toBeTaken'] as int == 0 ? 'Before meal' : 'After meal'}',

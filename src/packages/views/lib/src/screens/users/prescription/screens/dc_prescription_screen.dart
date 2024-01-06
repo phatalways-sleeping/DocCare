@@ -90,9 +90,20 @@ class _DCPrescriptionScreenState extends State<DCPrescriptionScreen> {
             const SizedBox(
               height: 10,
             ),
-            DCAsyncItems(
-              future: context.read<PrescriptionBloc>().getPastPrescriptions(),
-              isDone: true,
+            BlocBuilder<PrescriptionBloc, PrescriptionState>(
+              buildWhen: (previous, current) {
+                if (current.runtimeType != previous.runtimeType) {
+                  return true;
+                }
+                return false;
+              },
+              builder: (context, state) {
+                return DCAsyncItems(
+                  future:
+                      context.read<PrescriptionBloc>().getPastPrescriptions(),
+                  isDone: true,
+                );
+              },
             ),
           ],
         ),

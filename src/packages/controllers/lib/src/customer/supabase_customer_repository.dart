@@ -38,6 +38,16 @@ class SupabaseCustomerRepository implements CustomerRepositoryService {
     supabase: Supabase.instance.client,
   );
 
+  final SupabaseAppointmentApiService _supabaseAppointmentApiService =
+      SupabaseAppointmentApiService(
+    supabase: Supabase.instance.client,
+  );
+
+  final SupabaseDoctorApiService _supabaseDoctorApiService =
+      SupabaseDoctorApiService(
+    supabase: Supabase.instance.client,
+  );
+
   @override
   Future<String> createCustomer(
     String fullName,
@@ -60,6 +70,35 @@ class SupabaseCustomerRepository implements CustomerRepositoryService {
   @override
   void initializeCustomerId(String id) {
     _customerId = id;
+  }
+
+  @override
+  Future<void> updateAppointmentDone(bool done, String prescriptionID) async {
+    await Supabase.instance.client.rpc(
+      'update_appointment_done',
+      params: {
+        'customer_id': _customerId,
+        'prescription_id': prescriptionID,
+        'is_done': done,
+      },
+    ).onError(
+      (error, stackTrace) => throw Exception('Error updating done'),
+    );
+  }
+
+  @override
+  Future<void> updateMedicineDone(
+      bool done, String prescriptionID, String medicineName) async {
+    await Supabase.instance.client.rpc(
+      'update_intake_done',
+      params: {
+        'prescription_id': prescriptionID,
+        'medicine_name': medicineName,
+        'is_done': done,
+      },
+    ).onError(
+      (error, stackTrace) => throw Exception('Error updating done'),
+    );
   }
 
   @override
@@ -118,7 +157,9 @@ class SupabaseCustomerRepository implements CustomerRepositoryService {
         'prescription_id': prescriptionId,
         'is_done': false,
       },
-    ).onError((error, stackTrace) => []) as List<dynamic>;
+    ).onError((error, stackTrace) {
+      return [];
+    }) as List<dynamic>;
 
     final results = _convertMedicineData(response);
 
@@ -127,13 +168,16 @@ class SupabaseCustomerRepository implements CustomerRepositoryService {
 
   @override
   Future<List<Map<String, dynamic>>> getCurrentPrescriptions() async {
+    print(_customerId);
     final response = await Supabase.instance.client.rpc(
-      'get_cur_prescriptions',
+      'get_prescriptions',
       params: {
         'customer_id': _customerId,
         'is_done': false,
       },
-    ).onError((error, stackTrace) => []) as List<dynamic>;
+    ).onError((error, stackTrace) {
+      return [];
+    }) as List<dynamic>;
     final results = response.map(
       (e) {
         final result = e as Map<String, dynamic>;
@@ -145,6 +189,7 @@ class SupabaseCustomerRepository implements CustomerRepositoryService {
         };
       },
     ).toList();
+
     return results;
   }
 
@@ -156,9 +201,11 @@ class SupabaseCustomerRepository implements CustomerRepositoryService {
       'get_med_of_prescriptions',
       params: {
         'prescription_id': prescriptionId,
-        'is_done': false,
+        'is_done': true,
       },
-    ).onError((error, stackTrace) => []) as List<dynamic>;
+    ).onError((error, stackTrace) {
+      return [];
+    }) as List<dynamic>;
 
     final results = _convertMedicineData(response);
 
@@ -168,7 +215,7 @@ class SupabaseCustomerRepository implements CustomerRepositoryService {
   @override
   Future<List<Map<String, dynamic>>> getPastPrescriptions() async {
     final response = await Supabase.instance.client.rpc(
-      'get_cur_prescriptions',
+      'get_prescriptions',
       params: {
         'customer_id': _customerId,
         'is_done': true,
@@ -198,31 +245,61 @@ class SupabaseCustomerRepository implements CustomerRepositoryService {
         'prescription_id': prescriptionId,
         'is_done': null,
       },
-    ).onError((error, stackTrace) => []) as List<dynamic>;
+    ).onError(
+      (error, stackTrace) {
+        return [];
+      },
+    ) as List<dynamic>;
 
     final medicines = _convertMedicineData(medicinesData);
 
-    final prescription = await _supabasePrescriptionApiService
-        .getPrescriptionByID(prescriptionId);
+    final prescription = await _supabaseAppointmentApiService
+        .getAppointmentsByCustomerId(_customerId!);
+
+    final result = prescription.firstWhere(
+      (element) => element.prescriptionID == prescriptionId,
+      orElse: () => throw Exception(
+        'Error from getPrescriptionData: No prescription found with id $prescriptionId',
+      ),
+    );
+
+    //Get doctor name
+    final doctor = await _supabaseDoctorApiService
+        .getUser(result.doctorID)
+        .onError((error, stackTrace) => throw Exception(error));
+
+    //Turn result to json, replace doctorID with doctor name
+    final resultJson = result.toJson();
+    resultJson['doctorName'] = doctor.fullname;
 
     return {
-      ...prescription.toJson(),
+      ...resultJson,
       'medicines': medicines,
     };
   }
 
   @override
-  Future<void> ratePrescription(String prescriptionId, int rating) async {
+  Future<void> ratePrescription(
+    int period,
+    String doctorId,
+    String date,
+    int rating,
+  ) async {
+    print('Rating');
     // Prescription relation has not been added with rating yet
     // Currently, rating is in appointment table with
     // primary key is customer_id and doctor_id and date and period
     // So, we need to update rating in appointment table
-    await _supabasePrescriptionApiService
-        .updatePrescriptionRating(
-          prescriptionId,
+    await _supabaseAppointmentApiService
+        .updateRating(
+          period,
+          _customerId!,
+          doctorId,
+          date,
           rating,
         )
-        .onError((error, stackTrace) => debugPrint(error.toString()));
+        .onError((error, stackTrace) =>
+            {print(error), debugPrint(error.toString())});
   }
 
   @override

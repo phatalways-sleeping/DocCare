@@ -36,6 +36,7 @@ class DCPopupIntakeRating extends StatefulWidget {
     this.onConfirmButtonClicked,
     this.onReviewButtonClicked,
     this.buttonsTextSize,
+    this.showReview = 0,
     this.totalRating = 0,
   });
 
@@ -108,6 +109,9 @@ class DCPopupIntakeRating extends StatefulWidget {
   // The color of the review text
   final Color? reviewButtonTextColor;
 
+  // Whether to show the review button or not
+  final int? showReview;
+
   /// The function to be called when the confirm button is clicked
   final void Function(BuildContext context)? onConfirmButtonClicked;
 
@@ -122,18 +126,34 @@ class DCPopupIntakeRating extends StatefulWidget {
 }
 
 class _DCPopupIntakeRatingState extends State<DCPopupIntakeRating> {
-  List<SvgPicture> ratings = List.generate(
+  int currentRating = 0;
+
+  List<SvgPicture> ratings = List<SvgPicture>.generate(
     5,
     (index) => SvgPicture.string(
-      DCSVGIcons.greyStar,
+      DCSVGIcons.yellowStar,
       fit: BoxFit.cover,
     ),
   );
 
-  int currentRating = 0;
-
   @override
   Widget build(BuildContext context) {
+    currentRating =
+        (currentRating > 0) ? currentRating : widget.showReview ?? 0;
+    ratings = List<SvgPicture>.generate(
+      5,
+      (index) => ((widget.showReview == null && currentRating == 0) ||
+              index >= currentRating)
+          ? SvgPicture.string(
+              DCSVGIcons.greyStar,
+              fit: BoxFit.cover,
+            )
+          : SvgPicture.string(
+              DCSVGIcons.yellowStar,
+              fit: BoxFit.cover,
+            ),
+    );
+
     return BasePopup(
       popupPadding: 20,
       title: Column(
@@ -260,50 +280,63 @@ class _DCPopupIntakeRatingState extends State<DCPopupIntakeRating> {
           children: List.generate(
             ratings.length,
             (index) => IconButton(
-              onPressed: () {
-                currentRating = index + 1;
-                setState(() {
-                  for (var i = 0; i <= index; i++) {
-                    ratings[i] = SvgPicture.string(
-                      DCSVGIcons.yellowStar,
-                      fit: BoxFit.cover,
-                    );
-                  }
-
-                  for (var i = index + 1; i < ratings.length; i++) {
-                    ratings[i] = SvgPicture.string(
-                      DCSVGIcons.greyStar,
-                      fit: BoxFit.cover,
-                    );
-                  }
-                });
-              },
+              onPressed: (widget.showReview == null)
+                  ? () {
+                      currentRating = index + 1;
+                      setState(() {
+                        for (var i = 0; i <= index; i++) {
+                          ratings[i] = SvgPicture.string(
+                            DCSVGIcons.yellowStar,
+                            fit: BoxFit.cover,
+                          );
+                        }
+                        for (var i = index + 1; i < ratings.length; i++) {
+                          ratings[i] = SvgPicture.string(
+                            DCSVGIcons.greyStar,
+                            fit: BoxFit.cover,
+                          );
+                        }
+                      });
+                    }
+                  : () {},
               splashRadius: 0.5,
               icon: ratings[index],
             ),
           ),
-        )
+        ),
       ],
-      buttonsText: [
-        widget.reviewButtonText ?? 'Review',
-        widget.confirmButtonText ?? 'Done',
-      ],
-      buttonsColor: [
-        widget.reviewButtonColor ?? context.colorScheme.senary,
-        widget.confirmButtonColor ?? context.colorScheme.senary,
-      ],
+      buttonsText: (widget.showReview == null)
+          ? [
+              widget.reviewButtonText ?? 'Review',
+              widget.confirmButtonText ?? 'Done',
+            ]
+          : [widget.confirmButtonText ?? 'Done'],
+      buttonsColor: (widget.showReview == null)
+          ? [
+              widget.reviewButtonColor ?? context.colorScheme.senary,
+              widget.confirmButtonColor ?? context.colorScheme.senary,
+            ]
+          : [
+              widget.confirmButtonColor ?? context.colorScheme.senary,
+            ],
       buttonsWidth: widget.buttonsWidth,
       buttonsHeight: widget.buttonsHeight,
       buttonsTextSize: widget.buttonsTextSize ?? 16,
-      buttonsTextColors: [
-        widget.reviewButtonTextColor ?? context.colorScheme.onBackground,
-        widget.confirmButtonTextColor ?? context.colorScheme.onBackground,
-      ],
+      buttonsTextColors: (widget.showReview == null)
+          ? [
+              widget.reviewButtonTextColor ?? context.colorScheme.onBackground,
+              widget.confirmButtonTextColor ?? context.colorScheme.onBackground,
+            ]
+          : [
+              widget.confirmButtonTextColor ?? context.colorScheme.onBackground,
+            ],
       onConfirmButtonClicked: widget.onConfirmButtonClicked,
       onCancelButtonClicked: widget.onReviewButtonClicked ??
-          (context) {
-            Navigator.pop(context, currentRating);
-          },
+          ((widget.showReview == null)
+              ? (context) {
+                  Navigator.pop(context, currentRating);
+                }
+              : Navigator.pop),
     );
   }
 }

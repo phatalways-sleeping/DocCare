@@ -128,9 +128,12 @@ final class IntakeViewState extends PrescriptionState {
     required super.medicineName,
   });
 
-  factory IntakeViewState.fromState(PrescriptionState state) {
+  factory IntakeViewState.fromState(
+    PrescriptionState state,
+    String prescriptionId,
+  ) {
     return IntakeViewState(
-      prescriptionId: state.prescriptionId,
+      prescriptionId: prescriptionId,
       medicineName: state.medicineName,
     );
   }

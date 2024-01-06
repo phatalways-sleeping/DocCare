@@ -1,7 +1,10 @@
 // ignore_for_file: public_member_api_docs
 
+import 'package:components/components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:models/models.dart';
+import 'package:controllers/controllers.dart';
 import 'package:utility/utility.dart';
 import 'package:views/src/screens/users/prescription/controller/prescription_bloc.dart';
 import 'package:views/src/screens/users/prescription/screens/dc_medicine_screen.dart';
@@ -25,14 +28,16 @@ class _DCCustomerViewPrescriptionFlowState
       create: (context) => PrescriptionBloc(
         widget.navigatorKey,
         NotificationManager.instance,
+        context.read<CustomerRepositoryService>(),
       ),
       child: BlocConsumer<PrescriptionBloc, PrescriptionState>(
         key: widget.navigatorKey,
         listener: (context, state) {},
         builder: (context, state) {
           if (state is PrescriptionViewState ||
-              state is PrescriptionViewLoadingState ||
               state is IntakeViewState ||
+              state is IntakeViewRatingResultState ||
+              state is PrescriptionViewLoadingState ||
               state is IntakeViewRatingResultState) {
             return const DCPrescriptionScreen();
           } else if (state is MedicinesViewState ||

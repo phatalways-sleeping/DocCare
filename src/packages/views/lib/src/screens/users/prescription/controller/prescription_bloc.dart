@@ -4,6 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:utility/utility.dart';
+import 'package:controllers/controllers.dart';
 
 part 'prescription_event.dart';
 part 'prescription_state.dart';
@@ -12,6 +13,7 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
   PrescriptionBloc(
     this._navigatorKey,
     this._notificationManagerService,
+    this._customerRepositoryService,
   ) : super(PrescriptionViewState.initial()) {
     on<PrescriptionCheckEvent>(_onPrescriptionCheckEvent);
     on<PrescriptionOpenMedicinesViewEvent>(
@@ -31,72 +33,46 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
 
   final NotificationManagerService _notificationManagerService;
   final GlobalKey<NavigatorState> _navigatorKey;
+  final CustomerRepositoryService _customerRepositoryService;
 
-  Future<List<Map<String, dynamic>>> getLatestPrescription() => Future.delayed(
-        const Duration(seconds: 3),
-        () => [
-          {
-            'doctorName': 'Nguyen Van A',
-            'date': DateTime.now(),
-            'Note': 'Note',
-            'id': 'P001',
-          },
-          {
-            'doctorName': 'Nguyen Van A',
-            'date': DateTime.now(),
-            'Note': 'Note',
-            'id': 'P002',
-          },
-          {
-            'doctorName': 'Nguyen Van A',
-            'date': DateTime.now(),
-            'Note': 'Note',
-            'id': 'P003',
-          },
-        ],
-      );
+  Future<List<Map<String, dynamic>>> getLatestPrescription() async {
+    final results = await _customerRepositoryService.getCurrentPrescriptions();
 
-  Future<List<Map<String, dynamic>>> getPastPrescriptions() => Future.delayed(
-        const Duration(seconds: 3),
-        () => [
-          {
-            'doctorName': 'Nguyen Van A',
-            'date': DateTime.now(),
-            'Note': 'Note',
-            'id': 'P005',
-          },
-        ],
-      );
+    return results;
+  }
 
-  Future<List<Map<String, dynamic>>> getLatestMedicines() => Future.delayed(
-        const Duration(seconds: 3),
-        () => [
-          {
-            'medicineName': 'Ranitidine',
-            'quantity': 1,
-            'toBeTaken': 0,
-            'time': 'Morning,Afternoon,Evening',
-          },
-          {
-            'medicineName': 'Esomeprazole',
-            'quantity': 1,
-            'toBeTaken': 1,
-            'time': 'Morning',
-          },
-        ],
-      );
+  Future<List<Map<String, dynamic>>> getPastPrescriptions() async {
+    final results = await _customerRepositoryService.getPastPrescriptions();
 
-  Future<List<Map<String, dynamic>>> getPastMedicines() => Future.delayed(
-        const Duration(seconds: 3),
-        () => [
-          {
-            'medicineName': 'Ranitidine',
-            'quantity': 1,
-            'toBeTaken': 0,
-            'time': 'Morning,Afternoon,Evening',
-          },
-        ],
-      );
+    return results;
+  }
+
+  Future<List<Map<String, dynamic>>> getLatestMedicines(
+    String prescriptionID,
+  ) async {
+    final results = await _customerRepositoryService
+        .getCurrentPrescriptionMedicines(prescriptionID);
+
+    return results;
+  }
+
+  Future<List<Map<String, dynamic>>> getPastMedicines(
+    String prescriptionID,
+  ) async {
+    final results = await _customerRepositoryService
+        .getPastPrescriptionMedicines(prescriptionID);
+
+    return results;
+  }
+
+  Future<Map<String, dynamic>> getCurrentPrescriptions(
+    String prescriptionID,
+  ) async {
+    final results =
+        await _customerRepositoryService.getPrescriptionData(prescriptionID);
+
+    return results;
+  }
 
   void _onPrescriptionResetEvent(
     PrescriptionResetEvent event,
@@ -110,7 +86,7 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
     Emitter<PrescriptionState> emit,
   ) async {
     if (state is PrescriptionViewLoadingState) {
-      return;
+      return emit(PrescriptionViewLoadingState.fromState(state));
     }
     if (state is! PrescriptionViewState) {
       return emit(PrescriptionViewState.initial());
@@ -118,11 +94,13 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
     try {
       emit(PrescriptionViewLoadingState.fromState(state));
 
-      await Future.delayed(const Duration(seconds: 2), () {}); // Mock delay
-
-      // throw Exception('Error');
+      await _customerRepositoryService.updateAppointmentDone(
+        event.done,
+        event.prescriptionId,
+      );
 
       emit(PrescriptionViewState.initial());
+      // throw Exception('Error');
     } catch (error) {
       emit(PrescriptionViewState.initial());
       await _notificationManagerService.show<void>(
@@ -154,12 +132,24 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
       return;
     }
     if (state is! MedicinesViewState) {
-      return emit(PrescriptionViewState.initial());
+      var tmpPrescriptionId = event.prescriptionId;
+      return emit(
+        MedicinesViewState.fromState(
+          state,
+          prescriptionId: tmpPrescriptionId,
+        ),
+      );
     }
     try {
       emit(MedicinesViewLoadingState.fromState(state));
 
-      await Future.delayed(const Duration(seconds: 2), () {}); // Mock delay
+      await _customerRepositoryService
+          .updateMedicineDone(
+            event.done,
+            state.prescriptionId,
+            event.medicineName,
+          )
+          .then((value) {});
 
       emit(MedicinesViewState.fromState(state));
     } catch (error) {
@@ -177,16 +167,32 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
     OpenIntakeViewEvent event,
     Emitter<PrescriptionState> emit,
   ) {
-    if (state is! MedicinesViewState) {
+    if (state is! PrescriptionViewState) {
       return emit(PrescriptionViewState.initial());
     }
     emit(
-      IntakeViewState.fromState(state),
+      IntakeViewState.fromState(state, event.prescriptionId),
     );
   }
 
-  void _onIntakeRatingEvent(
+  Future<void> _onIntakeRatingEvent(
     IntakeRatingEvent event,
     Emitter<PrescriptionState> emit,
-  ) {}
+  ) async {
+    if (state is! IntakeViewState) {
+      emit(IntakeViewState.fromState(state, event.prescriptionId));
+    }
+
+    final results = await _customerRepositoryService
+        .getPrescriptionData(event.prescriptionId);
+
+    await _customerRepositoryService.ratePrescription(
+      int.parse(results['period'].toString()),
+      results['doctorID'].toString(),
+      results['date'].toString(),
+      event.rating,
+    );
+
+    emit(PrescriptionViewState.initial());
+  }
 }

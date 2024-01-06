@@ -73,7 +73,9 @@ class _DCMedicineScreenState extends State<DCMedicineScreen> {
               },
               builder: (context, state) {
                 return DCAsyncItems(
-                  future: context.read<PrescriptionBloc>().getLatestMedicines(),
+                  future: context
+                      .read<PrescriptionBloc>()
+                      .getLatestMedicines(state.prescriptionId),
                   isDone: false,
                   medicine: true,
                 );
@@ -103,7 +105,9 @@ class _DCMedicineScreenState extends State<DCMedicineScreen> {
               },
               builder: (context, state) {
                 return DCAsyncItems(
-                  future: context.read<PrescriptionBloc>().getPastMedicines(),
+                  future: context
+                      .read<PrescriptionBloc>()
+                      .getPastMedicines(state.prescriptionId),
                   isDone: true,
                   medicine: true,
                 );
