@@ -1,3 +1,5 @@
+// ignore_for_file: public_member_api_docs
+
 import 'package:components/components.dart';
 import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
@@ -57,7 +59,7 @@ class _DCDoctorFilterScreenState extends State<DCDoctorFilterScreen> {
         padding: EdgeInsets.symmetric(
           horizontal: context.width * 0.03,
         ).copyWith(
-          top: context.height * 0.05,
+          top: context.height * 0.02,
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -77,8 +79,9 @@ class _DCDoctorFilterScreenState extends State<DCDoctorFilterScreen> {
                 selector: (state) => state.filteredSpecialties,
                 builder: (context, state) {
                   return Wrap(
-                    spacing: 10,
+                    spacing: 5,
                     runSpacing: 10,
+                    crossAxisAlignment: WrapCrossAlignment.center,
                     children: specialty!
                         .map(
                           (e) => DCSpecialtyButton(
@@ -132,6 +135,9 @@ class _DCDoctorFilterScreenState extends State<DCDoctorFilterScreen> {
                 );
               },
             ),
+            const SizedBox(
+              height: 100,
+            ), // Move the Rating section above the bottom sheet
           ],
         ),
       ),
