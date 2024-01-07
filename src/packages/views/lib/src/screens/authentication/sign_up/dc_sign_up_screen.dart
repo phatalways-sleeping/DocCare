@@ -42,7 +42,7 @@ class _DCSignUpScreenState extends State<DCSignUpScreen> {
           listener: (context, state) {
             if (state is SignUpSuccess) {
               Navigator.of(context, rootNavigator: true)
-                  .pushReplacementNamed('/profile');
+                  .pushReplacementNamed('/home'); // For deploying purpose
             }
           },
           child: CustomScrollView(
@@ -256,25 +256,41 @@ class _DCSignUpScreenState extends State<DCSignUpScreen> {
                           Center(
                             child: BlocBuilder<SignUpBloc, SignUpState>(
                               builder: (context, state) {
-                                if (state is SignUpInitial) {
-                                  return DCButton(
-                                    text: 'Sign Up',
-                                    widthFactor: 0.8,
-                                    onPressed: (context) =>
-                                        context.read<SignUpBloc>().add(
-                                              const SignUpButtonPressedEvent(),
-                                            ),
-                                  );
-                                } else if (state is SignUpSuccess) {
-                                  // TODO(phucchuhoang): handle navigate to home screen
+                                final body = state is SignUpLoading
+                                    ? SizedBox(
+                                        width: 25,
+                                        height: 25,
+                                        child: CircularProgressIndicator(
+                                          color:
+                                              context.colorScheme.onBackground,
+                                        ),
+                                      )
+                                    : Text(
+                                        'Sign up',
+                                        style: context
+                                            .textTheme.bodyRegularPoppins
+                                            .copyWith(
+                                          color:
+                                              context.colorScheme.onBackground,
+                                          fontSize: 16,
+                                        ),
+                                      );
+                                if (state is SignUpSuccess) {
                                   return const Text('Sign up success');
                                 }
-                                return SizedBox(
-                                  height: 30,
-                                  width: 30,
-                                  child: CircularProgressIndicator(
-                                    color: context.colorScheme.primary,
+                                return DCFilledButton(
+                                  backgroundColor: context.colorScheme.primary,
+                                  fixedSize: Size(
+                                    context.width * 0.90,
+                                    context.height * 0.05,
                                   ),
+                                  child: body,
+                                  onPressed: (context) {
+                                    if (state is SignUpLoading) return;
+                                    context.read<SignUpBloc>().add(
+                                          const SignUpButtonPressedEvent(),
+                                        );
+                                  },
                                 );
                               },
                             ),

@@ -62,9 +62,8 @@ class __DCLoginModalBottomSheetState extends State<_DCLoginModalBottomSheet> {
                 });
               }
             },
-            onChanged: (context, controller) => context
-                .read<LoginBloc>()
-                .add(EmailInputEvent(controller.text)),
+            onChanged: (context, controller) =>
+                context.read<LoginBloc>().add(EmailInputEvent(controller.text)),
           ),
           DCOutlinedObscuredTextFormField(
             controller: widget.passwordController,
@@ -90,15 +89,21 @@ class __DCLoginModalBottomSheetState extends State<_DCLoginModalBottomSheet> {
           ),
           BlocBuilder<LoginBloc, LoginState>(
             builder: (context, state) {
-              if (state is LoginLoading) {
-                return SizedBox(
-                  width: context.width * 0.10,
-                  height: context.height * 0.05,
-                  child: CircularProgressIndicator(
-                    color: context.colorScheme.error,
-                  ),
-                );
-              }
+              final body = state is LoginLoading
+                  ? SizedBox(
+                      width: 25,
+                      height: 25,
+                      child: CircularProgressIndicator(
+                        color: context.colorScheme.onBackground,
+                      ),
+                    )
+                  : Text(
+                      'Login',
+                      style: context.textTheme.bodyRegularPoppins.copyWith(
+                        color: context.colorScheme.onError,
+                        fontSize: 16,
+                      ),
+                    );
               return DCFilledButton(
                 padding: EdgeInsets.symmetric(
                   horizontal: context.width * 0.05,
@@ -110,18 +115,13 @@ class __DCLoginModalBottomSheetState extends State<_DCLoginModalBottomSheet> {
                 ),
                 backgroundColor: context.colorScheme.error,
                 onPressed: (context) {
+                  if (state is LoginLoading) return;
                   widget.passwordController?.clear();
                   context.read<LoginBloc>().add(
                         const LoginButtonPressedEvent(),
                       );
                 },
-                child: Text(
-                  'Login',
-                  style: context.textTheme.bodyRegularPoppins.copyWith(
-                    color: context.colorScheme.onError,
-                    fontSize: 16,
-                  ),
-                ),
+                child: body,
               );
             },
           ),

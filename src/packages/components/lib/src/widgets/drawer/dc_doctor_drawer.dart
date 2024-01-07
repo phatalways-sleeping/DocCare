@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:components/components.dart';
 import 'package:components/src/widgets/drawer/base_drawer.dart';
 import 'package:controllers/controllers.dart';
@@ -180,15 +182,14 @@ class _DCDoctorDrawerState extends State<DCDoctorDrawer>
         DCDrawerItem(
           borderRadius: widget.borderRadiusOfEachItem,
           onTap: (context) async {
-            await context.read<AuthenticationRepositoryService>().logout().then(
-                  (value) => Navigator.of(
-                    context,
-                    rootNavigator: true,
-                  ).pushNamedAndRemoveUntil(
-                    '/splash',
-                    (route) => false,
-                  ),
-                );
+            unawaited(context.read<AuthenticationRepositoryService>().logout());
+            await Navigator.of(
+              context,
+              rootNavigator: true,
+            ).pushNamedAndRemoveUntil(
+              '/splash',
+              (route) => false,
+            );
           },
           selected: signOutSelected,
           title: Text(
