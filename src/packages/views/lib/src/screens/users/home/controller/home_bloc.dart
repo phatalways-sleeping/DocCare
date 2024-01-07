@@ -1,12 +1,42 @@
 // ignore_for_file: public_member_api_docs
 
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:controllers/controllers.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
 part 'home_event.dart';
 part 'home_state.dart';
+
+const fetchPeriodic = Duration(seconds: 10);
+
+extension _HomeBlocX on HomeBloc {
+  Stream<Map<String, List<String>>> get _fetchDataPeriodicStream async* {
+    while (true) {
+      // debugPrint('Fetching data...');
+      final response =
+          await _customerRepositoryService.getUpcomingAppointments();
+      final appointments = Map<String, List<String>>.fromEntries(
+        response.map(
+          (e) => MapEntry(
+            e['name'].toString(),
+            [e['time'].toString()],
+          ),
+        ),
+      );
+      final hasNotChanged = appointments.toString() ==
+          state.appointments.toString(); // check if the data has changed
+      if (appointments.isNotEmpty && !hasNotChanged) {
+        // debugPrint('Data has changed');
+        yield appointments;
+      }
+      await Future.delayed(fetchPeriodic, () {}); // delay for 5 seconds
+    }
+  }
+}
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc(
@@ -18,6 +48,16 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         ) {
     on<DataLoadingEvent>(_onDataLoadingEvent);
     on<PageChangedEvent>(_onPageChangedEvent);
+    on<FetchNotificationsPeriodicEvent>(
+      (event, emit) async => emit.forEach(
+        _fetchDataPeriodicStream,
+        onData: (data) {
+          return state.copyWith(
+            appointments: data,
+          );
+        },
+      ),
+    );
   }
 
   final CustomerRepositoryService _customerRepositoryService;
@@ -71,17 +111,17 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       oldBloodSugar = oldStatisticsData['blood_sugar'].toString();
     }
 
-    final appointmentsData =
-        await _customerRepositoryService.getUpcomingAppointments();
+    // final appointmentsData =
+    //     await _customerRepositoryService.getUpcomingAppointments();
 
-    final appointments = Map<String, List<String>>.fromEntries(
-      appointmentsData.map(
-        (e) => MapEntry(
-          e['name'].toString(),
-          [e['time'].toString()],
-        ),
-      ),
-    );
+    // final appointments = Map<String, List<String>>.fromEntries(
+    //   appointmentsData.map(
+    //     (e) => MapEntry(
+    //       e['name'].toString(),
+    //       [e['time'].toString()],
+    //     ),
+    //   ),
+    // );
 
     emit(
       HomeInitial.input(
@@ -95,8 +135,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         oldBloodSugar: oldBloodSugar,
         oldCholesterol: oldCholesterol,
         oldHeartRate: oldHeartRate,
-        appointments: appointments,
+        appointments: const {},
       ),
     );
+
+    // Trigger periodic fetch
+    add(const FetchNotificationsPeriodicEvent());
   }
 }

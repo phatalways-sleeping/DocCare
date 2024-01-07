@@ -1,7 +1,4 @@
 // ignore_for_file: public_member_api_docs
-
-import 'dart:async';
-
 import 'package:components/components.dart';
 import 'package:controllers/controllers.dart';
 import 'package:extensions/extensions.dart';
@@ -73,7 +70,6 @@ List<Widget> createAppointmentWidgets(Map<String, List<String>> appointments) {
 class _DCCustomerHomeScreen extends State<DCCustomerHomeScreen> {
   late PageController _pageController;
   int _currentPage = 0;
-  Timer? _timer;
 
   @override
   void initState() {
@@ -84,18 +80,11 @@ class _DCCustomerHomeScreen extends State<DCCustomerHomeScreen> {
           _currentPage = _pageController.page!.round();
         });
       });
-    _timer = Timer.periodic(const Duration(minutes: 1), (timer) {
-      // context.read<HomeBloc>().add(const DataLoadingEvent());
-      setState(() {
-        // Update the time every minute
-      });
-    });
   }
 
   @override
   void dispose() {
     _pageController.dispose();
-    _timer?.cancel();
     super.dispose();
   }
 
@@ -141,13 +130,18 @@ class _DCCustomerHomeScreen extends State<DCCustomerHomeScreen> {
                 if (state is! HomeLoading)
                   CustomScrollView(
                     slivers: [
-                      SliverPadding(
-                        padding: const EdgeInsets.symmetric(horizontal: 12),
-                        sliver: SliverList(
-                          delegate: SliverChildListDelegate(
-                            createAppointmentWidgets(state.appointments),
-                          ),
-                        ),
+                      BlocSelector<HomeBloc, HomeState,
+                          Map<String, List<String>>>(
+                        selector: (state) => state.appointments,
+                        builder: (context, state) {
+                          return SliverPadding(
+                            padding: const EdgeInsets.symmetric(horizontal: 12),
+                            sliver: SliverList(
+                              delegate: SliverChildListDelegate(
+                                  createAppointmentWidgets(state)),
+                            ),
+                          );
+                        },
                       ),
                       SliverList(
                         delegate: SliverChildListDelegate(

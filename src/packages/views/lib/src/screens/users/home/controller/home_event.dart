@@ -22,3 +22,7 @@ final class PageChangedEvent extends HomeEvent {
   @override
   List<Object> get props => [page];
 }
+
+final class FetchNotificationsPeriodicEvent extends HomeEvent {
+  const FetchNotificationsPeriodicEvent();
+}
