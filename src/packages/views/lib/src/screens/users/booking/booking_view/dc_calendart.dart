@@ -123,8 +123,8 @@ class _DCCalendarState extends State<DCCalendar> {
             ),
           );
         } else if (snapshot.hasError) {
-        // Handle the error by displaying a text saying something went wrong,
-        // and a button to retry the request.
+          // Handle the error by displaying a text saying something went wrong,
+          // and a button to retry the request.
           return Text('Error: ${snapshot.error}');
         } else {
           // Process and display the data using DCCalendarColumn widget
@@ -183,7 +183,8 @@ class DCCalendarColumn extends StatelessWidget {
               date: date,
               onPressed: (context) {
                 context.read<BookingBloc>().add(
-                      BookingSelectDateEvent(date: date),
+                      BookingSelectDateEvent(
+                          date: DateTime(date.year, date.month, date.day)),
                     );
               },
               available: (date.isAfter(DateTime.now()) &&
