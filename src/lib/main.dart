@@ -84,14 +84,12 @@ class _MyAppState extends State<MyApp> {
         RepositoryProvider<CustomerRepositoryService>(
           create: (context) {
             final customerRepository = SupabaseCustomerRepository();
-            customerRepository.initializeCustomerId('C001');
             return customerRepository;
           },
         ),
         RepositoryProvider<DoctorRepositoryService>(
           create: (context) {
             final doctorRepository = SupabaseDoctorRepository();
-            doctorRepository.initializeDoctorId('D001');
             return doctorRepository;
           },
         ),

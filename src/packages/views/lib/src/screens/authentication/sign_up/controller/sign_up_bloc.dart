@@ -175,10 +175,12 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
 
     try {
       emit(SignUpLoading.from(state));
-      final check =
-          await _customerRepositoryService.isCustomerExist(state.email);
+      final check = await _customerRepositoryService.isCustomerExist(
+        state.email,
+        state.phone,
+      );
       if (check) {
-        throw const AuthException('Email already exist');
+        throw const AuthException('Email or phone number already exist');
       }
       final id = await _customerRepositoryService.createCustomer(
         state.fullName,

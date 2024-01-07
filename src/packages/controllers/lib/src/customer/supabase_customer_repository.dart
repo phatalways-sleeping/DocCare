@@ -102,12 +102,12 @@ class SupabaseCustomerRepository implements CustomerRepositoryService {
   }
 
   @override
-  Future<bool> isCustomerExist(String email) async {
+  Future<bool> isCustomerExist(String email, String phone) async {
     final customer =
         await _supabaseCustomerApiService.getAllUserEmail().catchError(
               (error) => <String>[],
             );
-    return customer.contains(email);
+    return customer.contains(email) || customer.contains(phone);
   }
 
   @override
@@ -646,7 +646,7 @@ class SupabaseCustomerRepository implements CustomerRepositoryService {
     ) as int;
 
     // Check if the stored procedure returned 1 (true) or 0 (false)
-    return checkExisting == 1;
+    return checkExisting == 0;
   }
 
   @override

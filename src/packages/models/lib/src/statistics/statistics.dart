@@ -12,7 +12,6 @@ final class Statistics extends Equatable {
     required this.value,
     required this.categoryName,
     required this.prescriptionID,
-    this.note,
   });
 
   factory Statistics.fromJson(Map<String, dynamic> json) =>
@@ -28,8 +27,6 @@ final class Statistics extends Equatable {
   final String categoryName;
   @JsonKey(required: true)
   final String prescriptionID;
-  @JsonKey(required: false)
-  final String? note;
 
   @override
   List<Object?> get props => [
@@ -37,7 +34,6 @@ final class Statistics extends Equatable {
         value,
         categoryName,
         prescriptionID,
-        note,
       ];
 
   Statistics copyWith({
