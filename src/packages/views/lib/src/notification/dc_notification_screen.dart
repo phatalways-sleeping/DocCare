@@ -55,7 +55,7 @@ class _DCNotificationScreenState extends State<DCNotificationScreen> {
                 children: [
                   SizedBox(
                     width: context.width,
-                    height: context.height * 0.18,
+                    height: context.height * 0.16,
                     child: DCNotification(
                       heightFactor: 1,
                       title: Text(entry.value[0]),
@@ -64,16 +64,16 @@ class _DCNotificationScreenState extends State<DCNotificationScreen> {
                       haveNotificationTime: true,
                       backgroundColor: context.colorScheme.quinary,
                       titleStyle: context.textTheme.h6BoldPoppins.copyWith(
-                        fontSize: 23,
+                        fontSize: 15,
                         color: context.colorScheme.background,
                       ),
                       messageStyle: context.textTheme.h6RegularPoppins.copyWith(
-                        fontSize: 15,
+                        fontSize: 12,
                         color: context.colorScheme.background,
                       ),
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 4),
                 ],
               );
             }).toList();
