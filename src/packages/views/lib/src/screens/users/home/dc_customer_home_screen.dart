@@ -128,76 +128,62 @@ class _DCCustomerHomeScreen extends State<DCCustomerHomeScreen> {
               physics: const NeverScrollableScrollPhysics(),
               children: [
                 if (state is! HomeLoading)
-                  CustomScrollView(
-                    slivers: [
-                      BlocSelector<HomeBloc, HomeState,
-                          Map<String, List<String>>>(
-                        selector: (state) => state.appointments,
-                        builder: (context, state) {
-                          return SliverPadding(
-                            padding: const EdgeInsets.symmetric(horizontal: 12),
-                            sliver: SliverList(
-                              delegate: SliverChildListDelegate(
-                                  createAppointmentWidgets(state)),
-                            ),
-                          );
-                        },
-                      ),
-                      SliverList(
-                        delegate: SliverChildListDelegate(
-                          [
-                            Row(
-                              children: [
-                                const SizedBox(
-                                  width: 12,
-                                ),
-                                Text(
-                                  'Hi, ${state.name}!',
-                                  style:
-                                      context.textTheme.h6BoldPoppins.copyWith(
-                                    fontSize: 25,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 4),
-                            Row(
-                              children: [
-                                const SizedBox(
-                                  width: 12,
-                                ),
-                                Text(
-                                  'Today: ',
-                                  style: context.textTheme.h6RegularPoppins
-                                      .copyWith(
-                                    fontSize: 20,
-                                  ),
-                                ),
-                                Text(
-                                  DateFormat('dd-MM-yyyy')
-                                      .format(DateTime.now()),
-                                  style: context.textTheme.h6RegularPoppins
-                                      .copyWith(
-                                    fontSize: 20,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
+                  SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        BlocSelector<HomeBloc, HomeState,
+                            Map<String, List<String>>>(
+                          selector: (state) => state.appointments,
+                          builder: (context, state) {
+                            return Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 12),
+                              child: Column(
+                                children: createAppointmentWidgets(state),
+                              ),
+                            );
+                          },
                         ),
-                      ),
-                      SliverPadding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                        sliver: state.bloodPressure != 'N/A'
-                            ? SliverGrid(
-                                gridDelegate:
-                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                        Padding(
+                          padding: const EdgeInsets.only(left: 12),
+                          child: Row(
+                            children: [
+                              Text(
+                                'Hi, ${state.name}!',
+                                style: context.textTheme.h6BoldPoppins
+                                    .copyWith(fontSize: 25),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 12),
+                          child: Row(
+                            children: [
+                              Text(
+                                'Today: ',
+                                style: context.textTheme.h6RegularPoppins
+                                    .copyWith(fontSize: 20),
+                              ),
+                              Text(
+                                DateFormat('dd-MM-yyyy').format(DateTime.now()),
+                                style: context.textTheme.h6RegularPoppins
+                                    .copyWith(fontSize: 20),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          child: state.bloodPressure != 'N/A'
+                              ? GridView.count(
                                   crossAxisCount: 2,
                                   crossAxisSpacing: 10,
                                   mainAxisSpacing: 10,
-                                ),
-                                delegate: SliverChildListDelegate(
-                                  [
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  children: [
                                     CustomHealthCard(
                                       title: 'Blood Pressure',
                                       icon: DCSVGIcons.bloodDrop,
@@ -237,14 +223,10 @@ class _DCCustomerHomeScreen extends State<DCCustomerHomeScreen> {
                                       lastCheckupValue: state.oldBloodSugar,
                                     ),
                                   ],
-                                ),
-                              )
-                            : SliverList(
-                                delegate: SliverChildListDelegate(
-                                  [
-                                    const SizedBox(
-                                      height: 40,
-                                    ),
+                                )
+                              : Column(
+                                  children: [
+                                    const SizedBox(height: 40),
                                     Center(
                                       child: Column(
                                         children: [
@@ -255,9 +237,7 @@ class _DCCustomerHomeScreen extends State<DCCustomerHomeScreen> {
                                               'Welcome to DocCare!',
                                               style: context
                                                   .textTheme.h6BoldPoppins
-                                                  .copyWith(
-                                                fontSize: 30,
-                                              ),
+                                                  .copyWith(fontSize: 30),
                                             ),
                                           ),
                                           SlideAnimatedBox(
@@ -276,18 +256,10 @@ class _DCCustomerHomeScreen extends State<DCCustomerHomeScreen> {
                                     ),
                                   ],
                                 ),
-                              ),
-                      ),
-                      SliverList(
-                        delegate: SliverChildListDelegate(
-                          [
-                            const SizedBox(
-                              height: 70,
-                            ),
-                          ],
                         ),
-                      ),
-                    ],
+                        const SizedBox(height: 70),
+                      ],
+                    ),
                   )
                 else
                   Container(),

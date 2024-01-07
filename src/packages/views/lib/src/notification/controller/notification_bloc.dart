@@ -12,7 +12,7 @@ part 'notification_state.dart';
 class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
   NotificationBloc(
     this._customerRepositoryService,
-  ) : super(NotificationInitial.empty()) {
+  ) : super(const NotificationInitial.empty()) {
     on<LoadNotification>(_onLoadNotification);
   }
 
@@ -51,16 +51,18 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
 
       final formattedDateTime = DateFormat('hh:mm a, d MMM y').format(dateTime);
 
-      if (element['status'] == false) {
+      if (element['status'] == true) {
         final message = 'Your appointment with Dr. ${element['doctorName']} '
             'at $formattedDateTime is cancelled.';
         currentMap[currentMap.length] = [
           'Appointment Cancelled',
           message,
         ];
+        currentMapDates.add(dateTime);
       } else {
         final timeToAppointment = dateTime.difference(currentTime);
-        if (timeToAppointment.inMinutes <= 30) {
+        if (timeToAppointment.inMinutes <= 30 &&
+            timeToAppointment.inMinutes > 0) {
           final message =
               'Your next appointment with Dr. ${element['doctorName']} '
               'will start in ${timeToAppointment.inMinutes} '
@@ -69,9 +71,9 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
             'Upcoming appointment in 15 minutes',
             message,
           ];
+          currentMapDates.add(dateTime);
         }
       }
-      currentMapDates.add(dateTime);
     }
 
     emit(
