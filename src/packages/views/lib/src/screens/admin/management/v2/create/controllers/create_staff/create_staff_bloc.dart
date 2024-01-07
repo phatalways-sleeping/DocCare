@@ -39,6 +39,9 @@ class StaffCreationBloc extends Bloc<CreateStaffEvent, CreateStaffState> {
 
   final AdministratorRepositoryService _administratorRepositoryService;
 
+  Future<List<String>> getSpecializations() async =>
+      _administratorRepositoryService.getSpecializations();
+
   @override
   void onTransition(Transition<CreateStaffEvent, CreateStaffState> transition) {
     debugPrint(transition.toString());

@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs
 
 import 'package:controllers/src/admin/administrator_repository_service.dart';
+import 'package:services/services.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
 
@@ -27,6 +28,10 @@ class SupabaseAdminRepository implements AdministratorRepositoryService {
   final String _supabaseUrl;
 
   late final admin = SupabaseClient(_supabaseUrl, _serviceRoleKey).auth.admin;
+
+  final _specializationApiService = SupabaseSpecializationApiService(
+    supabase: Supabase.instance.client,
+  );
 
   @override
   Future<int> countAppointmentsInMonth(int month, int year) async {
@@ -315,5 +320,12 @@ class SupabaseAdminRepository implements AdministratorRepositoryService {
       error.toString(),
       statusCode: 'create-error',
     );
+  }
+
+  @override
+  Future<List<String>> getSpecializations() async {
+    final response = await _specializationApiService.getAllSpecialization();
+
+    return response;
   }
 }

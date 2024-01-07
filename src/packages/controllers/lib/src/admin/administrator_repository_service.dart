@@ -42,4 +42,7 @@ abstract interface class AdministratorRepositoryService {
     DateTime birthday,
     String phone,
   );
+
+  /// [getSpecializations] is the method for get all specializations
+  Future<List<String>> getSpecializations();
 }

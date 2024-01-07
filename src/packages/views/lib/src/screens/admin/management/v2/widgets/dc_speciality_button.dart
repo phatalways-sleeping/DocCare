@@ -37,7 +37,7 @@ class _DCSpecialityButtonState extends State<DCSpecialityButton> {
           final normalBorder = OutlineInputBorder(
             borderRadius: BorderRadius.circular(20),
             borderSide: BorderSide(
-              color: widget.borderColor ?? context.colorScheme.error,
+              color: widget.borderColor ?? context.colorScheme.secondary,
             ),
           );
           final errorBorder = OutlineInputBorder(
@@ -60,6 +60,7 @@ class _DCSpecialityButtonState extends State<DCSpecialityButton> {
               color: context.colorScheme.tertiary,
               fontSize: 15,
             ),
+            menuHeight: 300,
             initialSelection: widget.initialValue,
             inputDecorationTheme: InputDecorationTheme(
               border: normalBorder,
@@ -79,6 +80,9 @@ class _DCSpecialityButtonState extends State<DCSpecialityButton> {
                 context.colorScheme.background,
               ),
               elevation: const MaterialStatePropertyAll(4),
+              surfaceTintColor: MaterialStatePropertyAll(
+                context.colorScheme.secondary,
+              ),
               shape: MaterialStatePropertyAll(
                 RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),

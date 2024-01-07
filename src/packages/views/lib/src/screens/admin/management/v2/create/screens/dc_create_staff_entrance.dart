@@ -238,10 +238,9 @@ class _DCCreateStaffEntranceState extends State<DCCreateStaffEntrance> {
                       hintText: 'Select the speciality',
                       initialValue: state.isEmpty ? null : state,
                       width: context.width * 0.9,
-                      future: Future.delayed(
-                        const Duration(seconds: 2),
-                        () => specialityData,
-                      ),
+                      future: context
+                          .read<StaffCreationBloc>()
+                          .getSpecializations(),
                     );
                   },
                 ),
