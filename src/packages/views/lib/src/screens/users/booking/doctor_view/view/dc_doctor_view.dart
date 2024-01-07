@@ -141,9 +141,7 @@ class _DCDoctorViewScreenState extends State<DCDoctorViewScreen> {
                           current is DoctorViewSearchForName) &&
                       previous.searchedName != current.searchedName),
               listener: (context, state) {
-                setState(() {
-                  _future = context.read<DoctorViewBloc>().getAvaiableDoctors();
-                });
+                _future = context.read<DoctorViewBloc>().getAvaiableDoctors();
               },
               builder: (context, state) {
                 return FutureBuilder<List<Map<String, dynamic>>>(
@@ -154,11 +152,10 @@ class _DCDoctorViewScreenState extends State<DCDoctorViewScreen> {
                         color: context.colorScheme.secondary,
                       );
                     }
-                    print(snapshot.data);
 
                     if (snapshot.hasData) {
                       final content = snapshot.data ?? [];
-                      debugPrint('content: rebuild');
+                      //debugPrint('content: rebuild');
 
                       return Column(
                         children: content
