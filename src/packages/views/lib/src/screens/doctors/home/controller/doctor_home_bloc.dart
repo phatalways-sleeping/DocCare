@@ -25,7 +25,7 @@ class DoctorHomeBloc extends Bloc<DoctorHomeEvent, DoctorHomeState> {
       _onDoctorHomeOpenCancelAppointmentViewEvent,
     );
   }
-  final DoctorRepositoryService? _doctorRepositoryService;
+  final DoctorRepositoryService _doctorRepositoryService;
   //final AuthenticationRepositoryService authenticationRepositoryService;
   final GlobalKey<NavigatorState> _navigatorKey;
   final NotificationManagerService _notificationManagerService;
@@ -37,17 +37,17 @@ class DoctorHomeBloc extends Bloc<DoctorHomeEvent, DoctorHomeState> {
     try {
       // ignore: lines_longer_than_80_chars
       // remove this 2 lines when login is done and doctor id is passed from login screen
-      const id = 'D001';
-      _doctorRepositoryService!.initializeDoctorId(id);
 
       final appointments =
-          await _doctorRepositoryService!.getAppointmentsByDoctorId();
+          await _doctorRepositoryService.getAppointmentsByDoctorId();
       final dynamic profileData =
-          await _doctorRepositoryService!.getProfileData();
+          await _doctorRepositoryService.getProfileData();
       final doctorName = profileData['fullName'].toString();
 
       // get doctor name after changing the doctor table in the database
-      final doctorAvatarUrl = profileData['imageUrl'] as String;
+      final doctorAvatarUrl = profileData['imageUrl'] == null
+          ? 'https://pics.craiyon.com/2023-07-05/a8e9e1290f08447bb300681ce2b563e9.webp'
+          : profileData['imageUrl'] as String;
       // just hard code for now
       // const doctorAvatarUrl =
       //     'https://pics.craiyon.com/2023-07-05/a8e9e1290f08447bb300681ce2b563e9.webp';
@@ -59,7 +59,6 @@ class DoctorHomeBloc extends Bloc<DoctorHomeEvent, DoctorHomeState> {
       // get the index of the upcoming appointment, which is after current time and closest to current time
       // also map the appointments to each date
       for (var i = 0; i < appointments.length; i++) {
-        print(appointments[i].runtimeType);
         if (appointments[i]['customerName'] == null ||
             appointments[i]['customerName'] == 'null') {
           appointments[i]['customerName'] = 'On-site Customer';
@@ -70,8 +69,7 @@ class DoctorHomeBloc extends Bloc<DoctorHomeEvent, DoctorHomeState> {
         final hour = int.parse(appointments[i]['period'].toString()) ~/ 2 + 7;
         final minute =
             (int.parse(appointments[i]['period'].toString()) % 2) * 30;
-        final exactTime =
-            DateTime(tmp.year, tmp.month, tmp.day, hour, minute, 0);
+        final exactTime = DateTime(tmp.year, tmp.month, tmp.day, hour, minute);
 
         if (exactTime.isAfter(DateTime.now()) ||
             exactTime.isAtSameMomentAs(DateTime.now())) {
@@ -205,7 +203,7 @@ class DoctorHomeBloc extends Bloc<DoctorHomeEvent, DoctorHomeState> {
                 ? null
                 : event.appointment['customerName'].toString(),
       );
-      await _doctorRepositoryService!.cancelAppointment(appointment);
+      await _doctorRepositoryService.cancelAppointment(appointment);
 
       emit(DoctorHomeInitial.from(state));
     } catch (e) {
