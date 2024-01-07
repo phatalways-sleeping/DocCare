@@ -11,7 +11,7 @@ abstract interface class CustomerRepositoryService {
 
   void initializeCustomerId(String id);
 
-  Future<bool> isCustomerExist(String email);
+  Future<bool> isCustomerExist(String email, String phone);
 
   void clear();
 
@@ -62,7 +62,10 @@ abstract interface class CustomerRepositoryService {
 
   Future<void> updateAppointmentDone(bool done, String prescriptionID);
   Future<void> updateMedicineDone(
-      bool done, String prescriptionID, String medicineName);
+    bool done,
+    String prescriptionID,
+    String medicineName,
+  );
 
   Future<List<Map<String, dynamic>>> getAvailableDoctors({
     List<String>? specialities,

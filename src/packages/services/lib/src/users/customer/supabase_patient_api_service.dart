@@ -18,8 +18,12 @@ class SupabaseCustomerApiService implements UserApiService {
       .select<PostgrestList>()
       .then(
         (value) => value.isEmpty
-            ? throw Exception('No patient email found')
-            : value.map((item) => item['email'] as String).toList(),
+            ? throw Exception('No patient email or phone found')
+            : value
+                .map((e) => e['email'] as String)
+                .toList()
+                .followedBy(value.map((e) => e['phone'] as String).toList())
+                .toList(),
       )
       .onError((error, stackTrace) => throw Exception(error));
 

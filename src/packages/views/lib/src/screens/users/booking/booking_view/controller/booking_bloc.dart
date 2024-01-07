@@ -182,6 +182,8 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
         if (existAppointment) {
           throw Error();
         }
+        print('Test');
+        print(existAppointment);
 
         await _customerRepositoryService.bookAppointmentWithDoctor(
           period: time,
@@ -210,6 +212,8 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
         if (existAppointment) {
           throw Error();
         }
+        print('Test');
+        print(existAppointment);
 
         await _customerRepositoryService.bookAppointmentWithDoctor(
           period: time,
