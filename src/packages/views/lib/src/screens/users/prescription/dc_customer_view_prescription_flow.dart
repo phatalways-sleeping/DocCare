@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:utility/utility.dart';
 import 'package:views/src/screens/users/prescription/controller/prescription_bloc.dart';
+import 'package:views/src/screens/users/prescription/screens/dc_empty_screen.dart';
 import 'package:views/src/screens/users/prescription/screens/dc_medicine_screen.dart';
 import 'package:views/src/screens/users/prescription/screens/dc_prescription_screen.dart';
 
@@ -41,6 +42,8 @@ class _DCCustomerViewPrescriptionFlowState
           } else if (state is MedicinesViewState ||
               state is MedicinesViewLoadingState) {
             return const DCMedicineScreen();
+          } else if (state is PrescriptionEmptyState) {
+            return const DCEmptyScreen();
           } else {
             return const Center(
               child: CircularProgressIndicator(),

@@ -44,6 +44,26 @@ final class PrescriptionViewState extends PrescriptionState {
   }
 }
 
+final class PrescriptionEmptyState extends PrescriptionState {
+  const PrescriptionEmptyState()
+      : super(
+          prescriptionId: '',
+          medicineName: '',
+        );
+
+  factory PrescriptionEmptyState.fromState(PrescriptionState state) {
+    return const PrescriptionEmptyState();
+  }
+
+  @override
+  PrescriptionState copyWith({
+    String? prescriptionId,
+    String? medicineName,
+  }) {
+    return const PrescriptionEmptyState();
+  }
+}
+
 final class MedicinesViewState extends PrescriptionState {
   const MedicinesViewState({
     required super.prescriptionId,
