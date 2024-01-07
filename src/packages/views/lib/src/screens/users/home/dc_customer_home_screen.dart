@@ -68,7 +68,7 @@ List<Widget> createAppointmentWidgets(Map<String, List<String>> appointments) {
 }
 
 class _DCCustomerHomeScreen extends State<DCCustomerHomeScreen> {
-  late PageController _pageController;
+  late final PageController _pageController;
   int _currentPage = 0;
 
   @override
@@ -128,141 +128,190 @@ class _DCCustomerHomeScreen extends State<DCCustomerHomeScreen> {
               physics: const NeverScrollableScrollPhysics(),
               children: [
                 if (state is! HomeLoading)
-                  SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        BlocSelector<HomeBloc, HomeState,
-                            Map<String, List<String>>>(
-                          selector: (state) => state.appointments,
-                          builder: (context, state) {
-                            return Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 12),
-                              child: Column(
-                                children: createAppointmentWidgets(state),
-                              ),
-                            );
-                          },
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 12),
-                          child: Row(
+                  SizedBox(
+                    height: context.height,
+                    child: SingleChildScrollView(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
                             children: [
                               Text(
                                 'Hi, ${state.name}!',
-                                style: context.textTheme.h6BoldPoppins
-                                    .copyWith(fontSize: 25),
+                                style: context.textTheme.bodyRegularPoppins
+                                    .copyWith(
+                                  fontSize: 18,
+                                  color: context.colorScheme.tertiary,
+                                ),
                               ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(height: 4),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 12),
-                          child: Row(
-                            children: [
+                              const Spacer(),
                               Text(
                                 'Today: ',
-                                style: context.textTheme.h6RegularPoppins
-                                    .copyWith(fontSize: 20),
+                                style: context.textTheme.bodyRegularPoppins
+                                    .copyWith(
+                                  fontSize: 18,
+                                  color: context.colorScheme.tertiary,
+                                ),
                               ),
                               Text(
                                 DateFormat('dd-MM-yyyy').format(DateTime.now()),
-                                style: context.textTheme.h6RegularPoppins
-                                    .copyWith(fontSize: 20),
+                                style: context.textTheme.bodyRegularPoppins
+                                    .copyWith(
+                                  fontSize: 18,
+                                  color: context.colorScheme.tertiary,
+                                ),
                               ),
                             ],
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8),
-                          child: state.bloodPressure != 'N/A'
-                              ? GridView.count(
-                                  crossAxisCount: 2,
-                                  crossAxisSpacing: 10,
-                                  mainAxisSpacing: 10,
-                                  shrinkWrap: true,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  children: [
-                                    CustomHealthCard(
-                                      title: 'Blood Pressure',
-                                      icon: DCSVGIcons.bloodDrop,
-                                      color: context.colorScheme.surface,
-                                      currentValue: state.bloodPressure,
-                                      unit: 'mmHg',
-                                      lastCheckupValue: state.oldBloodPressure,
-                                    ),
-                                    CustomHealthCard(
-                                      title: 'Heart Rate',
-                                      icon: DCSVGIcons.heart,
-                                      color: context.colorScheme.quartenary
-                                          .withOpacity(0.5),
-                                      currentValue: state.heartRate,
-                                      unit: 'beats/minute',
-                                      lastCheckupValue: state.oldHeartRate,
-                                    ),
-                                    CustomHealthCard(
-                                      title: 'Cholesterol',
-                                      icon: DCSVGIcons.cholesterol,
-                                      color: context.colorScheme.error,
-                                      currentValue: state.cholesterol,
-                                      unit: 'mg/dl',
-                                      lastCheckupValue: state.oldCholesterol,
-                                    ),
-                                    CustomHealthCard(
-                                      title: 'Glucose',
-                                      icon: DCSVGIcons.glucometer,
-                                      color: const Color.fromARGB(
-                                        255,
-                                        163,
-                                        241,
-                                        232,
-                                      ).withOpacity(0.9),
-                                      currentValue: state.bloodSugar,
-                                      unit: 'mg/dl',
-                                      lastCheckupValue: state.oldBloodSugar,
-                                    ),
-                                  ],
-                                )
-                              : Column(
-                                  children: [
-                                    const SizedBox(height: 40),
-                                    Center(
-                                      child: Column(
-                                        children: [
-                                          SlideAnimatedBox(
-                                            begin: const Offset(0, 0.4),
-                                            end: Offset.zero,
-                                            child: Text(
-                                              'Welcome to DocCare!',
-                                              style: context
-                                                  .textTheme.h6BoldPoppins
-                                                  .copyWith(fontSize: 30),
-                                            ),
-                                          ),
-                                          SlideAnimatedBox(
-                                            duration: const Duration(
-                                              milliseconds: 800,
-                                            ),
-                                            begin: const Offset(0, 0.1),
-                                            end: Offset.zero,
-                                            child: Image.asset(
-                                              'assets/images/pic_1.png',
-                                              fit: BoxFit.contain,
-                                            ),
-                                          ),
-                                        ],
+                          const SizedBox(height: 4),
+                          BlocSelector<HomeBloc, HomeState,
+                              Map<String, List<String>>>(
+                            selector: (state) => state.appointments,
+                            builder: (context, state) {
+                              final body = createAppointmentWidgets(state);
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  if (body.isNotEmpty)
+                                    Text(
+                                      'Reminders',
+                                      style: context
+                                          .textTheme.bodyRegularPoppins
+                                          .copyWith(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                        color: context.colorScheme.tertiary,
                                       ),
                                     ),
-                                  ],
+                                  ...createAppointmentWidgets(state),
+                                ],
+                              );
+                            },
+                          ),
+                          const SizedBox(height: 10),
+                          if (state.bloodPressure != 'N/A') ...[
+                            Text(
+                              'Your Medical Statistic',
+                              style:
+                                  context.textTheme.bodyRegularPoppins.copyWith(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: context.colorScheme.tertiary,
+                              ),
+                            ),
+                            ConstrainedBox(
+                              constraints: BoxConstraints(
+                                minHeight: context.height * 0.4,
+                                maxHeight: context.height * 0.48,
+                              ),
+                              child: GridView.count(
+                                crossAxisCount: 2,
+                                crossAxisSpacing: 10,
+                                mainAxisSpacing: 10,
+                                shrinkWrap: true,
+                                // padding: const EdgeInsets.symmetric(
+                                //   horizontal: 8,
+                                // ),
+                                physics: const NeverScrollableScrollPhysics(),
+                                children: [
+                                  CustomHealthCard(
+                                    title: 'Blood Pressure',
+                                    icon: DCSVGIcons.bloodDrop,
+                                    color: context.colorScheme.surface,
+                                    currentValue: state.bloodPressure,
+                                    unit: 'mmHg',
+                                    lastCheckupValue: state.oldBloodPressure,
+                                  ),
+                                  CustomHealthCard(
+                                    title: 'Heart Rate',
+                                    icon: DCSVGIcons.heart,
+                                    color: context.colorScheme.quartenary
+                                        .withOpacity(0.5),
+                                    currentValue: state.heartRate,
+                                    unit: 'beats/minute',
+                                    lastCheckupValue: state.oldHeartRate,
+                                  ),
+                                  CustomHealthCard(
+                                    title: 'Cholesterol',
+                                    icon: DCSVGIcons.cholesterol,
+                                    color: context.colorScheme.error,
+                                    currentValue: state.cholesterol,
+                                    unit: 'mg/dl',
+                                    lastCheckupValue: state.oldCholesterol,
+                                  ),
+                                  CustomHealthCard(
+                                    title: 'Glucose',
+                                    icon: DCSVGIcons.glucometer,
+                                    color: const Color.fromARGB(
+                                      255,
+                                      163,
+                                      241,
+                                      232,
+                                    ).withOpacity(0.9),
+                                    currentValue: state.bloodSugar,
+                                    unit: 'mg/dl',
+                                    lastCheckupValue: state.oldBloodSugar,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ] else
+                            Column(
+                              children: [
+                                Center(
+                                  child: Column(
+                                    children: [
+                                      SlideAnimatedBox(
+                                        begin: const Offset(0, 0.4),
+                                        end: Offset.zero,
+                                        child: Text(
+                                          'Welcome to DocCare!',
+                                          style: context.textTheme.h6BoldPoppins
+                                              .copyWith(
+                                            fontSize: 30,
+                                            color: context.colorScheme.tertiary,
+                                          ),
+                                        ),
+                                      ),
+                                      SlideAnimatedBox(
+                                        duration: const Duration(
+                                          milliseconds: 800,
+                                        ),
+                                        begin: const Offset(0, 0.1),
+                                        end: Offset.zero,
+                                        child: Image.asset(
+                                          'assets/images/pic_1.png',
+                                          fit: BoxFit.contain,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                        ),
-                        const SizedBox(height: 70),
-                      ],
+                              ],
+                            ),
+                          const SizedBox(height: 4),
+                          Text(
+                            'Appointments',
+                            style:
+                                context.textTheme.bodyRegularPoppins.copyWith(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: context.colorScheme.tertiary,
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          // TODO(phucchuhoang): Add calendar widget here
+                          const SizedBox(height: 50), // Avoid the bottom bar
+                        ],
+                      ),
                     ),
                   )
                 else
-                  Container(),
+                  const SizedBox.shrink(),
 
                 // Add the new page here
                 const DCNotificationScreen(),
