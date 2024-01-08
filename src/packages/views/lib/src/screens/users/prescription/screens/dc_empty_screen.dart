@@ -19,8 +19,6 @@ class DCEmptyScreen extends StatefulWidget {
 class _DCEmptyScreenState extends State<DCEmptyScreen> {
   @override
   Widget build(BuildContext context) {
-    context.read<PrescriptionBloc>().add(const PrescriptionEmptyEvent());
-
     return Scaffold(
       appBar: const DCCustomerHeaderBar(
         title: 'DocCare',

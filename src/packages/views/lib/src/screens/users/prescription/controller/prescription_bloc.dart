@@ -86,6 +86,8 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
     PrescriptionEmptyEvent event,
     Emitter<PrescriptionState> emit,
   ) async {
+    emit(PrescriptionBlankState.fromState(state));
+
     var check = false;
 
     await _customerRepositoryService.getPastPrescriptions().then((value) {
@@ -97,6 +99,8 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
     await _customerRepositoryService.getCurrentPrescriptions().then((value) {
       if (value.isEmpty && check) {
         emit(const PrescriptionEmptyState());
+      } else {
+        emit(PrescriptionViewState.initial());
       }
     });
   }
