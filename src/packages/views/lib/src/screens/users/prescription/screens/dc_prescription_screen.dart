@@ -105,6 +105,9 @@ class _DCPrescriptionScreenState extends State<DCPrescriptionScreen> {
                 );
               },
             ),
+            const SizedBox(
+              height: 50,
+            ),
           ],
         ),
       ),

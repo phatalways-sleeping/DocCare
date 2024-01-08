@@ -113,6 +113,9 @@ class _DCMedicineScreenState extends State<DCMedicineScreen> {
                 );
               },
             ),
+            const SizedBox(
+              height: 50,
+            ),
           ],
         ),
       ),

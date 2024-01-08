@@ -591,7 +591,7 @@ class SupabaseCustomerRepository implements CustomerRepositoryService {
   @override
   Future<List<Map<String, dynamic>>> getUpcomingAppointments() async {
     final response = await Supabase.instance.client.rpc(
-      'get_upcoming_appointments',  
+      'get_upcoming_appointments',
       params: {
         'customer_id': _customerId,
       },
