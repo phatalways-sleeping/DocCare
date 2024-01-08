@@ -17,7 +17,6 @@ class DCDoctorHomeFlow extends StatefulWidget {
 //navigatorKey: GlobalKey<NavigatorState>(),
 //import 'package:views/src/screens/doctors/home/dc_doctor_home_flow.dart';
 
-
   @override
   State<DCDoctorHomeFlow> createState() => _DCDoctorHomeFlowState();
 }

@@ -128,7 +128,10 @@ class _DCCustomerDrawerState extends State<DCCustomerDrawer>
       items: [
         DCDrawerItem(
           borderRadius: widget.borderRadiusOfEachItem,
-          onTap: (context) => Navigator.pushNamed(context, '/profile'),
+          onTap: (context) =>
+              Navigator.of(context, rootNavigator: true).pushNamed(
+            '/profile',
+          ),
           selected: profileSelected,
           title: Text(
             'Profile',
