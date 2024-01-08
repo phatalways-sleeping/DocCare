@@ -25,8 +25,9 @@ class _DCDoctorHomeFlowState extends State<DCDoctorHomeFlow> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
+      key: widget.navigatorKey,
       create: (context) => DoctorHomeBloc(
-        GlobalKey<NavigatorState>(),
+        widget.navigatorKey,
         NotificationManager.instance,
         context.read<DoctorRepositoryService>(),
       ),
