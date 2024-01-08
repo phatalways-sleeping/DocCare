@@ -344,10 +344,10 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     );
   }
 
-  @override
-  void onChange(Change<BookingState> change) {
-    // TODO: implement onChange
-    super.onChange(change);
-    print(change);
-  }
+  // @override
+  // void onChange(Change<BookingState> change) {
+  //   // TODO: implement onChange
+  //   super.onChange(change);
+  //   print(change);
+  // }
 }

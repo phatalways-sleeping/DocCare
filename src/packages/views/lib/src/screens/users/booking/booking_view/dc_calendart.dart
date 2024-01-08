@@ -123,9 +123,24 @@ class _DCCalendarState extends State<DCCalendar> {
             ),
           );
         } else if (snapshot.hasError) {
-          // Handle the error by displaying a text saying something went wrong,
-          // and a button to retry the request.
-          return Text('Error: ${snapshot.error}');
+          return Center(
+            child: Column(
+              children: [
+                Icon(
+                  Icons.error,
+                  size: 30,
+                  color: context.colorScheme.error,
+                ),
+                Text(
+                  'An error occured. Please try again later.',
+                  style: context.textTheme.bodyRegularPoppins.copyWith(
+                    color: context.colorScheme.tertiary,
+                    fontSize: 16,
+                  ),
+                ),
+              ],
+            ),
+          );
         } else {
           // Process and display the data using DCCalendarColumn widget
           final dates =

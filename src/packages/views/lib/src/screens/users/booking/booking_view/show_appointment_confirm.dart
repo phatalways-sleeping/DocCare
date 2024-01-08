@@ -103,7 +103,7 @@ Future<bool> showAppointmentConfirm({
                         height: 6,
                       ),
                       Text(
-                        'Please if you’re pleasant with this arrangement, press ‘Confirm’ otherwise ‘Cancel’.\nIf you have not chosen any doctor, we will assign our best doctor for you.',
+                        'Please if you’re pleasant with this arrangement, let press ‘Confirm’ otherwise ‘Cancel’.\nIf you have not chosen any doctor, we will assign our best doctor for you.',
                         style: context.textTheme.bodyRegularPoppins.copyWith(
                           fontSize: 16,
                         ),
