@@ -57,82 +57,88 @@ class _DCAsyncItemsState extends State<DCAsyncItems> {
               'Prescription data must contain doctorName, date, note and id',
             );
           }
-          final children = snapshot.data!
-              .map(
-                (e) => !widget.medicine
-                    ? DCPrescriptionItem(
-                        title: 'Dr. ${e['doctorName'] as String}',
-                        bottomLeft: Text(
-                          e['date'].toString().substring(0, 10),
-                        ),
-                        //Color is random
-                        color: _colors[
-                            (e['id'] as String).hashCode % _colors.length],
-                        onSelected: (context) =>
-                            context.read<PrescriptionBloc>().add(
-                                  PrescriptionCheckEvent(
-                                    done: !widget.isDone,
-                                    prescriptionId: e['id'] as String,
-                                  ),
-                                ),
-                        onLongPressed: (context) async {
-                          //Move state to IntakeRating, has problem with how the dialog is shown
-                          final results = await showDialog<int>(
-                            context: context,
-                            builder: (bcontext) => DCAsyncPopUp(
-                              future: context
-                                  .read<PrescriptionBloc>()
-                                  .getCurrentPrescriptions(
-                                    e['id'] as String,
-                                  ),
+          final children = snapshot.data!.map((e) {
+            String medicineDate = ' ';
+
+            if (widget.medicine) {
+              medicineDate =
+                  (e['timeOfTheDay'] as String).split('/').join(', ');
+              medicineDate = medicineDate.substring(0, medicineDate.length - 1);
+            }
+
+            return !widget.medicine
+                ? DCPrescriptionItem(
+                    title: 'Dr. ${e['doctorName'] as String}',
+                    bottomLeft: Text(
+                      e['date'].toString().substring(0, 10),
+                    ),
+                    //Color is random
+                    color:
+                        _colors[(e['id'] as String).hashCode % _colors.length],
+                    onSelected: (context) =>
+                        context.read<PrescriptionBloc>().add(
+                              PrescriptionCheckEvent(
+                                done: !widget.isDone,
+                                prescriptionId: e['id'] as String,
+                              ),
                             ),
-                          );
+                    onLongPressed: (context) async {
+                      //Move state to IntakeRating, has problem with how the dialog is shown
+                      final results = await showDialog<int>(
+                        context: context,
+                        builder: (bcontext) => DCAsyncPopUp(
+                          future: context
+                              .read<PrescriptionBloc>()
+                              .getCurrentPrescriptions(
+                                e['id'] as String,
+                              ),
+                        ),
+                      );
 
-                          if (results != null) {
-                            context.read<PrescriptionBloc>().add(
-                                  IntakeRatingEvent(
-                                    prescriptionId: e['id'] as String,
-                                    rating: results,
-                                  ),
-                                );
-                          }
-                        },
-                        onPressed: (context) =>
-                            context.read<PrescriptionBloc>().add(
-                                  PrescriptionOpenMedicinesViewEvent(
-                                    prescriptionId: e['id'] as String,
-                                  ),
-                                ),
+                      if (results != null) {
+                        context.read<PrescriptionBloc>().add(
+                              IntakeRatingEvent(
+                                prescriptionId: e['id'] as String,
+                                rating: results,
+                              ),
+                            );
+                      }
+                    },
+                    onPressed: (context) =>
+                        context.read<PrescriptionBloc>().add(
+                              PrescriptionOpenMedicinesViewEvent(
+                                prescriptionId: e['id'] as String,
+                              ),
+                            ),
 
-                        bottomRight: Text(
-                          e['note'] as String,
-                        ),
-                        isDone: widget.isDone,
-                      )
-                    : DCPrescriptionItem(
-                        title: '${e['medicineName']}',
-                        bottomLeft: Text(
-                          (e['timeOfTheDay'] as String).split('/').join(', '),
-                        ),
-                        color: _colors[(e['medicineName'] as String).hashCode %
-                            _colors.length],
-                        onSelected: (context) =>
-                            context.read<PrescriptionBloc>().add(
-                                  MedicineCheckEvent(
-                                    prescriptionId: '',
-                                    medicineName: e['medicineName'] as String,
-                                    done: !widget.isDone,
-                                  ),
-                                ),
-                        onLongPressed: (context) => {},
-                        onPressed: (context) {},
-                        bottomRight: Text(
-                          '${e['quantity']} pills - ${e['toBeTaken'] as int == 0 ? 'Before meal' : 'After meal'}',
-                        ),
-                        isDone: widget.isDone,
-                      ),
-              )
-              .toList();
+                    bottomRight: Text(
+                      e['note'] as String,
+                    ),
+                    isDone: widget.isDone,
+                  )
+                : DCPrescriptionItem(
+                    title: '${e['medicineName']}',
+                    bottomLeft: Text(
+                      medicineDate,
+                    ),
+                    color: _colors[(e['medicineName'] as String).hashCode %
+                        _colors.length],
+                    onSelected: (context) =>
+                        context.read<PrescriptionBloc>().add(
+                              MedicineCheckEvent(
+                                prescriptionId: '',
+                                medicineName: e['medicineName'] as String,
+                                done: !widget.isDone,
+                              ),
+                            ),
+                    onLongPressed: (context) => {},
+                    onPressed: (context) {},
+                    bottomRight: Text(
+                      '${e['quantity']} pills - ${e['toBeTaken'] as int == 0 ? 'Before meal' : 'After meal'}',
+                    ),
+                    isDone: widget.isDone,
+                  );
+          }).toList();
           return ListView.separated(
             shrinkWrap: true,
             padding: EdgeInsets.zero,
