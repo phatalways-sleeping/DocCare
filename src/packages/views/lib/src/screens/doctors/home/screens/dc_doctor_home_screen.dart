@@ -130,15 +130,16 @@ class _DCDoctorHomeScreenState extends State<DCDoctorHomeScreen> {
             ),
             const SizedBox(height: 20),
             DefaultTextStyle.merge(
-                style: context.textTheme.h2BoldPoppins.copyWith(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: context.colorScheme.onSecondary,
-                ),
-                textAlign: TextAlign.left,
-                child: const Text(
-                  'Upcoming Appointment',
-                )),
+              style: context.textTheme.h2BoldPoppins.copyWith(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: context.colorScheme.onSecondary,
+              ),
+              textAlign: TextAlign.left,
+              child: const Text(
+                'Upcoming Appointment',
+              ),
+            ),
             const SizedBox(height: 8),
             BlocBuilder<DoctorHomeBloc, DoctorHomeState>(
               buildWhen: (previous, current) {
@@ -148,6 +149,16 @@ class _DCDoctorHomeScreenState extends State<DCDoctorHomeScreen> {
                 return false;
               },
               builder: (context, state) {
+                if (state.upcomingAppointmentIndex == -1) {
+                  return Center(
+                    child: Text(
+                      'No Upcoming Appointment',
+                      style: context.textTheme.bodyRegularPoppins.copyWith(
+                        fontSize: 18,
+                      ),
+                    ),
+                  );
+                }
                 final upcomingAppointmentDate =
                     state.upcomingAppointmentIndex != -1
                         ? DateTime.parse(state

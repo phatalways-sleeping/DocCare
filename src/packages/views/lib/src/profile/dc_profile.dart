@@ -109,24 +109,7 @@ class _DCProfileScreenState extends State<DCProfileScreen> {
                 ),
               ),
               extendBodyBehindAppBar: true,
-              body: SingleChildScrollView(
-                padding: EdgeInsets.symmetric(
-                  horizontal: context.width * 0.03,
-                ).copyWith(
-                  bottom: context.height * 0.03,
-                ),
-                child: Column(
-                  children: [
-                    Image.asset(
-                      'assets/images/pic_3.png',
-                      fit: BoxFit.cover,
-                    ),
-                    SizedBox(
-                      height: context.height * 0.03,
-                    ),
-                  ],
-                ),
-              ),
+              body: const SizedBox.shrink(),
             );
           }
 

@@ -46,7 +46,7 @@ class DoctorHomeBloc extends Bloc<DoctorHomeEvent, DoctorHomeState> {
 
       // get doctor name after changing the doctor table in the database
       final doctorAvatarUrl = profileData['imageUrl'] == null
-          ? 'https://pics.craiyon.com/2023-07-05/a8e9e1290f08447bb300681ce2b563e9.webp'
+          ? 'https://bdxhcbmciknwrjjyqvzi.supabase.co/storage/v1/object/public/images/doctor_avatar_default.jpg'
           : profileData['imageUrl'] as String;
       // just hard code for now
       // const doctorAvatarUrl =
@@ -108,7 +108,7 @@ class DoctorHomeBloc extends Bloc<DoctorHomeEvent, DoctorHomeState> {
         upcomingCustomerName =
             appointments[upcomingAppointmentIndex]['customerName'].toString();
       } else {
-        upcomingCustomerName = 'no appointment';
+        upcomingCustomerName = 'No appointment';
       }
 
       emit(
