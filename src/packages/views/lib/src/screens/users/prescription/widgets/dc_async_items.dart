@@ -140,6 +140,7 @@ class _DCAsyncItemsState extends State<DCAsyncItems> {
                   );
           }).toList();
           return ListView.separated(
+            physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             padding: EdgeInsets.zero,
             itemCount: children.length,
