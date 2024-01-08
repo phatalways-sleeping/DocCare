@@ -202,6 +202,7 @@ class DoctorHomeBloc extends Bloc<DoctorHomeEvent, DoctorHomeState> {
             event.appointment['customerName'].toString() == 'On-site Customer'
                 ? null
                 : event.appointment['customerName'].toString(),
+        prescriptionDone: event.appointment['prescriptionDone'].toString() == 'true' ? true : false,
       );
       await _doctorRepositoryService.cancelAppointment(appointment);
 

@@ -151,7 +151,7 @@ class _DCMedicalStatScreenState extends State<DCMedicalStatScreen> {
                           bottom: 5,
                         ),
                         child: Text(
-                          "Doctor's Notes",
+                          "Diagnosis",
                           style: context.textTheme.h6BoldPoppins
                               .copyWith(fontSize: 20),
                         ),
@@ -161,7 +161,7 @@ class _DCMedicalStatScreenState extends State<DCMedicalStatScreen> {
                         keyboardType: TextInputType.multiline,
                         borderRadius: 12,
                         maxLines: 5,
-                        hintText: 'Write some notes for the patient',
+                        hintText: "Please specify the medical condition or issue...",
                         onChanged: (context, controller) =>
                             BlocProvider.of<PrescriptionBloc>(context)
                                 .add(DoctorNoteInputEvent(controller.text)),

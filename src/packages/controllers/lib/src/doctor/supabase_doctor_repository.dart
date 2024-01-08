@@ -161,6 +161,7 @@ class SupabaseDoctorRepository implements DoctorRepositoryService {
       diagnosis: doctorNote[0],
       isCanceled: false,
       customerName: customerName,
+      prescriptionDone: customerData['prescriptionDone'] == 'true' ? true : false,
     );
 
     await _supabaseAppointmentApiService.updateAppointment(appointment);

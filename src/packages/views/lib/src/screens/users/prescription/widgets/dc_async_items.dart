@@ -63,7 +63,7 @@ class _DCAsyncItemsState extends State<DCAsyncItems> {
             if (widget.medicine) {
               medicineDate =
                   (e['timeOfTheDay'] as String).split('/').join(', ');
-              medicineDate = medicineDate.substring(0, medicineDate.length - 1);
+              medicineDate = medicineDate.substring(0, medicineDate.length - 2);
             }
 
             return !widget.medicine
@@ -139,27 +139,15 @@ class _DCAsyncItemsState extends State<DCAsyncItems> {
                     isDone: widget.isDone,
                   );
           }).toList();
-          // return ListView.separated(
-          //   shrinkWrap: true,
-          //   padding: EdgeInsets.zero,
-          //   itemCount: children.length,
-          //   itemBuilder: (context, index) => children[index],
-          //   separatorBuilder: (context, index) => const SizedBox(
-          //     height: 20,
-          //   ),
-          // );
-          return Column(
-            mainAxisSize: MainAxisSize.min,
-            children: children
-                .map(
-                  (e) => Padding(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 10,
-                    ),
-                    child: e,
-                  ),
-                )
-                .toList(),
+          return ListView.separated(
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            padding: EdgeInsets.zero,
+            itemCount: children.length,
+            itemBuilder: (context, index) => children[index],
+            separatorBuilder: (context, index) => const SizedBox(
+              height: 20,
+            ),
           );
         } else if (snapshot.hasError) {
           return ElevatedButton(
