@@ -112,7 +112,9 @@ class _DCAsyncItemsState extends State<DCAsyncItems> {
                             ),
 
                     bottomRight: Text(
-                      e['note'] as String,
+                      ((e['note'] as String).length > 20)
+                          ? '${(e['note'] as String).substring(0, 20)}...'
+                          : e['note'] as String,
                     ),
                     isDone: widget.isDone,
                   )

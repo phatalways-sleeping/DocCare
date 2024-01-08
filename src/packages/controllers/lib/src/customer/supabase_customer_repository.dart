@@ -279,20 +279,23 @@ class SupabaseCustomerRepository implements CustomerRepositoryService {
   }
 
   @override
+  @override
   Future<void> ratePrescription(
     int period,
     String doctorId,
     String date,
     int rating,
   ) async {
-    print('Rating');
     // Prescription relation has not been added with rating yet
     // Currently, rating is in appointment table with
     // primary key is customer_id and doctor_id and date and period
     // So, we need to update rating in appointment table
     await _supabaseAppointmentApiService
         .updateRating(
+          period,
           _customerId!,
+          doctorId,
+          date,
           rating,
         )
         .onError((error, stackTrace) =>

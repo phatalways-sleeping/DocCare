@@ -92,11 +92,21 @@ class SupabaseAppointmentApiService
       .onError((error, stackTrace) => throw Exception(error));
 
   @override
-  Future<void> updateRating(String customerId, int rating) => supabase
-      .from('appointment')
-      .update(
-        {
-          'rating': rating,
+  Future<void> updateRating(
+    int period,
+    String customerId,
+    String doctorId,
+    String date,
+    int rating,
+  ) =>
+      supabase.rpc(
+        'sp_update_appointment_rating',
+        params: {
+          'n_period': period,
+          'n_customer_id': customerId,
+          'n_doctor_id': doctorId,
+          'n_date': date,
+          'n_rating': rating,
         },
       ).onError((error, stackTrace) => throw Exception(error));
 
