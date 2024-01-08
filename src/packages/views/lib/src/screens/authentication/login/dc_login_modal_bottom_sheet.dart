@@ -23,18 +23,26 @@ class _DCLoginModalBottomSheet extends StatefulWidget {
 class __DCLoginModalBottomSheetState extends State<_DCLoginModalBottomSheet> {
   late double height = context.height * 0.5;
 
+  late final emailController = TextEditingController();
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
       height: height,
       padding: EdgeInsets.symmetric(
         horizontal: context.width * 0.05,
-        vertical: context.height * 0.005,
+        vertical: 10,
       ),
       duration: const Duration(milliseconds: 800),
       curve: Curves.decelerate,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
             width: context.width * 0.15,
@@ -45,6 +53,7 @@ class __DCLoginModalBottomSheetState extends State<_DCLoginModalBottomSheet> {
             ),
           ),
           DCOutlinedTextFormField(
+            controller: emailController,
             borderColor: context.colorScheme.onBackground,
             color: context.colorScheme.onBackground,
             borderRadius: 16,
@@ -58,7 +67,7 @@ class __DCLoginModalBottomSheetState extends State<_DCLoginModalBottomSheet> {
             onFocus: (context, focusNode) {
               if (height == context.height * 0.5) {
                 setState(() {
-                  height = context.height * 0.6;
+                  height = context.height * 0.75;
                 });
               }
             },
@@ -79,7 +88,7 @@ class __DCLoginModalBottomSheetState extends State<_DCLoginModalBottomSheet> {
             onFocus: (context, focusNode) {
               if (height == context.height * 0.5) {
                 setState(() {
-                  height = context.height * 0.6;
+                  height = context.height * 0.75;
                 });
               }
             },
@@ -110,7 +119,7 @@ class __DCLoginModalBottomSheetState extends State<_DCLoginModalBottomSheet> {
                   vertical: 8,
                 ),
                 fixedSize: Size(
-                  context.width * 0.80,
+                  context.width * 0.90,
                   context.height * 0.05,
                 ),
                 backgroundColor: context.colorScheme.error,
@@ -261,7 +270,7 @@ Future<T?> showDCLoginModalBottomSheet<T>(
       ),
     ),
     constraints: BoxConstraints(
-      maxHeight: context.height * 0.6,
+      maxHeight: context.height * 0.75,
     ),
     transitionAnimationController: transitionAnimationController..forward(),
     // Pass the [LoginBloc] to the [_DCLoginModalBottomSheet]

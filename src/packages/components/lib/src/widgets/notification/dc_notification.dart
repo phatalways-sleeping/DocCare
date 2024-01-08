@@ -51,6 +51,7 @@ class DCNotification extends StatelessWidget {
       time = DateFormat('hh:mm a, d MMM y').format(notificationTime!);
     }
     return Material(
+      color: Colors.transparent,
       child: FractionallySizedBox(
         heightFactor: heightFactor,
         widthFactor: widthFactor,
