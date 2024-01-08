@@ -6,9 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:views/src/notification/dc_notification_screen.dart';
-import 'package:views/src/screens/users/booking/booking_view/controller/booking_bloc.dart';
-import 'package:views/src/screens/users/booking/booking_view/dc_calendart.dart';
 import 'package:views/src/screens/users/home/controller/home_bloc.dart';
+import 'package:views/src/screens/users/home/widgets/dc_customer_calendar.dart';
 import 'package:views/src/screens/users/home/widgets/medical_stat_display_widget.dart';
 import 'package:views/src/screens/users/home/widgets/reminder_widget.dart';
 
@@ -67,15 +66,6 @@ List<Widget> createAppointmentWidgets(Map<String, List<String>> appointments) {
       ],
     );
   }).toList();
-}
-
-Future<List<DateTime>> processDateTime(Map<String, List<String>> appointments) {
-  final result = <DateTime>[];
-  for (final entry in appointments.entries) {
-    final dateAppointment = DateFormat('yyyy-MM-dd').parse(entry.value[1]);
-    result.add(dateAppointment);
-  }
-  return Future.value(result);
 }
 
 class _DCCustomerHomeScreen extends State<DCCustomerHomeScreen> {
@@ -312,21 +302,7 @@ class _DCCustomerHomeScreen extends State<DCCustomerHomeScreen> {
                             ),
                           ),
                           const SizedBox(height: 10),
-                          // TODO(phucchuhoang): Add calendar widget here
-                          BlocProvider(
-                            create: (_) => BookingBloc(
-                              context.read<CustomerRepositoryService>(),
-                            ),
-                            child: BlocSelector<HomeBloc, HomeState,
-                                Map<String, List<String>>>(
-                              selector: (state) => state.appointments,
-                              builder: (context, state) {
-                                return DCCalendar(
-                                  workingShiftFuture: processDateTime(state),
-                                );
-                              },
-                            ),
-                          ),
+                          const DCCustomerCalendar(),
                           const SizedBox(height: 50), // Avoid the bottom bar
                         ],
                       ),
