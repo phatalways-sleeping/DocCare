@@ -391,7 +391,7 @@ class SupabaseCustomerRepository implements CustomerRepositoryService {
     String customerid,
   ) async {
     final response = await Supabase.instance.client.rpc(
-      'get_doctor_available_day2',
+      'get_doctor_available_day5',
       params: {
         'p_doctorid': doctorId,
         'p_date': date.toIso8601String(), // Convert DateTime to ISO8601 string

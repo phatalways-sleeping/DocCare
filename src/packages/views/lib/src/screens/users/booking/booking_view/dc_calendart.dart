@@ -237,7 +237,12 @@ class DCCalendarButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        if (available && !date.isBefore(DateTime.now())) {
+        if (available &&
+            !date.isBefore(
+              DateTime.now().subtract(
+                const Duration(days: 1),
+              ),
+            )) {
           onPressed(context);
         }
       },
@@ -256,7 +261,11 @@ class DCCalendarButton extends StatelessWidget {
               shape: BoxShape.circle,
               color: withoutDoctor
                   ? null
-                  : date.isBefore(DateTime.now())
+                  : date.isBefore(
+                      DateTime.now().subtract(
+                        const Duration(days: 1),
+                      ),
+                    )
                       ? available
                           ? const Color(0xFFFFD8DF).withOpacity(0.4)
                           : null
@@ -280,10 +289,18 @@ class DCCalendarButton extends StatelessWidget {
                   style: context.textTheme.bodyRegularPoppins.copyWith(
                     fontSize: 14,
                     color: withoutDoctor
-                        ? !date.isBefore(DateTime.now())
-                            ? context.colorScheme.onSurface
-                            : context.colorScheme.onSurface.withOpacity(0.5)
-                        : date.isBefore(DateTime.now())
+                        ? date.isBefore(
+                            DateTime.now().subtract(
+                              const Duration(days: 1),
+                            ),
+                          )
+                            ? context.colorScheme.onSurface.withOpacity(0.5)
+                            : context.colorScheme.onSurface
+                        : date.isBefore(
+                            DateTime.now().subtract(
+                              const Duration(days: 1),
+                            ),
+                          )
                             ? available
                                 ? const Color(0xFFFF2D55).withOpacity(0.5)
                                 : context.colorScheme.onSurface.withOpacity(0.5)
