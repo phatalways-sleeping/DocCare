@@ -197,6 +197,7 @@ class _DCCustomerHomeScreen extends State<DCCustomerHomeScreen> {
                                         color: context.colorScheme.tertiary,
                                       ),
                                     ),
+                                  const SizedBox(height: 20),
                                   ...createAppointmentWidgets(state),
                                 ],
                               );
@@ -213,6 +214,7 @@ class _DCCustomerHomeScreen extends State<DCCustomerHomeScreen> {
                                 color: context.colorScheme.tertiary,
                               ),
                             ),
+                            const SizedBox(height: 20),
                             ConstrainedBox(
                               constraints: BoxConstraints(
                                 minHeight: context.height * 0.4,
@@ -310,9 +312,9 @@ class _DCCustomerHomeScreen extends State<DCCustomerHomeScreen> {
                               color: context.colorScheme.tertiary,
                             ),
                           ),
-                          const SizedBox(height: 10),
+                          const SizedBox(height: 20),
                           const DCCustomerCalendar(),
-                          const SizedBox(height: 50), // Avoid the bottom bar
+                          const SizedBox(height: 80), // Avoid the bottom bar
                         ],
                       ),
                     ),

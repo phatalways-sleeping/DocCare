@@ -68,6 +68,9 @@ class _DCSpecialityButtonState extends State<DCSpecialityButton> {
               backgroundColor: MaterialStatePropertyAll(
                 context.colorScheme.background,
               ),
+              surfaceTintColor: const MaterialStatePropertyAll(
+                Colors.transparent,
+              ),
               elevation: const MaterialStatePropertyAll(4),
               shape: MaterialStatePropertyAll(
                 RoundedRectangleBorder(
@@ -77,6 +80,12 @@ class _DCSpecialityButtonState extends State<DCSpecialityButton> {
               side: MaterialStatePropertyAll(
                 BorderSide(
                   color: context.colorScheme.secondary,
+                ),
+              ),
+              fixedSize: MaterialStatePropertyAll(
+                Size(
+                  context.width * 0.94,
+                  context.height * 0.5,
                 ),
               ),
             ),
