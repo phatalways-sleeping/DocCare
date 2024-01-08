@@ -128,12 +128,13 @@ class _DCDoctorAsyncItemState extends State<DCDoctorAsyncItem> {
               )
               .toList();
           return ListView.separated(
+            physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             padding: EdgeInsets.zero,
             itemCount: children.length,
             itemBuilder: (context, index) => children[index],
             separatorBuilder: (context, index) => const SizedBox(
-              height: 20,
+              height: 30,
             ),
           );
         } else if (snapshot.hasError) {
