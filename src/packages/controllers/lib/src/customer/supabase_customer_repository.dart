@@ -600,8 +600,11 @@ class SupabaseCustomerRepository implements CustomerRepositoryService {
       (e) {
         final result = e as Map<String, dynamic>;
         return {
+          // name is specialization
           'name': result['detail'],
           'time': result['period_date'],
+          'appointment_date': result['appointment_date'],
+          'doctor_name': result['doctor_name'],
         };
       },
     ).toList();

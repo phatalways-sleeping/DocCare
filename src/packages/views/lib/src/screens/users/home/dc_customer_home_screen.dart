@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:views/src/notification/dc_notification_screen.dart';
 import 'package:views/src/screens/users/home/controller/home_bloc.dart';
+import 'package:views/src/screens/users/home/widgets/dc_customer_calendar.dart';
 import 'package:views/src/screens/users/home/widgets/medical_stat_display_widget.dart';
 import 'package:views/src/screens/users/home/widgets/reminder_widget.dart';
 
@@ -19,52 +20,61 @@ class DCCustomerHomeScreen extends StatefulWidget {
   State<StatefulWidget> createState() => _DCCustomerHomeScreen();
 }
 
-List<Widget> createAppointmentWidgets(Map<String, List<String>> appointments) {
+List<Widget> createAppointmentWidgets(
+  Map<String, List<List<String>>> appointments,
+) {
   final now = DateTime.now();
   // Updated the format to match "07:30:00"
   final format = DateFormat('HH:mm:ss');
 
-  return appointments.entries.map((entry) {
-    // Parse the appointment time with the new format
-    final appointmentTime = format.parse(entry.value[0]);
-    final todayAppointmentTime = DateTime(
-      now.year,
-      now.month,
-      now.day,
-      appointmentTime.hour,
-      appointmentTime.minute,
-      appointmentTime.second, // Add seconds to the DateTime construction
-    );
+  final result = <Widget>[];
 
-    if (todayAppointmentTime.isBefore(now)) {
-      return Container(); // Return an empty container for past appointments
-    }
-    // Calculate the time left
-    final timeLeft = todayAppointmentTime.difference(now);
-    String formattedTimeLeft;
+  for (final e in appointments.entries) {
+    for (final appointment in e.value) {
+      final appointmentTime = format.parse(appointment[0]);
+      final todayAppointmentTime = DateTime(
+        now.year,
+        now.month,
+        now.day,
+        appointmentTime.hour,
+        appointmentTime.minute,
+        appointmentTime.second, // Add seconds to the DateTime construction
+      );
 
-    // Display the time in hours and minutes, and add seconds if needed
-    if (timeLeft.inHours >= 1) {
-      formattedTimeLeft = '${timeLeft.inHours} hour(s) left';
-    } else if (timeLeft.inMinutes > 0) {
-      formattedTimeLeft = '${timeLeft.inMinutes} minute(s) left';
-    } else {
-      formattedTimeLeft = "Time's up";
-    }
+      if (todayAppointmentTime.isBefore(now)) {
+        continue; // Skip past appointments
+      }
+      // Calculate the time left
+      final timeLeft = todayAppointmentTime.difference(now);
+      String formattedTimeLeft;
 
-    return Column(
-      children: [
-        ReminderCard(
-          content: entry.key,
-          timeLeft: formattedTimeLeft,
-          appointmentTime: format.format(
-            todayAppointmentTime,
-          ), // Format the DateTime object back to string
+      // Display the time in hours and minutes, and add seconds if needed
+      if (timeLeft.inHours >= 1) {
+        formattedTimeLeft = '${timeLeft.inHours} hour(s) left';
+      } else if (timeLeft.inMinutes > 0) {
+        formattedTimeLeft = '${timeLeft.inMinutes} minute(s) left';
+      } else {
+        formattedTimeLeft = "Time's up";
+      }
+
+      result.add(
+        Column(
+          children: [
+            ReminderCard(
+              content: e.key,
+              timeLeft: formattedTimeLeft,
+              appointmentTime: format.format(
+                todayAppointmentTime,
+              ), // Format the DateTime object back to string
+            ),
+            const SizedBox(height: 8),
+          ],
         ),
-        const SizedBox(height: 8),
-      ],
-    );
-  }).toList();
+      );
+    }
+  }
+
+  return result;
 }
 
 class _DCCustomerHomeScreen extends State<DCCustomerHomeScreen> {
@@ -169,7 +179,7 @@ class _DCCustomerHomeScreen extends State<DCCustomerHomeScreen> {
                           ),
                           const SizedBox(height: 4),
                           BlocSelector<HomeBloc, HomeState,
-                              Map<String, List<String>>>(
+                              Map<String, List<List<String>>>>(
                             selector: (state) => state.appointments,
                             builder: (context, state) {
                               final body = createAppointmentWidgets(state);
@@ -213,9 +223,6 @@ class _DCCustomerHomeScreen extends State<DCCustomerHomeScreen> {
                                 crossAxisSpacing: 10,
                                 mainAxisSpacing: 10,
                                 shrinkWrap: true,
-                                // padding: const EdgeInsets.symmetric(
-                                //   horizontal: 8,
-                                // ),
                                 physics: const NeverScrollableScrollPhysics(),
                                 children: [
                                   CustomHealthCard(
@@ -295,7 +302,7 @@ class _DCCustomerHomeScreen extends State<DCCustomerHomeScreen> {
                             ),
                           const SizedBox(height: 4),
                           Text(
-                            'Appointments',
+                            'Upcoming Appointments',
                             style:
                                 context.textTheme.bodyRegularPoppins.copyWith(
                               fontSize: 20,
@@ -304,7 +311,7 @@ class _DCCustomerHomeScreen extends State<DCCustomerHomeScreen> {
                             ),
                           ),
                           const SizedBox(height: 10),
-                          // TODO(phucchuhoang): Add calendar widget here
+                          const DCCustomerCalendar(),
                           const SizedBox(height: 50), // Avoid the bottom bar
                         ],
                       ),

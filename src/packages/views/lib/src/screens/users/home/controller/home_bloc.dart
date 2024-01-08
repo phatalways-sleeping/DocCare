@@ -14,25 +14,27 @@ part 'home_state.dart';
 const fetchPeriodic = Duration(seconds: 10);
 
 extension _HomeBlocX on HomeBloc {
-  Stream<Map<String, List<String>>> get _fetchDataPeriodicStream async* {
+  Stream<Map<String, List<List<String>>>> get _fetchDataPeriodicStream async* {
     while (true) {
       // debugPrint('Fetching data...');
       final response =
           await _customerRepositoryService.getUpcomingAppointments();
-      final appointments = Map<String, List<String>>.fromEntries(
-        response.map(
-          (e) => MapEntry(
-            e['name'].toString(),
-            [e['time'].toString()],
-          ),
-        ),
-      );
-      final hasNotChanged = appointments.toString() ==
-          state.appointments.toString(); // check if the data has changed
-      if (appointments.isNotEmpty && !hasNotChanged) {
-        // debugPrint('Data has changed');
-        yield appointments;
+      final appointments = <String, List<List<String>>>{};
+      for (final e in response) {
+        final key = e['name'].toString();
+        final value = [
+          e['time'].toString(),
+          e['appointment_date'].toString(),
+          e['doctor_name'].toString(),
+        ];
+
+        if (appointments.containsKey(key)) {
+          appointments[key]!.add(value);
+        } else {
+          appointments[key] = [value];
+        }
       }
+      yield appointments;
       await Future.delayed(fetchPeriodic, () {}); // delay for 5 seconds
     }
   }
@@ -110,18 +112,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       oldCholesterol = oldStatisticsData['cholesterol'].toString();
       oldBloodSugar = oldStatisticsData['blood_sugar'].toString();
     }
-
-    // final appointmentsData =
-    //     await _customerRepositoryService.getUpcomingAppointments();
-
-    // final appointments = Map<String, List<String>>.fromEntries(
-    //   appointmentsData.map(
-    //     (e) => MapEntry(
-    //       e['name'].toString(),
-    //       [e['time'].toString()],
-    //     ),
-    //   ),
-    // );
 
     emit(
       HomeInitial.input(
