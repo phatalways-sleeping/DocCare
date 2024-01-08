@@ -36,7 +36,7 @@ class _DCMedicalStatState extends State<DCMedicalStat> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
             side: BorderSide(
-              color: context.colorScheme.surface,
+              color: context.colorScheme.secondary,
             ),
           ),
           child: Padding(
@@ -70,7 +70,7 @@ class _DCMedicalStatState extends State<DCMedicalStat> {
                         style: context.textTheme.h6RegularPoppins.copyWith(
                           fontSize: 16,
                           color:
-                              context.colorScheme.onSecondary.withOpacity(0.5),
+                              context.colorScheme.onSecondary.withOpacity(0.8),
                         ),
                       ),
                       Container(

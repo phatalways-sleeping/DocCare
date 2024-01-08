@@ -38,7 +38,7 @@ class _DCAddMedicineScreenState extends State<DCAddMedicineScreen> {
                         child: Text(
                           'Add a medicine',
                           style: context.textTheme.h6BoldPoppins.copyWith(
-                            fontSize: 30,
+                            fontSize: 28,
                           ),
                         ),
                       ),
@@ -154,19 +154,19 @@ class _DCAddMedicineScreenState extends State<DCAddMedicineScreen> {
                                 horizontal: 10,
                               ),
                               border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(40),
+                                borderRadius: BorderRadius.circular(12),
                                 borderSide: BorderSide(
                                   color: context.theme.colorScheme.secondary,
                                 ),
                               ),
                               enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(40),
+                                borderRadius: BorderRadius.circular(12),
                                 borderSide: BorderSide(
                                   color: context.theme.colorScheme.secondary,
                                 ),
                               ),
                               focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(40),
+                                borderRadius: BorderRadius.circular(12),
                                 borderSide: BorderSide(
                                   width: 2,
                                   color: context.theme.colorScheme.secondary,
@@ -190,6 +190,7 @@ class _DCAddMedicineScreenState extends State<DCAddMedicineScreen> {
                       DCOutlinedTextFormField(
                         hintText: 'Number of days',
                         maxLines: 1,
+                        borderRadius: 12,
                         onChanged: (context, controller) {
                           context.read<PrescriptionBloc>().add(
                                 MedicineDurationInputEvent(
@@ -210,6 +211,7 @@ class _DCAddMedicineScreenState extends State<DCAddMedicineScreen> {
                       ),
                       const SizedBox(height: 8),
                       DCOutlinedTextFormField(
+                        borderRadius: 12,
                         hintText: 'Number of pills per time',
                         maxLines: 1,
                         onChanged: (context, controller) {
@@ -246,9 +248,9 @@ class _DCAddMedicineScreenState extends State<DCAddMedicineScreen> {
                       const ToBeTakenSelector(),
                       const SizedBox(height: 20),
                       DCFilledButton(
-                        backgroundColor: context.colorScheme.surface,
+                        backgroundColor: context.colorScheme.secondary,
                         fixedSize: Size(
-                          context.width * 0.8,
+                          context.width * 0.94,
                           context.height * 0.05,
                         ),
                         padding: const EdgeInsets.symmetric(
