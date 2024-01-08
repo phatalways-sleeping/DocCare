@@ -42,20 +42,10 @@ class DCSplashScreen extends StatefulWidget {
 class _DCSplashScreenState extends State<DCSplashScreen>
     with SingleTickerProviderStateMixin {
   late final pageController = PageController();
-  late final transitionAnimationController = AnimationController(
-    vsync: this,
-    duration: const Duration(milliseconds: 650),
-  );
-
-  late final curvedAnimation = CurvedAnimation(
-    parent: transitionAnimationController,
-    curve: Curves.decelerate,
-  );
 
   @override
   void dispose() {
     pageController.dispose();
-    transitionAnimationController.dispose();
     super.dispose();
   }
 
@@ -83,7 +73,6 @@ class _DCSplashScreenState extends State<DCSplashScreen>
                 return BlocListener<LoginBloc, LoginState>(
                   listener: (context, state) {
                     if (state is LoginSuccess) {
-                      debugPrint('Login success');
                       switch (state.role) {
                         case 'doctor':
                           Navigator.of(context, rootNavigator: true)
@@ -96,19 +85,17 @@ class _DCSplashScreenState extends State<DCSplashScreen>
                               .pushReplacementNamed('/admin/staff/create');
                         case 'receptionist':
                           Navigator.of(context, rootNavigator: true)
-                              .pushReplacementNamed('/receptionist/absent-request');
+                              .pushReplacementNamed(
+                                  '/receptionist/absent-request');
                       }
                     }
                   },
                   child: DCPageViewOne(
                     pageController: pageController,
-                    transitionAnimationController:
-                        transitionAnimationController,
                   ),
                 );
               }
               return DCPageViewTwo(
-                transitionAnimationController: transitionAnimationController,
                 pageController: pageController,
               );
             },

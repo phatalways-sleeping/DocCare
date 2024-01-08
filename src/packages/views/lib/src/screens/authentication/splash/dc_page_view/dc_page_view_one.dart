@@ -6,27 +6,34 @@ class DCPageViewOne extends StatefulWidget {
   /// {@macro dc_page_view_one}
   const DCPageViewOne({
     required this.pageController,
-    required this.transitionAnimationController,
     super.key,
   });
 
   /// [pageController] is the [PageController] used to animate the page
   final PageController pageController;
 
-  /// [transitionAnimationController] is the [AnimationController]
-  /// used to animate the transition
-  final AnimationController transitionAnimationController;
-
   @override
   State<DCPageViewOne> createState() => _DCPageViewOneState();
 }
 
-class _DCPageViewOneState extends State<DCPageViewOne> {
+class _DCPageViewOneState extends State<DCPageViewOne>
+    with SingleTickerProviderStateMixin {
   late final passwordController = TextEditingController();
+
+  late final transitionAnimationController = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 650),
+  );
+
+  late final curvedAnimation = CurvedAnimation(
+    parent: transitionAnimationController,
+    curve: Curves.decelerate,
+  );
 
   @override
   void dispose() {
     passwordController.dispose();
+    transitionAnimationController.dispose();
     super.dispose();
   }
 
@@ -37,7 +44,7 @@ class _DCPageViewOneState extends State<DCPageViewOne> {
         onPressed: (context) async {
           await showDCLoginModalBottomSheet<bool>(
             context,
-            widget.transitionAnimationController,
+            transitionAnimationController,
             passwordController: passwordController,
           );
         },

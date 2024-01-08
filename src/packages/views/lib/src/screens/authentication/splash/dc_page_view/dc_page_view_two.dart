@@ -2,11 +2,9 @@
 
 part of 'dc_page_view.dart';
 
-
-class DCPageViewTwo extends StatelessWidget {
+class DCPageViewTwo extends StatefulWidget {
   /// {@macro dc_page_view_two}
   const DCPageViewTwo({
-    required this.transitionAnimationController,
     required this.pageController,
     super.key,
   });
@@ -14,10 +12,21 @@ class DCPageViewTwo extends StatelessWidget {
   /// [pageController] is the [PageController] used to animate the page
   final PageController pageController;
 
-  /// [transitionAnimationController] is the [AnimationController]
-  /// used to animate the transition
-  final AnimationController transitionAnimationController;
+  @override
+  State<DCPageViewTwo> createState() => _DCPageViewTwoState();
+}
 
+class _DCPageViewTwoState extends State<DCPageViewTwo>
+    with SingleTickerProviderStateMixin {
+  late final transitionAnimationController = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 650),
+  );
+
+  late final curvedAnimation = CurvedAnimation(
+    parent: transitionAnimationController,
+    curve: Curves.decelerate,
+  );
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -28,7 +37,7 @@ class DCPageViewTwo extends StatelessWidget {
             transitionAnimationController,
           );
         } else if (details.primaryVelocity! > 0) {
-          await pageController.previousPage(
+          await widget.pageController.previousPage(
             duration: const Duration(milliseconds: 650),
             curve: Curves.decelerate,
           );

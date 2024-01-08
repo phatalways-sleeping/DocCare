@@ -30,6 +30,13 @@ final class PrescriptionCheckEvent extends PrescriptionEvent {
   List<Object?> get props => [prescriptionId, done];
 }
 
+final class PrescriptionEmptyEvent extends PrescriptionEvent {
+  const PrescriptionEmptyEvent();
+
+  @override
+  List<Object?> get props => [];
+}
+
 final class PrescriptionOpenMedicinesViewEvent extends PrescriptionEvent {
   const PrescriptionOpenMedicinesViewEvent({
     required this.prescriptionId,
