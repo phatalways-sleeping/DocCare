@@ -183,13 +183,15 @@ class _DCDoctorDrawerState extends State<DCDoctorDrawer>
           borderRadius: widget.borderRadiusOfEachItem,
           onTap: (context) async {
             unawaited(context.read<AuthenticationRepositoryService>().logout());
-            await Navigator.of(
-              context,
-              rootNavigator: true,
-            ).pushNamedAndRemoveUntil(
-              '/splash',
-              (route) => false,
-            );
+            WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+              Navigator.of(
+                context,
+                rootNavigator: true,
+              ).pushNamedAndRemoveUntil(
+                '/splash',
+                (route) => false,
+              );
+            });
           },
           selected: signOutSelected,
           title: Text(
