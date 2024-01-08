@@ -34,11 +34,13 @@ String convertWeekdayToString(int weekday) {
   }
 }
 
-List<DateTime> processDateTime(Map<String, List<String>> appointments) {
+List<DateTime> processDateTime(Map<String, List<List<String>>> appointments) {
   final result = <DateTime>[];
   for (final entry in appointments.entries) {
-    final dateAppointment = DateFormat('yyyy-MM-dd').parse(entry.value[1]);
-    result.add(dateAppointment);
+    for (final appointment in entry.value) {
+      final date = DateFormat('yyyy-MM-dd').parse(appointment[1]);
+      result.add(date);
+    }
   }
   return result;
 }
@@ -172,23 +174,26 @@ class DCCustomerCalendarColumn extends StatelessWidget {
                   date: date,
                   onPressed: (acontext) async {
                     if (haveAppointment) {
-                      final format = DateFormat('HH:mm:ss');
-                      final time = format.parse(
-                        state.appointments.values.elementAt(
-                          listAvailableDay.indexOf(convertedDate),
-                        )[0],
-                      );
-                      final timeString = DateFormat('HH:mm').format(time);
-
-                      final doctorName = state.appointments.values.elementAt(
-                        listAvailableDay.indexOf(convertedDate),
-                      )[2];
+                      var msg = 'You have the following appointment(s):\n\n';
+                      for (final entry in state.appointments.entries) {
+                        for (final appointment in entry.value) {
+                          final date = DateFormat('yyyy-MM-dd').parse(
+                            appointment[1],
+                          );
+                          if (date == convertedDate) {
+                            final format = DateFormat('HH:mm:ss');
+                            final time = format.parse(appointment[0]);
+                            final timeString = DateFormat('HH:mm').format(time);
+                            final doctorName = appointment[2];
+                            msg += 'Dr. $doctorName at $timeString\n\n';
+                          }
+                        }
+                      }
                       await showDialog<void>(
                         context: context,
                         builder: (acontext) => DCAppointmentDetailPopUp(
-                          boldMessage: 'Appointment Detail',
-                          message:
-                              'You have an appointment with Dr. $doctorName on this day at $timeString',
+                          boldMessage: 'Appointment Details',
+                          message: msg,
                           buttonText: 'Close',
                         ),
                       );
@@ -236,7 +241,7 @@ class DCCustomerCalendarButton extends StatelessWidget {
                   ? const Color(0xFFFFD8DF).withOpacity(0.4)
                   : null
               : available
-                  ? context.colorScheme.primary
+                  ? context.colorScheme.secondary
                   : null,
           border: DateTime(
                     DateTime.now().year,
@@ -245,7 +250,7 @@ class DCCustomerCalendarButton extends StatelessWidget {
                   ) ==
                   DateTime(date.year, date.month, date.day)
               ? Border.all(
-                  color: context.colorScheme.primary,
+                  color: const Color(0xFF6B4EFF),
                   width: 2,
                 )
               : null,

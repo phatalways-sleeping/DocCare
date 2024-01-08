@@ -31,7 +31,7 @@ sealed class HomeState extends Equatable {
 
   /// Map of appointment date to list of appointment details
   /// e.g. { 'Cardiology Consultation': ['10:00 AM'] }
-  final Map<String, List<String>> appointments;
+  final Map<String, List<List<String>>> appointments;
 
   @override
   List<Object?> get props => [
@@ -58,13 +58,13 @@ sealed class HomeState extends Equatable {
     String? oldBloodSugar,
     String? oldCholesterol,
     String? oldHeartRate,
-    Map<String, List<String>>? appointments,
+    Map<String, List<List<String>>>? appointments,
     int? currentPage,
   });
 }
 
 final class HomeInitial extends HomeState {
-  const HomeInitial.input({
+  const HomeInitial({
     required super.name,
     required super.heartRate,
     required super.bloodPressure,
@@ -77,7 +77,7 @@ final class HomeInitial extends HomeState {
     required super.appointments,
     required super.currentPage,
   });
-  const HomeInitial({
+  const HomeInitial.input({
     required super.name,
     required super.heartRate,
     required super.bloodPressure,
@@ -131,7 +131,7 @@ final class HomeInitial extends HomeState {
     String? oldBloodSugar,
     String? oldCholesterol,
     String? oldHeartRate,
-    Map<String, List<String>>? appointments,
+    Map<String, List<List<String>>>? appointments,
     int? currentPage,
   }) {
     return HomeInitial(
@@ -204,7 +204,7 @@ final class HomeLoading extends HomeState {
     String? oldBloodSugar,
     String? oldCholesterol,
     String? oldHeartRate,
-    Map<String, List<String>>? appointments,
+    Map<String, List<List<String>>>? appointments,
     int? currentPage,
   }) {
     return HomeLoading(
@@ -277,7 +277,7 @@ final class HomeSuccess extends HomeState {
     String? oldBloodSugar,
     String? oldCholesterol,
     String? oldHeartRate,
-    Map<String, List<String>>? appointments,
+    Map<String, List<List<String>>>? appointments,
     int? currentPage,
   }) {
     return HomeSuccess(
