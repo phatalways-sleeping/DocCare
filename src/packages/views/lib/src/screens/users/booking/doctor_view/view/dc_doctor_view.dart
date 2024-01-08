@@ -25,26 +25,10 @@ class DCDoctorViewScreen extends StatefulWidget {
 class _DCDoctorViewScreenState extends State<DCDoctorViewScreen> {
   final controller = ScrollController();
   Future<List<Map<String, dynamic>>>? _future;
-  bool showBottomNavBar = true;
+
   @override
   void initState() {
     _future = context.read<DoctorViewBloc>().getAvaiableDoctors();
-    controller.addListener(() {
-      if (controller.offset >= controller.position.maxScrollExtent - 100 &&
-          !controller.position.outOfRange) {
-        // hide bottom nav bar
-        setState(() {
-          showBottomNavBar = false;
-        });
-      }
-      if (controller.offset <= controller.position.minScrollExtent &&
-          !controller.position.outOfRange) {
-        // show bottom nav bar
-        setState(() {
-          showBottomNavBar = true;
-        });
-      }
-    });
     super.initState();
   }
 
@@ -203,6 +187,9 @@ class _DCDoctorViewScreenState extends State<DCDoctorViewScreen> {
                 );
               },
             ),
+            const SizedBox(
+              height: 60,
+            ),
           ],
         ),
       ),
@@ -210,15 +197,13 @@ class _DCDoctorViewScreenState extends State<DCDoctorViewScreen> {
           ? const DCCustomerDrawer()
           : const DCReceptionistDrawer(),
       extendBody: true,
-      bottomNavigationBar: showBottomNavBar
-          ? (widget.inCustomerView
-              ? const DCCustomerNavigationBar(
-                  selectedIndex: 2,
-                )
-              : const DCReceptionistNavigationBar(
-                  selectedIndex: 2,
-                ))
-          : null,
+      bottomNavigationBar: widget.inCustomerView
+          ? const DCCustomerNavigationBar(
+              selectedIndex: 2,
+            )
+          : const DCReceptionistNavigationBar(
+              selectedIndex: 2,
+            ),
     );
   }
 }
