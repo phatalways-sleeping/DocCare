@@ -108,48 +108,54 @@ class BasePopup extends StatelessWidget {
         textAlign: titleAlignment ?? TextAlign.center,
         child: title ?? const SizedBox.shrink(),
       ),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Flexible(
-            child: (popupIcon == null)
-                ? const FractionallySizedBox(
-                    heightFactor: 0.01,
-                  )
-                : FractionallySizedBox(
-                    widthFactor: 0.75,
-                    heightFactor: 0.5,
-                    child: SizedBox(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: iconBackgroundColor ??
-                              context.colorScheme.background,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Transform.scale(
-                          scale: 3,
-                          child: Center(child: popupIcon),
-                        ),
+      content: SizedBox(
+        width: context.width * 0.7,
+        height: context.height * 0.5,
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              if (popupIcon == null)
+                const SizedBox(
+                  height: 0.01,
+                )
+              else
+                SizedBox(
+                  width: context.width * 0.75,
+                  height: context.height * 0.5,
+                  child: SizedBox(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: iconBackgroundColor ??
+                            context.colorScheme.background,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Transform.scale(
+                        scale: 3,
+                        child: Center(child: popupIcon),
                       ),
                     ),
                   ),
-          ),
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: messageAlligment ?? CrossAxisAlignment.center,
-            children: List.generate(
-              message.length,
-              (index) => Padding(
-                padding: EdgeInsets.only(
-                  top: (index > 0 && index.isEven && hasPadding)
-                      ? popupPadding
-                      : 0,
                 ),
-                child: message[index],
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment:
+                    messageAlligment ?? CrossAxisAlignment.center,
+                children: List.generate(
+                  message.length,
+                  (index) => Padding(
+                    padding: EdgeInsets.only(
+                      top: (index > 0 && index.isEven && hasPadding)
+                          ? popupPadding
+                          : 0,
+                    ),
+                    child: message[index],
+                  ),
+                ),
               ),
-            ),
+            ],
           ),
-        ],
+        ),
       ),
       actions: <Widget>[
         FractionallySizedBox(
@@ -178,7 +184,7 @@ class BasePopup extends StatelessWidget {
                       }
                       if (index.isEven || onConfirmButtonClicked == null) {
                         onCancelButtonClicked?.call(context);
-                     }
+                      }
                     },
                   ),
                 ),

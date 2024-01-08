@@ -22,6 +22,7 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
     on<OpenIntakeViewEvent>(_onMedicineOpenIntakeViewEvent);
     on<IntakeRatingEvent>(_onIntakeRatingEvent);
     on<PrescriptionResetEvent>(_onPrescriptionResetEvent);
+    on<PrescriptionEmptyEvent>(_onPrescriptionEmptyEvent);
   }
 
   @override
@@ -79,6 +80,29 @@ class PrescriptionBloc extends Bloc<PrescriptionEvent, PrescriptionState> {
     Emitter<PrescriptionState> emit,
   ) {
     emit(PrescriptionViewState.initial());
+  }
+
+  Future<void> _onPrescriptionEmptyEvent(
+    PrescriptionEmptyEvent event,
+    Emitter<PrescriptionState> emit,
+  ) async {
+    emit(PrescriptionBlankState.fromState(state));
+
+    var check = false;
+
+    await _customerRepositoryService.getPastPrescriptions().then((value) {
+      if (value.isEmpty) {
+        check = true;
+      }
+    });
+
+    await _customerRepositoryService.getCurrentPrescriptions().then((value) {
+      if (value.isEmpty && check) {
+        emit(const PrescriptionEmptyState());
+      } else {
+        emit(PrescriptionViewState.initial());
+      }
+    });
   }
 
   Future<void> _onPrescriptionCheckEvent(
