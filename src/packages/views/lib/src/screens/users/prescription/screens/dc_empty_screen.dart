@@ -3,9 +3,6 @@
 import 'package:components/components.dart';
 import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:views/src/screens/users/prescription/controller/prescription_bloc.dart';
-import 'package:views/src/screens/users/prescription/widgets/dc_async_items.dart';
 
 class DCEmptyScreen extends StatefulWidget {
   const DCEmptyScreen({
