@@ -1,3 +1,5 @@
+// ignore_for_file: public_member_api_docs
+
 import 'package:components/components.dart';
 import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
@@ -38,6 +40,9 @@ class DCSpecialtyButton extends StatelessWidget {
                 ? context.colorScheme.error
                 : context.colorScheme.secondary,
           ),
+        ),
+        surfaceTintColor: const MaterialStatePropertyAll(
+          Colors.transparent,
         ),
         backgroundColor: MaterialStatePropertyAll(
           isSelected ? context.colorScheme.error : Colors.white,

@@ -95,6 +95,9 @@ class _DCSearchBarState extends State<DCSearchBar> {
             ),
           ),
           onPressed: () {
+            if (_controller.text.isEmpty) {
+              return;
+            }
             _controller.clear();
             context.read<DoctorViewBloc>().add(
                   const DoctorViewStartSearchForNameEvent(),

@@ -81,23 +81,26 @@ class _DCDoctorViewScreenState extends State<DCDoctorViewScreen> {
                 BlocSelector<DoctorViewBloc, DoctorViewState, List<String>>(
                   selector: (state) => state.filteredSpecialties,
                   builder: (context, state) {
+                    const maxLength = 16;
                     final specialties = state.join(', ').substring(
                           0,
                           min(
                             state.join(', ').length,
-                            23,
+                            maxLength,
                           ),
                         );
-                    final suffix = state.join(', ').length > 23 ? '...' : '';
-                    return Text(
-                      '$specialties' '$suffix',
-                      style: context.textTheme.bodyBoldPoppins.copyWith(
-                        fontSize: 18,
+                    final suffix =
+                        state.join(', ').length > maxLength ? '...' : '';
+                    return Expanded(
+                      child: Text(
+                        '$specialties' '$suffix',
+                        style: context.textTheme.bodyBoldPoppins.copyWith(
+                          fontSize: 18,
+                        ),
                       ),
                     );
                   },
                 ),
-                const Spacer(),
                 IconButton.filled(
                   onPressed: () => context.read<DoctorViewBloc>().add(
                         const DoctorViewFilterEvent(),
@@ -154,8 +157,6 @@ class _DCDoctorViewScreenState extends State<DCDoctorViewScreen> {
                         color: context.colorScheme.secondary,
                       );
                     }
-                    print(snapshot.data);
-
                     if (snapshot.hasData) {
                       final content = snapshot.data ?? [];
                       debugPrint('content: rebuild');
@@ -186,10 +187,22 @@ class _DCDoctorViewScreenState extends State<DCDoctorViewScreen> {
                       );
                     } else if (snapshot.hasError) {
                       return Center(
-                        child: Icon(
-                          Icons.error,
-                          size: 30,
-                          color: context.colorScheme.error,
+                        child: Column(
+                          children: [
+                            Icon(
+                              Icons.error,
+                              size: 30,
+                              color: context.colorScheme.error,
+                            ),
+                            Text(
+                              'An error occured. Please try again later.',
+                              style:
+                                  context.textTheme.bodyRegularPoppins.copyWith(
+                                color: context.colorScheme.tertiary,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ],
                         ),
                       );
                     }
