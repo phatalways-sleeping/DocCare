@@ -32,18 +32,23 @@ List<Widget> createAppointmentWidgets(
   for (final e in appointments.entries) {
     for (final appointment in e.value) {
       final appointmentTime = format.parse(appointment[0]);
+      final appointmentDate = DateFormat('yyyy-MM-dd').parse(appointment[1]);
       final todayAppointmentTime = DateTime(
-        now.year,
-        now.month,
-        now.day,
+        appointmentDate.year,
+        appointmentDate.month,
+        appointmentDate.day,
         appointmentTime.hour,
         appointmentTime.minute,
-        appointmentTime.second, // Add seconds to the DateTime construction
+        appointmentTime.second, // Include seconds
       );
 
       if (todayAppointmentTime.isBefore(now)) {
         continue; // Skip past appointments
       }
+      if (appointmentDate != now) {
+        continue; // Skip appointments that are not today
+      }
+
       // Calculate the time left
       final timeLeft = todayAppointmentTime.difference(now);
       String formattedTimeLeft;
