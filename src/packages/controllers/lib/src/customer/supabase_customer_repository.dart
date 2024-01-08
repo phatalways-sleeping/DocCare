@@ -673,7 +673,7 @@ class SupabaseCustomerRepository implements CustomerRepositoryService {
   }) async {
     try {
       final email = const Uuid().v1();
-      final name = const Uuid().v1();
+      const name = 'Offline Patient';
       final phone = const Uuid().v1();
       await Supabase.instance.client.rpc(
         'add_customer',

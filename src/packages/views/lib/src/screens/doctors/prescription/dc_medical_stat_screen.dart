@@ -76,7 +76,7 @@ class _DCMedicalStatScreenState extends State<DCMedicalStatScreen> {
                         child: Text(
                           widget.customerName,
                           style: context.textTheme.h6BoldPoppins.copyWith(
-                            fontSize: 30,
+                            fontSize: 28,
                             color: context.colorScheme.tertiary,
                           ),
                         ),
@@ -168,9 +168,9 @@ class _DCMedicalStatScreenState extends State<DCMedicalStatScreen> {
                       ),
                       const SizedBox(height: 16),
                       DCFilledButton(
-                        backgroundColor: context.colorScheme.surface,
+                        backgroundColor: context.colorScheme.secondary,
                         fixedSize: Size(
-                          context.width * 0.8,
+                          context.width * 0.94,
                           context.height * 0.05,
                         ),
                         padding: const EdgeInsets.symmetric(
@@ -186,7 +186,7 @@ class _DCMedicalStatScreenState extends State<DCMedicalStatScreen> {
                         child: Text(
                           'Next',
                           style: context.textTheme.h6RegularPoppins.copyWith(
-                            fontSize: 20,
+                            fontSize: 18,
                             color: context.colorScheme.onSecondary,
                           ),
                         ),

@@ -13,11 +13,11 @@ class DCNotification extends StatelessWidget {
     this.notificationTime,
     this.haveNotificationTime = false,
     this.heightFactor = 0.12,
-    this.widthFactor = 0.9,
+    this.widthFactor = 0.94,
     this.titleStyle,
     this.messageStyle,
     this.padding = const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-    this.borderRadius = const BorderRadius.all(Radius.circular(20)),
+    this.borderRadius = const BorderRadius.all(Radius.circular(12)),
     super.key,
   })  : assert(
           !haveNotificationTime || notificationTime != null,
@@ -50,58 +50,60 @@ class DCNotification extends StatelessWidget {
     if (haveNotificationTime) {
       time = DateFormat('hh:mm a, d MMM y').format(notificationTime!);
     }
-    return FractionallySizedBox(
-      heightFactor: heightFactor,
-      widthFactor: widthFactor,
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: borderRadius,
-          color: backgroundColor,
-        ),
-        padding: padding,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          crossAxisAlignment:
-              CrossAxisAlignment.start, // Align text to the left side
-          children: <Widget>[
-            Align(
-              alignment: Alignment.topLeft,
-              child: DefaultTextStyle.merge(
-                style: titleStyle ??
-                    context.textTheme.h6BoldPoppins.copyWith(
-                      color: textColor ?? context.colorScheme.background,
-                      fontSize: 20,
+    return Material(
+      child: FractionallySizedBox(
+        heightFactor: heightFactor,
+        widthFactor: widthFactor,
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: borderRadius,
+            color: backgroundColor,
+          ),
+          padding: padding,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment:
+                CrossAxisAlignment.start, // Align text to the left side
+            children: <Widget>[
+              Align(
+                alignment: Alignment.topLeft,
+                child: DefaultTextStyle.merge(
+                  style: titleStyle ??
+                      context.textTheme.h6BoldPoppins.copyWith(
+                        color: textColor ?? context.colorScheme.background,
+                        fontSize: 20,
+                      ),
+                  child: title,
+                ),
+              ),
+              Align(
+                alignment: Alignment.topLeft,
+                child: DefaultTextStyle.merge(
+                  style: messageStyle ??
+                      context.textTheme.h6RegularPoppins.copyWith(
+                        color: textColor ?? context.colorScheme.background,
+                        fontSize: 14,
+                      ),
+                  child: message,
+                ),
+              ),
+              if (haveNotificationTime)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    DefaultTextStyle.merge(
+                      style: messageStyle ??
+                          context.textTheme.h6RegularPoppins.copyWith(
+                            color: textColor ?? context.colorScheme.background,
+                            fontSize: 14,
+                          ),
+                      child: Text(time),
                     ),
-                child: title,
-              ),
-            ),
-            Align(
-              alignment: Alignment.topLeft,
-              child: DefaultTextStyle.merge(
-                style: messageStyle ??
-                    context.textTheme.h6RegularPoppins.copyWith(
-                      color: textColor ?? context.colorScheme.background,
-                      fontSize: 14,
-                    ),
-                child: message,
-              ),
-            ),
-            if (haveNotificationTime)
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  DefaultTextStyle.merge(
-                    style: messageStyle ??
-                        context.textTheme.h6RegularPoppins.copyWith(
-                          color: textColor ?? context.colorScheme.background,
-                          fontSize: 14,
-                        ),
-                    child: Text(time),
-                  ),
-                ],
-              ),
-          ],
+                  ],
+                ),
+            ],
+          ),
         ),
       ),
     );

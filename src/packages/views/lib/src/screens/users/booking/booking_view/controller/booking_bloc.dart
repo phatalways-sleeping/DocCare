@@ -153,7 +153,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
       //await Future.delayed(const Duration(seconds: 5), () {});
       // Mocking error
       // throw Exception();
-      var customerName = '';
+      var customerName = 'Offline Patient';
       if (_customerRepositoryService.getCustomerId() != null) {
         final customerDetail =
             await _customerRepositoryService.getProfileData();
@@ -344,10 +344,10 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     );
   }
 
-  @override
-  void onChange(Change<BookingState> change) {
-    // TODO: implement onChange
-    super.onChange(change);
-    print(change);
-  }
+  // @override
+  // void onChange(Change<BookingState> change) {
+  //   // TODO: implement onChange
+  //   super.onChange(change);
+  //   print(change);
+  // }
 }

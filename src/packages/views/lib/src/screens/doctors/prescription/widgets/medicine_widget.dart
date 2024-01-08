@@ -27,14 +27,14 @@ class DCMedicine extends StatelessWidget {
       onTap: isAddMedicine ? onPressed : null,
       child: Card(
         color: isAddMedicine
-            ? context.colorScheme.surface
+            ? context.colorScheme.secondary
             : context.colorScheme.onPrimary,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
           side: isAddMedicine
               ? BorderSide.none
               : BorderSide(
-                  color: context.colorScheme.primary,
+                  color: context.colorScheme.onBackground,
                 ),
         ),
         elevation: 0,
@@ -52,6 +52,10 @@ class DCMedicine extends StatelessWidget {
                   DCSVGIcons.pill,
                   width: 30,
                   height: 30,
+                  colorFilter: ColorFilter.mode(
+                    context.colorScheme.secondary,
+                    BlendMode.srcIn,
+                  ),
                 ),
               ),
               SizedBox(width: context.width * 0.05),
@@ -67,7 +71,7 @@ class DCMedicine extends StatelessWidget {
                               medicineName,
                               style:
                                   context.textTheme.h6RegularPoppins.copyWith(
-                                fontSize: 20,
+                                fontSize: 18,
                               ),
                             ),
                           ),
@@ -81,6 +85,10 @@ class DCMedicine extends StatelessWidget {
                               DCSVGIcons.deleteMedicine,
                               width: 25,
                               height: 25,
+                              colorFilter: ColorFilter.mode(
+                                context.colorScheme.secondary,
+                                BlendMode.srcIn,
+                              ),
                             ),
                           ),
                         ],
@@ -108,7 +116,7 @@ class DCMedicine extends StatelessWidget {
                   child: Text(
                     'Add new medicine',
                     style: context.textTheme.h6RegularPoppins.copyWith(
-                      fontSize: 20,
+                      fontSize: 18,
                     ),
                   ),
                 ),

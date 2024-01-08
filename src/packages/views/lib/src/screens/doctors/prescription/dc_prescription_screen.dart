@@ -82,7 +82,7 @@ class _DCPrescriptionScreenState extends State<DCPrescriptionScreen> {
                 child: Text(
                   widget.customerName,
                   style: context.textTheme.h6BoldPoppins.copyWith(
-                    fontSize: 30,
+                    fontSize: 28,
                   ),
                 ),
               ),
@@ -129,9 +129,9 @@ class _DCPrescriptionScreenState extends State<DCPrescriptionScreen> {
                   ),
                   const SizedBox(height: 16),
                   DCFilledButton(
-                    backgroundColor: context.colorScheme.surface,
+                    backgroundColor: context.colorScheme.secondary,
                     fixedSize: Size(
-                      context.width * 0.8,
+                      context.width * 094,
                       context.height * 0.05,
                     ),
                     padding: const EdgeInsets.symmetric(
@@ -144,7 +144,7 @@ class _DCPrescriptionScreenState extends State<DCPrescriptionScreen> {
                     },
                     child: Text(
                       'Add prescription',
-                      style: context.textTheme.h6BoldPoppins.copyWith(
+                      style: context.textTheme.h6RegularPoppins.copyWith(
                         fontSize: 18,
                         color: context.colorScheme.onSecondary,
                       ),

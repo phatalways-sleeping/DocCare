@@ -48,7 +48,7 @@ class DCPrescriptionItem extends StatelessWidget {
         ),
         elevation: MaterialStateProperty.all(4),
         shadowColor: MaterialStateProperty.all(
-          context.colorScheme.tertiary.withOpacity(0.2),
+          context.colorScheme.tertiary.withOpacity(0.4),
         ),
         overlayColor: MaterialStateProperty.all(
           color.withOpacity(0.7),

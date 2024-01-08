@@ -82,7 +82,7 @@ class _DCMedicineScreenState extends State<DCMedicineScreen> {
               },
             ),
             SizedBox(
-              height: context.height * 0.03,
+              height: context.height * 0.02,
             ),
             DefaultTextStyle.merge(
               style: context.textTheme.h4BoldPoppins.copyWith(
@@ -114,7 +114,7 @@ class _DCMedicineScreenState extends State<DCMedicineScreen> {
               },
             ),
             const SizedBox(
-              height: 50,
+              height: 60,
             ),
           ],
         ),
