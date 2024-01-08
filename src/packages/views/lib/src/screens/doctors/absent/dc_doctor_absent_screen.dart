@@ -83,7 +83,7 @@ class _DCDoctorAbsentScreenState extends State<DCDoctorAbsentScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           DoctorCard(
-                            imgPath: profileData['imageUrl'] as String,
+                            imgPath: profileData['imageUrl'] as String?,
                             name: profileData['fullName'] as String,
                             speciality: profileData['specialization'] as String,
                             rating: (profileData['rating'] as double).toInt(),
@@ -172,7 +172,9 @@ class _DCDoctorAbsentScreenState extends State<DCDoctorAbsentScreen> {
                           DCFilledButton(
                             onPressed: (context) {
                               context.read<DoctorAbsentBloc>().add(
-                                    const DoctorAbsentButtonPressedEvent(),
+                                    DoctorAbsentButtonPressedEvent(
+                                      profileData['fullName'] as String,
+                                    ),
                                   );
                               _controller1.clear();
                               _controller2.clear();
@@ -180,13 +182,13 @@ class _DCDoctorAbsentScreenState extends State<DCDoctorAbsentScreen> {
                             backgroundColor: context.colorScheme.secondary,
                             fixedSize: Size(
                               context.width * 0.94,
-                              context.height * 0.06,
+                              context.height * 0.05,
                             ),
                             child: Text(
                               'Submit',
                               style:
                                   context.textTheme.bodyRegularPoppins.copyWith(
-                                fontSize: 18,
+                                fontSize: 16,
                                 color: context.colorScheme.onSecondary,
                               ),
                             ),

@@ -241,6 +241,7 @@ class SupabaseDoctorRepository implements DoctorRepositoryService {
             date: date,
             doctorName: doctorName,
             dateRequest: DateTime.now(),
+            reason: reasons,
             isApproved: false,
           ),
         )

@@ -74,13 +74,13 @@ class _DCPageViewTwoState extends State<DCPageViewTwo>
                 end: Offset.zero,
                 child: DCInformationBox(
                   header: Text(
-                    'Connect with doctors',
+                    'Convenient',
                     style: TextStyle(
                       color: context.colorScheme.onBackground,
                     ),
                   ),
                   body: Text(
-                    'Connect with doctors and get your queries answered',
+                    'We provide you with the best services at your convenience',
                     style: TextStyle(
                       color: context.colorScheme.onBackground,
                     ),
@@ -94,13 +94,13 @@ class _DCPageViewTwoState extends State<DCPageViewTwo>
                 end: Offset.zero,
                 child: DCInformationBox(
                   header: Text(
-                    'Enthusiastic staff',
+                    'Ease of access',
                     style: TextStyle(
                       color: context.colorScheme.onBackground,
                     ),
                   ),
                   body: Text(
-                    'Our staff is always ready to help you',
+                    'Booking appointments is just a click away',
                     style: TextStyle(
                       color: context.colorScheme.onBackground,
                     ),
@@ -124,13 +124,13 @@ class _DCPageViewTwoState extends State<DCPageViewTwo>
                 ),
                 child: DCInformationBox(
                   header: Text(
-                    'Connect with doctors',
+                    'Online Medical Records',
                     style: TextStyle(
                       color: context.colorScheme.onBackground,
                     ),
                   ),
                   body: Text(
-                    'Connect with doctors and get your queries answered',
+                    'Access your medical records from anywhere',
                     style: TextStyle(
                       color: context.colorScheme.onBackground,
                     ),
@@ -146,13 +146,13 @@ class _DCPageViewTwoState extends State<DCPageViewTwo>
                 ),
                 child: DCInformationBox(
                   header: Text(
-                    'Enthusiastic staff',
+                    'Online Consultation',
                     style: TextStyle(
                       color: context.colorScheme.onBackground,
                     ),
                   ),
                   body: Text(
-                    'Our staff is always ready to help you',
+                    'Consult with your doctor online',
                     style: TextStyle(
                       color: context.colorScheme.onBackground,
                     ),

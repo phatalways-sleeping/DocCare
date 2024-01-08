@@ -78,8 +78,8 @@ class _DCReceptionistAbsentScreenState
                   child: Column(
                     children: [
                       Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: context.width * 0.03,
+                        padding: EdgeInsets.only(
+                          bottom: context.height * 0.02,
                         ),
                         child: Row(
                           children: [
@@ -110,6 +110,7 @@ class _DCReceptionistAbsentScreenState
                                 .getPendingAbsentRequests(),
                             builder: (context, snapshot) {
                               if (snapshot.hasError) {
+                                debugPrint(snapshot.error.toString());
                                 return Center(
                                   child: Text(
                                     'Please try again later',
@@ -125,6 +126,18 @@ class _DCReceptionistAbsentScreenState
                                 return const SizedBox.shrink();
                               }
                               final data = snapshot.data!;
+                              if (data.isEmpty) {
+                                return Center(
+                                  child: Text(
+                                    'No requests',
+                                    style: context.textTheme.bodyRegularPoppins
+                                        .copyWith(
+                                      color: context.colorScheme.tertiary,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                );
+                              }
                               final children = data.map(
                                 (e) => Padding(
                                   padding: EdgeInsets.symmetric(

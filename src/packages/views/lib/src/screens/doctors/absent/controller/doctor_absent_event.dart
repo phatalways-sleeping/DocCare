@@ -15,7 +15,14 @@ final class DoctorAbsentResetEvent extends DoctorAbsentEvent {
 }
 
 final class DoctorAbsentButtonPressedEvent extends DoctorAbsentEvent {
-  const DoctorAbsentButtonPressedEvent();
+  const DoctorAbsentButtonPressedEvent(
+    this.fullName,
+  );
+
+  final String fullName;
+
+  @override
+  List<Object?> get props => [fullName];
 }
 
 final class DoctorAbsentDateInputEvent extends DoctorAbsentEvent {

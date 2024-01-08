@@ -26,7 +26,7 @@ import 'package:views/src/screens/authentication/splash/dc_page_view/dc_page_vie
 ///   home: DCSplashScreen(key: navigatorKey),
 /// );
 /// ```
-class DCSplashScreen extends StatefulWidget {
+class DCSplashScreen extends StatelessWidget {
   /// {@macro screens}
   const DCSplashScreen({
     required this.navigatorKey,
@@ -36,69 +36,40 @@ class DCSplashScreen extends StatefulWidget {
   final GlobalKey<NavigatorState> navigatorKey;
 
   @override
-  State<DCSplashScreen> createState() => _DCSplashScreenState();
-}
-
-class _DCSplashScreenState extends State<DCSplashScreen>
-    with SingleTickerProviderStateMixin {
-  late final pageController = PageController();
-
-  @override
-  void dispose() {
-    pageController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: widget.navigatorKey,
+      key: navigatorKey,
       resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: BlocProvider(
           create: (context) => LoginBloc(
-            widget.navigatorKey,
+            navigatorKey,
             context.read<AuthenticationRepositoryService>(),
             context.read<CustomerRepositoryService>(),
             context.read<DoctorRepositoryService>(),
             context.read<ReceptionistRepositoryService>(),
             NotificationManager.instance,
           ),
-          child: PageView.builder(
-            controller: pageController,
-            itemCount: 2,
-            scrollDirection: Axis.vertical,
-            itemBuilder: (BuildContext context, int index) {
-              if (index == 0) {
-                return BlocListener<LoginBloc, LoginState>(
-                  listener: (context, state) {
-                    if (state is LoginSuccess) {
-                      switch (state.role) {
-                        case 'doctor':
-                          Navigator.of(context, rootNavigator: true)
-                              .pushReplacementNamed('/doctor/home');
-                        case 'customer':
-                          Navigator.of(context, rootNavigator: true)
-                              .pushReplacementNamed('/home');
-                        case 'admin':
-                          Navigator.of(context, rootNavigator: true)
-                              .pushReplacementNamed('/admin/staff/create');
-                        case 'receptionist':
-                          Navigator.of(context, rootNavigator: true)
-                              .pushReplacementNamed(
-                                  '/receptionist/absent-request');
-                      }
-                    }
-                  },
-                  child: DCPageViewOne(
-                    pageController: pageController,
-                  ),
-                );
+          child: BlocListener<LoginBloc, LoginState>(
+            listener: (context, state) {
+              if (state is LoginSuccess) {
+                switch (state.role) {
+                  case 'doctor':
+                    Navigator.of(context, rootNavigator: true)
+                        .pushReplacementNamed('/doctor/home');
+                  case 'customer':
+                    Navigator.of(context, rootNavigator: true)
+                        .pushReplacementNamed('/home');
+                  case 'admin':
+                    Navigator.of(context, rootNavigator: true)
+                        .pushReplacementNamed('/admin/staff/create');
+                  case 'receptionist':
+                    Navigator.of(context, rootNavigator: true)
+                        .pushReplacementNamed('/receptionist/absent-request');
+                }
               }
-              return DCPageViewTwo(
-                pageController: pageController,
-              );
             },
+            child: const DCPageViewOne(),
           ),
         ),
       ),

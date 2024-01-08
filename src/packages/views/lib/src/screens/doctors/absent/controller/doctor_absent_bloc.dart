@@ -5,6 +5,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:controllers/controllers.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
 part 'doctor_absent_event.dart';
@@ -50,7 +51,7 @@ class DoctorAbsentBloc extends Bloc<DoctorAbsentEvent, DoctorAbsentState> {
         await _doctorRepositoryService.sendAbsentRequest(
           reasons: state.reasons,
           date: date,
-          doctorName: state.profileData['fullname'] as String,
+          doctorName: event.fullName,
         );
 
         /// Then emit the success state
@@ -63,6 +64,7 @@ class DoctorAbsentBloc extends Bloc<DoctorAbsentEvent, DoctorAbsentState> {
           ),
         );
       } catch (error) {
+        debugPrint(error.toString());
         emit(
           DoctorAbsentError.fromState(
             state: state,

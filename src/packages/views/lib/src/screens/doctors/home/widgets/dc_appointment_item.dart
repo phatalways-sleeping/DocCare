@@ -12,7 +12,7 @@ class DCAppointmentItem extends StatelessWidget {
     required this.bottomRight,
     required this.color,
     required this.onSelected,
-    required this.onPressed,
+    this.onPressed,
     this.isDone = true,
     this.isPast = false,
     super.key,
@@ -22,7 +22,7 @@ class DCAppointmentItem extends StatelessWidget {
   final Widget bottomLeft;
   final Widget bottomRight;
   final void Function(BuildContext context) onSelected;
-  final void Function(BuildContext context) onPressed;
+  final void Function(BuildContext context)? onPressed;
 
   final Color color;
   final bool isDone;
@@ -32,9 +32,11 @@ class DCAppointmentItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ButtonStyle(
+        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        splashFactory: InkSparkle.constantTurbulenceSeedSplashFactory,
         backgroundColor: MaterialStateProperty.all(
           isDone
-              ? context.colorScheme.tertiary.withOpacity(0.3)
+              ? context.colorScheme.error.withOpacity(0.2)
               : context.colorScheme.background,
         ),
         shape: MaterialStateProperty.all(
@@ -48,6 +50,9 @@ class DCAppointmentItem extends StatelessWidget {
         ),
         overlayColor: MaterialStateProperty.all(
           color.withOpacity(0.7),
+        ),
+        surfaceTintColor: const MaterialStatePropertyAll(
+          Colors.transparent,
         ),
         fixedSize: MaterialStatePropertyAll(
           Size(
@@ -64,7 +69,7 @@ class DCAppointmentItem extends StatelessWidget {
           ),
         ),
       ),
-      onPressed: () => onPressed(context),
+      onPressed: onPressed != null ? () => onPressed!(context) : null,
       child: Row(
         children: [
           Container(
@@ -142,22 +147,20 @@ class DCAppointmentItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: <Widget>[
                 Padding(
-                  padding: const EdgeInsets.only(
-                    top: 3,
-                  ),
-                  child: isPast == false
-                      ? null
-                      : null
-                      // : RoundCheckBox(
-                      //     checkedColor: context.colorScheme.quinary,
-                      //     isChecked: isDone,
-                      //     animationDuration: const Duration(
-                      //       milliseconds: 200,
-                      //     ),
-                      //     size: 30,
-                      //     onTap: (selected) => onSelected(context),
-                      //   ),
-                ),
+                    padding: const EdgeInsets.only(
+                      top: 3,
+                    ),
+                    child: isPast == false ? null : null
+                    // : RoundCheckBox(
+                    //     checkedColor: context.colorScheme.quinary,
+                    //     isChecked: isDone,
+                    //     animationDuration: const Duration(
+                    //       milliseconds: 200,
+                    //     ),
+                    //     size: 30,
+                    //     onTap: (selected) => onSelected(context),
+                    //   ),
+                    ),
                 Padding(
                   padding: const EdgeInsets.only(
                     bottom: 4,

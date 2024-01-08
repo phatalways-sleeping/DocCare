@@ -4,7 +4,6 @@ import 'package:components/components.dart';
 import 'package:components/src/widgets/pop_up/base_pop_up.dart';
 import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class DCAppointmentDetailPopUp extends StatelessWidget {
   const DCAppointmentDetailPopUp({

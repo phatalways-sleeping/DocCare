@@ -7,14 +7,14 @@ import 'package:views/src/widgets/dc_storage_image.dart';
 
 class DoctorCard extends StatelessWidget {
   const DoctorCard({
-    required this.imgPath,
     required this.name,
     required this.speciality,
     required this.rating,
+    this.imgPath,
     super.key,
   });
 
-  final String imgPath;
+  final String? imgPath;
   final String name;
   final String speciality;
   final int rating;

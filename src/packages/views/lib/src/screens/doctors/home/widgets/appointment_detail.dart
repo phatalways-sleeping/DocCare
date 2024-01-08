@@ -51,30 +51,150 @@ class AppointmentDetailsWidget extends StatelessWidget {
                       if (state.upcomingAppointmentIndex == -1) {
                         return;
                       }
-                      await showDialog<void>(
+                      await showDialog<bool>(
                         context: context,
-                        builder: (acontext) => DCPopupDoctorCancel(
-                          boldMessage: 'Are you sure?',
-                          message: 'Your patients need you!',
-                          cancelButtonText: 'Cancel',
-                          confirmButtonText: 'Confirm',
-                          onCancelButtonClicked: (acontext) {
-                            // Close the dialog
-                            Navigator.of(context).pop();
-                          },
-                          onConfirmButtonClicked: (acontext) {
-                            //remove the appointment
-                            Navigator.of(context).pop();
+                        // builder: (acontext) => DCPopupDoctorCancel(
+                        //   boldMessage: 'Are you sure?',
+                        //   message: 'Your patients need you!',
+                        //   cancelButtonText: 'Cancel',
+                        //   confirmButtonText: 'Confirm',
+                        //   onCancelButtonClicked: (acontext) {
+                        //     // Close the dialog
+                        //     Navigator.of(context).pop();
+                        //   },
+                        //   onConfirmButtonClicked: (acontext) {
+                        //     //remove the appointment
+                        //     Navigator.of(context).pop();
 
-                            BlocProvider.of<DoctorHomeBloc>(context).add(
-                              DoctorHomeOpenCancelAppointmentViewEvent(
-                                appointment: state.appointments[
-                                    state.upcomingAppointmentIndex],
+                        //     BlocProvider.of<DoctorHomeBloc>(context).add(
+                        //       DoctorHomeOpenCancelAppointmentViewEvent(
+                        //         appointment: state.appointments[
+                        //             state.upcomingAppointmentIndex],
+                        //       ),
+                        //     );
+                        //   },
+                        // ),
+                        builder: (context) => Material(
+                          color: Colors.transparent,
+                          elevation: 10,
+                          child: Container(
+                            margin: EdgeInsets.symmetric(
+                              horizontal: context.width * 0.1,
+                              vertical: context.height * 0.25,
+                            ),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              color: context.colorScheme.background,
+                            ),
+                            child: SingleChildScrollView(
+                              padding: const EdgeInsets.all(20),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: context.colorScheme.primary
+                                          .withOpacity(
+                                        0.3,
+                                      ),
+                                    ),
+                                    alignment: Alignment.center,
+                                    padding: const EdgeInsets.all(40),
+                                    child: SvgPicture.string(
+                                      DCSVGIcons.sad,
+                                      height: 120,
+                                      width: 120,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 20),
+                                  Text(
+                                    'Are you sure?',
+                                    style: context.textTheme.h2BoldPoppins
+                                        .copyWith(
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.bold,
+                                      color: context.colorScheme.onBackground,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  const SizedBox(height: 20),
+                                  Text(
+                                    'Your patients need you!',
+                                    style: context.textTheme.bodyRegularPoppins
+                                        .copyWith(
+                                      fontSize: 14,
+                                      color: context.colorScheme.onBackground,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  const SizedBox(height: 20),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      DCFilledButton(
+                                        onPressed: (context) => Navigator.pop(
+                                          context,
+                                          false,
+                                        ),
+                                        borderRadius: BorderRadius.circular(12),
+                                        backgroundColor:
+                                            context.colorScheme.error,
+                                        fixedSize: Size(
+                                          context.width * 0.3,
+                                          25,
+                                        ),
+                                        child: Text(
+                                          'Cancel',
+                                          style: context
+                                              .textTheme.bodyRegularPoppins
+                                              .copyWith(
+                                            fontSize: 14,
+                                            color: context.colorScheme.onError,
+                                          ),
+                                        ),
+                                      ),
+                                      DCFilledButton(
+                                        onPressed: (context) => Navigator.pop(
+                                          context,
+                                          true,
+                                        ),
+                                        borderRadius: BorderRadius.circular(12),
+                                        backgroundColor:
+                                            const Color(0xFF0EBE7F),
+                                        fixedSize: Size(
+                                          context.width * 0.3,
+                                          25,
+                                        ),
+                                        child: Text(
+                                          'Confirm',
+                                          style: context
+                                              .textTheme.bodyRegularPoppins
+                                              .copyWith(
+                                            fontSize: 14,
+                                            color: context.colorScheme.onError,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
                               ),
-                            );
-                          },
+                            ),
+                          ),
                         ),
-                      );
+                      ).then((value) {
+                        if (value ?? false) {
+                          BlocProvider.of<DoctorHomeBloc>(context).add(
+                            DoctorHomeOpenCancelAppointmentViewEvent(
+                              appointment: state
+                                  .appointments[state.upcomingAppointmentIndex],
+                            ),
+                          );
+                        }
+                      });
                     },
                     child: Text(
                       'Cancel',

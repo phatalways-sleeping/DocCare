@@ -51,13 +51,8 @@ class DoctorCard extends StatelessWidget {
             color: Colors.black.withOpacity(0.1),
           ),
         ),
-        backgroundColor: MaterialStateProperty.resolveWith(
-          (states) {
-            if (states.contains(MaterialState.pressed)) {
-              return Colors.black.withOpacity(0.1);
-            }
-            return Colors.white;
-          },
+        backgroundColor: MaterialStateProperty.all<Color>(
+          context.colorScheme.background,
         ),
       ),
       child: Row(

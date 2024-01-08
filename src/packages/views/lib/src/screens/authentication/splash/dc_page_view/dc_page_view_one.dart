@@ -5,12 +5,8 @@ part of 'dc_page_view.dart';
 class DCPageViewOne extends StatefulWidget {
   /// {@macro dc_page_view_one}
   const DCPageViewOne({
-    required this.pageController,
     super.key,
   });
-
-  /// [pageController] is the [PageController] used to animate the page
-  final PageController pageController;
 
   @override
   State<DCPageViewOne> createState() => _DCPageViewOneState();
@@ -89,14 +85,7 @@ class _DCPageViewOneState extends State<DCPageViewOne>
               text: 'Doc',
               children: [
                 TextSpan(
-                  text: 'C',
-                  style: context.textTheme.h1BoldPoppins.copyWith(
-                    color: context.colorScheme.onSecondary,
-                    fontSize: 60,
-                  ),
-                ),
-                TextSpan(
-                  text: 'are',
+                  text: 'Care',
                   style: context.textTheme.h1BoldPoppins.copyWith(
                     color: context.colorScheme.onSecondary,
                     fontSize: 60,
@@ -104,7 +93,7 @@ class _DCPageViewOneState extends State<DCPageViewOne>
                 ),
               ],
               style: context.textTheme.h1BoldPoppins.copyWith(
-                color: context.colorScheme.secondary,
+                color: context.colorScheme.onSecondary,
                 fontSize: 60,
               ),
             ),
@@ -152,13 +141,13 @@ class _DCPageViewOneState extends State<DCPageViewOne>
               ),
               child: DCInformationBox(
                 header: Text(
-                  'Enthusiastic staff',
+                  'Notifications',
                   style: TextStyle(
                     color: context.colorScheme.onBackground,
                   ),
                 ),
                 body: Text(
-                  'Our staff is always ready to help you',
+                  'Reminders for your appointments and prescriptions',
                   style: TextStyle(
                     color: context.colorScheme.onBackground,
                   ),
@@ -169,18 +158,6 @@ class _DCPageViewOneState extends State<DCPageViewOne>
           ],
         ),
       ],
-      footer: IconButton(
-        icon: Icon(
-          Icons.arrow_downward_rounded,
-          color: context.colorScheme.onBackground,
-          size: 30,
-        ),
-        onPressed: () => widget.pageController.animateToPage(
-          1,
-          duration: const Duration(milliseconds: 1500),
-          curve: Curves.decelerate,
-        ),
-      ),
     );
   }
 }

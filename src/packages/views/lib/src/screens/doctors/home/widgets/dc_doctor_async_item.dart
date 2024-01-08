@@ -99,28 +99,28 @@ class _DCDoctorAsyncItemState extends State<DCDoctorAsyncItem> {
                   ),
                   color: context.colorScheme.error,
                   onSelected: (context) => {},
-                  onPressed: (context) {
-                    if (e['done'] == true) {
-                      return;
-                    }
-                    // pass the parameter:
-                    // e['customerID'],...
-                    final data = {
-                      'customerID': e['customerID'].toString(),
-                      'customerName': e['customerName'].toString(),
-                      'date': DateTime.parse(e['date'].toString()),
-                      'period': (e['period'].toString()),
-                      'doctorID': e['doctorID'].toString(),
-                      'rating': e['rating'].toString(),
-                      'customerComment': e['customerComment'].toString(),
-                      'dateDone': (e['dateDone'].toString()),
-                      'prescriptionDone': e['prescriptionDone'].toString(),
-                    };
+                  onPressed: e['done'] == true
+                      ? null
+                      : (context) {
+                          // pass the parameter:
+                          // e['customerID'],...
+                          final data = {
+                            'customerID': e['customerID'].toString(),
+                            'customerName': e['customerName'].toString(),
+                            'date': DateTime.parse(e['date'].toString()),
+                            'period': (e['period'].toString()),
+                            'doctorID': e['doctorID'].toString(),
+                            'rating': e['rating'].toString(),
+                            'customerComment': e['customerComment'].toString(),
+                            'dateDone': (e['dateDone'].toString()),
+                            'prescriptionDone':
+                                e['prescriptionDone'].toString(),
+                          };
 
-                    Navigator.of(context, rootNavigator: true)
-                        .pushNamed('/doctor/prescribe', arguments: data);
-                  },
-                  bottomRight: Text(
+                          Navigator.of(context, rootNavigator: true)
+                              .pushNamed('/doctor/prescribe', arguments: data);
+                        },
+                  bottomRight: const Text(
                     //'${e['diagnosis']}',
                     '',
                   ),
@@ -129,7 +129,7 @@ class _DCDoctorAsyncItemState extends State<DCDoctorAsyncItem> {
               )
               .toList();
           return ListView.separated(
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             padding: EdgeInsets.zero,
             itemCount: children.length,

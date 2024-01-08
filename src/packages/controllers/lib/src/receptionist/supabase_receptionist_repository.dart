@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs
 import 'package:controllers/src/receptionist/receptionist_repository_service.dart';
+import 'package:flutter/widgets.dart';
 import 'package:services/services.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -77,15 +78,23 @@ doctor:doctorID ( imageUrl )
     final response = await Supabase.instance.client
         .from('absentRequest')
         .select<PostgrestList>(query)
+        .filter('answered', 'eq', false)
         .timeout(const Duration(seconds: 15))
-        .onError((error, stackTrace) => []);
+        .onError((error, stackTrace) => [])
+        .onError((error, stackTrace) {
+      debugPrint(error.toString());
+      return [];
+    });
+
+    debugPrint(response.toString());
 
     final result = response
         .map(
           (e) => {
             'name': e['doctorName'] as String,
             'dateAbsent': DateTime.parse(e['date'] as String),
-            'imgPath': (e['doctor'] as Map<String, dynamic>)['imageUrl'],
+            'imgPath':
+                (e['doctor'] as Map<String, dynamic>)['imageUrl'] as String?,
             'doctorId': e['doctorID'] as String,
             'reason': e['reason'] as String,
           },
