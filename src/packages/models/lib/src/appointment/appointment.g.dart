@@ -21,6 +21,9 @@ Appointment _$AppointmentFromJson(Map<String, dynamic> json) {
       'done',
       'note',
       'diagnosis',
+      'isCanceled',
+      'customerName',
+      'prescriptionDone'
     ],
   );
   return Appointment(
@@ -39,6 +42,8 @@ Appointment _$AppointmentFromJson(Map<String, dynamic> json) {
     diagnosis: json['diagnosis'] as String?,
     isCanceled: json['isCanceled'] as bool?,
     customerName: json['customerName'] as String?,
+    prescriptionDone: json['prescriptionDone'] as bool?,
+
 
   );
 }
@@ -58,5 +63,5 @@ Map<String, dynamic> _$AppointmentToJson(Appointment instance) =>
       'diagnosis': instance.diagnosis,
       'isCanceled': instance.isCanceled,
       'customerName': instance.customerName,
-
+      'prescriptionDone': instance.prescriptionDone,
     };

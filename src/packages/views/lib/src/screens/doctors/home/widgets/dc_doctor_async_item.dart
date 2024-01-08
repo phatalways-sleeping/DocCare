@@ -114,6 +114,7 @@ class _DCDoctorAsyncItemState extends State<DCDoctorAsyncItem> {
                       'rating': e['rating'].toString(),
                       'customerComment': e['customerComment'].toString(),
                       'dateDone': (e['dateDone'].toString()),
+                      'prescriptionDone': e['prescriptionDone'].toString(),
                     };
 
                     Navigator.of(context, rootNavigator: true)
