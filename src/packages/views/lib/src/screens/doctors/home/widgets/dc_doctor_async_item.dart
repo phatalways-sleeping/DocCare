@@ -65,6 +65,13 @@ String mapPeriod(String period) {
   }
 }
 
+bool canPrescribe(String dateString) {
+  final date = DateTime.parse(dateString);
+  final now = DateTime.now();
+  final diff = date.difference(now).inDays;
+  return diff == 0;
+}
+
 class _DCDoctorAsyncItemState extends State<DCDoctorAsyncItem> {
   @override
   Widget build(BuildContext context) {
@@ -102,6 +109,7 @@ class _DCDoctorAsyncItemState extends State<DCDoctorAsyncItem> {
                   onPressed: e['done'] == true
                       ? null
                       : (context) {
+                          if (!canPrescribe(e['date'].toString())) return;
                           // pass the parameter:
                           // e['customerID'],...
                           final data = {
