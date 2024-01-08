@@ -61,7 +61,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
         currentMapDates.add(dateTime);
       } else {
         final timeToAppointment = dateTime.difference(currentTime);
-        if (timeToAppointment.inMinutes <= 30 &&
+        if (timeToAppointment.inMinutes <= 1000 &&
             timeToAppointment.inMinutes > 0) {
           final message =
               'Your next appointment with Dr. ${element['doctorName']} '

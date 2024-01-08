@@ -164,6 +164,10 @@ class _DCChangePasswordScreenState extends State<DCChangePasswordScreen> {
                               } else {
                                 // De1ult state - button is enabled
                                 return DCFilledButton(
+                                  fixedSize: Size(
+                                    context.width * 0.8,
+                                    context.height * 0.05,
+                                  ),
                                   onPressed: (context) {
                                     if (state.email.isEmpty) {
                                       return;
