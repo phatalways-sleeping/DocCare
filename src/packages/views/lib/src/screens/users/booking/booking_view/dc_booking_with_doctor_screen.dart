@@ -59,6 +59,8 @@ String mapMonth(int month) {
 }
 
 class _DCBookingWithDoctorScreenState extends State<DCBookingWithDoctorScreen> {
+  bool hideNavigationBar = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,7 +88,7 @@ class _DCBookingWithDoctorScreenState extends State<DCBookingWithDoctorScreen> {
       drawer: widget.inCustomerView ? const DCCustomerDrawer() : null,
       bottomNavigationBar:
           (context.watch<BookingBloc>().state.doctorData.isNotEmpty ||
-                  context.watch<BookingBloc>().state.dateSelected != null)
+                  context.watch<BookingBloc>().state.dateSelected != null || hideNavigationBar)
               ? null
               : (widget.inCustomerView
                   ? const DCCustomerNavigationBar(
@@ -219,6 +221,9 @@ class _DCBookingWithDoctorScreenState extends State<DCBookingWithDoctorScreen> {
                       ),
                     ],
                     DCOutlinedTextFormField(
+                      onFocusChange: (context, focusNode) => setState(
+                        () => hideNavigationBar = focusNode.hasFocus,
+                      ),
                       borderRadius: 20,
                       maxLines: 3,
                       hintText: 'Type your symptoms here',
@@ -248,38 +253,33 @@ class _DCBookingWithDoctorScreenState extends State<DCBookingWithDoctorScreen> {
                         height: 10,
                       ),
                       DCAsyncView(
-                        future: (
-                          context
-                                  .read<BookingBloc>()
-                                  .state
-                                  .doctorData
-                                  .keys
-                                  .isNotEmpty
-                              ? context
-                                  .read<DoctorViewBloc>()
-                                  .getAvailableAppointmentTimes(
-                                    context
-                                        .read<BookingBloc>()
-                                        .state
-                                        .doctorData['id'] as String,
-                                    context
-                                        .read<BookingBloc>()
-                                        .state
-                                        .dateSelected!,
-                                  )
-                              : context
-                                  .read<BookingBloc>()
-                                  .getAvailablePeriodWithSpecialization(
-                                    context
-                                        .read<BookingBloc>()
-                                        .state
-                                        .speciality!,
-                                    context
-                                        .read<BookingBloc>()
-                                        .state
-                                        .dateSelected!,
-                                  )
-                        ),
+                        future: (context
+                                .read<BookingBloc>()
+                                .state
+                                .doctorData
+                                .keys
+                                .isNotEmpty
+                            ? context
+                                .read<DoctorViewBloc>()
+                                .getAvailableAppointmentTimes(
+                                  context
+                                      .read<BookingBloc>()
+                                      .state
+                                      .doctorData['id'] as String,
+                                  context
+                                      .read<BookingBloc>()
+                                      .state
+                                      .dateSelected!,
+                                )
+                            : context
+                                .read<BookingBloc>()
+                                .getAvailablePeriodWithSpecialization(
+                                  context.read<BookingBloc>().state.speciality!,
+                                  context
+                                      .read<BookingBloc>()
+                                      .state
+                                      .dateSelected!,
+                                )),
                       ),
                       SizedBox(
                         height: context.height * 0.02,
