@@ -70,23 +70,20 @@ class _DCSplashScreenState extends State<DCSplashScreen> {
               if (state is LoginSuccess) {
                 // Close the modal bottom sheet
                 Navigator.of(context, rootNavigator: true).pop();
-                await Future.delayed(const Duration(milliseconds: 500), () {})
-                    .then((value) async {
-                  switch (state.role) {
-                    case 'doctor':
-                      await Navigator.of(context, rootNavigator: true)
-                          .pushReplacementNamed('/doctor/home');
-                    case 'customer':
-                      await Navigator.of(context, rootNavigator: true)
-                          .pushReplacementNamed('/home');
-                    case 'admin':
-                      await Navigator.of(context, rootNavigator: true)
-                          .pushReplacementNamed('/admin/staff/create');
-                    case 'receptionist':
-                      await Navigator.of(context, rootNavigator: true)
-                          .pushReplacementNamed('/receptionist/absent-request');
-                  }
-                });
+                switch (state.role) {
+                  case 'doctor':
+                    await Navigator.of(context, rootNavigator: true)
+                        .pushReplacementNamed('/doctor/home');
+                  case 'customer':
+                    await Navigator.of(context, rootNavigator: true)
+                        .pushReplacementNamed('/home');
+                  case 'admin':
+                    await Navigator.of(context, rootNavigator: true)
+                        .pushReplacementNamed('/admin/staff/create');
+                  case 'receptionist':
+                    await Navigator.of(context, rootNavigator: true)
+                        .pushReplacementNamed('/receptionist/absent-request');
+                }
               }
             },
             child: const DCPageViewOne(),

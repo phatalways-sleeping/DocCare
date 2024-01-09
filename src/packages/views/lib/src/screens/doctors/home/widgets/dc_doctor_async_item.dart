@@ -71,7 +71,9 @@ String mapPeriod(String period) {
 bool canPrescribe(String dateString) {
   final date = DateTime.parse(dateString);
   final now = DateTime.now();
-  final diff = date.difference(now).inDays;
+  final exactDay = DateTime(now.year, now.month, now.day);
+  final exactDate = DateTime(date.year, date.month, date.day);
+  final diff = exactDate.difference(exactDay).inDays;
   return diff == 0;
 }
 
