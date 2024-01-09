@@ -146,7 +146,7 @@ class DCPopupAbsentRequest extends StatelessWidget {
       ],
       buttonsColor: [
         rejectButtonColor ?? context.colorScheme.error,
-        confirmButtonColor ?? context.colorScheme.primary,
+        confirmButtonColor ?? context.colorScheme.secondary,
       ],
       buttonsWidth: buttonsWidth,
       buttonsHeight: buttonsHeight,

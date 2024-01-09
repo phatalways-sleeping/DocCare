@@ -73,7 +73,7 @@ class DCPopupConfirmRemove extends StatelessWidget {
       ],
       buttonsColor: [
         cancelButtonColor ?? context.colorScheme.error,
-        confirmButtonColor ?? context.colorScheme.primary,
+        confirmButtonColor ?? context.colorScheme.secondary,
       ],
       buttonsWidth: buttonsWidth,
       buttonsHeight: buttonsHeight,

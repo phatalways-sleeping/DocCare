@@ -110,7 +110,7 @@ class BasePopup extends StatelessWidget {
       ),
       content: SizedBox(
         width: context.width * 0.7,
-        height: context.height * 0.5,
+        height: context.height * 0.35,
         child: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -176,8 +176,8 @@ class BasePopup extends StatelessWidget {
                     textSize: buttonsTextSize,
                     textColor: buttonsTextColors?[index],
                     backgroundColor: buttonsColor?[index],
-                    borderWidth: 0,
-                    borderColor: context.colorScheme.background,
+                    borderWidth: 2,
+                    borderColor: context.colorScheme.onBackground,
                     onPressed: (context) {
                       if (index.isOdd || onCancelButtonClicked == null) {
                         onConfirmButtonClicked?.call(context);
