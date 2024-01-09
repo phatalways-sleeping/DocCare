@@ -1,8 +1,10 @@
 import 'package:components/components.dart';
 import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:views/src/screens/doctors/home/controller/doctor_home_bloc.dart';
 import 'package:views/src/screens/doctors/home/widgets/dc_appointment_item.dart';
-
+import 'package:views/src/screens/doctors/home/widgets/dc_doctor_async_pop_up.dart';
 class DCDoctorAsyncItem extends StatefulWidget {
   const DCDoctorAsyncItem({
     required this.future,
@@ -106,12 +108,28 @@ class _DCDoctorAsyncItemState extends State<DCDoctorAsyncItem> {
                   ),
                   color: context.colorScheme.error,
                   onSelected: (context) => {},
+
                   onPressed: e['done'] == true
-                      ? null
+                      ? (context) async {
+                      //Move state to IntakeRating, has problem with how the dialog is shown
+                      final results = await showDialog<int>(
+                        context: context,
+                        builder: (bcontext) => DCDoctorAsyncPopUp(
+                          future: context.read<DoctorHomeBloc>().
+                          getCurrentPrescriptions(e['prescriptionID'].toString(), e['customerID'].toString()),
+                          customerName: e['customerName'].toString(),
+
+
+                              // .read<DoctorHomeBloc>()
+                              // .getCurrentPrescriptions(
+                              //   e['id'] as String,
+                              // ),
+                        ),
+                      );
+                      }
                       : (context) {
                           if (!canPrescribe(e['date'].toString())) return;
-                          // pass the parameter:
-                          // e['customerID'],...
+                          
                           final data = {
                             'customerID': e['customerID'].toString(),
                             'customerName': e['customerName'].toString(),

@@ -49,7 +49,7 @@ class SupabaseAppointmentApiService
                 : value.map(Appointment.fromJson).toList(),
           )
           .onError(
-            (error, stackTrace) => throw Exception(error),
+            (error, stackTrace)  {return [];},
           );
 
   @override

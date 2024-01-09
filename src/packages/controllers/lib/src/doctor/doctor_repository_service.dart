@@ -42,4 +42,9 @@ abstract interface class DoctorRepositoryService {
     required DateTime date,
     required String doctorName,
   });
+  List<Map<String, dynamic>> _convertMedicineData(List<dynamic> response);
+  Future<Map<String, dynamic>> getPrescriptionData(
+    String prescriptionId,
+    String _customerId,
+  );
 }

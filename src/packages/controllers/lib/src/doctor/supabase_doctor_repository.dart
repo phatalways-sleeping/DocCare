@@ -251,4 +251,66 @@ class SupabaseDoctorRepository implements DoctorRepositoryService {
           ),
         );
   }
+
+  @override
+  List<Map<String, dynamic>> _convertMedicineData(List<dynamic> response) =>
+      response.map(
+        (e) {
+          final result = e as Map<String, dynamic>;
+          return {
+            'prescription_id': result['id'],
+            'medicineName': result['medicine_name'],
+            'quantity': result['quantity'],
+            'timeOfTheDay': result['timeOfTheDay'],
+            'toBeTaken': result['toBeTaken'],
+            'duration': result['duration'],
+          };
+        },
+      ).toList();
+
+  
+  @override
+  Future<Map<String, dynamic>> getPrescriptionData(
+    String prescriptionId,
+    String _customerId,
+  ) async {
+    final medicinesData = await Supabase.instance.client.rpc(
+      'get_med_of_prescriptions',
+      params: {
+        'prescription_id': prescriptionId,
+        'is_done': null,
+      },
+    ).onError(
+      (error, stackTrace) {
+        return [];
+      },
+    ) as List<dynamic>;
+
+    final medicines = _convertMedicineData(medicinesData);
+
+    final prescription = await _supabaseAppointmentApiService
+        .getAppointmentsByCustomerId(_customerId!);
+
+    final result = prescription.firstWhere(
+      (element) => element.prescriptionID == prescriptionId,
+      orElse: () => throw Exception(
+        'Error from getPrescriptionData: No prescription found with id $prescriptionId',
+      ),
+    );
+
+    //Get doctor name
+    final doctor = await _supabaseDoctorApiService
+        .getUser(result.doctorID)
+        .onError((error, stackTrace) => throw Exception(error));
+
+    //Turn result to json, replace doctorID with doctor name
+    final resultJson = result.toJson();
+    resultJson['doctorName'] = doctor.fullname;
+
+    return {
+      ...resultJson,
+      'medicines': medicines,
+    };
+  }
+
 }
