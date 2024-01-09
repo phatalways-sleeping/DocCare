@@ -36,10 +36,9 @@ class DoctorHomeBloc extends Bloc<DoctorHomeEvent, DoctorHomeState> {
   ) async {
     try {
       // ignore: lines_longer_than_80_chars
-      // remove this 2 lines when login is done and doctor id is passed from login screen
-
       final appointments =
           await _doctorRepositoryService.getAppointmentsByDoctorId();
+
       final dynamic profileData =
           await _doctorRepositoryService.getProfileData();
       final doctorName = profileData['fullName'].toString();
