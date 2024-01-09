@@ -66,7 +66,7 @@ class ChangePasswordBloc
   ) async {
     emit(ChangePasswordLoading.from(state));
     try {
-      await _authenticationRepositoryService.changePassword(state.email);
+      await _authenticationRepositoryService.sendCode(state.email);
       emit(ChangePasswordSuccess.from(state));
     } on AuthException catch (e) {
       assert(state is ChangePasswordLoading, 'State is not loading');

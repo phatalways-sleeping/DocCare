@@ -131,10 +131,15 @@ class _DCChangePasswordScreenState extends State<DCChangePasswordScreen> {
                         ),
                         const SizedBox(height: 10),
                         Center(
-                          child: BlocBuilder<ChangePasswordBloc,
+                          child: BlocConsumer<ChangePasswordBloc,
                               ChangePasswordState>(
+                            listener: (context, state) {
+                              if (state is ChangePasswordSuccess) {
+                                Navigator.of(context, rootNavigator: true)
+                                    .pushNamed('/splash');
+                              }
+                            },
                             builder: (context, state) {
-                              // TODO(phucchuhoang): design what to do after send reset password link
                               if (_start > 0 && _timerStarted) {
                                 // During cooldown period, show countdown
                                 return Text(
