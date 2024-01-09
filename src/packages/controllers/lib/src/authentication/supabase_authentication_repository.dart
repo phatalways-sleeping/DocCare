@@ -31,7 +31,6 @@ class SupabaseAuthenticationRepository
     // if (!passwordValidation.isValid) {
     //   throw AuthException(passwordValidation.cause!);
     // }
-
     await _authEmailApiService.changePassword(password);
   }
 
