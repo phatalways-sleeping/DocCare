@@ -45,7 +45,14 @@ class DoctorViewBloc extends Bloc<DoctorViewEvent, DoctorViewState> {
       // If today, filter times after the current time
       availablePeriods.retainWhere((period) {
         final time = period['time'] as String;
-        final periodDateTime = DateTime.parse('2022-01-01 $time');
+        final periodDateTime = DateTime(
+          now.year,
+          now.month,
+          now.day,
+          int.parse(time.split(':')[0]),
+          int.parse(time.split(':')[1]),
+        );
+        // Check if the periodDateTime is later than the current time
         return periodDateTime.isAfter(now);
       });
     }
@@ -53,9 +60,15 @@ class DoctorViewBloc extends Bloc<DoctorViewEvent, DoctorViewState> {
     // Extract 'time' values from the list and format them with leading zeros
     final appointmentTimes = availablePeriods.map((period) {
       final time = period['time'] as String;
-      final formattedTime =
-          DateFormat('HH:mm a').format(DateTime.parse('2022-01-01 $time'));
-      return formattedTime;
+      final periodDateTime = DateTime(
+        now.year,
+        now.month,
+        now.day,
+        int.parse(time.split(':')[0]),
+        int.parse(time.split(':')[1]),
+      );
+
+      return DateFormat('HH:mm a').format(periodDateTime);
     }).toList();
 
     return appointmentTimes;
