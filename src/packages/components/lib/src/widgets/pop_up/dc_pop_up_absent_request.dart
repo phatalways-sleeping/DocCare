@@ -140,6 +140,7 @@ class DCPopupAbsentRequest extends StatelessWidget {
           ),
         ),
       ],
+      buttonsHasBorder: const [true, false],
       buttonsText: [
         rejectButtonText ?? 'Reject',
         confirmButtonText ?? 'Confirm',

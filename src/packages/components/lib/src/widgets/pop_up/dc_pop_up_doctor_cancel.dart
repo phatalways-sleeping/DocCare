@@ -70,9 +70,10 @@ class DCPopupDoctorCancel extends StatelessWidget {
           child: Text(message),
         ),
       ],
+      buttonsHasBorder: const [true, false],
       buttonsText: [
         cancelButtonText ?? 'Cancel',
-        confirmButtonText ?? 'confirm',
+        confirmButtonText ?? 'Confirm',
       ],
       buttonsColor: [
         cancelButtonColor ?? context.colorScheme.error,

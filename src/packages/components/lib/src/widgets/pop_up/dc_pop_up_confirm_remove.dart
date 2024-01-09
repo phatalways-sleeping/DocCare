@@ -67,6 +67,7 @@ class DCPopupConfirmRemove extends StatelessWidget {
           child: Text(message),
         ),
       ],
+      buttonsHasBorder: const [true, false],
       buttonsText: [
         cancelButtonText ?? 'Cancel',
         confirmButtonText ?? 'Confirm',
