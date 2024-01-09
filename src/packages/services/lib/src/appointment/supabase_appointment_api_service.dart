@@ -46,10 +46,12 @@ class SupabaseAppointmentApiService
                 ? throw Exception(
                     'Error from getAppointmentsByDoctorId: No appointments found with doctorId $doctorId',
                   )
-                : value.map(Appointment.fromJson).toList(),
+                :
+                 value.map(Appointment.fromJson).toList(),
           )
           .onError(
-            (error, stackTrace)  {return [];},
+            
+            (error, stackTrace) { return [];},
           );
 
   @override
