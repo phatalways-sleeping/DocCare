@@ -38,15 +38,25 @@ class DoctorViewBloc extends Bloc<DoctorViewEvent, DoctorViewState> {
     final availablePeriods = await _customerRepositoryService
         .getAvailablePeriod(doctorID, date, customerid);
 
-    // Extract 'time' values from the list and format them with leading zeros
-    final appointmentTimes = availablePeriods.map(
-      (period) {
+    final now = DateTime.now();
+
+    // Check if the date is today
+    if (date.day == now.day) {
+      // If today, filter times after the current time
+      availablePeriods.retainWhere((period) {
         final time = period['time'] as String;
-        final formattedTime =
-            DateFormat('HH:mm a').format(DateTime.parse('2022-01-01 $time'));
-        return formattedTime;
-      },
-    ).toList();
+        final periodDateTime = DateTime.parse('2022-01-01 $time');
+        return periodDateTime.isAfter(now);
+      });
+    }
+
+    // Extract 'time' values from the list and format them with leading zeros
+    final appointmentTimes = availablePeriods.map((period) {
+      final time = period['time'] as String;
+      final formattedTime =
+          DateFormat('HH:mm a').format(DateTime.parse('2022-01-01 $time'));
+      return formattedTime;
+    }).toList();
 
     return appointmentTimes;
   }
