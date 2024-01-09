@@ -40,8 +40,6 @@ class DCSplashScreen extends StatefulWidget {
 }
 
 class _DCSplashScreenState extends State<DCSplashScreen> {
-
-
   @override
   void initState() {
     // Clear all the content of authentication repository
@@ -68,24 +66,27 @@ class _DCSplashScreenState extends State<DCSplashScreen> {
             NotificationManager.instance,
           ),
           child: BlocListener<LoginBloc, LoginState>(
-            listener: (context, state) {
+            listener: (context, state) async {
               if (state is LoginSuccess) {
                 // Close the modal bottom sheet
                 Navigator.of(context, rootNavigator: true).pop();
-                switch (state.role) {
-                  case 'doctor':
-                    Navigator.of(context, rootNavigator: true)
-                        .pushReplacementNamed('/doctor/home');
-                  case 'customer':
-                    Navigator.of(context, rootNavigator: true)
-                        .pushReplacementNamed('/home');
-                  case 'admin':
-                    Navigator.of(context, rootNavigator: true)
-                        .pushReplacementNamed('/admin/staff/create');
-                  case 'receptionist':
-                    Navigator.of(context, rootNavigator: true)
-                        .pushReplacementNamed('/receptionist/absent-request');
-                }
+                await Future.delayed(const Duration(milliseconds: 500), () {})
+                    .then((value) async {
+                  switch (state.role) {
+                    case 'doctor':
+                      await Navigator.of(context, rootNavigator: true)
+                          .pushReplacementNamed('/doctor/home');
+                    case 'customer':
+                      await Navigator.of(context, rootNavigator: true)
+                          .pushReplacementNamed('/home');
+                    case 'admin':
+                      await Navigator.of(context, rootNavigator: true)
+                          .pushReplacementNamed('/admin/staff/create');
+                    case 'receptionist':
+                      await Navigator.of(context, rootNavigator: true)
+                          .pushReplacementNamed('/receptionist/absent-request');
+                  }
+                });
               }
             },
             child: const DCPageViewOne(),
