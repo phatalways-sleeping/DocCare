@@ -570,9 +570,12 @@ class SupabaseCustomerRepository implements CustomerRepositoryService {
     }
 
     final data = response as List<dynamic>;
-    final result = data.map((item) {
-      return item.toString();
-    }).toList();
+    final result = <String>[];
+    for (final e in data) {
+      if (e != null) {
+        result.add(e.toString());
+      }
+    }
 
     return result;
   }
