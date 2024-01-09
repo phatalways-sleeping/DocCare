@@ -81,13 +81,14 @@ class DCPopupConfirmChange extends StatelessWidget {
           child: Text(boldMessage),
         )
       ],
+      buttonsHasBorder: const [true, false],
       buttonsText: [
         cancelButtonText ?? 'Cancel',
         confirmButtonText ?? 'Confirm',
       ],
       buttonsColor: [
         cancelButtonColor ?? context.colorScheme.error,
-        confirmButtonColor ?? context.colorScheme.primary,
+        confirmButtonColor ?? context.colorScheme.secondary,
       ],
       buttonsWidth: buttonsWidth,
       buttonsHeight: buttonsHeight,

@@ -163,7 +163,7 @@ class AppointmentDetailsWidget extends StatelessWidget {
                                         ),
                                         borderRadius: BorderRadius.circular(12),
                                         backgroundColor:
-                                            const Color(0xFF0EBE7F),
+                                            context.colorScheme.secondary,
                                         fixedSize: Size(
                                           context.width * 0.3,
                                           25,

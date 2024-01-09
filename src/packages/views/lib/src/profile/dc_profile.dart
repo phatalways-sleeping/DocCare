@@ -98,14 +98,14 @@ class _DCProfileScreenState extends State<DCProfileScreen> {
                     context,
                   ),
                   icon: SvgPicture.string(
-                          DCSVGIcons.back,
-                          width: 30,
-                          height: 20,
-                          colorFilter: ColorFilter.mode(
-                            context.colorScheme.onBackground,
-                            BlendMode.srcIn,
-                          ),
-                        ),
+                    DCSVGIcons.back,
+                    width: 30,
+                    height: 20,
+                    colorFilter: ColorFilter.mode(
+                      context.colorScheme.onBackground,
+                      BlendMode.srcIn,
+                    ),
+                  ),
                 ),
               ),
               extendBodyBehindAppBar: true,
@@ -272,7 +272,6 @@ class _DCProfileScreenState extends State<DCProfileScreen> {
                               color: context.colorScheme.tertiary,
                               initialText: state,
                               textAlign: TextAlign.center,
-                              keyboardType: TextInputType.datetime,
                               heading: Text(
                                 'Specialization',
                                 style: context.textTheme.bodyRegularPoppins

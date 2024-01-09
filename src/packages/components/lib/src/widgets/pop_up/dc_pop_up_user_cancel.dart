@@ -153,7 +153,7 @@ class DCPopupUserCancel extends StatelessWidget {
         confirmButtonText ?? 'Agree',
       ],
       buttonsColor: [
-        confirmButtonColor ?? context.colorScheme.senary,
+        confirmButtonColor ?? context.colorScheme.secondary,
       ],
       buttonsWidth: buttonsWidth,
       buttonsHeight: buttonsHeight,
