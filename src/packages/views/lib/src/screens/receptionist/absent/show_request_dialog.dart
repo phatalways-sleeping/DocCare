@@ -171,7 +171,7 @@ Future<RequestResponse> showRequestDialog({
                         'Confirm',
                         style: context.textTheme.bodyRegularPoppins.copyWith(
                           fontSize: 16,
-                          color: context.colorScheme.tertiary,
+                          color: context.colorScheme.secondary,
                         ),
                       ),
                     ),

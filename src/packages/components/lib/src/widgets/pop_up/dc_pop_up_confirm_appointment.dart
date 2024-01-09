@@ -165,13 +165,14 @@ class DCPopupConfirmAppointment extends StatelessWidget {
           child: Text(noteMessage),
         ),
       ],
+      buttonsHasBorder: const [true, false],
       buttonsText: [
         cancelButtonText ?? 'Cancel',
         confirmButtonText ?? 'Confirm',
       ],
       buttonsColor: [
         cancelButtonColor ?? context.colorScheme.error,
-        confirmButtonColor ?? context.colorScheme.senary,
+        confirmButtonColor ?? context.colorScheme.secondary,
       ],
       buttonsWidth: buttonsWidth,
       buttonsHeight: buttonsHeight,

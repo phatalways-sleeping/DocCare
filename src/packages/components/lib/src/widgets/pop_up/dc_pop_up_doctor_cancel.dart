@@ -50,7 +50,6 @@ class DCPopupDoctorCancel extends StatelessWidget {
     //Center everything in the middle column using Alert Dialog
     //onCancelButtonClicked?.call(context);
     return BasePopup(
-      
       message: [
         DefaultTextStyle.merge(
           style: context.textTheme.h4BoldPoppins.copyWith(
@@ -71,13 +70,14 @@ class DCPopupDoctorCancel extends StatelessWidget {
           child: Text(message),
         ),
       ],
+      buttonsHasBorder: const [true, false],
       buttonsText: [
         cancelButtonText ?? 'Cancel',
-        confirmButtonText ?? 'confirm',
+        confirmButtonText ?? 'Confirm',
       ],
       buttonsColor: [
         cancelButtonColor ?? context.colorScheme.error,
-        confirmButtonColor ?? context.colorScheme.primary,
+        confirmButtonColor ?? context.colorScheme.secondary,
       ],
       buttonsWidth: buttonsWidth,
       buttonsHeight: buttonsHeight,
@@ -92,10 +92,12 @@ class DCPopupDoctorCancel extends StatelessWidget {
           fit: BoxFit.cover,
         ),
       ),
-      onCancelButtonClicked: (context) =>
-          onCancelButtonClicked == null ? Navigator.of(context).pop() : onCancelButtonClicked?.call(context),
-      onConfirmButtonClicked: (context) =>
-          onConfirmButtonClicked == null ? Navigator.of(context).pop() : onConfirmButtonClicked?.call(context),
+      onCancelButtonClicked: (context) => onCancelButtonClicked == null
+          ? Navigator.of(context).pop()
+          : onCancelButtonClicked?.call(context),
+      onConfirmButtonClicked: (context) => onConfirmButtonClicked == null
+          ? Navigator.of(context).pop()
+          : onConfirmButtonClicked?.call(context),
       iconBackgroundColor:
           const Color.fromRGBO(231, 248, 242, 1), //Add to color scheme later
     );

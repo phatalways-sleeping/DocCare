@@ -313,11 +313,11 @@ class _DCPopupIntakeRatingState extends State<DCPopupIntakeRating> {
           : [widget.confirmButtonText ?? 'Done'],
       buttonsColor: (widget.showReview == null)
           ? [
-              widget.reviewButtonColor ?? context.colorScheme.senary,
-              widget.confirmButtonColor ?? context.colorScheme.senary,
+              widget.reviewButtonColor ?? context.colorScheme.secondary,
+              widget.confirmButtonColor ?? context.colorScheme.secondary,
             ]
           : [
-              widget.confirmButtonColor ?? context.colorScheme.senary,
+              widget.confirmButtonColor ?? context.colorScheme.secondary,
             ],
       buttonsWidth: widget.buttonsWidth,
       buttonsHeight: widget.buttonsHeight,

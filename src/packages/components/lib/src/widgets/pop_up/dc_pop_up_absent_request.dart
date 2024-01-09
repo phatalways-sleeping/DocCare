@@ -140,13 +140,14 @@ class DCPopupAbsentRequest extends StatelessWidget {
           ),
         ),
       ],
+      buttonsHasBorder: const [true, false],
       buttonsText: [
         rejectButtonText ?? 'Reject',
         confirmButtonText ?? 'Confirm',
       ],
       buttonsColor: [
         rejectButtonColor ?? context.colorScheme.error,
-        confirmButtonColor ?? context.colorScheme.primary,
+        confirmButtonColor ?? context.colorScheme.secondary,
       ],
       buttonsWidth: buttonsWidth,
       buttonsHeight: buttonsHeight,
