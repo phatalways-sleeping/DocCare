@@ -110,7 +110,7 @@ class _DCReceptionistAbsentScreenState
                                 .getPendingAbsentRequests(),
                             builder: (context, snapshot) {
                               if (snapshot.hasError) {
-                                debugPrint(snapshot.error.toString());
+                                // debugPrint(snapshot.error.toString());
                                 return Center(
                                   child: Text(
                                     'Please try again later',

@@ -86,7 +86,7 @@ doctor:doctorID ( imageUrl )
       return [];
     });
 
-    debugPrint(response.toString());
+    // debugPrint(response.toString());
 
     final result = response
         .map(

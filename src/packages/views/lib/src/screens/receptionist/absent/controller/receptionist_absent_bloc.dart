@@ -5,6 +5,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:controllers/controllers.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
 part 'receptionist_absent_event.dart';
@@ -46,7 +47,8 @@ class ReceptionistAbsentBloc
             state: state as ReceptionistAbsentLoadingState,
           ),
         );
-      } on TimeoutException catch (_) {
+      } on TimeoutException catch (error) {
+        debugPrint(error.toString());
         if (state is! ReceptionistAbsentLoadingState) {
           return _handleInvalidState(emit);
         }
@@ -56,6 +58,7 @@ class ReceptionistAbsentBloc
           ),
         );
       } catch (error) {
+        debugPrint(error.toString());
         if (state is! ReceptionistAbsentLoadingState) {
           return _handleInvalidState(emit);
         }

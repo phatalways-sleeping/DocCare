@@ -43,11 +43,27 @@ class DoctorAbsentBloc extends Bloc<DoctorAbsentEvent, DoctorAbsentState> {
       try {
         emit(DoctorAbsentLoading.fromState(state: state));
         final dateComps = state.date.split('/');
+        if (dateComps.length != 3) {
+          throw Exception('Invalid date format');
+        }
+        if (dateComps[0].length != 2 ||
+            dateComps[1].length != 2 ||
+            dateComps[2].length != 4) {
+          throw Exception('Invalid date format');
+        }
+        if (int.parse(dateComps[0]) > 31 ||
+            int.parse(dateComps[1]) > 12 ||
+            int.parse(dateComps[2]) < DateTime.now().year) {
+          throw Exception('Invalid date format');
+        }
         final date = DateTime(
           int.parse(dateComps[2]),
           int.parse(dateComps[1]),
           int.parse(dateComps[0]),
         );
+        if (date.isBefore(DateTime.now())) {
+          throw Exception('Invalid date format');
+        }
         await _doctorRepositoryService.sendAbsentRequest(
           reasons: state.reasons,
           date: date,
