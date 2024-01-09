@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:views/src/screens/doctors/home/controller/doctor_home_bloc.dart';
 import 'package:views/src/screens/doctors/home/widgets/dc_appointment_item.dart';
 import 'package:views/src/screens/doctors/home/widgets/dc_doctor_async_pop_up.dart';
+
 class DCDoctorAsyncItem extends StatefulWidget {
   const DCDoctorAsyncItem({
     required this.future,
@@ -108,44 +109,47 @@ class _DCDoctorAsyncItemState extends State<DCDoctorAsyncItem> {
                   ),
                   color: context.colorScheme.error,
                   onSelected: (context) => {},
-
                   onPressed: e['done'] == true
                       ? (context) async {
-                      //Move state to IntakeRating, has problem with how the dialog is shown
-                      final results = await showDialog<int>(
-                        context: context,
-                        builder: (bcontext) => DCDoctorAsyncPopUp(
-                          future: context.read<DoctorHomeBloc>().
-                          getCurrentPrescriptions(e['prescriptionID'].toString(), e['customerID'].toString()),
-                          customerName: e['customerName'].toString(),
-
+                          //Move state to IntakeRating, has problem with how the dialog is shown
+                          final results = await showDialog<int>(
+                            context: context,
+                            builder: (bcontext) => DCDoctorAsyncPopUp(
+                              future: context
+                                  .read<DoctorHomeBloc>()
+                                  .getCurrentPrescriptions(
+                                      e['prescriptionID'].toString(),
+                                      e['customerID'].toString()),
+                              customerName: e['customerName'].toString(),
 
                               // .read<DoctorHomeBloc>()
                               // .getCurrentPrescriptions(
                               //   e['id'] as String,
                               // ),
-                        ),
-                      );
-                      }
-                      : (context) {
-                          if (!canPrescribe(e['date'].toString())) return;
-                          
-                          final data = {
-                            'customerID': e['customerID'].toString(),
-                            'customerName': e['customerName'].toString(),
-                            'date': DateTime.parse(e['date'].toString()),
-                            'period': (e['period'].toString()),
-                            'doctorID': e['doctorID'].toString(),
-                            'rating': e['rating'].toString(),
-                            'customerComment': e['customerComment'].toString(),
-                            'dateDone': (e['dateDone'].toString()),
-                            'prescriptionDone':
-                                e['prescriptionDone'].toString(),
-                          };
+                            ),
+                          );
+                        }
+                      : !canPrescribe(e['date'].toString())
+                          ? null
+                          : (context) {
+                              final data = {
+                                'customerID': e['customerID'].toString(),
+                                'customerName': e['customerName'].toString(),
+                                'date': DateTime.parse(e['date'].toString()),
+                                'period': (e['period'].toString()),
+                                'doctorID': e['doctorID'].toString(),
+                                'rating': e['rating'].toString(),
+                                'customerComment':
+                                    e['customerComment'].toString(),
+                                'dateDone': (e['dateDone'].toString()),
+                                'prescriptionDone':
+                                    e['prescriptionDone'].toString(),
+                              };
 
-                          Navigator.of(context, rootNavigator: true)
-                              .pushNamed('/doctor/prescribe', arguments: data);
-                        },
+                              Navigator.of(context, rootNavigator: true)
+                                  .pushNamed('/doctor/prescribe',
+                                      arguments: data);
+                            },
                   bottomRight: const Text(
                     //'${e['diagnosis']}',
                     '',

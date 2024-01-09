@@ -112,7 +112,7 @@ class SupabaseCustomerRepository implements CustomerRepositoryService {
 
   @override
   void clear() {
-    _customerId = '';
+    _customerId = null;
   }
 
   @override
