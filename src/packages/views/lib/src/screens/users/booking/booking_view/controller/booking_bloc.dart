@@ -189,7 +189,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
           period: time,
           customerid: customerid,
           doctorid: doctorid,
-          date: date,
+          date: DateTime(date.year, date.month, date.day),
           customerComment: customerComment,
           customername: customerName,
         );
@@ -219,7 +219,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
           period: time,
           customerid: customerid,
           doctorid: highestRatingDoctorId,
-          date: date,
+          date: DateTime(date.year, date.month, date.day),
           customerComment: customerComment,
           customername: customerDetail['fullName'] as String,
         );

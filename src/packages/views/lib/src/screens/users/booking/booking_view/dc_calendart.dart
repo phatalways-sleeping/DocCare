@@ -198,8 +198,7 @@ class DCCalendarColumn extends StatelessWidget {
               date: date,
               onPressed: (context) {
                 context.read<BookingBloc>().add(
-                      BookingSelectDateEvent(
-                          date: DateTime(date.year, date.month, date.day)),
+                      BookingSelectDateEvent(date: date),
                     );
               },
               available: (date.isAfter(DateTime.now()) &&
