@@ -14,8 +14,6 @@ class DCPageViewOne extends StatefulWidget {
 
 class _DCPageViewOneState extends State<DCPageViewOne>
     with SingleTickerProviderStateMixin {
-  late final passwordController = TextEditingController();
-
   late final transitionAnimationController = AnimationController(
     vsync: this,
     duration: const Duration(milliseconds: 650),
@@ -28,9 +26,22 @@ class _DCPageViewOneState extends State<DCPageViewOne>
 
   @override
   void dispose() {
-    passwordController.dispose();
     transitionAnimationController.dispose();
     super.dispose();
+  }
+
+  @override
+  void didChangeDependencies() {
+    // Dispose the animation controller when the widget is removed from the tree
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      transitionAnimationController.addStatusListener((status) {
+        if (status == AnimationStatus.dismissed) {
+          transitionAnimationController.dispose();
+          debugPrint('Disposed');
+        }
+      });
+    });
+    super.didChangeDependencies();
   }
 
   @override
@@ -41,7 +52,6 @@ class _DCPageViewOneState extends State<DCPageViewOne>
           await showDCLoginModalBottomSheet<bool>(
             context,
             transitionAnimationController,
-            passwordController: passwordController,
           );
         },
         padding: const EdgeInsets.symmetric(

@@ -26,7 +26,7 @@ import 'package:views/src/screens/authentication/splash/dc_page_view/dc_page_vie
 ///   home: DCSplashScreen(key: navigatorKey),
 /// );
 /// ```
-class DCSplashScreen extends StatelessWidget {
+class DCSplashScreen extends StatefulWidget {
   /// {@macro screens}
   const DCSplashScreen({
     required this.navigatorKey,
@@ -36,14 +36,31 @@ class DCSplashScreen extends StatelessWidget {
   final GlobalKey<NavigatorState> navigatorKey;
 
   @override
+  State<DCSplashScreen> createState() => _DCSplashScreenState();
+}
+
+class _DCSplashScreenState extends State<DCSplashScreen> {
+
+
+  @override
+  void initState() {
+    // Clear all the content of authentication repository
+    context.read<AuthenticationRepositoryService>().logout();
+    context.read<CustomerRepositoryService>().clear();
+    context.read<DoctorRepositoryService>().clear();
+    context.read<ReceptionistRepositoryService>().clear();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: navigatorKey,
+      key: widget.navigatorKey,
       resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: BlocProvider(
           create: (context) => LoginBloc(
-            navigatorKey,
+            widget.navigatorKey,
             context.read<AuthenticationRepositoryService>(),
             context.read<CustomerRepositoryService>(),
             context.read<DoctorRepositoryService>(),
@@ -53,6 +70,8 @@ class DCSplashScreen extends StatelessWidget {
           child: BlocListener<LoginBloc, LoginState>(
             listener: (context, state) {
               if (state is LoginSuccess) {
+                // Close the modal bottom sheet
+                Navigator.of(context, rootNavigator: true).pop();
                 switch (state.role) {
                   case 'doctor':
                     Navigator.of(context, rootNavigator: true)

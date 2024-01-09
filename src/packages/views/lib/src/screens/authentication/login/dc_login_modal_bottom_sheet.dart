@@ -9,11 +9,7 @@ import 'package:views/src/screens/authentication/login/controller/login_bloc.dar
 /// It appears when the user taps the "Get Started" button on the
 class _DCLoginModalBottomSheet extends StatefulWidget {
   /// [_DCLoginModalBottomSheet] constructor.
-  const _DCLoginModalBottomSheet({
-    this.passwordController,
-  });
-
-  final TextEditingController? passwordController;
+  const _DCLoginModalBottomSheet();
 
   @override
   State<_DCLoginModalBottomSheet> createState() =>
@@ -24,10 +20,12 @@ class __DCLoginModalBottomSheetState extends State<_DCLoginModalBottomSheet> {
   late double height = context.height * 0.5;
 
   late final emailController = TextEditingController();
+  late final passwordController = TextEditingController();
 
   @override
   void dispose() {
     emailController.dispose();
+    passwordController.dispose();
     super.dispose();
   }
 
@@ -75,7 +73,7 @@ class __DCLoginModalBottomSheetState extends State<_DCLoginModalBottomSheet> {
                 context.read<LoginBloc>().add(EmailInputEvent(controller.text)),
           ),
           DCOutlinedObscuredTextFormField(
-            controller: widget.passwordController,
+            controller: passwordController,
             borderColor: context.colorScheme.onBackground,
             color: context.colorScheme.onBackground,
             borderRadius: 16,
@@ -125,7 +123,7 @@ class __DCLoginModalBottomSheetState extends State<_DCLoginModalBottomSheet> {
                 backgroundColor: context.colorScheme.error,
                 onPressed: (context) {
                   if (state is LoginLoading) return;
-                  widget.passwordController?.clear();
+                  passwordController.clear();
                   context.read<LoginBloc>().add(
                         const LoginButtonPressedEvent(),
                       );
@@ -251,7 +249,7 @@ Future<T?> showDCLoginModalBottomSheet<T>(
   BuildContext context,
   AnimationController transitionAnimationController, {
   double borderRaidus = 40,
-  TextEditingController? passwordController,
+  // TextEditingController? passwordController,
 }) {
   final loginBloc = context.read<LoginBloc>();
   return showModalBottomSheet<T>(
@@ -277,9 +275,7 @@ Future<T?> showDCLoginModalBottomSheet<T>(
     // to use it's [LoginState] and [LoginEvent]
     builder: (context) => BlocProvider.value(
       value: loginBloc,
-      child: _DCLoginModalBottomSheet(
-        passwordController: passwordController,
-      ),
+      child: const _DCLoginModalBottomSheet(),
     ),
   );
 }

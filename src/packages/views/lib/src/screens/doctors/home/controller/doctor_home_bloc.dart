@@ -151,7 +151,9 @@ class DoctorHomeBloc extends Bloc<DoctorHomeEvent, DoctorHomeState> {
   void _onDoctorHomeOpenDoctorScheduleViewEvent(
     DoctorHomeOpenDoctorScheduleViewEvent event,
     Emitter<DoctorHomeState> emit,
-  ) {
+  ) async {
+    try {
+
     emit(
       DoctorScheduleViewState(
         doctorName: state.doctorName,
@@ -163,7 +165,38 @@ class DoctorHomeBloc extends Bloc<DoctorHomeEvent, DoctorHomeState> {
         selectedDate: event.date,
       ),
     );
+    } catch (e) {
+      await _notificationManagerService.show<void>(
+        _navigatorKey.currentContext!,
+        NotificationType.error,
+        title: const Text(
+          'Something went wrong',
+          style: TextStyle(
+            fontSize: 16,
+          ),
+        ),
+        message: const Text(
+          'Cannot load the Prescription info',
+          style: TextStyle(
+            fontSize: 16,
+          ),
+        ),
+      );
+    }
   }
+  
+
+  Future<Map<String, dynamic>> getCurrentPrescriptions(
+    String prescriptionID,
+    String customerID,
+  ) async {
+    final results =
+        await _doctorRepositoryService.getPrescriptionData(prescriptionID,customerID );
+    return results;
+  }
+
+
+
 
   Future<void> _onDoctorHomeOpenCancelAppointmentViewEvent(
     DoctorHomeOpenCancelAppointmentViewEvent event,
