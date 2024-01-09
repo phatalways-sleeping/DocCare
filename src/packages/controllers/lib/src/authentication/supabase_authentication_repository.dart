@@ -1,4 +1,5 @@
 import 'package:controllers/src/authentication/authentication_repository.dart';
+import 'package:flutter/widgets.dart';
 import 'package:services/services.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:utility/utility.dart' show FormValidator;
@@ -57,6 +58,11 @@ class SupabaseAuthenticationRepository
             seconds: 10,
           ),
         );
+    if (user.userMetadata != null) {
+      if (user.userMetadata!['enable'] == false) {
+        throw const AuthException('Account is disabled');
+      }
+    }
     final role = user.userMetadata!['role']! as String;
     return [
       role,
@@ -126,19 +132,41 @@ class SupabaseAuthenticationRepository
   }
 
   @override
-  Future<void> disableAccount(String id) {
+  Future<void> disableAccount(String id) async {
     final auth = SupabaseClient(_supabaseUrl, _serviceRoleKey).auth;
-    return auth.admin.updateUserById(
+    final r = await auth.admin.updateUserById(
       id,
       attributes: AdminUserAttributes(
         userMetadata: {'enable': false},
       ),
     );
+    final u = await auth.admin.getUserById(id);
+    debugPrint(u.user!.userMetadata!.toString());
+    debugPrint(r.toString());
   }
 
   @override
   Future<void> removeAccount(String id) {
     final auth = SupabaseClient(_supabaseUrl, _serviceRoleKey).auth;
     return auth.admin.deleteUser(id);
+  }
+
+  @override
+  Future<List<String>> getEmails(String role) {
+    final auth = SupabaseClient(_supabaseUrl, _serviceRoleKey).auth;
+    final result = auth.admin.listUsers().then(
+          (value) => value
+              .where(
+                (element) =>
+                    element.userMetadata != null &&
+                    element.userMetadata!['role'] == role.toLowerCase(),
+              )
+              .where((element) => element.email != null)
+              .map(
+                (e) => e.email!,
+              )
+              .toList(),
+        );
+    return result;
   }
 }

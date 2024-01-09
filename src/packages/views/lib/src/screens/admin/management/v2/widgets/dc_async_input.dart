@@ -5,7 +5,9 @@ import 'dart:async';
 import 'package:components/components.dart';
 import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:views/src/screens/admin/management/v2/config.dart';
+import 'package:views/src/screens/admin/management/v2/remove/controller/staff_removal_bloc.dart';
 
 /// Flutter code sample for [Autocomplete] that demonstrates fetching the
 /// options asynchronously and debouncing the network calls.
@@ -42,7 +44,14 @@ class DCAsyncInputState extends State<DCAsyncInput> {
     _currentQuery = query;
 
     // In a real application, there should be some error handling here.
-    final options = await _FakeAPI.search(_currentQuery!);
+    final role = context.read<StaffRemovalBloc>().state.role;
+    final options = await context
+        .read<StaffRemovalBloc>()
+        .getEmails(role)
+        .onError((error, stackTrace) {
+      debugPrint(error.toString());
+      return [];
+    });
 
     // If another search happened after this one, throw away these options.
     if (_currentQuery != query) {

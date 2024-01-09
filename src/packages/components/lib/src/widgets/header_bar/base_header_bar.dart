@@ -14,6 +14,7 @@ class BaseHeaderBar extends StatefulWidget implements PreferredSizeWidget {
     this.selectedItemColor,
     this.unselectedItemColor,
     this.cornerRadius = 40,
+    this.hideDrawerIcon = false,
     super.key,
   });
   final Color? backgroundColor;
@@ -23,6 +24,7 @@ class BaseHeaderBar extends StatefulWidget implements PreferredSizeWidget {
   final List<Widget>? actionItems;
   final String? headerBarTitle;
   final double cornerRadius;
+  final bool hideDrawerIcon;
 
   @override
   Size get preferredSize => const Size.fromHeight(50);
@@ -44,19 +46,21 @@ class _BaseHeaderBarState extends State<BaseHeaderBar> {
         ),
       ),
       leading: widget.leadingItems ??
-          IconButton(
-            icon: SvgPicture.string(
-              DCSVGIcons.drawer,
-              fit: BoxFit.cover,
-              colorFilter: ColorFilter.mode(
-                context.colorScheme.onBackground,
-                BlendMode.srcIn,
-              ),
-            ),
-            onPressed: () {
-              Scaffold.of(context).openDrawer();
-            },
-          ),
+          (widget.hideDrawerIcon
+              ? null
+              : IconButton(
+                  icon: SvgPicture.string(
+                    DCSVGIcons.drawer,
+                    fit: BoxFit.cover,
+                    colorFilter: ColorFilter.mode(
+                      context.colorScheme.onBackground,
+                      BlendMode.srcIn,
+                    ),
+                  ),
+                  onPressed: () {
+                    Scaffold.of(context).openDrawer();
+                  },
+                )),
       actions: widget.actionItems,
     );
   }

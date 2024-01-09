@@ -100,4 +100,7 @@ class StaffRemovalBloc extends Bloc<StaffRemovalEvent, StaffRemovalState> {
       );
     }
   }
+
+  Future<List<String>> getEmails(String role) async =>
+      _authenticationRepositoryService.getEmails(role);
 }

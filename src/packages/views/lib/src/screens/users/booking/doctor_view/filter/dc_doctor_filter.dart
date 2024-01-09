@@ -26,6 +26,8 @@ class DCDoctorFilterScreen extends StatefulWidget {
 class _DCDoctorFilterScreenState extends State<DCDoctorFilterScreen> {
   late List<String>? specialty = [];
 
+  bool applyFilter = false;
+
   @override
   void initState() {
     super.initState();
@@ -50,10 +52,15 @@ class _DCDoctorFilterScreenState extends State<DCDoctorFilterScreen> {
     return Scaffold(
       appBar: DCCustomerHeaderBar(
         title: 'Filter',
-        allowNavigateBack: true,
-        onLeadingIconPressed: (context) => context.read<DoctorViewBloc>().add(
-              const DoctorViewInitialEvent(),
-            ),
+        allowNavigateBack: !applyFilter,
+        hideDrawerIcon: applyFilter,
+        onLeadingIconPressed: !applyFilter
+            ? (context) {
+                context.read<DoctorViewBloc>().add(
+                      const DoctorViewInitialEvent(),
+                    );
+              }
+            : null,
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(
@@ -87,11 +94,16 @@ class _DCDoctorFilterScreenState extends State<DCDoctorFilterScreen> {
                           (e) => DCSpecialtyButton(
                             specialty: e,
                             isSelected: state.contains(e),
-                            onPressed: (context) => context
-                                .read<DoctorViewBloc>()
-                                .add(
-                                  DoctorViewFilterSpecialtyEvent(specialty: e),
-                                ),
+                            onPressed: (context) {
+                              setState(() {
+                                context.read<DoctorViewBloc>().add(
+                                      DoctorViewFilterSpecialtyEvent(
+                                        specialty: e,
+                                      ),
+                                    );
+                                applyFilter = true;
+                              });
+                            },
                           ),
                         )
                         .toList(),
@@ -125,10 +137,14 @@ class _DCDoctorFilterScreenState extends State<DCDoctorFilterScreen> {
                         (e) => DCRatingButton(
                           rating: e,
                           isSelected: state == e,
-                          onPressed: (context) =>
+                          onPressed: (context) {
+                            setState(() {
                               context.read<DoctorViewBloc>().add(
                                     DoctorViewFilterRatingEvent(rating: e),
-                                  ),
+                                  );
+                              applyFilter = true;
+                            });
+                          },
                         ),
                       )
                       .toList(),
@@ -165,9 +181,14 @@ class _DCDoctorFilterScreenState extends State<DCDoctorFilterScreen> {
           children: [
             Expanded(
               child: DCSpecialtyButton(
-                onPressed: (context) => context.read<DoctorViewBloc>().add(
-                      const DoctorViewResetFiltersEvent(),
-                    ),
+                onPressed: (context) {
+                  setState(() {
+                    applyFilter = false;
+                    context.read<DoctorViewBloc>().add(
+                          const DoctorViewResetFiltersEvent(),
+                        );
+                  });
+                },
                 specialty: 'Reset',
                 isSelected: false,
               ),
@@ -177,9 +198,13 @@ class _DCDoctorFilterScreenState extends State<DCDoctorFilterScreen> {
             ),
             Expanded(
               child: DCSpecialtyButton(
-                onPressed: (context) => context.read<DoctorViewBloc>().add(
-                      const DoctorViewInitialEvent(),
-                    ),
+                onPressed: (context) {
+                  setState(() {
+                    context.read<DoctorViewBloc>().add(
+                          const DoctorViewInitialEvent(),
+                        );
+                  });
+                },
                 specialty: 'Apply',
                 isSelected: true,
               ),

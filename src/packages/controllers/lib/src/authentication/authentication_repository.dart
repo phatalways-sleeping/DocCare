@@ -35,6 +35,9 @@ abstract interface class AuthenticationRepositoryService {
   /// [fetchUserByEmail] is the method for fetch user by email
   Future<User?> fetchUserByEmail(String email);
 
+  /// [getEmails] is the method for get emails
+  Future<List<String>> getEmails(String role);
+
   /// [disableAccount] is the method for disable account
   Future<void> disableAccount(String id);
 }

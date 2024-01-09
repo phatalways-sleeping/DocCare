@@ -17,11 +17,13 @@ class DCCustomerHeaderBar extends StatefulWidget
     this.allowNavigateBack = false,
     this.haveLogout = false,
     this.haveNotification = false,
+    this.hideDrawerIcon = false,
   });
   final String? title;
   final bool haveLogout;
   final bool allowNavigateBack;
   final bool haveNotification;
+  final bool hideDrawerIcon;
   final double cornerRadius;
   final void Function(BuildContext context)? onLeadingIconPressed;
   final void Function(BuildContext context)? onActionsIconPressed;
@@ -44,6 +46,7 @@ class _DCCustomerHeaderBarState extends State<DCCustomerHeaderBar> {
     return BaseHeaderBar(
       backgroundColor: backgroundColor,
       headerBarTitle: title,
+      hideDrawerIcon: widget.hideDrawerIcon,
       leadingItems: widget.allowNavigateBack
           ? IconButton(
               icon: SvgPicture.string(
