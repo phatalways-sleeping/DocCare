@@ -135,14 +135,19 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
         });
       }
       // Extract 'time' values from the list and format them with leading zeros
-      final appointmentTimes = availablePeriods.map(
-        (period) {
-          final time = period['time'] as String;
-          final formattedTime =
-              DateFormat('HH:mm a').format(DateTime.parse('2022-01-01 $time'));
-          return formattedTime;
-        },
-      ).toList();
+      final appointmentTimes = availablePeriods.map((period) {
+        final time = period['time'] as String;
+        final periodDateTime = DateTime(
+          now.year,
+          now.month,
+          now.day,
+          int.parse(time.split(':')[0]),
+          int.parse(time.split(':')[1]),
+        );
+
+        return DateFormat('HH:mm a').format(periodDateTime);
+      }).toList();
+
       return appointmentTimes;
     } catch (e) {
       rethrow;
