@@ -1,0 +1,148 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "src",
+            "cwd": "src",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "src (profile mode)",
+            "cwd": "src",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "src (release mode)",
+            "cwd": "src",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "auth_api",
+            "cwd": "src\\packages\\auth_api",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "auth_api (profile mode)",
+            "cwd": "src\\packages\\auth_api",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "auth_api (release mode)",
+            "cwd": "src\\packages\\auth_api",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "components",
+            "cwd": "src\\packages\\components",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "components (profile mode)",
+            "cwd": "src\\packages\\components",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "components (release mode)",
+            "cwd": "src\\packages\\components",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "extensions",
+            "cwd": "src\\packages\\extensions",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "extensions (profile mode)",
+            "cwd": "src\\packages\\extensions",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "extensions (release mode)",
+            "cwd": "src\\packages\\extensions",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "models",
+            "cwd": "src\\packages\\models",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "models (profile mode)",
+            "cwd": "src\\packages\\models",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "models (release mode)",
+            "cwd": "src\\packages\\models",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "model_api",
+            "cwd": "src\\packages\\model_api",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "model_api (profile mode)",
+            "cwd": "src\\packages\\model_api",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "model_api (release mode)",
+            "cwd": "src\\packages\\model_api",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "screens",
+            "cwd": "src\\packages\\screens",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "screens (profile mode)",
+            "cwd": "src\\packages\\screens",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "screens (release mode)",
+            "cwd": "src\\packages\\screens",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        }
+    ]
+}

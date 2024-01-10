@@ -1,0 +1,27 @@
+name: controllers
+description: Controllers
+version: 0.1.0+1
+publish_to: none
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+  flutter: ">=3.10.0"
+
+dependencies:
+  firebase_storage: ^11.5.6
+  flutter:
+    sdk: flutter
+  models:
+    path: ../models
+  services:
+    path: ../services
+  supabase_flutter: ^1.10.25
+  utility:
+    path: ../utility
+  uuid: ^4.2.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  mocktail: ^1.0.0
+  very_good_analysis: ^5.1.0
