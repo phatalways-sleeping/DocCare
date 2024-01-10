@@ -66,7 +66,7 @@ class DCAppointmentDetailPopUp extends StatelessWidget {
       buttonsText: [
         buttonText ?? 'Confirm',
       ],
-      buttonsColor: [buttonsColor ?? const Color.fromRGBO(14, 190, 127, 1)],
+      buttonsColor: [buttonsColor ?? context.colorScheme.secondary],
       buttonsWidth: buttonsWidth,
       buttonsHeight: buttonsHeight,
       buttonsTextSize: buttonsTextSize ?? 16,
