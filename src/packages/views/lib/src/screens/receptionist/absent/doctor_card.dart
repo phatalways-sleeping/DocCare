@@ -25,7 +25,7 @@ class DoctorCard extends StatelessWidget {
     return ElevatedButton(
       onPressed: () => onPressed(context),
       style: ButtonStyle(
-        elevation: MaterialStateProperty.all<double>(2),
+        elevation: MaterialStateProperty.all<double>(8),
         fixedSize: MaterialStateProperty.all<Size>(
           Size(
             context.width * 0.94,
@@ -53,6 +53,12 @@ class DoctorCard extends StatelessWidget {
         ),
         backgroundColor: MaterialStateProperty.all<Color>(
           context.colorScheme.background,
+        ),
+        overlayColor: MaterialStatePropertyAll(
+          context.colorScheme.secondary.withOpacity(0.1),
+        ),
+        shadowColor: MaterialStatePropertyAll(
+          context.colorScheme.secondary.withOpacity(0.1),
         ),
       ),
       child: Row(

@@ -26,25 +26,15 @@ class _DCDoctorAsyncPopUpState extends State<DCDoctorAsyncPopUp> {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           var medicineMessage = '';
-          List<Map<String, dynamic>> medicines =
+          final List<Map<String, dynamic>> medicines =
               snapshot.data!['medicines'] as List<Map<String, dynamic>>;
 
           for (var medicine in medicines) {
             var TOD = medicine['timeOfTheDay'].split('/').join(',').toString();
             TOD = TOD.substring(0, TOD.length - 1);
 
-            medicineMessage += medicine['medicineName'].toString() +
-                ': ' +
-                medicine['quantity'].toString() +
-                ' pill' +
-                (int.parse(medicine['quantity'].toString()) > 1 ? 's' : '') +
-                ' - ' +
-                TOD +
-                ' - ' +
-                (medicine['toBeTaken'].toString() == '0'
-                    ? 'before eating'
-                    : 'after eating') +
-                '\n';
+            medicineMessage +=
+                '${medicine['medicineName']}: ${medicine['quantity']} pill${int.parse(medicine['quantity'].toString()) > 1 ? 's' : ''} - $TOD - ${medicine['toBeTaken'].toString() == '0' ? 'before eating' : 'after eating'}\n';
           }
 
           medicineMessage = medicineMessage.substring(
@@ -52,10 +42,12 @@ class _DCDoctorAsyncPopUpState extends State<DCDoctorAsyncPopUp> {
             medicineMessage.length - 1,
           );
 
-          var rating = snapshot.data!['rating'];
+          final rating = snapshot.data!['rating'];
 
           return DCPopupDoctorPrescription(
             title: 'Prescription',
+            confirmButtonColor: context.colorScheme.secondary,
+
             diagnosisMessage: snapshot.data!['diagnosis'].toString(),
             //List of medicines to string
             medicinesMessage: medicineMessage,

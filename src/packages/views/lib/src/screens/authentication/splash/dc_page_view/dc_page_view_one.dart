@@ -31,20 +31,6 @@ class _DCPageViewOneState extends State<DCPageViewOne>
   }
 
   @override
-  void didChangeDependencies() {
-    // Dispose the animation controller when the widget is removed from the tree
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      transitionAnimationController.addStatusListener((status) {
-        if (status == AnimationStatus.dismissed) {
-          transitionAnimationController.dispose();
-          debugPrint('Disposed');
-        }
-      });
-    });
-    super.didChangeDependencies();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return DCPageView(
       action: DCFilledButton(

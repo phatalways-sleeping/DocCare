@@ -52,7 +52,7 @@ class _DCSignUpScreenState extends State<DCSignUpScreen> {
                   [
                     Container(
                       padding: EdgeInsets.symmetric(
-                        horizontal: context.width * 0.05,
+                        horizontal: context.width * 0.03,
                         vertical: context.height * 0.05,
                       ),
                       child: Column(
@@ -192,7 +192,7 @@ class _DCSignUpScreenState extends State<DCSignUpScreen> {
                                         context.colorScheme.onBackground,
                                     fillColor: state.checkedTerm
                                         ? MaterialStateProperty.all(
-                                            context.colorScheme.primary,
+                                            context.colorScheme.secondary,
                                           )
                                         : MaterialStateProperty.all(
                                             context.colorScheme.background,
@@ -231,7 +231,7 @@ class _DCSignUpScreenState extends State<DCSignUpScreen> {
                                 style:
                                     context.textTheme.h1RegularPoppins.copyWith(
                                   fontSize: 16,
-                                  color: context.colorScheme.primary,
+                                  color: context.colorScheme.secondary,
                                 ),
                               ),
                               Text(
@@ -239,7 +239,7 @@ class _DCSignUpScreenState extends State<DCSignUpScreen> {
                                 style:
                                     context.textTheme.h1RegularPoppins.copyWith(
                                   fontSize: 16,
-                                  color: context.colorScheme.primary,
+                                  color: context.colorScheme.secondary,
                                 ),
                               ),
                               Text(
@@ -247,7 +247,7 @@ class _DCSignUpScreenState extends State<DCSignUpScreen> {
                                 style:
                                     context.textTheme.h1RegularPoppins.copyWith(
                                   fontSize: 16,
-                                  color: context.colorScheme.primary,
+                                  color: context.colorScheme.secondary,
                                 ),
                               ),
                             ],
@@ -279,7 +279,7 @@ class _DCSignUpScreenState extends State<DCSignUpScreen> {
                                   return const Text('Sign up success');
                                 }
                                 return DCFilledButton(
-                                  backgroundColor: context.colorScheme.primary,
+                                  backgroundColor: context.colorScheme.secondary,
                                   fixedSize: Size(
                                     context.width * 0.90,
                                     context.height * 0.05,

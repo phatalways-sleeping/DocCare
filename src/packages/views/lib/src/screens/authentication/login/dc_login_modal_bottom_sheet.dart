@@ -52,7 +52,7 @@ class __DCLoginModalBottomSheetState extends State<_DCLoginModalBottomSheet> {
           ),
           DCOutlinedTextFormField(
             controller: emailController,
-            borderColor: context.colorScheme.onBackground,
+            borderColor: context.colorScheme.secondary,
             color: context.colorScheme.onBackground,
             borderRadius: 16,
             contentPadding: EdgeInsets.symmetric(
@@ -74,7 +74,7 @@ class __DCLoginModalBottomSheetState extends State<_DCLoginModalBottomSheet> {
           ),
           DCOutlinedObscuredTextFormField(
             controller: passwordController,
-            borderColor: context.colorScheme.onBackground,
+            borderColor: context.colorScheme.secondary,
             color: context.colorScheme.onBackground,
             borderRadius: 16,
             contentPadding: EdgeInsets.symmetric(
@@ -120,7 +120,7 @@ class __DCLoginModalBottomSheetState extends State<_DCLoginModalBottomSheet> {
                   context.width * 0.90,
                   context.height * 0.05,
                 ),
-                backgroundColor: context.colorScheme.error,
+                backgroundColor: context.colorScheme.secondary,
                 onPressed: (context) {
                   if (state is LoginLoading) return;
                   passwordController.clear();
@@ -163,7 +163,11 @@ class __DCLoginModalBottomSheetState extends State<_DCLoginModalBottomSheet> {
             ],
           ),
           DCFilledButton(
-            backgroundColor: context.colorScheme.secondary,
+            backgroundColor: context.colorScheme.background,
+            borderSide: BorderSide(
+              color: context.colorScheme.onBackground,
+              width: 1.5,
+            ),
             padding: EdgeInsets.symmetric(
               horizontal: context.width * 0.05,
               vertical: 8,
@@ -182,7 +186,11 @@ class __DCLoginModalBottomSheetState extends State<_DCLoginModalBottomSheet> {
             ),
           ),
           DCFilledButton(
-            backgroundColor: context.colorScheme.primary,
+            backgroundColor: context.colorScheme.background,
+            borderSide: BorderSide(
+              color: context.colorScheme.onBackground,
+              width: 1.5,
+            ),
             padding: EdgeInsets.symmetric(
               horizontal: context.width * 0.05,
               vertical: 8,
@@ -199,42 +207,6 @@ class __DCLoginModalBottomSheetState extends State<_DCLoginModalBottomSheet> {
                 color: context.colorScheme.onBackground,
                 fontSize: 16,
               ),
-            ),
-          ),
-          DCOutlinedButton(
-            borderSide: BorderSide(
-              color: context.colorScheme.onBackground,
-              width: 1.5,
-            ),
-            splashColor: context.colorScheme.onBackground,
-            padding: EdgeInsets.symmetric(
-              horizontal: context.width * 0.05,
-              vertical: 8,
-            ),
-            fixedSize: Size(
-              context.width * 0.90,
-              context.height * 0.05,
-            ),
-            onPressed: (context) {},
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset(
-                  'assets/images/google.png',
-                  width: context.width * 0.05,
-                  height: context.height * 0.05,
-                ),
-                const SizedBox(
-                  width: 16,
-                ),
-                Text(
-                  'Sign in with Google',
-                  style: context.textTheme.bodyRegularPoppins.copyWith(
-                    color: context.colorScheme.onSurface,
-                    fontSize: 16,
-                  ),
-                ),
-              ],
             ),
           ),
         ],
@@ -256,6 +228,7 @@ Future<T?> showDCLoginModalBottomSheet<T>(
     elevation: 0,
     context: context,
     backgroundColor: context.colorScheme.background,
+    barrierColor: context.colorScheme.background.withOpacity(0.05),
     isScrollControlled: true,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.only(

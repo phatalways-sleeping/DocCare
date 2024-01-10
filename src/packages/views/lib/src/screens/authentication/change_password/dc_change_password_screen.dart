@@ -86,7 +86,7 @@ class _DCChangePasswordScreenState extends State<DCChangePasswordScreen> {
                 [
                   Container(
                     padding: EdgeInsets.symmetric(
-                      horizontal: context.width * 0.05,
+                      horizontal: context.width * 0.03,
                       vertical: context.height * 0.02,
                     ),
                     child: Column(
@@ -135,8 +135,9 @@ class _DCChangePasswordScreenState extends State<DCChangePasswordScreen> {
                               ChangePasswordState>(
                             listener: (context, state) {
                               if (state is ChangePasswordSuccess) {
-                                Navigator.of(context, rootNavigator: true)
-                                    .pushNamed('/splash');
+                                // Navigator.of(context, rootNavigator: true)
+                                //     .pushNamed('/splash');
+                                Navigator.of(context).pop();
                               }
                             },
                             builder: (context, state) {
@@ -151,9 +152,11 @@ class _DCChangePasswordScreenState extends State<DCChangePasswordScreen> {
                                 // When there is an error
                                 return DCFilledButton(
                                   fixedSize: Size(
-                                    context.width * 0.8,
+                                    context.width * 0.94,
                                     context.height * 0.05,
                                   ),
+                                  backgroundColor:
+                                      context.colorScheme.secondary,
                                   onPressed: (context) {},
                                   child: Text(
                                     state.email.isEmpty
@@ -170,9 +173,11 @@ class _DCChangePasswordScreenState extends State<DCChangePasswordScreen> {
                                 // De1ult state - button is enabled
                                 return DCFilledButton(
                                   fixedSize: Size(
-                                    context.width * 0.8,
+                                    context.width * 0.94,
                                     context.height * 0.05,
                                   ),
+                                  backgroundColor:
+                                      context.colorScheme.secondary,
                                   onPressed: (context) {
                                     if (state.email.isEmpty) {
                                       return;

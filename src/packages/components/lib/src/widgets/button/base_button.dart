@@ -77,6 +77,9 @@ class BaseButton extends StatelessWidget {
           }
           return foregroundColor;
         }),
+        surfaceTintColor: const MaterialStatePropertyAll(
+          Colors.transparent,
+        ),
         minimumSize: MaterialStatePropertyAll(minimumSize),
         maximumSize: MaterialStatePropertyAll(maximumSize),
         fixedSize: MaterialStatePropertyAll(fixedSize),

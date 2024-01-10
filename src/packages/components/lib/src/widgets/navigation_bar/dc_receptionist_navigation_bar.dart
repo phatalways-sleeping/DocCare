@@ -46,11 +46,11 @@ class DCReceptionistNavigationBar extends StatelessWidget {
                 '/receptionist/booking',
                 (route) => false,
               );
-            case 2:
-              Navigator.of(context, rootNavigator: true).pushNamedAndRemoveUntil(
-                '/receptionist/message',
-                (route) => false,
-              );
+            // case 2:
+            //   Navigator.of(context, rootNavigator: true).pushNamedAndRemoveUntil(
+            //     '/receptionist/message',
+            //     (route) => false,
+            //   );
           }
         }
       },
@@ -82,7 +82,7 @@ class DCReceptionistNavigationBar extends StatelessWidget {
             DCSVGIcons.booking,
             height: iconSize,
             width: iconSize,
-            colorFilter: selectedIndex == 2
+            colorFilter: selectedIndex == 1
                 ? ColorFilter.mode(
                     selectedItemColor ?? context.colorScheme.onPrimary,
                     BlendMode.srcIn,
@@ -94,23 +94,23 @@ class DCReceptionistNavigationBar extends StatelessWidget {
           ),
           label: 'Booking',
         ),
-        BottomNavigationBarItem(
-          icon: SvgPicture.string(
-            DCSVGIcons.messages,
-            height: iconSize,
-            width: iconSize,
-            colorFilter: selectedIndex == 3
-                ? ColorFilter.mode(
-                    selectedItemColor ?? context.colorScheme.onPrimary,
-                    BlendMode.srcIn,
-                  )
-                : ColorFilter.mode(
-                    unselectedItemColor ?? context.colorScheme.quinary,
-                    BlendMode.srcIn,
-                  ),
-          ),
-          label: 'Messages',
-        ),
+        // BottomNavigationBarItem(
+        //   icon: SvgPicture.string(
+        //     DCSVGIcons.messages,
+        //     height: iconSize,
+        //     width: iconSize,
+        //     colorFilter: selectedIndex == 3
+        //         ? ColorFilter.mode(
+        //             selectedItemColor ?? context.colorScheme.onPrimary,
+        //             BlendMode.srcIn,
+        //           )
+        //         : ColorFilter.mode(
+        //             unselectedItemColor ?? context.colorScheme.quinary,
+        //             BlendMode.srcIn,
+        //           ),
+        //   ),
+        //   label: 'Messages',
+        // ),
       ],
       selectedIndex: selectedIndex,
       bottomPadding: bottomPadding,

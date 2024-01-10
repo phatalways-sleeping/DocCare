@@ -62,7 +62,9 @@ class _DCReceptionistAbsentScreenState
           } else if (state is ReceptionistAbsentErrorState) {}
         },
         builder: (context, state) => Scaffold(
-          appBar: const DCReceptionistHeaderBar(),
+          appBar: const DCReceptionistHeaderBar(
+            title: 'DocCare',
+          ),
           drawer: const DCReceptionistDrawer(),
           bottomNavigationBar: const DCReceptionistNavigationBar(),
           extendBody: true,

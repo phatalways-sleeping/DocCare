@@ -103,7 +103,7 @@ class _DCDoctorHomeScreenState extends State<DCDoctorHomeScreen> {
         title: 'DocCare',
       ),
       drawer: const DCDoctorDrawer(),
-      bottomNavigationBar: const DCDoctorNavigationBar(),
+      // bottomNavigationBar: const DCDoctorNavigationBar(),
       extendBody: true,
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(
@@ -213,7 +213,7 @@ class _DCDoctorHomeScreenState extends State<DCDoctorHomeScreen> {
                 return const DCDoctorCalendar();
               },
             ),
-            const SizedBox(height: 40),
+            // const SizedBox(height: 40),
           ],
         ),
       ),

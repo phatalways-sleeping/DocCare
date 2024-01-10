@@ -98,7 +98,7 @@ class _DCDoctorHomeWaitingScreenState extends State<DCDoctorHomeWaitingScreen> {
         title: 'DocCare',
       ),
       drawer: const DCDoctorDrawer(),
-      bottomNavigationBar: const DCDoctorNavigationBar(),
+      // bottomNavigationBar: const DCDoctorNavigationBar(),
       extendBody: true,
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(

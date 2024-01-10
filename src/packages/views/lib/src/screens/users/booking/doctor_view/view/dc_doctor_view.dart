@@ -217,7 +217,7 @@ class _DCDoctorViewScreenState extends State<DCDoctorViewScreen> {
               selectedIndex: 2,
             )
           : const DCReceptionistNavigationBar(
-              selectedIndex: 2,
+              selectedIndex: 1,
             ),
     );
   }
