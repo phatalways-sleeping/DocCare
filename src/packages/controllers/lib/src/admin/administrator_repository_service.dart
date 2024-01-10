@@ -1,6 +1,8 @@
 // ignore_for_file: public_member_api_docs
 
 abstract interface class AdministratorRepositoryService {
+  Future<void> disableDoctor(String email);
+
   Future<int> countAppointmentsInMonth(int month, int year);
 
   Future<int> countTotalAbsentRequest(int month, int year);

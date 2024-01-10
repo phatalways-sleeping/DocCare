@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs
 
+import 'package:flutter/widgets.dart';
 import 'package:models/models.dart';
 import 'package:services/src/appointment/appointment_api_service.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -46,13 +47,14 @@ class SupabaseAppointmentApiService
                 ? throw Exception(
                     'Error from getAppointmentsByDoctorId: No appointments found with doctorId $doctorId',
                   )
-                :
-                 value.map(Appointment.fromJson).toList(),
+                : value.map(Appointment.fromJson).toList(),
           )
           .onError(
-            
-            (error, stackTrace) { return [];},
-          );
+        (error, stackTrace) {
+          debugPrint(error.toString());
+          return [];
+        },
+      );
 
   @override
   Future<List<Appointment>> getAppointmentsByCustomerId(String customerId) =>

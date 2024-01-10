@@ -196,4 +196,31 @@ class SupabaseDoctorApiService
       .onError(
         (error, stackTrace) => throw Exception(error),
       );
+
+  @override
+  Future<void> updateIsDisable(String id, bool isDisable) => supabase
+      .from('doctor')
+      .update({
+        'isDisable': isDisable,
+      })
+      .eq('id', id)
+      .onError(
+        (error, stackTrace) => throw Exception(error),
+      );
+
+  @override
+  Future<String> getDoctorIdByEmail(String email) => supabase
+      .from('doctor')
+      .select<PostgrestList>()
+      .eq('email', email)
+      .limit(1)
+      .then(
+        (value) => value.isEmpty
+            ? throw Exception(
+                'Error from getDoctorIdByEmail: No doctor found with email $email')
+            : value.first['id'] as String,
+      )
+      .onError(
+        (error, stackTrace) => throw Exception(error),
+      );
 }

@@ -30,6 +30,7 @@ Doctor _$DoctorFromJson(Map<String, dynamic> json) {
     rating: (json['rating'] as num?)?.toDouble(),
     numberOfRates: json['numberOfRates'] as int?,
     imageUrl: json['imageUrl'] as String?,
+    isDisable:  json['isDisable'] as bool? ?? false,
   );
 }
 
@@ -44,4 +45,5 @@ Map<String, dynamic> _$DoctorToJson(Doctor instance) => <String, dynamic>{
       'rating': instance.rating,
       'numberOfRates': instance.numberOfRates,
       'imageUrl': instance.imageUrl,
+      'isDisable': instance.isDisable,
     };

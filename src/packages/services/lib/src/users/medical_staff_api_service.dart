@@ -17,4 +17,10 @@ abstract interface class MedicalStaffApiService {
 
   /// Update imageUrl of a user by [id]
   Future<void> updateImageUrl(String id, String? imageUrl);
+
+  /// Update isDisable of a user by [id]
+  Future<void> updateIsDisable(String id, bool isDisable);
+
+  /// Get doctor by [email]
+  Future<String> getDoctorIdByEmail(String email);
 }

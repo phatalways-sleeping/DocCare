@@ -20,6 +20,7 @@ class DCStaffRemovalScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => StaffRemovalBloc(
         context.read<AuthenticationRepositoryService>(),
+        context.read<AdministratorRepositoryService>(),
       ),
       child: BlocConsumer<StaffRemovalBloc, StaffRemovalState>(
         buildWhen: (previous, current) =>

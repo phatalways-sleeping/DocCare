@@ -14,6 +14,7 @@ part 'staff_removal_state.dart';
 class StaffRemovalBloc extends Bloc<StaffRemovalEvent, StaffRemovalState> {
   StaffRemovalBloc(
     this._authenticationRepositoryService,
+    this._administratorRepositoryService,
   ) : super(StaffRemovalInitial.initial()) {
     on<StaffRemovalResetEvent>(_onStaffRemovalResetEvent);
     on<StaffRemovalRoleChangedEvent>(_onStaffRemovalRoleChangedEvent);
@@ -22,6 +23,7 @@ class StaffRemovalBloc extends Bloc<StaffRemovalEvent, StaffRemovalState> {
   }
 
   final AuthenticationRepositoryService _authenticationRepositoryService;
+  final AdministratorRepositoryService _administratorRepositoryService;
 
   @override
   void onTransition(
@@ -73,6 +75,8 @@ class StaffRemovalBloc extends Bloc<StaffRemovalEvent, StaffRemovalState> {
         throw Exception('User not found');
       }
 
+      debugPrint('User found: ${user.id}');
+
       await _authenticationRepositoryService
           .disableAccount(
             user.id,
@@ -81,7 +85,17 @@ class StaffRemovalBloc extends Bloc<StaffRemovalEvent, StaffRemovalState> {
             const Duration(
               seconds: 30,
             ),
-          );
+          ).then((value) {
+            debugPrint('Account disabled');
+          });
+
+
+
+      await _administratorRepositoryService.disableDoctor(
+        user.email!,
+      ).then((value) {
+        debugPrint('Doctor disabled');
+      });
 
       emit(StaffRemovalSuccess.fromState(state));
     } on TimeoutException catch (_) {

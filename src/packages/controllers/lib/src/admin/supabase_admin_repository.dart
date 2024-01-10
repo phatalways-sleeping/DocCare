@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs
 
 import 'package:controllers/src/admin/administrator_repository_service.dart';
+import 'package:flutter/widgets.dart';
 import 'package:services/services.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
@@ -30,6 +31,14 @@ class SupabaseAdminRepository implements AdministratorRepositoryService {
   late final admin = SupabaseClient(_supabaseUrl, _serviceRoleKey).auth.admin;
 
   final _specializationApiService = SupabaseSpecializationApiService(
+    supabase: Supabase.instance.client,
+  );
+
+  final _appointmentApiService = SupabaseAppointmentApiService(
+    supabase: Supabase.instance.client,
+  );
+
+  final _doctorApiService = SupabaseDoctorApiService(
     supabase: Supabase.instance.client,
   );
 
@@ -327,5 +336,32 @@ class SupabaseAdminRepository implements AdministratorRepositoryService {
     final response = await _specializationApiService.getAllSpecialization();
 
     return response;
+  }
+
+  @override
+  Future<void> disableDoctor(String email) async {
+    final id = await _doctorApiService.getDoctorIdByEmail(email);
+
+    final appointments = await _appointmentApiService
+        .getAppointmentsByDoctorId(id)
+        .timeout(
+          const Duration(seconds: 30),
+        )
+        .then(
+          (value) => value.where(
+            (element) => element.done == null || element.done == false,
+          ),
+        );
+    await Future.wait(
+      [
+        _doctorApiService.updateIsDisable(id, true),
+        for (final appointment in appointments)
+          _appointmentApiService.updateAppointment(
+            appointment.copyWith(
+              isCanceled: true,
+            ),
+          )
+      ],
+    );
   }
 }
