@@ -117,7 +117,23 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
         date: date,
         customerid: customerid!,
       );
-
+      final now = DateTime.now();
+      // Check if the date is today
+      if (date.day == now.day) {
+        // If today, filter times after the current time
+        availablePeriods.retainWhere((period) {
+          final time = period['time'] as String;
+          final periodDateTime = DateTime(
+            now.year,
+            now.month,
+            now.day,
+            int.parse(time.split(':')[0]),
+            int.parse(time.split(':')[1]),
+          );
+          // Check if the periodDateTime is later than the current time
+          return periodDateTime.isAfter(now);
+        });
+      }
       // Extract 'time' values from the list and format them with leading zeros
       final appointmentTimes = availablePeriods.map(
         (period) {
@@ -182,8 +198,6 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
         if (existAppointment) {
           throw Error();
         }
-        print('Test');
-        print(existAppointment);
 
         await _customerRepositoryService.bookAppointmentWithDoctor(
           period: time,
@@ -212,8 +226,6 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
         if (existAppointment) {
           throw Error();
         }
-        print('Test');
-        print(existAppointment);
 
         await _customerRepositoryService.bookAppointmentWithDoctor(
           period: time,
