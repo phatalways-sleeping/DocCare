@@ -39,7 +39,6 @@ class DoctorViewBloc extends Bloc<DoctorViewEvent, DoctorViewState> {
         .getAvailablePeriod(doctorID, date, customerid);
 
     final now = DateTime.now();
-
     // Check if the date is today
     if (date.day == now.day) {
       // If today, filter times after the current time
