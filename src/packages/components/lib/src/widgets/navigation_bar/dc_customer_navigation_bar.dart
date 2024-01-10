@@ -52,10 +52,10 @@ class DCCustomerNavigationBar extends StatelessWidget {
               Navigator.of(context, rootNavigator: true).pushReplacementNamed(
                 '/booking',
               );
-            case 4:
-              Navigator.of(context, rootNavigator: true).pushReplacementNamed(
-                '/message',
-              );
+            // case 4:
+            //   Navigator.of(context, rootNavigator: true).pushReplacementNamed(
+            //     '/message',
+            //   );
           }
         }
       },
@@ -133,23 +133,23 @@ class DCCustomerNavigationBar extends StatelessWidget {
           ),
           label: 'Booking',
         ),
-        BottomNavigationBarItem(
-          icon: SvgPicture.string(
-            DCSVGIcons.messages,
-            height: iconSize,
-            width: iconSize,
-            colorFilter: selectedIndex == 4
-                ? ColorFilter.mode(
-                    selectedItemColor ?? context.colorScheme.onPrimary,
-                    BlendMode.srcIn,
-                  )
-                : ColorFilter.mode(
-                    unselectedItemColor ?? context.colorScheme.quinary,
-                    BlendMode.srcIn,
-                  ),
-          ),
-          label: 'Messages',
-        ),
+        // BottomNavigationBarItem(
+        //   icon: SvgPicture.string(
+        //     DCSVGIcons.messages,
+        //     height: iconSize,
+        //     width: iconSize,
+        //     colorFilter: selectedIndex == 4
+        //         ? ColorFilter.mode(
+        //             selectedItemColor ?? context.colorScheme.onPrimary,
+        //             BlendMode.srcIn,
+        //           )
+        //         : ColorFilter.mode(
+        //             unselectedItemColor ?? context.colorScheme.quinary,
+        //             BlendMode.srcIn,
+        //           ),
+        //   ),
+        //   label: 'Messages',
+        // ),
       ],
       selectedIndex: selectedIndex,
       bottomPadding: bottomPadding,

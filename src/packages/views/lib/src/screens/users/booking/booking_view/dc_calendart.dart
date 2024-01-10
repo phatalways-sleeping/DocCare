@@ -202,6 +202,7 @@ class DCCalendarColumn extends StatelessWidget {
                     );
               },
               available: (date.isAfter(DateTime.now()) &&
+                      date.month == DateTime.now().month &&
                       (context.read<BookingBloc>().state.doctorData.isEmpty ||
                           workingShiftFuture.any((shiftDate) =>
                               shiftDate.year == date.year &&
