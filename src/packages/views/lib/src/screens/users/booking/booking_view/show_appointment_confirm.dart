@@ -17,14 +17,16 @@ Future<bool> showAppointmentConfirm({
       builder: (context) => Material(
         color: Colors.transparent,
         child: Container(
-          height: context.height * 0.7,
+          constraints: BoxConstraints(
+            minHeight: context.height * 0.7,
+          ),
           padding: EdgeInsets.symmetric(
             horizontal: context.width * 0.05,
             vertical: 20,
           ),
           margin: EdgeInsets.symmetric(
             horizontal: context.width * 0.05,
-            vertical: context.height * 0.15,
+            vertical: context.height * 0.10,
           ),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
@@ -118,7 +120,7 @@ Future<bool> showAppointmentConfirm({
               ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   DCFilledButton(
                     onPressed: (context) => Navigator.pop(context, false),
@@ -147,7 +149,7 @@ Future<bool> showAppointmentConfirm({
                       context.width * 0.35,
                       40,
                     ),
-                    backgroundColor: const Color(0xFF8BF0B4),
+                    backgroundColor: context.colorScheme.secondary,
                     child: Text(
                       'Confirm',
                       style: context.textTheme.bodyRegularPoppins.copyWith(

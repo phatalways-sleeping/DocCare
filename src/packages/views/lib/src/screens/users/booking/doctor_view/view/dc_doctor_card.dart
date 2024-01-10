@@ -13,6 +13,7 @@ class DCDoctorCard extends StatelessWidget {
     required this.rating,
     required this.ratingCount,
     required this.onPressed,
+    this.showRating = true,
     super.key,
   });
 
@@ -21,6 +22,7 @@ class DCDoctorCard extends StatelessWidget {
   final String speciality;
   final double rating;
   final int ratingCount;
+  final bool showRating;
 
   final void Function(BuildContext context)? onPressed;
 
@@ -55,13 +57,17 @@ class DCDoctorCard extends StatelessWidget {
             color: Colors.black.withOpacity(0.1),
           ),
         ),
-        backgroundColor: MaterialStateProperty.resolveWith(
-          (states) {
-            if (states.contains(MaterialState.pressed)) {
-              return Colors.black.withOpacity(0.1);
-            }
-            return Colors.white;
-          },
+        overlayColor: MaterialStatePropertyAll(
+          context.colorScheme.secondary.withOpacity(0.5),
+        ),
+        backgroundColor: MaterialStatePropertyAll(
+          context.colorScheme.background,
+        ),
+        foregroundColor: MaterialStatePropertyAll(
+          context.colorScheme.secondary.withOpacity(0.5),
+        ),
+        shadowColor: MaterialStatePropertyAll(
+          context.colorScheme.onSurface.withOpacity(0.5),
         ),
       ),
       child: Row(
@@ -105,26 +111,28 @@ class DCDoctorCard extends StatelessWidget {
                           size: context.width * 0.04,
                           color: Colors.grey,
                         ),
-                    const Spacer(),
-                    Text(
-                      '$rating',
-                      style: context.textTheme.bodyRegularPoppins.copyWith(
-                        fontSize: 16,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
+                    if (showRating) ...[
+                      const Spacer(),
+                      Text(
+                        '$rating',
+                        style: context.textTheme.bodyRegularPoppins.copyWith(
+                          fontSize: 16,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    Text(
-                      '($ratingCount reviews)',
-                      style: context.textTheme.bodyRegularPoppins.copyWith(
-                        fontSize: 14,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w300,
+                      const SizedBox(
+                        width: 5,
                       ),
-                    ),
+                      Text(
+                        '($ratingCount reviews)',
+                        style: context.textTheme.bodyRegularPoppins.copyWith(
+                          fontSize: 14,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w300,
+                        ),
+                      ),
+                    ],
                   ],
                 )
               ],
