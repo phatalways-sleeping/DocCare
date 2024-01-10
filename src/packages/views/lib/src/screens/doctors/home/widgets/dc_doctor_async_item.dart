@@ -1,3 +1,5 @@
+// ignore_for_file: public_member_api_docs
+
 import 'package:components/components.dart';
 import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
@@ -109,7 +111,7 @@ class _DCDoctorAsyncItemState extends State<DCDoctorAsyncItem> {
                   bottomLeft: Text(
                     mapPeriod(e['period'].toString()),
                   ),
-                  color: context.colorScheme.error,
+                  color: context.colorScheme.secondary,
                   onSelected: (context) => {},
                   onPressed: e['done'] == true
                       ? (context) async {
@@ -128,7 +130,6 @@ class _DCDoctorAsyncItemState extends State<DCDoctorAsyncItem> {
                               // .getCurrentPrescriptions(
                               //   e['id'] as String,
                               // ),
-                              
                             ),
                           );
                         }

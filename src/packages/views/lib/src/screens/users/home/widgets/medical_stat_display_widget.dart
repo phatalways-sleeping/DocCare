@@ -30,13 +30,6 @@ class CustomHealthCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: color,
         borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: context.colorScheme.tertiary.withOpacity(0.2),
-            blurRadius: 10,
-            offset: const Offset(0, 5),
-          ),
-        ],
         gradient: RadialGradient(
           colors: [
             color,

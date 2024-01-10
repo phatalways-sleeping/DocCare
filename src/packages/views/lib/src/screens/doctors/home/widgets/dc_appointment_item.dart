@@ -36,7 +36,7 @@ class DCAppointmentItem extends StatelessWidget {
         splashFactory: InkSparkle.constantTurbulenceSeedSplashFactory,
         backgroundColor: MaterialStateProperty.all(
           isDone
-              ? context.colorScheme.error.withOpacity(0.2)
+              ? context.colorScheme.secondary.withOpacity(0.2)
               : context.colorScheme.background,
         ),
         shape: MaterialStateProperty.all(
@@ -147,20 +147,11 @@ class DCAppointmentItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: <Widget>[
                 Padding(
-                    padding: const EdgeInsets.only(
-                      top: 3,
-                    ),
-                    child: isPast == false ? null : null
-                    // : RoundCheckBox(
-                    //     checkedColor: context.colorScheme.quinary,
-                    //     isChecked: isDone,
-                    //     animationDuration: const Duration(
-                    //       milliseconds: 200,
-                    //     ),
-                    //     size: 30,
-                    //     onTap: (selected) => onSelected(context),
-                    //   ),
-                    ),
+                  padding: const EdgeInsets.only(
+                    top: 3,
+                  ),
+                  child: isPast == false ? null : null,
+                ),
                 Padding(
                   padding: const EdgeInsets.only(
                     bottom: 4,
