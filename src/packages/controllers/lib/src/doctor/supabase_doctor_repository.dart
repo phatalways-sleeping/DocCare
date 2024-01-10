@@ -161,7 +161,8 @@ class SupabaseDoctorRepository implements DoctorRepositoryService {
       diagnosis: doctorNote[0],
       isCanceled: false,
       customerName: customerName,
-      prescriptionDone: customerData['prescriptionDone'] == 'true' ? true : false,
+      prescriptionDone:
+          customerData['prescriptionDone'] == 'true' ? true : false,
     );
 
     await _supabaseAppointmentApiService.updateAppointment(appointment);
@@ -268,7 +269,6 @@ class SupabaseDoctorRepository implements DoctorRepositoryService {
         },
       ).toList();
 
-  
   @override
   Future<Map<String, dynamic>> getPrescriptionData(
     String prescriptionId,
@@ -312,5 +312,4 @@ class SupabaseDoctorRepository implements DoctorRepositoryService {
       'medicines': medicines,
     };
   }
-
 }

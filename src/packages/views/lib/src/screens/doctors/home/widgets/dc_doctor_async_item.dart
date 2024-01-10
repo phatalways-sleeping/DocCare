@@ -151,8 +151,10 @@ class _DCDoctorAsyncItemState extends State<DCDoctorAsyncItem> {
                               };
 
                               Navigator.of(context, rootNavigator: true)
-                                  .pushNamed('/doctor/prescribe',
-                                      arguments: data);
+                                  .pushNamed(
+                                '/doctor/prescribe',
+                                arguments: data,
+                              );
                             },
                   bottomRight: const Text(
                     //'${e['diagnosis']}',
