@@ -38,6 +38,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
         return [];
       },
     );
+
     for (final element in data) {
       final time = DateFormat('HH:mm:ss').parse(element['time'].toString());
       final dateTime = DateTime(
@@ -68,7 +69,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
               'will start in ${timeToAppointment.inMinutes} '
               'minutes.';
           currentMap[currentMap.length] = [
-            'Upcoming appointment in 15 minutes',
+            'Upcoming appointment in ${timeToAppointment.inMinutes} minutes',
             message,
           ];
           currentMapDates.add(dateTime);

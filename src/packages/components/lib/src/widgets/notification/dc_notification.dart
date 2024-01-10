@@ -16,7 +16,7 @@ class DCNotification extends StatelessWidget {
     this.widthFactor = 0.94,
     this.titleStyle,
     this.messageStyle,
-    this.padding = const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+    this.padding = const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
     this.borderRadius = const BorderRadius.all(Radius.circular(12)),
     super.key,
   })  : assert(
@@ -52,59 +52,41 @@ class DCNotification extends StatelessWidget {
     }
     return Material(
       color: Colors.transparent,
-      child: FractionallySizedBox(
-        heightFactor: heightFactor,
-        widthFactor: widthFactor,
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: borderRadius,
-            color: backgroundColor,
-          ),
-          padding: padding,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment:
-                CrossAxisAlignment.start, // Align text to the left side
-            children: <Widget>[
-              Align(
-                alignment: Alignment.topLeft,
-                child: DefaultTextStyle.merge(
-                  style: titleStyle ??
-                      context.textTheme.h6BoldPoppins.copyWith(
-                        color: textColor ?? context.colorScheme.background,
-                        fontSize: 20,
-                      ),
-                  child: title,
-                ),
-              ),
-              Align(
-                alignment: Alignment.topLeft,
-                child: DefaultTextStyle.merge(
-                  style: messageStyle ??
-                      context.textTheme.h6RegularPoppins.copyWith(
-                        color: textColor ?? context.colorScheme.background,
-                        fontSize: 14,
-                      ),
-                  child: message,
-                ),
-              ),
-              if (haveNotificationTime)
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    DefaultTextStyle.merge(
-                      style: messageStyle ??
-                          context.textTheme.h6RegularPoppins.copyWith(
-                            color: textColor ?? context.colorScheme.background,
-                            fontSize: 14,
-                          ),
-                      child: Text(time),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: borderRadius,
+          color: backgroundColor,
+        ),
+        padding: padding,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment:
+              CrossAxisAlignment.start, // Align text to the left side
+          children: <Widget>[
+            Align(
+              alignment: Alignment.topLeft,
+              child: DefaultTextStyle.merge(
+                style: titleStyle ??
+                    context.textTheme.h6BoldPoppins.copyWith(
+                      color: textColor ?? context.colorScheme.background,
+                      fontSize: 20,
                     ),
-                  ],
-                ),
-            ],
-          ),
+                child: title,
+              ),
+            ),
+            Align(
+              alignment: Alignment.topLeft,
+              child: DefaultTextStyle.merge(
+                style: messageStyle ??
+                    context.textTheme.h6RegularPoppins.copyWith(
+                      color: textColor ?? context.colorScheme.background,
+                      fontSize: 14,
+                    ),
+                child: message,
+              ),
+            ),
+          ],
         ),
       ),
     );

@@ -26,14 +26,6 @@ class DCAsyncItems extends StatefulWidget {
 class _DCAsyncItemsState extends State<DCAsyncItems> {
   @override
   Widget build(BuildContext context) {
-    //Color list
-    final List<Color> _colors = [
-      context.colorScheme.error,
-      context.colorScheme.secondary,
-      context.colorScheme.primary,
-      context.colorScheme.secondary,
-    ];
-
     return FutureBuilder<List<Map<String, dynamic>>>(
       future: widget.future,
       builder: (context, snapshot) {
@@ -58,7 +50,7 @@ class _DCAsyncItemsState extends State<DCAsyncItems> {
             );
           }
           final children = snapshot.data!.map((e) {
-            String medicineDate = ' ';
+            var medicineDate = ' ';
 
             if (widget.medicine) {
               medicineDate =
@@ -73,8 +65,7 @@ class _DCAsyncItemsState extends State<DCAsyncItems> {
                       e['date'].toString().substring(0, 10),
                     ),
                     //Color is random
-                    color:
-                        _colors[(e['id'] as String).hashCode % _colors.length],
+                    color: context.colorScheme.secondary,
                     onSelected: (context) =>
                         context.read<PrescriptionBloc>().add(
                               PrescriptionCheckEvent(
@@ -123,8 +114,7 @@ class _DCAsyncItemsState extends State<DCAsyncItems> {
                     bottomLeft: Text(
                       medicineDate,
                     ),
-                    color: _colors[(e['medicineName'] as String).hashCode %
-                        _colors.length],
+                    color: context.colorScheme.secondary,
                     onSelected: (context) =>
                         context.read<PrescriptionBloc>().add(
                               MedicineCheckEvent(

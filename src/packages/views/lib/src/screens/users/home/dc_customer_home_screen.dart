@@ -24,8 +24,8 @@ List<Widget> createAppointmentWidgets(
   Map<String, List<List<String>>> appointments,
 ) {
   final now = DateTime.now();
-  // Updated the format to match "07:30:00"
-  final format = DateFormat('HH:mm:ss');
+  // Updated the format to match "07:30"
+  final format = DateFormat('HH:mm');
 
   final result = <Widget>[];
 
@@ -45,7 +45,9 @@ List<Widget> createAppointmentWidgets(
       if (todayAppointmentTime.isBefore(now)) {
         continue; // Skip past appointments
       }
-      if (appointmentDate != now) {
+      if (appointmentDate.day != now.day ||
+          appointmentDate.month != now.month ||
+          appointmentDate.year != now.year) {
         continue; // Skip appointments that are not today
       }
 
@@ -53,13 +55,17 @@ List<Widget> createAppointmentWidgets(
       final timeLeft = todayAppointmentTime.difference(now);
       String formattedTimeLeft;
 
-      // Display the time in hours and minutes, and add seconds if needed
-      if (timeLeft.inHours >= 1) {
-        formattedTimeLeft = '${timeLeft.inHours} hour(s) left';
-      } else if (timeLeft.inMinutes > 0) {
+      if (timeLeft.inHours > 0) {
+        continue;
+      }
+      if (timeLeft.inHours == 0 && timeLeft.inMinutes <= 0) {
+        continue;
+      }
+
+      if (timeLeft.inMinutes > 0) {
         formattedTimeLeft = '${timeLeft.inMinutes} minute(s) left';
       } else {
-        formattedTimeLeft = "Time's up";
+        formattedTimeLeft = '${timeLeft.inSeconds} second(s) left';
       }
 
       result.add(
