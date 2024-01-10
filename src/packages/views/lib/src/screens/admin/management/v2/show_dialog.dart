@@ -33,9 +33,9 @@ Future<void> showStaffAddedDialog({
               mainAxisSize: MainAxisSize.min,
               children: [
                 Container(
-                  decoration: const BoxDecoration(
+                  decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Color(0xFFE7F8F2),
+                    color: context.colorScheme.secondary.withOpacity(0.1),
                   ),
                   padding: const EdgeInsets.all(
                     50,
@@ -46,6 +46,10 @@ Future<void> showStaffAddedDialog({
                     height: 80,
                     width: 80,
                     fit: BoxFit.cover,
+                    colorFilter: ColorFilter.mode(
+                      context.colorScheme.secondary,
+                      BlendMode.srcIn,
+                    ),
                   ),
                 ),
                 SizedBox(
@@ -73,10 +77,10 @@ Future<void> showStaffAddedDialog({
                 ),
                 DCFilledButton(
                   onPressed: (context) => Navigator.of(context).pop(),
-                  backgroundColor: context.colorScheme.primary,
+                  backgroundColor: context.colorScheme.secondary,
                   fixedSize: Size(
                     context.width * 0.8,
-                    50,
+                    40,
                   ),
                   child: Text(
                     'Done',
