@@ -159,7 +159,8 @@ class SupabaseAuthenticationRepository
               .where(
                 (element) =>
                     element.userMetadata != null &&
-                    element.userMetadata!['role'] == role.toLowerCase(),
+                    element.userMetadata!['role'] == role.toLowerCase() &&
+                    element.userMetadata!['enable'] == true,
               )
               .where((element) => element.email != null)
               .map(

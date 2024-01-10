@@ -59,7 +59,7 @@ class DCAsyncInputState extends State<DCAsyncInput> {
     }
     _currentQuery = null;
 
-    return options;
+    return options.where((element) => element.contains(query.toLowerCase()));
   }
 
   @override
