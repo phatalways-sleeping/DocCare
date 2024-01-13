@@ -3,6 +3,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:controllers/controllers.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:meta/meta.dart';
@@ -261,6 +262,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
         ),
       );
     } catch (err) {
+      debugPrint(err.toString());
       emit(
         BookingFailure(
           doctorData: doctorData,

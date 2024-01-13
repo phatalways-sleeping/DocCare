@@ -41,7 +41,14 @@ class _CustomerMaterialPageRoute<T> extends MaterialPageRoute<T> {
         );
 }
 
-void runDocCare(String supabaseUrl, String serviceRoleKey) => runApp(
+void runDocCare(
+  String supabaseUrl,
+  String serviceRoleKey, {
+  required String host,
+  required String database,
+  required String password,
+}) =>
+    runApp(
       MultiRepositoryProvider(
         providers: [
           RepositoryProvider<AuthenticationRepositoryService>(
@@ -60,7 +67,11 @@ void runDocCare(String supabaseUrl, String serviceRoleKey) => runApp(
             ),
           ),
           RepositoryProvider<CustomerRepositoryService>(
-            create: (context) => SupabaseCustomerRepository(),
+            create: (context) => SupabaseCustomerRepository(
+              host: host,
+              database: database,
+              password: password,
+            ),
           ),
           RepositoryProvider<DoctorRepositoryService>(
             create: (context) => SupabaseDoctorRepository(),
