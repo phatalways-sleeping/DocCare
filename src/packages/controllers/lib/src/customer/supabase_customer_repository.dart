@@ -1,12 +1,24 @@
+// ignore_for_file: public_member_api_docs
+
 import 'package:controllers/src/customer/customer_repository_service.dart';
 import 'package:flutter/widgets.dart';
 import 'package:models/models.dart';
+import 'package:postgres/postgres.dart';
 import 'package:services/services.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
 
 class SupabaseCustomerRepository implements CustomerRepositoryService {
-  SupabaseCustomerRepository();
+  SupabaseCustomerRepository({
+    required this.host,
+    required this.database,
+    required this.password,
+  });
+
+  final String host;
+  final String database;
+  final String password;
+
   String? _customerId;
 
   String? getCustomerId() {
@@ -475,28 +487,64 @@ class SupabaseCustomerRepository implements CustomerRepositoryService {
     required String customername,
     String? customerComment,
   }) async {
-    await Supabase.instance.client.rpc(
-      'add_appointment_with_doctor_record2',
-      params: {
-        'p_period': period,
-        'p_customerid': customerid,
-        'p_doctorid': doctorid,
-        'p_date': date.toIso8601String(),
-        'p_customer_comment': customerComment,
-        'p_prescriptionid': null,
-        'p_datedone': null,
-        'p_done': null,
-        'p_note': null,
-        'p_diagnosis': null,
-        'p_rating': null,
-        'p_iscanceled': false,
-        'p_customername': customername,
-      },
-    ).onError(
-      (error, stackTrace) => debugPrint(
-        error.toString(),
+    // await Supabase.instance.client.rpc(
+    //   'booking_with_doc',
+    //   params: {
+    //     'p_period': period,
+    //     'p_customerid': customerid,
+    //     'p_doctorid': doctorid,
+    //     'p_date': date.toIso8601String(),
+    //     'p_customer_comment': customerComment,
+    //     'p_prescriptionid': null,
+    //     'p_datedone': null,
+    //     'p_done': null,
+    //     'p_note': null,
+    //     'p_diagnosis': null,
+    //     'p_rating': null,
+    //     'p_iscanceled': false,
+    //     'p_customername': customername,
+    //   },
+    // );
+
+    final connection = await Connection.open(
+      Endpoint(
+        host: host,
+        database: database,
+        username: database,
+        password: password,
       ),
     );
+
+    try {
+      await connection.execute('BEGIN;');
+      await connection.execute('SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;');
+      await connection.execute(
+        Sql.named(
+            'SELECT booking_with_doc1(@p_period, @p_customerid, @p_doctorid, @p_date, @p_rating, @p_customer_comment, @p_prescriptionid, @p_datedone, @p_done, @p_note, @p_diagnosis, @p_isCanceled, @p_customerName);'),
+        parameters: {
+          'p_period': period, // Replace with your actual values
+          'p_customerid': customerid,
+          'p_doctorid': doctorid,
+          'p_date': date.toIso8601String(),
+          'p_rating': null,
+          'p_customer_comment': customerComment,
+          'p_prescriptionid': null,
+          'p_datedone': null,
+          'p_done': false,
+          'p_note': null,
+          'p_diagnosis': null,
+          'p_isCanceled': false,
+          'p_customerName': customername,
+        },
+      );
+      await connection.execute('COMMIT;');
+    } catch (err) {
+      debugPrint(err.toString());
+      await connection.execute('ROLLBACK;');
+      rethrow;
+    } finally {
+      await connection.close();
+    }
   }
 
   @override

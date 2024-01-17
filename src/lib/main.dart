@@ -1,6 +1,3 @@
-import 'package:components/components.dart';
-import 'package:controllers/controllers.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:utility/utility.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +12,9 @@ Future<void> main() async {
   String supabaseUrl = dotenv.get('SUPABASE_URL');
   String supabaseAnonKey = dotenv.get('SUPABASE_ANON_KEY');
   String serviceRoleKey = dotenv.get('SERVICE_ROLE_KEY');
+  String host = dotenv.get('HOST');
+  String database = dotenv.get('DATABASE');
+  String password = dotenv.get('PASSWORD');
 
   await Future.wait([
     /// Initialize Firebase
@@ -34,7 +34,13 @@ Future<void> main() async {
 
   NotificationManager.init();
 
-  runDocCare(supabaseUrl, serviceRoleKey);
+  runDocCare(
+    supabaseUrl,
+    serviceRoleKey,
+    host: host,
+    database: database,
+    password: password,
+  );
 
   FlutterError.onError = (FlutterErrorDetails details) {
     if (details.exception is FlutterError && details.stack != null) {
@@ -51,83 +57,4 @@ Future<void> main() async {
   };
 
   //runApp(const MyApp());
-}
-
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
-
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MultiRepositoryProvider(
-      providers: [
-        RepositoryProvider<AuthenticationRepositoryService>(
-          create: (context) => SupabaseAuthenticationRepository(
-            dotenv.get('SUPABASE_URL'),
-            dotenv.get('SERVICE_ROLE_KEY'),
-          ),
-        ),
-        RepositoryProvider<StorageRepositoryService>(
-          create: (context) => SupabaseStorageRepository(),
-        ),
-        RepositoryProvider<AdministratorRepositoryService>(
-          create: (context) => SupabaseAdminRepository(
-            dotenv.get('SUPABASE_URL'),
-            dotenv.get('SERVICE_ROLE_KEY'),
-          ),
-        ),
-        RepositoryProvider<CustomerRepositoryService>(
-          create: (context) {
-            final customerRepository = SupabaseCustomerRepository();
-            return customerRepository;
-          },
-        ),
-        RepositoryProvider<DoctorRepositoryService>(
-          create: (context) {
-            final doctorRepository = SupabaseDoctorRepository();
-            return doctorRepository;
-          },
-        ),
-        RepositoryProvider<ReceptionistRepositoryService>(
-          create: (context) => SupabaseReceptionistRepository(),
-        ),
-      ],
-      child: MaterialApp(
-        title: 'DocCare',
-        theme: ThemeData(
-          colorScheme: const DocCareLightColorScheme(),
-        ),
-        home: const MyHomePage(
-          title: 'DocCare',
-        ),
-      ),
-    );
-  }
-
-  @override
-  void dispose() {
-    NotificationManager.instance.dispose();
-    super.dispose();
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return const SizedBox.shrink();
-  }
 }

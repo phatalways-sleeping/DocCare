@@ -229,7 +229,7 @@ class _DCCustomerHomeScreen extends State<DCCustomerHomeScreen> {
                             ConstrainedBox(
                               constraints: BoxConstraints(
                                 minHeight: context.height * 0.4,
-                                maxHeight: context.height * 0.48,
+                                maxHeight: context.height * 0.54,
                               ),
                               child: GridView.count(
                                 crossAxisCount: 2,
